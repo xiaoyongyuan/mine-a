@@ -1,0 +1,24 @@
+import React, { Component } from 'react';
+import { Layout } from 'antd';
+import LayerSider from './../layout/LayerSider';
+
+import './index.less';
+const {Header, Footer, Sider, Content} = Layout;
+class Main extends Component {
+  render() {
+    return (
+      <div className="Main">
+        <Layout>
+          <Header className="Header">Header</Header>
+          <Layout>
+            <Sider className="Sider"><LayerSider /></Sider>
+            <Content className="Content">{this.props.children}</Content>
+          </Layout>
+          <Footer className="Footer">Footer</Footer>
+        </Layout>
+      </div>
+    );
+  }
+}
+
+export default Main;

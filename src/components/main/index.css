@@ -1,0 +1,1 @@
+.Main .Header{position:fixed;zIndex:1;width:100%}.Main .Sider{overflow:auto;height:calc(100vh - 64px);position:fixed;left:0;top:64px}.Main .Content{min-height:calc(100vh - 112px);boxSizing:border-box;margin:64px 0 0 200px}.Main .Footer{height:30px;text-align:center}
