@@ -1,8 +1,85 @@
-.LayerHeader{
-	// width:100%;
-	// box-sizing: border-box;
-	// margin-left:200px;
-	// height: 60px;
-	// background: #f3f3f3;
-	// position: absolute;
+.projectmanage{
+  background: #040a20;
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  .projectContext{
+    display: flex;
+    flex-direction: row;
+    .projectTop{
+      margin: 10px 20px;
+      width: 20%;
+      box-sizing: border-box;
+      .projectTopLeft{
+        background: url("../../style/ztt/imgs/back.png") no-repeat;
+        background-size: 100% 100%;
+        .projectTitle{
+          padding:10px 0 0 15px;;
+          .proCircle{
+            display: inline-block;
+            width: 10px;
+            height:10px;
+            border-radius: 50%;
+            background: #00f5e7;
+            margin: 0 10px 0 0;
+          }
+        }
+      }
+    }
+    .projectTopLeftCenter{
+      margin: 20px 0;
+      box-sizing: border-box;
+      background: url("../../style/ztt/imgs/back.png") no-repeat;
+      background-size: 100% 100%;
+      .projectTitle{
+        padding:10px 0 0 15px;;
+        .proCircle{
+          display: inline-block;
+          width: 10px;
+          height:10px;
+          border-radius: 50%;
+          background: #00f5e7;
+          margin: 0 10px 0 0;
+        }
+      }
+    }
+    .projectCenter{
+       margin: 10px 5px;
+       box-sizing: border-box;
+       width: 55%;
+       display: flex;
+       flex-direction: column;
+        .projectCenterTop{
+          width: 100%;
+          background: url("../../style/ztt/imgs/center.png") no-repeat;
+          background-size: 100% 100%;
+          border: 2px solid #103165;
+        }
+        .projectCenterBottom{
+          display: flex;
+          flex-direction: row;
+          .construction{
+            width: 33%;
+            box-sizing: border-box;
+            margin-top: 20px;
+            background: url("../../style/ztt/imgs/back.png") no-repeat;
+            background-size: 100% 100%;
+            .projectTitle{
+              padding:10px 0 0 15px;;
+              .proCircle{
+                display: inline-block;
+                width: 10px;
+                height:10px;
+                border-radius: 50%;
+                background: #00f5e7;
+                margin: 0 10px 0 0;
+              }
+            }
+          }
+          .design{
+            margin: 20px 20px 0 20px;
+          }
+        }
+    }
+  }
 }

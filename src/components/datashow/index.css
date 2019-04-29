@@ -1,0 +1,86 @@
+.projectmanage {
+  background: #040a20;
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+}
+.projectmanage .projectContext {
+  display: flex;
+  flex-direction: row;
+}
+.projectmanage .projectContext .projectTop {
+  margin: 10px 20px;
+  width: 20%;
+  box-sizing: border-box;
+}
+.projectmanage .projectContext .projectTop .projectTopLeft {
+  background: url("../../style/ztt/imgs/back.png") no-repeat;
+  background-size: 100% 100%;
+}
+.projectmanage .projectContext .projectTop .projectTopLeft .projectTitle {
+  padding: 10px 0 0 15px;
+}
+.projectmanage .projectContext .projectTop .projectTopLeft .projectTitle .proCircle {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #00f5e7;
+  margin: 0 10px 0 0;
+}
+.projectmanage .projectContext .projectTopLeftCenter {
+  margin: 20px 0;
+  box-sizing: border-box;
+  background: url("../../style/ztt/imgs/back.png") no-repeat;
+  background-size: 100% 100%;
+}
+.projectmanage .projectContext .projectTopLeftCenter .projectTitle {
+  padding: 10px 0 0 15px;
+}
+.projectmanage .projectContext .projectTopLeftCenter .projectTitle .proCircle {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #00f5e7;
+  margin: 0 10px 0 0;
+}
+.projectmanage .projectContext .projectCenter {
+  margin: 10px 5px;
+  box-sizing: border-box;
+  width: 55%;
+  display: flex;
+  flex-direction: column;
+}
+.projectmanage .projectContext .projectCenter .projectCenterTop {
+  width: 100%;
+  background: url("../../style/ztt/imgs/center.png") no-repeat;
+  background-size: 100% 100%;
+  border: 2px solid #103165;
+}
+.projectmanage .projectContext .projectCenter .projectCenterBottom {
+  display: flex;
+  flex-direction: row;
+}
+.projectmanage .projectContext .projectCenter .projectCenterBottom .construction {
+  width: 33%;
+  box-sizing: border-box;
+  margin-top: 20px;
+  background: url("../../style/ztt/imgs/back.png") no-repeat;
+  background-size: 100% 100%;
+}
+.projectmanage .projectContext .projectCenter .projectCenterBottom .construction .projectTitle {
+  padding: 10px 0 0 15px;
+}
+.projectmanage .projectContext .projectCenter .projectCenterBottom .construction .projectTitle .proCircle {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #00f5e7;
+  margin: 0 10px 0 0;
+}
+.projectmanage .projectContext .projectCenter .projectCenterBottom .design {
+  margin: 20px 20px 0 20px;
+}
+/*# sourceMappingURL=index.css.map */
