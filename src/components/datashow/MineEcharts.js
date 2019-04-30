@@ -19,55 +19,236 @@ class mineEcharts extends Component {
     //矿山整体大数据
     mine=()=>{
          let option={
-            tooltip: {
-                trigger: 'item',
-                formatter: "{a} <br/>{b}: {c} ({d}%)"
-            },
-            series: [
-                {
-                    name:'访问来源',
-                    type:'pie',
-                    selectedMode: 'single',
-                    radius: [0, '30%'],
+             tooltip : {
+                 trigger: 'item',
+                 formatter: "{a} <br/>{b} : {c} ({d}%)"
+             },
+             color:["#2964FA","#FFB800","#b93fff","#4DF6DC","#FE7401","#00ccee"],
+             legend:{
+                 orient:"vertical",
+                 left:"left",
+                 top:"20%",
+                 data:["水土污染","预警次数","土地损毁","土地复垦","基金缴纳","基金提取"],
+                 textStyle: {
+                     color:"#fff"
+                 }
+             },
+             series : [
+                 {
+                     name: '水土污染',
+                     type: 'pie',
+                     radius : ['25%', '30%'],
+                     label: {
+                         show:false
+                     },
+                     labelLine:{
+                         show:false
+                     },
+                     data:[
+                         {
+                             value:'967',
+                             name:'水土污染',
+                             itemStyle: {
+                                 emphasis: {
+                                     shadowBlur: 10,
+                                     shadowOffsetX: 0,
+                                     shadowColor: 'rgba(0, 0, 0, 0.5)',
+                                     normal: {
+                                         color: '#2964FA'
+                                     }
+                                 },
+                                 label: {
+                                     show:false
+                                 },
+                                 labelLine:{
+                                     show:false
+                                 }
+                             },
+                         },
+                         {
+                             value:'2800',
+                             itemStyle: {
+                                 normal: {
+                                     color: 'transparent'
+                                 }
+                             }
+                         }
+                     ]
+                 },  {
+                     name: '预警次数',
+                     type: 'pie',
+                     radius : ['35%', '40%'],
+                     data:[
+                         {
+                             value:'825',
+                             name:'预警次数',
+                             itemStyle: {
+                                 emphasis: {
+                                     shadowBlur: 10,
+                                     shadowOffsetX: 0,
+                                     shadowColor: 'rgba(0, 0, 0, 0.5)',
+                                     normal: {
+                                         color: '#dc1439'
+                                     }
+                                 }
+                             },
+                             label: {
+                                 show:false
+                             },
+                             labelLine:{
+                                 show:false
+                             }
+                         },
+                         {
+                             value:'500',
+                             itemStyle: {
+                                 normal: {
+                                     color: 'transparent'
+                                 }
+                             }
+                         }
+                     ]
 
-                    label: {
-                        normal: {
-                            position: 'inner'
-                        }
-                    },
-                    labelLine: {
-                        normal: {
-                            show: false
-                        }
-                    },
-                    data:[
-                        {value:335, name:'基金缴纳', selected:true},
-                        {value:679, name:'基金提取'},
-                    ]
-                },
-                {
-                    name:'访问来源',
-                    type:'pie',
-                    radius: ['40%', '55%'],
-                    label: {
-                        color: "#fff",
-                    },
-                    labelLine:{
-                        lineStyle:{
-                            color: "#fff",
-                        }
-                    },
-                    data:[
-                        {value:335, name:'水土污染'},
-                        {value:310, name:'其他'},
-                        {value:234, name:'预警次数'},
-                        {value:135, name:'土地损毁'},
-                        {value:1048, name:'土地复垦'},
-                        {value:251, name:'水土污染'},
+                 },  {
+                     name: '土地损毁',
+                     type: 'pie',
+                     radius : ['45%', '50%'],
+                     data:[
+                         {
+                             value:'1078',
+                             name:'土地损毁',
+                             itemStyle: {
+                                 emphasis: {
+                                     shadowBlur: 10,
+                                     shadowOffsetX: 0,
+                                     shadowColor: 'rgba(0, 0, 0, 0.5)',
+                                     normal: {
+                                         color: '#dc1439'
+                                     }
+                                 }
+                             },
+                             label: {
+                                 show:false
+                             },
+                             labelLine:{
+                                 show:false
+                             }
+                         },
+                         {
+                             value:'800',
+                             itemStyle: {
+                                 normal: {
+                                     color: 'transparent'
+                                 }
+                             }
+                         }
 
-                    ]
-                }
-            ]
+                     ]
+                 },  {
+                     name: '土地复垦',
+                     type: 'pie',
+                     radius : ['55%', '60%'],
+                     data:[
+                         {
+                             value:'981',
+                             name:'土地复垦',
+                             itemStyle: {
+                                 emphasis: {
+                                     shadowBlur: 10,
+                                     shadowOffsetX: 0,
+                                     shadowColor: 'rgba(0, 0, 0, 0.5)',
+                                     normal: {
+                                         color: '#dc1439'
+                                     }
+                                 }
+                             },
+                             label: {
+                                 show:false
+                             },
+                             labelLine:{
+                                 show:false
+                             }
+                         },
+                         {
+                             value:'900',
+                             itemStyle: {
+                                 normal: {
+                                     color: 'transparent'
+                                 }
+                             }
+                         }
+                     ]
+                 },  {
+                     name: '基金缴纳',
+                     type: 'pie',
+                     radius : ['65%', '70%'],
+                     data:[
+                         {
+                             value:'877',
+                             name:'基金缴纳',
+                             itemStyle: {
+                                 emphasis: {
+                                     shadowBlur: 10,
+                                     shadowOffsetX: 0,
+                                     shadowColor: 'rgba(0, 0, 0, 0.5)',
+                                     normal: {
+                                         color: '#dc1439'
+                                     }
+                                 },
+                             },
+                             label: {
+                                 show:false
+                             },
+                             labelLine:{
+                                 show:false
+                             }
+                         },
+                         {
+                             value:'500',
+                             itemStyle: {
+                                 normal: {
+                                     color: 'transparent'
+                                 }
+                             }
+                         }
+                     ]
+                 },  {
+                     name: '基金提取',
+                     type: 'pie',
+                     radius : ['75%', '80%'],
+                     data:[
+                         // {value:939, name:'地理'}
+                         {
+                             value:'439',
+                             name:'基金提取',
+                             itemStyle: {
+                                 emphasis: {
+                                     shadowBlur: 10,
+                                     shadowOffsetX: 0,
+                                     shadowColor: 'rgba(0, 0, 0, 0.5)',
+                                     normal: {
+                                         color: '#dc1439'
+                                     }
+                                 }
+                             },
+                             label: {
+                                 show:false
+                             },
+                             labelLine:{
+                                 show:false
+                             }
+                         },
+                         {
+                             value:'200',
+                             itemStyle: {
+                                 normal: {
+                                     color: 'transparent'
+                                 }
+                             }
+                         }
+                     ]
+                 },
+             ]
         };
          this.setState({option})
     };
@@ -89,7 +270,7 @@ class mineEcharts extends Component {
             },
             xAxis : [{
                     type : 'category',
-                    data : ['塌陷', '地裂缝', '位移', '沉降', '滑坡', '形变', '其他'],
+                    data : ['塌陷', '地裂缝', '位移', '沉降', '滑坡', '形变'],
                     axisLine: {
                         lineStyle: {
                             color: '#fff'
@@ -97,7 +278,7 @@ class mineEcharts extends Component {
                     }
             }],
             yAxis : [{
-                    name:"数值",
+                    name:"设备个数",
                     type : 'value',
                     axisLine: {
                         lineStyle: {
@@ -113,7 +294,7 @@ class mineEcharts extends Component {
                     name:'直接访问',
                     type:'bar',
                     barWidth: '28%',
-                    data:[10, 22, 20, 24, 30, 15, 10],
+                    data:[10, 22, 20, 24, 30, 15],
                 }
             ]
         };
@@ -311,25 +492,45 @@ class mineEcharts extends Component {
     //土地损毁与复垦总览
     destruction=()=>{
         let option={
-            tooltip: {
-                trigger: 'item',
-                formatter: "{a} <br/>{b}: {c} ({d}%)"
-            },
-            legend: {
-                left: '50%',
-                icon:"circle",
-                data:['土地复垦','土地损毁'],
-                textStyle:{
-                    color:"#fff"
-                }
-            }
-            ,
-            color:["#41fd8f","#fa4767"],
+            tooltip:{},
+            color:["#FA4767","#41FD8F"],
             series: [
                 {
-                    name:'访问来源',
-                    type:'pie',
-                    radius: ['50%', '70%'],
+                    type: 'pie',
+                    data: [
+                        {
+                            name: '土地复垦',
+                            value: 60,
+                        },
+                        {
+                            name: '土地损毁',
+                            value: 40,
+                        },
+                    ],
+                    label: {
+                        position: 'inside',
+                        show:false
+                    },
+                    radius: [0, 60],
+                    itemStyle: {
+                        borderWidth: 4,
+                        borderColor: '#0A1D43',
+                    },
+                    clockwise: true,
+                    animation: false,
+                },
+                {
+                    type: 'pie',
+                    data: [
+                        {
+                            name: '土地复垦',
+                            value: 60,
+                        },
+                        {
+                            name: '土地损毁',
+                            value: 40,
+                        }
+                    ],
                     label: {
                         color: "#fff",
                     },
@@ -338,29 +539,13 @@ class mineEcharts extends Component {
                             color: "#fff",
                         }
                     },
-                    /*label: {
-                        normal: {
-                            show: false,
-                            position: 'center'
-                        },
-                        emphasis: {
-                            show: true,
-                            textStyle: {
-                                fontSize: '30',
-                                fontWeight: 'bold'
-                            }
-                        }
+                    radius: [72, 95],
+                    itemStyle: {
+                        borderWidth: 4,
+                        borderColor: '#0A1D43',
                     },
-                    labelLine: {
-                        normal: {
-                            show: false
-                        }
-                    },*/
-                    data:[
-                        {value:435, name:'土地复垦'},
-                        {value:248, name:'土地损毁'}
-                    ]
-                }
+                    animation: false,
+                },
             ]
         };
         this.setState({option})

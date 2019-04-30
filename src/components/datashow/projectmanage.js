@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import OverallEcharts from "./OverallEcharts";
+import Map from "./Map";
 import "./index.less";
 
 class Projectmanage extends Component {
@@ -56,6 +57,7 @@ class Projectmanage extends Component {
             </div>
             <div className="projectCenter">
                 <div className="projectCenterTop" style={{height:(parseInt(this.state.height)/3)*2-20}}>
+                    <Map mapHeight={(parseInt(this.state.height)/3)*2-20}/>
                 </div>
                 <div className="projectCenterBottom">
                     <div className="construction" style={{height:this.state.projectHeight}}>
