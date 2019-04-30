@@ -1,3 +1,6 @@
+/*
+  项目管理
+*/
 .projectmanage {
   background: #040a20;
   color: #fff;
@@ -9,7 +12,7 @@
   flex-direction: row;
 }
 .projectmanage .projectContext .projectTop {
-  margin: 10px 20px;
+  margin: 10px 15px;
   width: 20%;
   box-sizing: border-box;
 }
@@ -48,7 +51,7 @@
 .projectmanage .projectContext .projectCenter {
   margin: 10px 5px;
   box-sizing: border-box;
-  width: 55%;
+  width: 60%;
   display: flex;
   flex-direction: column;
 }
@@ -82,5 +85,51 @@
 }
 .projectmanage .projectContext .projectCenter .projectCenterBottom .design {
   margin: 20px 20px 0 20px;
+}
+/*
+ 数据管理
+*/
+.dataManage {
+  display: flex;
+  flex-direction: row;
+  color: #fff;
+}
+.dataManage .dataManageCont {
+  width: 100%;
+  margin: 15px 15px;
+  display: flex;
+  flex-direction: row;
+}
+.dataManage .dataManageCont .dataManageEdge {
+  width: 20%;
+  display: flex;
+  flex-direction: column;
+}
+.dataManage .dataManageCont .dataManageEdge .dataManageMine {
+  width: 100%;
+  background: url("../../style/ztt/imgs/back.png") no-repeat;
+  background-size: 100% 100%;
+}
+.dataManage .dataManageCont .dataManageEdge .dataManageMine .projectTitle {
+  padding: 10px 0 0 15px;
+}
+.dataManage .dataManageCont .dataManageEdge .dataManageMine .projectTitle .proCircle {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #00f5e7;
+  margin: 0 10px 0 0;
+}
+.dataManage .dataManageCont .dataManageEdge .dataManageMineCenter {
+  margin: 20px 0;
+  background: url("../../style/ztt/imgs/back.png") no-repeat;
+  background-size: 100% 100%;
+}
+.dataManage .dataManageCont .dataManageCenter {
+  width: 60%;
+  margin: 0 20px;
+  background: url("../../style/ztt/imgs/dataCenter.png") no-repeat;
+  background-size: 100% 100%;
 }
 /*# sourceMappingURL=index.css.map */
