@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import ReactEcharts from 'echarts-for-react';
+import echarts from "echarts";
 class mineEcharts extends Component {
     constructor(props){
         super(props);
@@ -341,7 +342,7 @@ class mineEcharts extends Component {
     waterLayer=()=>{
         let option={
             legend: {
-                data:['岩石','卵石','松石'],
+                data:['监测点1','监测点2'],
                 icon:"circle",
                 left:"45%",
                 textStyle:{
@@ -383,109 +384,159 @@ class mineEcharts extends Component {
                     color:"#fff"
                 }
             },
-            color:["#f93847","#f55832","#49bcf9"],
             series: [{
-                name:"岩石",
+                name:"监测点1",
                 data: [220, 332, 261, 434, 390, 330, 320],
-                type: 'line'
+                type: 'line',
+                itemStyle:{
+                    normal:{
+                        lineStyle:{
+                            type:"dotted"
+                        },
+                        color:new echarts.graphic.LinearGradient(0,0,1,0,[{
+                            offset:0,
+                            color:'#2F89EC'
+                        },{
+                            offset:0.8,
+                            color:"#1E5CAF"
+                        }],false)
+                    }
+                }
             },{
-                name:"卵石",
+                name:"监测点1",
                 data: [420, 232, 201, 234, 390, 430, 220],
-                type: 'line'
+                type: 'line',
+                itemStyle:{
+                    normal:{
+                        color:"#42AAE4"
+                    }
+                }
             },{
-                name:"松石",
+                name:"监测点2",
                 data: [120, 132, 101, 134, 190, 230, 120],
-                type: 'line'
+                type: 'line',
+                itemStyle:{
+                    normal:{
+                        lineStyle:{
+                            type:"dotted"
+                        },
+                        color:new echarts.graphic.LinearGradient(0,0,1,0,[{
+                            offset:0,
+                            color:"#F37653"
+                        },{
+                            offset:0.8,
+                            color:"#F80304"
+                        }],false)
+                    }
+                }
+            },{
+                name:"监测点2",
+                data: [110, 112, 131, 164, 140, 210, 170],
+                type: 'line',
+                itemStyle:{
+                    normal:{
+                        color:"#EF2631"
+                    }
+                }
             }]
         };
         this.setState({option})
     };
     //水土污染总览
     soilWater=()=>{
+        let placeHolderStyle = {
+            normal: {
+                color: '#fff',
+                opacity: .1
+            },
+            emphasis: {
+                color: '#fff',
+                opacity: .1
+            }
+        };
         let option={
             tooltip: {
                 trigger: 'item',
-                formatter: "{a} <br/>{b} : {c} ({d}%)"
+                formatter: "{a} : {c} ({d}%)"
             },
-            series: [
-
-                {
-                    name: '水污染',
-                    type: 'pie',
-                    radius: [70, 90],
-                    center: ['50%', '50%'],
-                    data: [{
-                        value: 34,
-                        name: '水污染',
-                        itemStyle: {
-                            color:"#f45945"
-                        },
-                        labelLine:{
-                            lineStyle:{
-                                color: "#D3D5D9",
-                            }
-                        },
-                        label: {
-                            color: "#D3D5D9",
-                            fontSize: 14,
-                            formatter: '水污染',
-                            rich: {
-                                a: {
-                                    color: "#D3D5D9",
-                                    fontSize: 20,
-                                    lineHeight: 30
-                                },
-                            }
-                        }
-                    },
-                        {
-                            value: 52,
-                            name: '土污染',
-                            itemStyle: {
-                                color: "transparent"
-                            }
-                        }
-                    ]
+            legend: {
+                show:false,
+                orient: 'vertical',
+                top: '45%',
+                right: '10%',
+                data: ['土污染', '水污染'],
+                textStyle: {
+                    color: '#40E7F4 ',
+                    fontSize: 14
                 },
-                {
-                    name: '土污染',
-                    type: 'pie',
-                    radius: [70, 80],
-                    center: ['50%', '50%'],
-                    data: [{
-                        value: 34,
-                        name: '土污染',
-                        itemStyle: {
-                            color: "transparent"
+                formatter(name) {
+                    return name
+                },
+                itemWidth: 14,
+                itemHeight: 14,
+                itemGap: 16
+            },
+            series: [{
+                name: '土污染',
+                type: 'pie',
+                radius: ['70%', '74%'],
+                label: false,
+                startAngle: 180,
+                clockWise: true,
+                hoverAnimation: true,
+                hoverOffset: 3,
+                data: [{
+                    value: 877,
+                    name: '收货人',
+                    itemStyle: {
+                        color: { // 完成的圆环的颜色
+                            colorStops: [{
+                                offset: 0,
+                                color: '#FFEA4F' // 0% 处的颜色
+                            }, {
+                                offset: 1,
+                                color: '#F89212' // 100% 处的颜色
+                            }]
                         }
-                    },
-                        {
-                            value: 52,
-                            name: 'rose2',
-                            itemStyle: {
-                                color:"#1785ff"
-                            },
-                            labelLine:{
-                                lineStyle:{
-                                    color: "#fff",
-                                }
-                            },
-                            label: {
-                                color: "#fff",
-                                fontSize: 14,
-                                formatter: '土污染',
-                                rich: {
-                                    a: {
-                                        color: "#fff",
-                                        fontSize: 20,
-                                        lineHeight: 30
-                                    },
-                                }
-                            }
+                    }
+                },
+                    {
+                        value: 500,
+                        hoverAnimation: false,
+                        itemStyle: placeHolderStyle
+                    }
+                ]
+            }, {
+                name: '水污染',
+                type: 'pie',
+                radius: ['50%', '54%'],
+                label: false,
+                startAngle: 0,
+                clockWise: true,
+                hoverAnimation: true,
+                hoverOffset: 3,
+                data: [{
+                    value: 939,
+                    name: '司机',
+                    itemStyle: {
+                        color: { // 完成的圆环的颜色
+                            colorStops: [{
+                                offset: 0,
+                                color: '#FF7671' // 0% 处的颜色
+                            }, {
+                                offset: 1,
+                                color: '#A14AFF' // 100% 处的颜色
+                            }]
                         }
-                    ]
-                }
-            ]
+                    }
+                },
+                    {
+                        value: 200,
+                        hoverAnimation: false,
+                        itemStyle: placeHolderStyle
+                    }
+                ]
+            }]
         };
         this.setState({option})
     };

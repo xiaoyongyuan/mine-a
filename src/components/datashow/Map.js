@@ -10,7 +10,7 @@ class Map extends Component {
     }
     componentDidMount() {
         let map =new BMap.Map("allmap");
-        map.centerAndZoom("榆林市",15);
+        map.centerAndZoom("陕西",15);
         //添加地图类型控件
         map.addControl(new BMap.MapTypeControl({
             mapTypes:[
@@ -20,7 +20,7 @@ class Map extends Component {
         map.enableScrollWheelZoom(true);
         //覆盖物
         var bdary = new BMap.Boundary();
-        bdary.get("榆林市", function(rs){       //获取行政区域
+        bdary.get("商洛", function(rs){       //获取行政区域
             map.clearOverlays();        //清除地图覆盖物
             var count = rs.boundaries.length; //行政区域的点有多少个
             if (count === 0) {
