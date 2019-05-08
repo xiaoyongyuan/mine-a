@@ -59,8 +59,13 @@ class Datamanage extends Component {
                     <div className="projectTitle"><span className="proCircle" /><span className="proName">含水层数据</span></div>
                     <MineEcharts
                         type="waterLayer"
-                        dataHeight={parseInt(this.state.dataManageHeight)-51}
+                        dataHeight={parseInt(this.state.dataManageHeight)-180}
                     />
+                    <MineEcharts
+                        type="waterLayer1"
+                        dataHeight={parseInt(this.state.dataManageHeight)-180}
+                    />
+
                 </div>
                 <div className="dataManageMine dataManageMineCenter" style={{height:this.state.dataManageHeight}}>
                     <div className="projectTitle"><span className="proCircle" /><span className="proName">水土污染总览</span></div>
