@@ -16,38 +16,6 @@ class OverallEcharts extends Component {
     componentDidMount(){
         this[this.state.type]()
     }
-    //项目总体计划
-    masterPlan=()=>{
-        let option={
-            tooltip: {
-                trigger: 'item',
-                formatter: "{a} <br/>{b}: {c} ({d}%)"
-            },
-            color:["#4df6dc","#ffb800","#ff1a3a","#288dff"],
-            series: [
-                {
-                    name:'访问来源',
-                    type:'pie',
-                    radius: ['50%', '70%'],
-                    label: {
-                        color: "#fff",
-                    },
-                    labelLine:{
-                        lineStyle:{
-                            color: "#fff",
-                        }
-                    },
-                    data:[
-                        {value:135, name:'总体方案'},
-                        {value:110, name:'投资计划'},
-                        {value:134, name:'年度计划'},
-                        {value:535, name:'计划完成进度'},
-                    ]
-                }
-            ]
-        };
-        this.setState({option})
-    };
     //项目方案
     programme=()=>{
         let chartData = [77.12, 81.36, 80.83,67];
@@ -150,8 +118,8 @@ class OverallEcharts extends Component {
                     radius : '55%',
                     center: ['50%', '60%'],
                     data:[
-                        {value:335, name:'直接访问',selected:true},
-                        {value:210, name:'邮件营销'},
+                        {value:335, name:'项目评估',selected:true},
+                        {value:210, name:'项目勘察'},
                     ],
                     label: {
                         color: "#fff",
