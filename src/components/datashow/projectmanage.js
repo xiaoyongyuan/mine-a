@@ -28,6 +28,8 @@ class Projectmanage extends Component {
             projectHeight:(parseInt(document.body.clientHeight -64)/3)-20+"px"
         })
   }
+
+
     render() {
     return (
       <div className="projectmanage" style={{width:this.state.width,height:this.state.height}}>
@@ -35,8 +37,10 @@ class Projectmanage extends Component {
             <div className="projectTop">
                 <div className="projectTopLeft" style={{height:this.state.projectHeight}}>
                     <div className="projectTitle"><span className="proCircle" /><span className="proName">项目总体计划</span></div>
-                    <div className="projectContext">
-                        总体计划是生产制造活动是前期工作，它属于企业一级管理层的业务活动，主要内容包括计划期的总产量计划与进度计划。计划期的长度一般为一年，具体提市生产的特点而定，生产周期与需求波动
+                    <div className="projectContext" ref="_begin" style={{height:parseInt(this.state.projectHeight)-35}}>
+                        总体计划是生产制造活动是前期工作，它属于企业一级管理层的业务活动，主要内容包括计划期的总产量计划与进度计划。
+                        计划期的长度一般为一年，具体提市生产的特点而定，生产周期与需求波动周期较长者，
+                        计划的主要目的是合理利用企业的生产资源。
                     </div>
                 </div>
                 <div className="projectTopLeftCenter" style={{height:this.state.projectHeight}}>
