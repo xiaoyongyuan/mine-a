@@ -14,7 +14,7 @@ class LayerSider extends Component {
     }
   }
   componentWillMount(){
-    const menuTreeNode = this.renderMenu(MenuConfig);
+    const menuTreeNode = this.renderMenu(MenuConfig.menuList);
     this.setState({
         menuTreeNode
     })

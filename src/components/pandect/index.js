@@ -2,6 +2,9 @@ import React, { Component } from 'react';
 import { Layout } from 'antd';
 import LayerHeader from './../layout/LayerHeader';
 import './index.less';
+import MenuRoutes from '../../routes/MenuRoutes';
+// indexRouter
+
 const {Header, Content} = Layout;
 class Pandect extends Component {
   render() {
@@ -9,7 +12,9 @@ class Pandect extends Component {
       <div className="pandect">
         <Layout>
           <Header><LayerHeader /></Header>
-        	<Content className='Content'>{this.props.children}</Content>
+        	<Content className='Content'>
+            <MenuRoutes type='pandect' />
+          </Content>
         </Layout>
       </div>
     );

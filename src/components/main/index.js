@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { Layout } from 'antd';
 import LayerSider from './../layout/LayerSider';
+import MenuRoutes from '../../routes/MenuRoutes';
+
 
 import './index.less';
 const {Header, Footer, Sider, Content} = Layout;
@@ -12,7 +14,7 @@ class Main extends Component {
           <Header className="Header">Header</Header>
           <Layout>
             <Sider className="Sider"><LayerSider /></Sider>
-            <Content className="Content">{this.props.children}</Content>
+            <Content className="Content"><MenuRoutes/></Content>
           </Layout>
           <Footer className="Footer">Footer</Footer>
         </Layout>
