@@ -3,7 +3,6 @@ import { Layout } from 'antd';
 import LayerHeader from './../layout/LayerHeader';
 import './index.less';
 import MenuRoutes from '../../routes/MenuRoutes';
-// indexRouter
 
 const {Header, Content} = Layout;
 class Pandect extends Component {
@@ -13,7 +12,7 @@ class Pandect extends Component {
         <Layout>
           <Header><LayerHeader /></Header>
         	<Content className='Content'>
-            <MenuRoutes type='pandect' />
+            <MenuRoutes />
           </Content>
         </Layout>
       </div>

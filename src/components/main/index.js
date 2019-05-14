@@ -3,7 +3,6 @@ import { Layout } from 'antd';
 import LayerSider from './../layout/LayerSider';
 import MenuRoutes from '../../routes/MenuRoutes';
 
-
 import './index.less';
 const {Header, Footer, Sider, Content} = Layout;
 class Main extends Component {
@@ -13,7 +12,7 @@ class Main extends Component {
         <Layout>
           <Header className="Header">Header</Header>
           <Layout>
-            <Sider className="Sider"><LayerSider /></Sider>
+            <Sider className="Sider" style={{maxWidth:'280px'}}><LayerSider /></Sider>
             <Content className="Content"><MenuRoutes/></Content>
           </Layout>
           <Footer className="Footer">Footer</Footer>

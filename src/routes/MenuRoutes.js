@@ -22,15 +22,13 @@ export default class CRouter extends Component {
         return token ? this.requireAuth(token, component) : component;
     };
     render() {
-        const type=this.props.type;
         return (
             <Switch>
                 {
                     Object.keys(menuConfig).map(key => 
                         menuConfig[key].map(r => {
                             const route = r => {
-                                const Component = AllComponents[r.component];
-                                
+                                const Component = AllComponents[r.component];                
                                     return (
                                         <Route
                                             key={r.route || r.key}
@@ -53,7 +51,9 @@ export default class CRouter extends Component {
                                     )
                                 
                             }
-                            return r.component ? route(r) : r.children.map(r => route(r));
+                            return r.component ? route(r) : r.children.map(res => {
+                               return res.component?route(res):res.children.map(el=>route(el))
+                            });
                         })
                     )
                 }
