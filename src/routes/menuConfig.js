@@ -178,7 +178,7 @@ export default {
                 }]
             },
             {
-              title: '含水层监测数据',
+              title: '含水层数据管理',
               key: '/main/aquifermanage',
               children: [
               {
@@ -204,17 +204,23 @@ export default {
               }]
             },
             {
-              title: '地形地貌检测数据',
+              title: '地形地貌数据管理',
               key: '/main/landformmanage',
               children: [
               {
               	title: '高分遥感数据',
-              	key: '/main/remote/high',
+              	key: '/main/landformmanage/high',
                 component: "Mhigh",
-              }]
+              },
+              {
+                  title: '高分遥感数据上传页面',
+                  key: '/main/landformmanage/highupload',
+                  component: "Mhighupload",
+              }
+              ]
             },
             {
-              title: '水土污染监测数据',
+              title: '水土污染数据管理',
               key: '/main/pollutionmanage',
               children: [
               {
@@ -239,7 +245,7 @@ export default {
               }]
             },
             {
-              title: '土地损毁与复垦监测数据管理',
+              title: '土地损毁与复垦数据管理',
               key: '/main/soilmanage',
               children: [
               {
