@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-class Fissure extends Component {
+class Efissure extends Component {
   constructor(props){
     super(props);
     this.state={};
@@ -8,11 +8,11 @@ class Fissure extends Component {
 
     render() {
     return (
-      <div className="Fissure">
+      <div className="Efissure">
 
       </div>
     );
   }
 }
 
-export default Fissure;
+export default Efissure;

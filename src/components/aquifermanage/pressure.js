@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-class Insar extends Component {
+class Mpressure extends Component {
   constructor(props){
     super(props);
     this.state={};
@@ -8,11 +8,11 @@ class Insar extends Component {
 
     render() {
     return (
-      <div className="Insar">
+      <div className="Mpressure">
 
       </div>
     );
   }
 }
 
-export default Insar;
+export default Mpressure;

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-class Waterlevel extends Component {
+class Reclamation extends Component {
   constructor(props){
     super(props);
     this.state={};
@@ -8,11 +8,11 @@ class Waterlevel extends Component {
 
     render() {
     return (
-      <div className="Waterlevel">
+      <div className="Reclamation">
 
       </div>
     );
   }
 }
 
-export default Waterlevel;
+export default Reclamation;

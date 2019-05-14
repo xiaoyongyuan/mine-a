@@ -28,10 +28,6 @@ export default {
         title: '数据总览',
         key: 'main/overview',
         children: [
-            // {
-            //     title: '封装',
-            //     key: '/main/cs/common',
-            // },
             {
                 title: '地质灾害数据',
                 key: '/main/geology',

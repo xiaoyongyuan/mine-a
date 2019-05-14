@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-class Waterlevel extends Component {
+class Landform extends Component {
   constructor(props){
     super(props);
     this.state={};
@@ -8,11 +8,11 @@ class Waterlevel extends Component {
 
     render() {
     return (
-      <div className="Waterlevel">
+      <div className="Landform">
 
       </div>
     );
   }
 }
 
-export default Waterlevel;
+export default Landform;

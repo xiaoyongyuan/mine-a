@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-class Sediment extends Component {
+class Soilpressure extends Component {
   constructor(props){
     super(props);
     this.state={};
@@ -8,11 +8,11 @@ class Sediment extends Component {
 
     render() {
     return (
-      <div className="Sediment">
+      <div className="Soilpressure">
 
       </div>
     );
   }
 }
 
-export default Sediment;
+export default Soilpressure;
