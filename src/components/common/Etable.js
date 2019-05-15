@@ -13,18 +13,32 @@ class Etable extends Component {
     this.setState({
       page
     })
+    return page;
+  }
+  getOptions=()=>{
+    const pagination={
+        showQuickJumper:true,
+        defaultPageSize:10,
+        onChange:this.changePage,
+        // hideOnSinglePage:true
+
+    }
+    return(
+        <Table
+            bordered
+            dataSource={[]}
+            rowKey={record=>record.code}
+            pagination={pagination}
+            {...this.props}
+        />
+        )
+
   }
 
   render() {
     return (
       <div className="Etable">
-        <Table
-            bordered
-            dataSource={[]}
-            rowKey={record=>record.code}
-            pagination={{showQuickJumper:true, defaultPageSize:10,current:this.state.page, total:this.state.total,onChange:this.changePage ,hideOnSinglePage:true}}
-            {...this.props}
-        />
+        {this.getOptions()}
       </div>
     );
   }
