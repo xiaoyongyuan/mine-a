@@ -12,7 +12,7 @@ class Main extends Component {
         <Layout>
           <Header className="Header">Header</Header>
           <Layout>
-            <Sider className="Sider" style={{maxWidth:'280px'}}><LayerSider /></Sider>
+            <Sider className="Sider" width='240px'><LayerSider /></Sider>
             <Content className="Content"><MenuRoutes/></Content>
           </Layout>
           <Footer className="Footer">Footer</Footer>
