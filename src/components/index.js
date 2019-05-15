@@ -13,6 +13,7 @@ import Displacement from './geology/displacement'
 import Shapechange from './geology/shapechange'
 import Rainfall from './geology/rainfall'
 import Soilpressure from './geology/soilpressure'
+import Detaildata from './geology/detaildata'
 //含水层监测数据
 import Waterlevel from './aquifer/waterlevel'
 import Pressure from './aquifer/pressure'
@@ -64,7 +65,7 @@ import Evideo from './equipment/video'
 
 export default {
   Datamanage,Projectmanage,
-  Fissure,Insar,Sediment,Displacement,Shapechange,Rainfall,Soilpressure,
+  Fissure,Insar,Sediment,Displacement,Shapechange,Rainfall,Soilpressure,Detaildata,
   Waterlevel,Pressure,Qualityeasy,Qualityentirety,
   Landform,
   Waterdetect,Soildetect,

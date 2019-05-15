@@ -1,0 +1,24 @@
+.Fissure{
+    display: flex;
+    justify-content: center;
+}
+.fissure-item{
+    width: 98%;
+    float: left;
+}
+.fissure-item-col{
+    background-color: #f0f2f5;
+    height: 260px;
+    margin-top: 10px;
+    border-radius: 5px;
+}
+.fissure-item-col .title{
+    margin: 10px;
+}
+.Main .Content {
+    /*background-color: #f0f2f5!important;*/
+}
+.titleName{
+    font-weight: bold;
+    color: black;
+}

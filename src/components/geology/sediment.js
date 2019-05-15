@@ -1,4 +1,8 @@
 import React, { Component } from 'react';
+import {Row, Col} from "antd";
+import DataOverviewEcharts from "../DataOverviewEcharts";
+import "../../style/yal/css/sediment.css";
+
 
 class Sediment extends Component {
   constructor(props){
@@ -9,6 +13,11 @@ class Sediment extends Component {
     render() {
     return (
       <div className="Sediment">
+          <div className="SedimentTop">
+              {/*<DataOverviewEcharts*/}
+                  {/*type="acceptance"*/}
+              {/*/>*/}
+          </div>
 
       </div>
     );
