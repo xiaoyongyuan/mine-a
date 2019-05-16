@@ -78,6 +78,11 @@ export default {
                 component: "Pressure",
 
               },{
+                 title: '水质在线监测',
+                 key: '/main/aquifer/qualityonline',
+                 component: "Qualityonline",
+              },
+              {
               	title: '水质简分析',
               	key: '/main/aquifer/qualityeasy',
                 component: "Qualityeasy",
@@ -294,5 +299,10 @@ export default {
             component: "Evideo",
           }]
     },
-  ]
+  ],
+    other:[{
+        title: 'inSAR详细数据',
+        key: '/main/geology/detaildata',
+        component: "Detaildata",
+    }]
 }

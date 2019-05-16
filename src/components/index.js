@@ -17,6 +17,7 @@ import Detaildata from './geology/detaildata'
 //含水层监测数据
 import Waterlevel from './aquifer/waterlevel'
 import Pressure from './aquifer/pressure'
+import Qualityonline from './aquifer/qualityonline'
 import Qualityeasy from './aquifer/qualityeasy'
 import Qualityentirety from './aquifer/qualityentirety'
 //地形地貌检测数据
@@ -66,7 +67,7 @@ import Evideo from './equipment/video'
 export default {
   Datamanage,Projectmanage,
   Fissure,Insar,Sediment,Displacement,Shapechange,Rainfall,Soilpressure,Detaildata,
-  Waterlevel,Pressure,Qualityeasy,Qualityentirety,
+  Waterlevel,Pressure,Qualityonline,Qualityeasy,Qualityentirety,
   Landform,
   Waterdetect,Soildetect,
   Highmark,Soilmar,Reclamation,
@@ -76,5 +77,4 @@ export default {
   Monlinesoil,Monlinewater,Msoil,Mwater,
   Mhighmark,Msoilmar,Mreclamation,
   Cnss,Efissure,Epressure,Equality,Erainfall,Esoilpressure,Evideo
-
 };
