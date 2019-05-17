@@ -2,8 +2,6 @@ import React, { Component } from 'react';
 import {Row, Col} from "antd";
 import "../../style/yal/css/fissure.css";
 import DataOverviewEcharts from "../DataOverviewEcharts";
-import OverallEcharts from "../datashow/OverallEcharts";
-import ReactEcharts from "echarts-for-react";
 
 const list=[
     {
@@ -54,7 +52,7 @@ class Fissure extends Component {
     render() {
     return (
       <div className="Fissure">
-          {/*<a href={"#/main/geology/detaildata"}>*/}
+          <a href={"#/main/geology/detaildata"}>
               <Row className="fissure-item" type="flex" justify="space-between">
                   {
                       this.state.list.map((v,i)=>(
@@ -71,7 +69,7 @@ class Fissure extends Component {
                       ))
                   }
               </Row>
-          {/*</a>*/}
+          </a>
       </div>
     );
   }

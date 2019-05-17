@@ -300,9 +300,16 @@ export default {
           }]
     },
   ],
-    other:[{
+    other:[
+        {
         title: 'inSAR详细数据',
         key: '/main/geology/detaildata',
         component: "Detaildata",
-    }]
+        },
+        {
+            title: '检测报告详细数据',
+            key: '/main/geology/detaildata',
+            component: "Detaildata",
+        },
+    ]
 }

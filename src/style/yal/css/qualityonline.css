@@ -1,0 +1,21 @@
+.Qualityonline{
+    display: flex;
+    justify-content: center;
+}
+.qualityonline-item{
+    width: 98%;
+    float: left;
+}
+.qualityonline-item-col{
+    background-color: #f0f2f5;
+    height: 350px;
+    margin-top: 10px;
+    border-radius: 5px;
+}
+.qualityonline-item-col .title{
+    margin: 10px;
+}
+.titleName{
+    font-weight: bold;
+    color: black;
+}

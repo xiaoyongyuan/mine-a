@@ -1,0 +1,26 @@
+.DetaildataTop{
+    width: 90%;
+    height: 400px;
+    margin: auto;
+    background-color: #f0f2f5;
+}
+.DetaildataBottom{
+    width: 90%;
+    min-height: 400px;
+    margin: auto;
+    /*background-color: #c6e9d8;*/
+}
+.DetaildataBottom .querytable{
+    margin-top: 20px;
+}
+.DetaildataBottom .query{
+    margin-top: 10px;
+}
+/*.querycol{*/
+    /*background-color: red;*/
+/*}*/
+.querycol .ant-btn-primary {
+    margin-left: 20px;
+    background-color: #425ae7;
+    border-color: #425ae7;
+}
