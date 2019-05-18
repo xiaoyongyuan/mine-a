@@ -6,7 +6,7 @@ class LayerHeader extends Component {
   render() {
     return (
       <div className="LayerHeader">
-        <div className="HeaderTitle">
+        {/* <div className="HeaderTitle">
         	<Icon type="check-circle" />
         	<span>矿山地质环境动态监测预警系统</span>
         </div>
@@ -20,7 +20,7 @@ class LayerHeader extends Component {
         	<div className="messages">
         			<Icon type="message" />
         	</div>
-        </div>
+        </div>*/}
       </div>
     );
   }

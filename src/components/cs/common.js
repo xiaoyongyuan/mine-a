@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import BaseForm from '../BaseForm'
+import BaseForm from '../common/BaseForm'
 
 class Common extends Component {
 	formList = [{
