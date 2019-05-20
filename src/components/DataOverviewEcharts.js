@@ -16,8 +16,59 @@ class DataOverviewEcharts extends Component {
     componentDidMount(){
         this[this.state.type]()
     }
-    //阈值
+    //地裂缝数据
     acceptance=()=>{
+        let option={
+            tooltip: {
+                trigger: 'axis'
+            },
+            grid: {
+                left: '5%',
+                right: '8%',
+                bottom: '18%',
+                top:'3%',
+                containLabel: true
+            },
+            xAxis: {
+                name:'时',
+                type: 'category',
+                boundaryGap: false,
+                data: ['0','1','2','3','4','5','6','7','8','9','10','11','12','13','14','15','16','17','18','19','20','21','22','23'],
+            },
+            yAxis: {
+                type: 'value'
+            },
+            series: [
+                {
+                    name:'邮件营销',
+                    type:'line',
+                    stack: '总量',
+                    data: this.props.data,
+                    markLine: {
+                        symbol:'none',//去掉箭头
+                        silent: false,//图形是否不响应和触发鼠标事件，默认为 false，即响应和触发鼠标事件。
+                        lineStyle: {
+                            type: 'solid',
+                            color: '#07fecf'
+                        },
+                        data: [
+                            {yAxis: this.props.maxdata},
+                            {yAxis: this.props.mindata}
+                        ],
+                        // label: {
+                        //     normal: {
+                        //         formatter: '安全基线'           // 这儿设置安全基线
+                        //     }
+                        // },
+                    },
+                },
+            ]
+        };
+        this.setState({option});
+    };
+
+    //水位数据
+    waterlevel=()=>{
         let option={
             tooltip: {
                 trigger: 'axis'
@@ -159,12 +210,12 @@ class DataOverviewEcharts extends Component {
         this.setState({option});
     };
 
-    //雷达图
+    //含水层在线监测
     qualityonline=()=>{
         let option = {
-            title:{
-                text:this.props.name + '监测点'
-            },
+            // title:{
+            //     text:this.props.name + '监测点'
+            // },
             backgroundColor: '#f0f2f5',
             legend: {
                 data: ['长沙', '西安', '重庆'],

@@ -6,19 +6,41 @@
     width: 98%;
     float: left;
 }
+.qualityonline-item{
+    width: 100%;
+    float: left;
+}
 .fissure-item-col{
     background-color: #f0f2f5;
     height: 260px;
     margin-top: 10px;
     border-radius: 5px;
 }
+.qualityonline-item-col{
+    background-color: #f0f2f5;
+    height: 350px;
+    /*margin-top: 10px;*/
+    border-radius: 5px;
+}
 .fissure-item-col .title{
     margin: 10px;
-}
-.Main .Content {
-    /*background-color: #f0f2f5!important;*/
 }
 .titleName{
     font-weight: bold;
     color: black;
+}
+.qualityonline-item-col-title{
+    margin-top: 10px;
+    background-color: #f0f2f5;
+    text-align: center;
+}
+.big-title{
+    font-family: 黑体;
+    font-weight: bold;
+    color: black;
+    font-size: 20px;
+}
+.small-title{
+    color: black;
+    font-size: 16px;
 }
