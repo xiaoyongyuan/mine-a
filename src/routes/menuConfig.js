@@ -29,14 +29,15 @@ export default {
         key: '/overview',
         children: [
             {
+                title: 'InSAR遥感影像',
+                key: '/main/insar',
+                component: "Insar",
+            },
+            {
                 title: '地质灾害数据',
                 key: '/main/geology',
                 children: [
                 {
-                	title: 'inSAR检测数据',
-                	key: '/main/geology/insar',
-                    component: "Insar",
-                },{
                 	title: '地裂缝数据',
                 	key: '/main/geology/fissure',
                     component: "Fissure",

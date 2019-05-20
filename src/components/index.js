@@ -8,7 +8,7 @@ import Projectmanage from './datashow/projectmanage'
 //数据总览
 //地质灾害数据
 import Fissure from './geology/Fissure'
-import Insar from './geology/insar'
+import Insar from './insar/insar'
 import Sediment from './geology/sediment'
 import Displacement from './geology/displacement'
 import Shapechange from './geology/shapechange'
