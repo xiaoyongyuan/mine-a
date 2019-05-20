@@ -15,7 +15,7 @@ class Routes extends Component {
     return (
       <HashRouter>
       	<Switch>
-          <Route exact path="/" render={()=> <Redirect to="/pandect/datashow/projectmanage" push />}/>
+          <Route exact path="/" render={()=> <Redirect to="/main/Aquifer" push />}/>
       		<Route path="/login" component={Login}/>
       		<Route path="/main" component={Main}/>
       		<Route path="/pandect" component={Pandect} />

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-class Monlinesoil extends Component {
+class Geologymanage extends Component {
   constructor(props){
     super(props);
     this.state={};
@@ -8,11 +8,11 @@ class Monlinesoil extends Component {
 
     render() {
     return (
-      <div className="Monlinesoil">
+      <div className="Geologymanage">
 
       </div>
     );
   }
 }
 
-export default Monlinesoil;
+export default Geologymanage;

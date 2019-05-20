@@ -1,8 +1,11 @@
 import React from 'react'
 import { Input, Select, Form, Button, Checkbox, Radio, DatePicker} from 'antd'
-// import Utils from '../../utils/utils';
+import moment from 'moment'
+import "./index.less"
 const FormItem = Form.Item;
 const Option = Select.Option;
+const {RangePicker} = DatePicker;
+
 
 class FilterForm extends React.Component{
 
@@ -10,11 +13,9 @@ class FilterForm extends React.Component{
         let fieldsValue = this.props.form.getFieldsValue();
         this.props.filterSubmit(fieldsValue);
     }
-
     reset = ()=>{
         this.props.form.resetFields();
     }
-
     initFormList = ()=>{
         const { getFieldDecorator } = this.props.form;
         const formList = this.props.formList;
@@ -26,51 +27,58 @@ class FilterForm extends React.Component{
                 let initialValue = item.initialValue || '';
                 let placeholder = item.placeholder;
                 let width = item.width;
-                if (item.type == '时间查询'){
-                    const begin_time = <FormItem label="订单时间" key={field}>
+                if(item.type==='RANGPICKER'){
+                    const RANGPICKER = <FormItem label={item.label} key={item.field}>
                         {
-                            getFieldDecorator('begin_time')(
-                                <DatePicker showTime={true} placeholder={placeholder} format="YYYY-MM-DD HH:mm:ss"/>
-                            )
-                        }
-                    </FormItem>;
-                    formItemList.push(begin_time)
-                    const end_time = <FormItem label="~" colon={false} key={field}>
-                        {
-                            getFieldDecorator('end_time')(
-                                <DatePicker showTime={true} placeholder={placeholder} format="YYYY-MM-DD HH:mm:ss" />
-                            )
-                        }
-                    </FormItem>;
-                    formItemList.push(end_time)
-                }else if(item.type == 'INPUT'){
-                    const INPUT = <FormItem label={label} key={field}>
-                        {
-                            getFieldDecorator([field],{
-                                initialValue: initialValue
+                            getFieldDecorator([item.field],{
+                                initialValue: item.initialValue?[moment(item.initialValue[0]),moment(item.initialValue[1])]:null
                             })(
-                                <Input type="text" placeholder={placeholder} />
+                                <RangePicker showTime={item.showTime || false} format={item.format || "YYYY-MM-DD"}/>
+                            )
+                        }
+                    </FormItem>;
+                    formItemList.push(RANGPICKER)
+                }else if(item.type==='datePicker'){
+                    const datePicker = <FormItem label={item.label} key={item.field}>
+                        {
+                            getFieldDecorator([item.field],{
+                                initialValue: moment(item.initialValue)
+                            })(
+                                <DatePicker showTime={item.showTime || false} format={item.format || "YYYY-MM-DD"}/>
+                            )
+                        }
+                    </FormItem>;
+                    formItemList.push(datePicker)
+                }else if(item.type === 'INPUT'){
+                    const INPUT = <FormItem label={item.label} key={item.field}>
+                        {
+                            getFieldDecorator([item.field],{
+                                initialValue: item.initialValue
+                            })(
+                                <Input key={item.field} />
                             )
                         }
                     </FormItem>;
                     formItemList.push(INPUT)
-                } else if (item.type == 'SELECT') {
-                    const SELECT = <FormItem label={label} key={field}>
+                } else if (item.type === 'SELECT') {
+                    const SELECT = <FormItem label={item.label} key={item.field}>
                         {
-                            getFieldDecorator([field], {
-                                initialValue: initialValue
+                            getFieldDecorator([item.field], {
+                                initialValue: item.initialValue
                             })(
                                 <Select
                                     style={{ width: width }}
-                                    placeholder={placeholder}
+                                    placeholder={item.placeholder}
                                 >
-                                    
+                                    {item.list.map(city => (
+                                        <Option key={city.code}>{city.name}</Option>
+                                    ))} 
                                 </Select>
                             )
                         }
                     </FormItem>;
                     formItemList.push(SELECT)
-                } else if (item.type == 'CHECKBOX') {
+                } else if (item.type === 'CHECKBOX') {
                     const CHECKBOX = <FormItem label={label} key={field}>
                         {
                             getFieldDecorator([field], {
@@ -84,14 +92,20 @@ class FilterForm extends React.Component{
                         }
                     </FormItem>;
                     formItemList.push(CHECKBOX)
-                }
+                }else if(item.type === 'monitoring'){ //监测点列表
+
+                }else if(item.type === 'sensor'){ //传感器列表 
+
+                }else if(item.type === 'equiptype'){ //传感器列表 
+
+                }else{}
             })
         }
         return formItemList;
     }
     render(){
         return (
-            <Form layout="inline">
+            <Form className='baseform' layout="inline">
                 { this.initFormList() }
                 <FormItem>
                     <Button type="primary" style={{ margin: '0 20px' }} onClick={this.handleFilterSubmit}>查询</Button>
