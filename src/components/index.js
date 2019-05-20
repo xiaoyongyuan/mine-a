@@ -36,13 +36,18 @@ import Monitor from './equipment/Monitor'
 import ClaaMonitor from './equipment/ClaaMonitor'
 import Evideo from './equipment/Evideo'
 
+//系统预案
+import MyPlan from './plan/MyPlan'
+import Recommend from './plan/Recommend'
+import Edit from './plan/Edit'
+
 export default {
   Datamanage,Projectmanage,
   Fissure,Insar,Sediment,Displacement,Shapechange,Rainfall,Soilpressure,Detaildata,
   
   Aquifer,Landform,Pollution,Soil,
   Geologymanage,Insarmanage,Aquifermanage,Landformmanage,Pollutionmanage,Soilmanage,
-  Monitor,ClaaMonitor,Evideo
+  Monitor,ClaaMonitor,Evideo,
+  MyPlan,Recommend,Edit,
 
-  
 };
