@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import {Radio} from 'antd'
+import axios from '../../axios'
 import Etable from "../common/Etable"
 import Utils from "../../utils/utils"
 import BaseForm from "../common/BaseForm"
@@ -47,16 +48,17 @@ class Monitor extends Component {
 
   }
   componentDidMount(){
-    this.equiptype=[{
-      code:'1',
-      name:'裂缝计'
-    },{
-      code:2,
-      name:'水质监测计'
-    },{
-      code:'3',
-      name:'CNSS'
-    }] 
+    axios.ajax({
+      method: 'get',
+      url: '/monitortype',
+      isShowLoading:false
+    }).then((res)=>{
+      if(res.success){
+        this.equiptype=res.data;
+        this.setState({equipment:res.data.length?res.data[0].code:null})
+      }
+    });
+
     this.requestList();
   }
   changePage=(page,pageSize)=>{
@@ -65,52 +67,29 @@ class Monitor extends Component {
     })
   }
   requestList = ()=>{
-    const data={
-      success:1,
-      data:[{
-        code:1,
-        name:'设备1',
-        dot:'监测点一',
-        location:'不知道在哪',
-        lasttime:'2019-03-09 12:09:09',
-        time:'2019-03-09 12:09:09',
-        lastdata:'0.023',
-        frequency:'1 hours',
-        duration:'22',
-        status:'1',
-        brand:'克拉',
-        frequency:'1',
-        num:'10',
-        register:0
-
-      },{
-        code:2,
-        name:'设备1',
-        dot:'监测点e二',
-        location:'不知道在哪',
-        lasttime:'2019-03-09 12:09:09',
-        lastdata:'0.023',
-        time:'2019-03-09 12:09:09',
-        frequency:'1 hours',
-        duration:'22',
-        status:'1',
-        brand:'克拉',
-        frequency:'1',
-        num:'10',
-        register:1
-      }],
-      pageSize:10,
-      page:this.params.page,
-      total:30,
-    }
-
-    this.setState({
-        list:data.data,
-        pagination:Utils.pagination(data,(current)=>{
-            this.params.page=current;
-            this.requestList();
+    axios.ajax({
+      method: 'get',
+      url: '/monitor',
+      data: this.params
+    }).then((res)=>{
+      if(res.success){
+        this.setState({
+            list:res.data,
+            pagination:Utils.pagination(res,(current)=>{
+                this.params.page=current;
+                this.requestList();
+            })
         })
-    })
+      }
+    });
+
+    
+  }
+  handleFilterSubmit=(params)=>{ //查询
+    this.params = params;
+    this.params.page=1;
+    this.params.equipment=this.state.equipment
+    this.requestList();
   }
   selectEquiptype=(e)=>{ //选择设备
     this.setState({equipment:e.target.value,page:1})
@@ -152,6 +131,7 @@ class Monitor extends Component {
       },{
         title: '是否注册',
         dataIndex: 'register',
+        render: text =>(text==='1'?'已注册':'未注册')
       },{
         title: '最后一次通讯时间',
         dataIndex: 'lasttime',

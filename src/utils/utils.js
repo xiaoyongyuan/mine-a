@@ -14,9 +14,9 @@ export default {
             },
             current:data.page,
             pageSize:data.pageSize || 10,
-            total: data.total,
+            total: data.totalcount,
             showTotal:()=>{
-                return `共${data.total}条`
+                return `共${data.totalcount}条`
             },
             showQuickJumper:true
         }
