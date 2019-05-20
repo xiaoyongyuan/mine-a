@@ -145,6 +145,21 @@ export default {
             component: "Evideo",
           }]
     },
+    {
+        title: '系统预案',
+        key: '/plan',
+        children: [
+          {
+            title: '我的预案',
+            key: '/main/myplan',
+            component: "MyPlan",
+          },
+          {
+            title: '推荐预案',
+            key: '/main/recommend',
+            component: "Recommend",
+          }]
+    },
   ],
     other:[
         {
@@ -156,6 +171,11 @@ export default {
             title: '检测报告详细数据',
             key: '/main/geology/detaildata',
             component: "Detaildata",
+        },
+        {
+            title: '富文本编辑',
+            key: '/main/Edit',
+            component: "Edit",
         },
     ]
 }
