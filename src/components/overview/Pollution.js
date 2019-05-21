@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import easy from "../../style/yal/image/easy.png";
 
 
 
@@ -19,7 +20,7 @@ class Pollution extends Component {
   render() {
     return (
       <div className="Pollution">
-        
+
       </div>
     );
   }

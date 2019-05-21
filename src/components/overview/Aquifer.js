@@ -1,7 +1,10 @@
 import React, { Component } from 'react';
 import {Row, Col,Tabs} from 'antd'
 import "../../style/yal/css/fissure.css";
+import "../../style/yal/css/qualityeasy.css";
 import DataOverviewEcharts from "../DataOverviewEcharts";
+import easy from '../../style/yal/image/easy.png';
+import test from "../../style/yal/image/test.png";
 
 
 const TabPane = Tabs.TabPane;
@@ -113,7 +116,41 @@ class Aquifer extends Component {
                   </Row>
               </TabPane>
               <TabPane tab="水质简分析" key="4">
-                  Content of Tab Pane 3
+                  <Row className="qualityeasy-row">
+                      <Col className="qualityeasy-col" span={22}>
+                          <Row className="qualityeasy-row-one">
+                              <Col span={18}>
+                                  <span>2019-12-12 09:18:23</span>
+                              </Col>
+                              <Col span={6}>
+                                  <span>检测结果:异常</span>
+                              </Col>
+                          </Row>
+                          <Row className="qualityeasy-row-two">
+                              <Col>
+                                  <span>
+                                      监测点：监测点一，监测点二
+                                  </span>
+                              </Col>
+                          </Row>
+                          <Row className="qualityeasy-row-three">
+                              <Col>
+                                  <span>
+                                      说明：这是备注说明这是备注说明这是备注说明这是备注说明这是备注说明这是备注说明这是备注说明这是备注说明这是备注说明这是备注说明
+                                  </span>
+                              </Col>
+                          </Row>
+                          <Row className="qualityeasy-row-four">
+                              <Col>
+                                  <div className="qualityeasy-img">
+                                      <div className="qualityeasy-img-inner">
+                                          <img src={easy} alt="1"/>
+                                      </div>
+                                  </div>
+                              </Col>
+                          </Row>
+                      </Col>
+                  </Row>
               </TabPane>
               <TabPane tab="水质全分析" key="5">
                   Content of Tab Pane 3

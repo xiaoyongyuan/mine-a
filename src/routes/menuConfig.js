@@ -177,5 +177,10 @@ export default {
             key: '/main/Edit',
             component: "Edit",
         },
+        {
+            title: '地形地貌监测数据预览',
+            key: '/main/overview/preview',
+            component: "Preview",
+        },
     ]
 }

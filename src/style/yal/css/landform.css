@@ -1,0 +1,21 @@
+.lanform-query .ant-btn-primary {
+    margin-left: 20px;
+    background-color: #425ae7;
+    border-color: #425ae7;
+}
+.icon{
+    width: 20px;
+    height: 30px;
+}
+.landform-date{
+    margin-top: 10px;
+    /*background-color: #1ECD6E;*/
+    font-size: 16px;
+    text-align: center;
+}
+.landform-img{
+    margin-top: 20px;
+}
+.landform-date .icon{
+    margin-left: 20px;
+}
