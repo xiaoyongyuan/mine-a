@@ -1,8 +1,8 @@
 import JsonP from 'jsonp'
 import axios from 'axios'
 import { message } from 'antd'
-const Httpurl = window.g.url;
-const qrcodeurl = window.g.loginurl;
+const baseURL = window.g.baseURL;
+
 export default class Axios {
     static jsonp(options) {
         return new Promise((resolve, reject) => {
@@ -19,39 +19,38 @@ export default class Axios {
         })
     }
 
-
-    static post = async ({ url, msg = "接口异常", data = {}, type },callback) => {
-        const token = localStorage.getItem("token");
-        const comid = localStorage.getItem("comid");
-        const account = localStorage.getItem("account");
-        if (!account || account === "undefined" || !token || !comid || token === "undefined" || comid === "undefined") {
-            window.location.href = "#/login";
-            return callback(false);
+    static ajax(options){
+        let loading;
+        if (options.isShowLoading !== false){
+            loading = document.getElementById('ajaxLoading');
+            loading.style.display = 'block';
         }
-        const head = {
-            headers: {
-              AUTHORIZATION: token
-            }
-        };
+        return new Promise((resolve,reject)=>{
+            axios({
+              method: options.method || 'get',
+              url: options.url,
+              baseURL: baseURL,
+              data: options.params
+            }).then((response)=>{
+                if (options.isShowLoading !== false) {
+                    loading = document.getElementById('ajaxLoading');
+                    loading.style.display = 'none';
+                }
+                if(response&&response.status=='200'){
+                    const res=response.data;
+                    if(res.success===1){
+                        resolve(res)
+                    }else if(res.success===2){
+                        window.href='#/login'
+                    }else message.error(res.message)
+                }else reject(response.messsage);
+            });
 
-        return new Promise((resolve,reject) => {
-            axios.post(Httpurl + url,Object.assign({ comid: comid, user: account }, data),head)
-                .then((response) => {
-                    if (res.data.success === 1) {
-                        resolve(res);
-                    } else if (res.data.success === 2) {
-                        window.location.href = "#/login";
-                    } else {
-                    if (type) {
-                      reject(false);
-                    }
-                    message.warn(res.data.errorinfo);
-                    reject(false);
-                    }
-
-            })
         })
-    };
+    }
+
+
+    
 
 
 

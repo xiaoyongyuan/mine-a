@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.less';
+import './style/css/common.less';
 import Routes from './Routes';
 import * as serviceWorker from './serviceWorker';
 import { LocaleProvider } from 'antd';
