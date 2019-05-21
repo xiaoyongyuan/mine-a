@@ -173,6 +173,11 @@ export default {
             component: "Detaildata",
         },
         {
+            title: '预案详情',
+            key: '/main/plan/detailplan',
+            component: "Detailplan",
+        },
+        {
             title: '富文本编辑',
             key: '/main/Edit',
             component: "Edit",
