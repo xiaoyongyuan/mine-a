@@ -1,9 +1,75 @@
 import React, { Component } from 'react';
-import {Row, Col,DatePicker,Button,} from "antd";
+import {Row, Col,DatePicker,Button,Table, Badge, Menu, Dropdown, Icon} from "antd";
 import arcgis from "../../style/yal/image/test.png";
 import "../../style/yal/css/soil.css";
 
 const { MonthPicker, RangePicker, WeekPicker } = DatePicker;
+
+//嵌套字表
+const expandedRowRender = () => {
+    const columns = [
+        { title: 'Date', dataIndex: 'date', key: 'date' },
+        { title: 'Name', dataIndex: 'name', key: 'name' },
+        { title: 'Upgrade Status', dataIndex: 'upgradeNum', key: 'upgradeNum' },
+    ];
+
+    const data = [];
+    for (let i = 0; i < 3; ++i) {
+        data.push({
+            key: i,
+            date: '2014-12-24 23:12:00',
+            name: 'This is production name',
+            upgradeNum: 'Upgraded: 56',
+        });
+    }
+    return <Table columns={columns} dataSource={data} pagination={false} />;
+};
+
+const columns = [
+    {
+        title: '序号',
+        dataIndex: 'index',
+        width:'8%',
+        render: (text, record,index) => (index+1),
+    },
+    { title: 'Name', dataIndex: 'name', key: 'name' },
+    { title: 'Platform', dataIndex: 'platform', key: 'platform' },
+    { title: 'Version', dataIndex: 'version', key: 'version' },
+    { title: 'Upgraded', dataIndex: 'upgradeNum', key: 'upgradeNum' },
+    { title: 'Creator', dataIndex: 'creator', key: 'creator' },
+    { title: 'Date', dataIndex: 'createdAt', key: 'createdAt' },
+];
+
+const data = [];
+for (let i = 0; i < 3; ++i) {
+    data.push({
+        key: i,
+        name: 'Screem',
+        platform: 'iOS',
+        version: '10.3.4.5654',
+        upgradeNum: 500,
+        creator: 'Jack',
+        createdAt: '2014-12-24 23:12:00',
+    });
+}
+
+//字表
+const zb =
+    <table border="1">
+    <tr>
+        <th>Month</th>
+        <th>Savings</th>
+    </tr>
+    <tr>
+        <td>January</td>
+        <td>$100</td>
+    </tr>
+    <tr>
+        <td>February</td>
+        <td>$80</td>
+    </tr>
+</table>;
+
 class Soil extends Component {
   constructor(props){
     super(props);
@@ -17,6 +83,8 @@ class Soil extends Component {
   }
   componentDidMount(){
   }
+
+
 
   render() {
     return (
@@ -35,6 +103,62 @@ class Soil extends Component {
               </Col>
               <Col span={4}>
                   <Button type="primary">新增</Button>
+              </Col>
+          </Row>
+          <Row className="table-row">
+              <Col>
+                  <Table
+                      className="components-table-demo-nested"
+                      columns={columns}
+                      expandedRowRender={expandedRowRender}
+                      dataSource={data}
+                  />
+                  {/*<table border="1">*/}
+                      {/*<tr>*/}
+                          {/*<th>序号</th>*/}
+                          {/*<th>图片</th>*/}
+                          {/*<th>损毁面积</th>*/}
+                          {/*<th>复垦面积</th>*/}
+                          {/*<th>上传人</th>*/}
+                          {/*<th>采集时间</th>*/}
+                          {/*<th>操作</th>*/}
+                      {/*</tr>*/}
+                      {/*<tr>*/}
+                          {/*<td>January</td>*/}
+                          {/*<td>$100</td>*/}
+                          {/*<td>*/}
+                             {/*zb*/}
+                          {/*</td>*/}
+                          {/*<td>$100</td>*/}
+                          {/*<td>January</td>*/}
+                          {/*<td>$100</td>*/}
+                          {/*<td>January</td>*/}
+                      {/*</tr>*/}
+                      {/*<tr>*/}
+                          {/*<td>January</td>*/}
+                          {/*<td>$100</td>*/}
+                          {/*<td>*/}
+                              {/*<table border="1">*/}
+                                  {/*<tr>*/}
+                                      {/*<th>Month</th>*/}
+                                      {/*<th>Savings</th>*/}
+                                  {/*</tr>*/}
+                                  {/*<tr>*/}
+                                      {/*<td>January</td>*/}
+                                      {/*<td>$100</td>*/}
+                                  {/*</tr>*/}
+                                  {/*<tr>*/}
+                                      {/*<td>February</td>*/}
+                                      {/*<td>$80</td>*/}
+                                  {/*</tr>*/}
+                              {/*</table>*/}
+                          {/*</td>*/}
+                          {/*<td>$100</td>*/}
+                          {/*<td>January</td>*/}
+                          {/*<td>$100</td>*/}
+                          {/*<td>January</td>*/}
+                      {/*</tr>*/}
+                  {/*</table>*/}
               </Col>
           </Row>
       </div>

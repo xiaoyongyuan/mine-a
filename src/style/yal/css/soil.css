@@ -15,3 +15,9 @@
     width: 100%;
     height: 100%;
 }
+.table-row{
+    margin-top: 10px;
+}
+.table-row table{
+    width: 100%;
+}
