@@ -1,0 +1,41 @@
+.detailplantitle{
+    text-align: center;
+    font-size: 25px;
+    color: #009df3;
+}
+.detailplancenter{
+    margin: auto;
+    width: 90%;
+    margin-top: 20px;
+}
+.addmyplan{
+    margin: auto;
+    width: 90%;
+    font-size: 16px;
+    margin-top: 20px;
+    height: 60px;
+    border-bottom: 1px dashed rgba(95, 112, 104, 0.37);
+}
+.addmyplan .ant-btn-primary {
+    font-size: 16px;
+    margin-left: 20px;
+    background-color: #009df3;
+    border-color: #009df3;
+}
+.colse{
+    background-color: #c4c5c5!important;
+}
+.detailplanbottom{
+    height: 45px;
+    margin-top: 100px;
+    display: flex;
+    justify-content: center;
+}
+
+.detailplanbottom-col .ant-btn{
+    height: 45px;
+    width: 130px;
+    color: #fff;
+    background-color: #009df3;
+    margin-right: 90px;
+}
