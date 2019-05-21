@@ -102,7 +102,9 @@ class Soil extends Component {
 
               </Col>
               <Col span={4}>
-                  <Button type="primary">新增</Button>
+                  <a href={"#/main/overview/soilbreathe"}>
+                      <Button type="primary">新增</Button>
+                  </a>
               </Col>
           </Row>
           <Row className="table-row">
@@ -113,52 +115,6 @@ class Soil extends Component {
                       expandedRowRender={expandedRowRender}
                       dataSource={data}
                   />
-                  {/*<table border="1">*/}
-                      {/*<tr>*/}
-                          {/*<th>序号</th>*/}
-                          {/*<th>图片</th>*/}
-                          {/*<th>损毁面积</th>*/}
-                          {/*<th>复垦面积</th>*/}
-                          {/*<th>上传人</th>*/}
-                          {/*<th>采集时间</th>*/}
-                          {/*<th>操作</th>*/}
-                      {/*</tr>*/}
-                      {/*<tr>*/}
-                          {/*<td>January</td>*/}
-                          {/*<td>$100</td>*/}
-                          {/*<td>*/}
-                             {/*zb*/}
-                          {/*</td>*/}
-                          {/*<td>$100</td>*/}
-                          {/*<td>January</td>*/}
-                          {/*<td>$100</td>*/}
-                          {/*<td>January</td>*/}
-                      {/*</tr>*/}
-                      {/*<tr>*/}
-                          {/*<td>January</td>*/}
-                          {/*<td>$100</td>*/}
-                          {/*<td>*/}
-                              {/*<table border="1">*/}
-                                  {/*<tr>*/}
-                                      {/*<th>Month</th>*/}
-                                      {/*<th>Savings</th>*/}
-                                  {/*</tr>*/}
-                                  {/*<tr>*/}
-                                      {/*<td>January</td>*/}
-                                      {/*<td>$100</td>*/}
-                                  {/*</tr>*/}
-                                  {/*<tr>*/}
-                                      {/*<td>February</td>*/}
-                                      {/*<td>$80</td>*/}
-                                  {/*</tr>*/}
-                              {/*</table>*/}
-                          {/*</td>*/}
-                          {/*<td>$100</td>*/}
-                          {/*<td>January</td>*/}
-                          {/*<td>$100</td>*/}
-                          {/*<td>January</td>*/}
-                      {/*</tr>*/}
-                  {/*</table>*/}
               </Col>
           </Row>
       </div>

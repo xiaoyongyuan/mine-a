@@ -178,6 +178,11 @@ export default {
             component: "Detailplan",
         },
         {
+            title: '土地损毁复垦新增',
+            key: '/main/overview/soilbreathe',
+            component: "Soilbreathe",
+        },
+        {
             title: '富文本编辑',
             key: '/main/Edit',
             component: "Edit",

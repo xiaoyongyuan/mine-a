@@ -15,6 +15,7 @@ import Shapechange from './geology/shapechange'
 import Rainfall from './geology/rainfall'
 import Soilpressure from './geology/soilpressure'
 import Detaildata from './geology/detaildata'
+import Soilbreathe from './overview/soilbreathe'
 //数据预览
 import Aquifer from './overview/Aquifer'
 import Landform from './overview/Landform'
@@ -45,7 +46,7 @@ import Detailplan from './plan/detailplan'
 
 export default {
   Datamanage,Projectmanage,
-  Fissure,Insar,Sediment,Displacement,Shapechange,Rainfall,Soilpressure,Detaildata,
+  Fissure,Insar,Sediment,Displacement,Shapechange,Rainfall,Soilpressure,Detaildata,Soilbreathe,
   
   Aquifer,Landform,Pollution,Soil,Preview,
   Geologymanage,Insarmanage,Aquifermanage,Landformmanage,Pollutionmanage,Soilmanage,
