@@ -41,6 +41,7 @@ import Evideo from './equipment/Evideo'
 import MyPlan from './plan/MyPlan'
 import Recommend from './plan/Recommend'
 import Edit from './plan/Edit'
+import Detailplan from './plan/detailplan'
 
 export default {
   Datamanage,Projectmanage,
@@ -49,6 +50,6 @@ export default {
   Aquifer,Landform,Pollution,Soil,Preview,
   Geologymanage,Insarmanage,Aquifermanage,Landformmanage,Pollutionmanage,Soilmanage,
   Monitor,ClaaMonitor,Evideo,
-  MyPlan,Recommend,Edit,
+  MyPlan,Recommend,Edit,Detailplan,
 
 };
