@@ -1,13 +1,18 @@
 import React from 'react'
 import { Input, Select, Form, Button, Checkbox, Radio, DatePicker} from 'antd'
 import moment from 'moment'
+import axios from '../../axios'
+import ofterajax from '../../axios/ofter'
+
 import "./index.less"
 const FormItem = Form.Item;
 const Option = Select.Option;
 const {RangePicker} = DatePicker;
 
-
 class FilterForm extends React.Component{
+    state={
+      monitoring:[],
+    }
 
     handleFilterSubmit = ()=>{
         let fieldsValue = this.props.form.getFieldsValue();
@@ -16,6 +21,19 @@ class FilterForm extends React.Component{
     reset = ()=>{
         this.props.form.resetFields();
     }
+    selectChange=(key,val)=>{
+        console.log(key,val)
+        this.props.form.setFieldsValue({[key]:val})
+
+    }
+    dot=()=>{
+        const _this=this;
+        ofterajax.dot().then((res)=>{
+            this.setState({monitoring:res})
+        })
+        
+    }
+
     initFormList = ()=>{
         const { getFieldDecorator } = this.props.form;
         const formList = this.props.formList;
@@ -69,9 +87,10 @@ class FilterForm extends React.Component{
                                 <Select
                                     style={{ width: width }}
                                     placeholder={item.placeholder}
+
                                 >
                                     {item.list.map(city => (
-                                        <Option key={city.code}>{city.name}</Option>
+                                        <Option value={city.code}>{city.name}</Option>
                                     ))} 
                                 </Select>
                             )
@@ -93,7 +112,40 @@ class FilterForm extends React.Component{
                     </FormItem>;
                     formItemList.push(CHECKBOX)
                 }else if(item.type === 'monitoring'){ //监测点列表
-
+                    if(!this.state.monitoring.length){
+                        this.dot();
+                    }
+                    var initial='';
+                    if(item.initial){
+                        item.initial=initial
+                    }else{
+                        if(item.own){
+                           item.initial='' 
+                        }else{
+                            if(this.state.monitoring.length)item.initial=this.state.monitoring[0].pointid
+                        }
+                    }
+                    const selectdot=<FormItem label={item.label} key={item.field || 'dot'}>
+                        {
+                            getFieldDecorator([item.field|| 'dot'], {
+                                initialValue: initial
+                            })(
+                            <Select
+                                key='dots'
+                                style={{ minWidth: '100px' }}
+                                placeholder={item.placeholder}
+                                onChange={(value)=>this.selectChange(item.field|| 'dot',value)}
+                            >
+                                {item.own?<Option key='dotq1' value=''>所有</Option>:null}
+                                {this.state.monitoring.map(city => (
+                                    <Option key={city.pointid} value={city.pointid}>{city.checkname}</Option>
+                                ))} 
+                            </Select>
+                        )
+                        }
+                    </FormItem>
+                    formItemList.push(selectdot)
+                
                 }else if(item.type === 'sensor'){ //传感器列表 
 
                 }else if(item.type === 'equiptype'){ //传感器列表 

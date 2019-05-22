@@ -88,7 +88,7 @@ class Monitor extends Component {
   handleFilterSubmit=(params)=>{ //查询
     this.params = params;
     this.params.page=1;
-    this.params.equipment=this.state.equipment
+
     this.requestList();
   }
   selectEquiptype=(e)=>{ //选择设备

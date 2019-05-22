@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Row, Col,Pagination,Button} from "antd";
+import axios from '../../axios'
 import Utils from "../../utils/utils";
 import BaseForm from "../common/BaseForm";
 import "./index.less"
@@ -61,41 +62,26 @@ class Insarmanage extends Component {
       this.requestList();
   }
   requestList = ()=>{
-    const data={
-      success:1,
-      data:[{
-        code:1,
-        time:'2019-03-09 12:09:09',
-        pic:'http://pic01.aokecloud.cn/alarm/1000004/background/efa61zz7.jpg?t=1557973203',
-        file:''
-      },{
-        code:2,
-        time:'2019-03-09 12:09:09',
-        pic:'http://pic01.aokecloud.cn/alarm/1000004/background/efa61zz7.jpg?t=1557973203',
-        file:''
-      },{
-        code:3,
-        time:'2019-03-09 12:09:09',
-        pic:'http://pic01.aokecloud.cn/alarm/1000004/background/efa61zz7.jpg?t=1557973203',
-        file:''
-      }],
-      pageSize:10,
-      page:this.params.page,
-      total:30,
-    }
-
-    this.setState({
-        list:data.data,
-        pagination:Utils.pagination(data,(current)=>{
-            this.params.page=current;
-            this.requestList();
+    axios.ajax({
+      method: 'get',
+      url: '/sensing',
+      data: this.params
+    }).then((res)=>{
+      if(res.success){
+        this.setState({
+            list:res.data,
+            pagination:Utils.pagination(res,(current)=>{
+                this.params.page=current;
+                this.requestList();
+            })
         })
-    })
+      }
+    });
 
   }
   handleFilterSubmit = (filterParams) => {
       // this.params = filterParams;
-      console.log('sssssss',filterParams)
+
       this.requestList();
   };
 
@@ -114,8 +100,8 @@ class Insarmanage extends Component {
           <Row gutter={16}>
           {this.state.list.map((el,i)=>(
             <Col className="gutter-row" key={el.code} lg={6} xl={6} xxl={4}>
-              <img src={el.pic} />
-              <p>{el.time}</p>
+              <img src={el.img} />
+              <p>{el.createin}</p>
             </Col>
             )
           )}
