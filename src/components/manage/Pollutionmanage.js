@@ -1,17 +1,18 @@
 import React, { Component } from 'react';
-import {Radio,Button} from 'antd'
+import {Radio,Button,Typography,Modal } from 'antd'
 import axios from '../../axios'
 import Etable from "../common/Etable"
 import Utils from "../../utils/utils"
 import BaseForm from "../common/BaseForm"
 import "./index.less"
+const { Paragraph } = Typography;
 
-class Monitor extends Component {
+class Pollutionmanage extends Component {
   constructor(props){
     super(props);
     this.state={
       page:1,
-      equipment:'1'
+      memoswitch:false
     };
     this.params = {
         page:1,   
@@ -71,6 +72,15 @@ class Monitor extends Component {
     this.setState({equipment:e.target.value,page:1})
     this.requestList();
   }
+  lookmore=(memo)=>{ //查看更多
+    this.setState({
+      memo,
+      memoswitch:true
+    })
+  }
+  changeState=(key,val)=>{
+    this.setState({[key]:val})
+  }
 
   render() {
       const columns=[{
@@ -92,6 +102,23 @@ class Monitor extends Component {
           return text?'正常':<span className="redcolor">异常</span>
         }
       },{
+        title: '说明',
+        dataIndex: 'memo',
+        width:250,
+        render: (text,record) =>{
+          if(text.length>50){
+            return(
+              <div className="textellip" style={{ wordWrap: 'break-word', wordBreak: 'break-all' }}>
+                {text.substr(0,50)}...
+                <span className="bluecolor" onClick={()=>this.lookmore(text)}>查看更多</span>
+              </div>
+              ) 
+          }else{
+            return text
+          }
+          
+        }
+      },{
         title: '上传人',
         dataIndex: 'uploader',
       },{
@@ -106,7 +133,7 @@ class Monitor extends Component {
         }
       }]
     return (
-      <div className="Monitor">
+      <div className="Pollutionmanage">
         <Radio.Group value={this.state.equipment} buttonStyle="solid"  size="large" onChange={this.selectEquiptype}>
           <Radio.Button key='water' value='1'>水体数据</Radio.Button>
           <Radio.Button key='soild' value='2'>土壤数据</Radio.Button>
@@ -128,9 +155,17 @@ class Monitor extends Component {
               pagination={this.state.pagination}
           />
         </div>
+        <Modal
+          title="说明"
+          visible={this.state.memoswitch}
+          onOk={()=>this.changeState('memoswitch',false)}
+          onCancel={()=>this.changeState('memoswitch',false)}
+        >
+          <p>{this.state.memo}</p>
+        </Modal>
       </div>
     );
   }
 }
 
-export default Monitor;
+export default Pollutionmanage;
