@@ -100,11 +100,6 @@ export default {
               component: "Insarmanage",
             },
             {
-              title: '地质灾害数据',
-              key: '/main/geologymanage',
-              component: "Geologymanage",
-            },
-            {
               title: '含水层数据',
               key: '/main/aquifermanage',
               component: "Aquifermanage",

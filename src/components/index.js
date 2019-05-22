@@ -24,7 +24,6 @@ import Soil from './overview/Soil'
 import Preview from './overview/preview'
 //-----------
 //数据管理
-import Geologymanage from './manage/Geologymanage'
 import Insarmanage from './manage/Insarmanage'
 import Aquifermanage from './manage/Aquifermanage'
 import Landformmanage from './manage/Landformmanage'
@@ -49,7 +48,7 @@ export default {
   Fissure,Insar,Sediment,Displacement,Shapechange,Rainfall,Soilpressure,Detaildata,Soilbreathe,
   
   Aquifer,Landform,Pollution,Soil,Preview,
-  Geologymanage,Insarmanage,Aquifermanage,Landformmanage,Pollutionmanage,Soilmanage,
+  Insarmanage,Aquifermanage,Landformmanage,Pollutionmanage,Soilmanage,
   Monitor,ClaaMonitor,Evideo,
   MyPlan,Recommend,Edit,Detailplan,
 

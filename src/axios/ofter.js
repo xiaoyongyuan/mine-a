@@ -13,9 +13,18 @@ export default class ofterajax {
                 resolve(res.data) 
             })  
         })
-        
-
-    }   
+    }
+    static equipment(dot) {
+        return new Promise((resolve, reject) => {
+           axios.ajax({
+              method: 'get',
+              url: '/equipment',
+              data: {pagesize:200,dot:dot}
+            }).then((res)=>{
+                resolve(res.data) 
+            })  
+        })
+    }  
 
 
 
