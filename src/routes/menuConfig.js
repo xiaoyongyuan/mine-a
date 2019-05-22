@@ -39,37 +39,6 @@ export default {
                 component: "Geology",
             },
             {
-                title: '地质灾害数据',
-                key: '/main/geology',
-                children: [
-                {
-                	title: '地裂缝数据',
-                	key: '/main/geology/fissure',
-                    component: "Fissure",
-                },{
-                 	title: '沉降数据',
-                 	key: '/main/geology/sediment',
-                   component: "Sediment",
-                },{
-                 	title: '位移数据',
-                 	key: '/main/geology/displacement',
-                   component: "Displacement",
-                },{
-                 	title: '形变数据',
-                 	key: '/main/geology/shapechange',
-                   component: "Shapechange",
-                },{
-                 	title: '雨量计',
-                 	key: '/main/geology/rainfall',
-                   component: "Rainfall",
-                 },{
-                 	title: '土压力计',
-                 	key: '/main/geology/soilpressure',
-                   component: "Soilpressure",
-                 }
-                ]
-            },
-            {
               title: '含水层监测数据',
               key: '/main/aquifer',
               component: "Aquifer",
