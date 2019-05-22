@@ -12,6 +12,7 @@ const {RangePicker} = DatePicker;
 class FilterForm extends React.Component{
     state={
       monitoring:[],
+      equipment:[]
     }
 
     handleFilterSubmit = ()=>{
@@ -21,30 +22,45 @@ class FilterForm extends React.Component{
     reset = ()=>{
         this.props.form.resetFields();
     }
-    selectChange=(key,val)=>{
-        console.log(key,val)
+    selectChange=(key,val,type)=>{
         this.props.form.setFieldsValue({[key]:val})
-
+        if(type){
+            this.setState({dotint:val},()=>this.equipment())  
+        }
     }
-    dot=()=>{
-        const _this=this;
+    equipment=()=>{ //获取监测点下的设备
+        if(this.state.dotint){
+            ofterajax.equipment({dot:this.state.dot}).then((res)=>{
+                this.setState({equipment:res})
+            })
+        }
+    }
+    dot=(initialValue,own)=>{
         ofterajax.dot().then((res)=>{
-            this.setState({monitoring:res})
-        })
+            if(res.length){
+                var dotint;
+                if(initialValue){
+                    dotint=initialValue
+                }else own?dotint='':dotint=res[0].pointid
+                this.setState({
+                    monitoring:res,
+                    dotint:dotint
+                }) 
+            }
+            
+        })  
+        
+        
         
     }
 
     initFormList = ()=>{
+        const _this=this;
         const { getFieldDecorator } = this.props.form;
         const formList = this.props.formList;
         const formItemList = [];
         if (formList && formList.length>0){
             formList.forEach((item,i)=>{
-                let label = item.label;
-                let field = item.field;
-                let initialValue = item.initialValue || '';
-                let placeholder = item.placeholder;
-                let width = item.width;
                 if(item.type==='RANGPICKER'){
                     const RANGPICKER = <FormItem label={item.label} key={item.field}>
                         {
@@ -85,12 +101,12 @@ class FilterForm extends React.Component{
                                 initialValue: item.initialValue
                             })(
                                 <Select
-                                    style={{ width: width }}
+                                    style={{ width: item.width }}
                                     placeholder={item.placeholder}
 
                                 >
                                     {item.list.map(city => (
-                                        <Option value={city.code}>{city.name}</Option>
+                                        <Option key={city.code} value={city.code}>{city.name}</Option>
                                     ))} 
                                 </Select>
                             )
@@ -98,14 +114,14 @@ class FilterForm extends React.Component{
                     </FormItem>;
                     formItemList.push(SELECT)
                 } else if (item.type === 'CHECKBOX') {
-                    const CHECKBOX = <FormItem label={label} key={field}>
+                    const CHECKBOX = <FormItem label={item.label} key={item.field}>
                         {
-                            getFieldDecorator([field], {
+                            getFieldDecorator([item.field], {
                                 valuePropName: 'checked',
-                                initialValue: initialValue //true | false
+                                initialValue: item.initialValue //true | false
                             })(
                                 <Checkbox>
-                                    {label}
+                                    {item.label}
                                 </Checkbox>
                             )
                         }
@@ -113,28 +129,19 @@ class FilterForm extends React.Component{
                     formItemList.push(CHECKBOX)
                 }else if(item.type === 'monitoring'){ //监测点列表
                     if(!this.state.monitoring.length){
-                        this.dot();
+                        this.dot(item.initialValue,item.own);
                     }
-                    var initial='';
-                    if(item.initial){
-                        item.initial=initial
-                    }else{
-                        if(item.own){
-                           item.initial='' 
-                        }else{
-                            if(this.state.monitoring.length)item.initial=this.state.monitoring[0].pointid
-                        }
-                    }
+                    
                     const selectdot=<FormItem label={item.label} key={item.field || 'dot'}>
                         {
                             getFieldDecorator([item.field|| 'dot'], {
-                                initialValue: initial
+                                initialValue: _this.state.dotint
                             })(
                             <Select
                                 key='dots'
                                 style={{ minWidth: '100px' }}
                                 placeholder={item.placeholder}
-                                onChange={(value)=>this.selectChange(item.field|| 'dot',value)}
+                                onChange={(value)=>this.selectChange(item.field|| 'dot',value,'monitoring')}
                             >
                                 {item.own?<Option key='dotq1' value=''>所有</Option>:null}
                                 {this.state.monitoring.map(city => (
@@ -145,8 +152,28 @@ class FilterForm extends React.Component{
                         }
                     </FormItem>
                     formItemList.push(selectdot)
-                
-                }else if(item.type === 'sensor'){ //传感器列表 
+                }else if(item.type === 'equipment'){ //设备列表
+                    if(!this.state.equipment)this.equipment();
+                    const selectdot=<FormItem label={item.label} key={item.field || 'eqipe'}>
+                        {
+                            getFieldDecorator([item.field|| 'equipment'], {
+                                initialValue: item.initialValue
+                            })(
+                            <Select
+                                key='equip'
+                                style={{ minWidth: '100px' }}
+                                placeholder={item.placeholder}
+                                onChange={(value)=>this.selectChange(item.field|| 'equipment',value)}
+                            >
+                                {item.own?<Option key='equipment1' value=''>所有</Option>:null}
+                                {this.state.equipment.map(city => (
+                                    <Option key={'equipment'+city.pointid} value={city.pointid}>{city.ename}</Option>
+                                ))} 
+                            </Select>
+                        )
+                        }
+                    </FormItem>
+                    formItemList.push(selectdot)
 
                 }else if(item.type === 'equiptype'){ //传感器列表 
 
