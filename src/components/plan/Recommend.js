@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
-import {Tabs,Row, Col,Select} from 'antd'
-
+import {Tabs,Row, Col,Select,Modal, Button} from 'antd'
 import "../../style/yal/css/myplan.css";
 import plan from '../../style/yal/image/plan.png';
 const TabPane = Tabs.TabPane;
+const confirm = Modal.confirm;
 
 const list=[
     {
@@ -49,6 +49,18 @@ class Recommend extends Component {
       list:list
     };
   }
+  showConfirm() {
+        confirm({
+            title: '添加',
+            content: '确认添加至我的预案？',
+            onOk() {
+                console.log('OK');
+            },
+            onCancel() {
+                console.log('Cancel');
+            },
+        });
+    }
 
     render() {
     return (
@@ -65,17 +77,18 @@ class Recommend extends Component {
                                               <img src={plan} alt="1"/>
                                           </div>
                                       </Col>
-                                      <Col className="myplan-item-right" span={17} push={1}>
-                                          <div className="wordone">XXX矿山企业地址灾害预案</div>
-                                          <div className="wordtwo">沉陷与地裂缝的关系，防治结合，综合治理</div>
-                                          <div className="wordtwo">1.地下已废弃巷道或踩空区出现地面塌陷、地裂缝时，采取地下回填废渣，地下已废弃巷道或踩空区出现地面塌陷、地裂缝时，采取地下回填废渣减缓地面沉陷速度；</div>
-                                      </Col>
                                       <a href={"#/main/plan/detailplan"}>
-                                        <Col className="addmy" span={3} push={1}>
+                                          <Col className="myplan-item-right" span={17} push={1}>
+                                              <div className="wordone">XXX矿山企业地址灾害预案</div>
+                                              <div className="wordtwo">沉陷与地裂缝的关系，防治结合，综合治理</div>
+                                              <div className="wordtwo">1.地下已废弃巷道或踩空区出现地面塌陷、地裂缝时，采取地下回填废渣，地下已废弃巷道或踩空区出现地面塌陷、地裂缝时，采取地下回填废渣减缓地面沉陷速度；</div>
+                                          </Col>
+                                      </a>
+                                        <Col onClick={ this.showConfirm } className="addmy" span={3} push={1}>
                                             <div className="wordadd">添加</div>
                                             <div className="wordmy">至我的预案</div>
                                         </Col>
-                                      </a>
+
                                   </Row>
                               </Col>
                           </Row>

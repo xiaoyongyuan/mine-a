@@ -69,3 +69,11 @@
     /*width: 13%;*/
     background-color: #1ECD6E;
 }
+.ant-btn-primary{
+    background-color:#009df3;
+    border-color:#009df3;
+}
+/*.ant-btn-primary:hover{*/
+    /*background-color:#009df3;*/
+    /*border-color:#009df3;*/
+/*}*/
