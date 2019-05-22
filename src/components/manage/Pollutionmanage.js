@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import {Radio,Button,Typography,Modal } from 'antd'
 import axios from '../../axios'
 import Etable from "../common/Etable"
+import UploadModel from "../common/UploadModel"
 import Utils from "../../utils/utils"
 import BaseForm from "../common/BaseForm"
 import "./index.less"
@@ -12,7 +13,9 @@ class Pollutionmanage extends Component {
     super(props);
     this.state={
       page:1,
-      memoswitch:false
+      memoswitch:false, //查看更多开关
+      equipment:'1', //选择类型：水体1，土壤2
+      newShow:false,
     };
     this.params = {
         page:1,   
@@ -81,6 +84,9 @@ class Pollutionmanage extends Component {
   changeState=(key,val)=>{
     this.setState({[key]:val})
   }
+  handleNewopt=(params)=>{
+
+  }
 
   render() {
       const columns=[{
@@ -144,7 +150,7 @@ class Pollutionmanage extends Component {
               <BaseForm formList={this.formList} filterSubmit={this.handleFilterSubmit}/>
             </div>
             <div className="rightOpt">
-              <Button type="primary">新增</Button>
+              <Button type="primary" onClick={()=>this.changeState('newShow',true)}>新增</Button>
             </div>
           </div>
           <Etable
@@ -155,6 +161,7 @@ class Pollutionmanage extends Component {
               pagination={this.state.pagination}
           />
         </div>
+        <UploadModel newShow={this.state.newShow} newopt={this.handleNewopt} />
         <Modal
           title="说明"
           visible={this.state.memoswitch}
