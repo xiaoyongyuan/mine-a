@@ -8,7 +8,7 @@ import Projectmanage from './datashow/projectmanage'
 //数据总览
 //地质灾害数据
 import Fissure from './geology/Fissure'
-import Insar from './overview/insar'
+
 import Sediment from './geology/sediment'
 import Displacement from './geology/displacement'
 import Shapechange from './geology/shapechange'
@@ -18,6 +18,8 @@ import Detaildata from './geology/detaildata'
 import Soilbreathe from './overview/soilbreathe'
 //数据预览
 import Aquifer from './overview/Aquifer'
+import Insar from './overview/insar'
+import Geology from './overview/geology'
 import Landform from './overview/Landform'
 import Pollution from './overview/Pollution'
 import Soil from './overview/Soil'
@@ -47,7 +49,7 @@ export default {
   Datamanage,Projectmanage,
   Fissure,Insar,Sediment,Displacement,Shapechange,Rainfall,Soilpressure,Detaildata,Soilbreathe,
   
-  Aquifer,Landform,Pollution,Soil,Preview,
+  Aquifer,Landform,Pollution,Soil,Preview,Geology,
   Insarmanage,Aquifermanage,Landformmanage,Pollutionmanage,Soilmanage,
   Monitor,ClaaMonitor,Evideo,
   MyPlan,Recommend,Edit,Detailplan,

@@ -36,6 +36,11 @@ export default {
             {
                 title: '地质灾害数据',
                 key: '/main/geology',
+                component: "Geology",
+            },
+            {
+                title: '地质灾害数据',
+                key: '/main/geology',
                 children: [
                 {
                 	title: '地裂缝数据',
