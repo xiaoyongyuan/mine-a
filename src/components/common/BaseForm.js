@@ -1,5 +1,5 @@
 import React from 'react'
-import { Input, Select, Form, Button, Checkbox, Radio, DatePicker} from 'antd'
+import { Input, Select, Form, Button, Checkbox, Radio, DatePicker, Upload, Icon} from 'antd'
 import moment from 'moment'
 import axios from '../../axios'
 import ofterajax from '../../axios/ofter'
@@ -175,8 +175,20 @@ class FilterForm extends React.Component{
                     </FormItem>
                     formItemList.push(selectdot)
 
-                }else if(item.type === 'equiptype'){ //传感器列表 
-
+                }else if(item.type === 'uploade'){ //上传
+                    const uploade=<Form.Item label="Upload" extra="">
+                      {getFieldDecorator('upload', {
+                        valuePropName: 'fileList',
+                        getValueFromEvent: this.normFile,
+                      })(
+                        <Upload name="logo" action="https://www.easy-mock.com/mock/5ce208b85fa13b1e54d26e06/mainapi/uploader" listType="picture">
+                          <Button>
+                            <Icon type="upload" /> Click to upload
+                          </Button>
+                        </Upload>,
+                      )}
+                    </Form.Item>
+                    formItemList.push(uploade)
                 }else{}
             })
         }
