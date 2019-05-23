@@ -38,6 +38,18 @@ class DataOverviewEcharts extends Component {
             yAxis: {
                 type: 'value'
             },
+            visualMap: {//不同值域，不同颜色
+                top: -1000000,
+                right: -100000,
+                pieces: [ {
+                    gt: this.props.mindata,
+                    lte: this.props.maxdata,
+                    color: '#cc0033'
+                }],
+                outOfRange: {
+                    color: '#ff9933'
+                }
+            },
             series: [
                 {
                     name:'邮件营销',
