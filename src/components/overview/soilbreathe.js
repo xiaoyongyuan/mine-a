@@ -550,6 +550,12 @@ class Soilbreathe extends Component {
                   />
               </Col>
           </Row>
+          <Row>
+              <Col className="button-col">
+                  <Button type="primary">提交</Button>
+                  <Button >取消</Button>
+              </Col>
+          </Row>
       </div>
     );
   }

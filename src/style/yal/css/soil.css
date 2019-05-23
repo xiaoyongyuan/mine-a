@@ -68,3 +68,11 @@
 .breathetable-row{
     margin-top: 20px;
 }
+.button-col{
+    display: flex;
+    justify-content: center;
+    margin-top: 50px;
+}
+.button-col Button{
+    margin-right: 30px;
+}
