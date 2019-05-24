@@ -36,13 +36,16 @@ import Recommend from './plan/Recommend'
 import Edit from './plan/Edit'
 import Detailplan from './plan/detailplan'
 
+//系统管理
+import Companyinfo from './systemmanage/companyinfo'
+import Userinfo from './systemmanage/userinfo'
+
 export default {
   Datamanage,Projectmanage,
   Insar,Detaildata,Soilbreathe,
-  
   Aquifer,Landform,Pollution,Soil,Preview,Geology,
   Insarmanage,Aquifermanage,Landformmanage,Pollutionmanage,Soilmanage,
   Monitor,ClaaMonitor,Evideo,
   MyPlan,Recommend,Edit,Detailplan,
-
+    Companyinfo,Userinfo
 };

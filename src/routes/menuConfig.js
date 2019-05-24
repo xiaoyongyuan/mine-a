@@ -129,6 +129,21 @@ export default {
             component: "Recommend",
           }]
     },
+      {
+          title: '系统管理',
+          key: '/systemmanage',
+          children: [
+              {
+                  title: '企业信息',
+                  key: '/main/companyinfo',
+                  component: "Companyinfo",
+              },
+              {
+                  title: '用户管理',
+                  key: '/main/userinfo',
+                  component: "Userinfo",
+              }]
+      },
   ],
     other:[
         {
