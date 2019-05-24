@@ -120,14 +120,14 @@ class Aquifermanage extends Component {
           <TabPane tab="水质简分析" key="simple">
             <div className="simple">
               <div className="selectForm">
-                <div className="leftForm">
-                  <BaseForm formList={this.simpleform} filterSubmit={(params)=>this.handleFilterSubmit('simple',params)}/>
-                </div>
-                <div className="rightOpt">
-                  <Button type="primary">新增</Button>
-                </div>
+                  <div className="leftForm">
+                      <BaseForm formList={this.simpleform} filterSubmit={(params)=>this.handleFilterSubmit('simple',params)}/>
+                  </div>
+                  <div className="rightOpt">
+                      <Button type="primary">新增</Button>
+                  </div>
               </div>
-              
+
               <Etable
                   ref="pageChange"
                   bordered
@@ -135,7 +135,7 @@ class Aquifermanage extends Component {
                   dataSource={this.state.simple}
                   pagination={this.state.simplepag}
               />
-            </div>
+          </div>
           </TabPane>
           <TabPane tab="水质全分析" key="total">
             <div className="total">
