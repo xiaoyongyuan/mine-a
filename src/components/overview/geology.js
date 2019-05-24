@@ -71,7 +71,7 @@ class Geology extends Component {
   constructor(props){
     super(props);
     this.state={
-        list:[],
+        list:list,
         list2:list2,
       pagination:{}
     };
@@ -80,7 +80,7 @@ class Geology extends Component {
     }
   }
     componentDidMount(){
-        this.requestList();
+        // this.requestList();
     };
     requestList = ()=>{
         axios.ajax({
@@ -137,12 +137,12 @@ class Geology extends Component {
                                   <Col className="fissure-item-col" span={11}>
                                       <div className="title"><span className="titleName">{ v.name }监测点——{ v.equpname }设备</span></div>
                                       <a href={"#/main/geology/detaildata"}>
-                                          {/*<DataOverviewEcharts*/}
-                                              {/*type="acceptance"*/}
-                                              {/*// data={dlfdata}*/}
-                                              {/*// maxdata={v.maxdata}*/}
-                                              {/*// mindata={v.mindata}*/}
-                                          {/*/>*/}
+                                          <DataOverviewEcharts
+                                              type="acceptance"
+                                              data={v.datas}
+                                              maxdata={v.maxdata}
+                                              mindata={v.mindata}
+                                          />
                                       </a>
                                   </Col>
                               ))
