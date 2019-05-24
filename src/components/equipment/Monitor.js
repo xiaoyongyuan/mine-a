@@ -72,6 +72,7 @@ class Monitor extends Component {
       url: '/monitor',
       data: this.params
     }).then((res)=>{
+        console.log("res",res);
       if(res.success){
         this.setState({
             list:res.data,

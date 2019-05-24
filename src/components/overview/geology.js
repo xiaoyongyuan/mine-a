@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import {Row, Col,Tabs} from 'antd'
 import "../../style/yal/css/fissure.css";
 import DataOverviewEcharts from "../DataOverviewEcharts";
+import axios from "../../axios";
+import Utils from "../../utils/utils";
 
 
 const TabPane = Tabs.TabPane;
@@ -69,7 +71,7 @@ class Geology extends Component {
   constructor(props){
     super(props);
     this.state={
-        list:list,
+        list:[],
         list2:list2,
       pagination:{}
     };
@@ -77,27 +79,70 @@ class Geology extends Component {
         page:1,
     }
   }
-  componentDidMount(){
-  }
+    componentDidMount(){
+        this.requestList();
+    };
+    requestList = ()=>{
+        axios.ajax({
+            method: 'get',
+            url: '/waterlevel',
+            data: this.params
+        }).then((res)=>{
+            if(res.success){
+                this.setState({
+                   list:res.data
+                });
+                var arr=[];
+                for(var i=0;i<res.data.length;i++){
+                    console.log("ceshi",res.data[i].val);
+                    for(var j=0;j<res.data[i].val.length;j++){
+                        this.state.list[i]['dlfArr'] = res.data[i].val[j].num;
+                        this.setState({
+                            list:this.state.list
+                        });
+                    }
+                }
+                console.log("list",this.state.list);
+                // that.data.equipListData[i]['ismist']=false;
+                for(var k=0;k<res.data[0].val.length;k++){
+                    arr.push(res.data[0].val[k].num);
+                }
+                console.log("arr",arr);
+                // this.setState({
+                //     list:res.data,
+                //     pagination:Utils.pagination(res,(current)=>{
+                //         this.params.page=current;
+                //         this.requestList();
+                //     })
+                // })
+            }
+        });
+
+    };
+
+    handleFilterSubmit = (filterParams) => {
+        // this.params = filterParams;
+
+        this.requestList();
+    };
 
   render() {
     return (
       <div className="Geology">
           <Tabs type="card">
               <TabPane tab="地裂缝" key="1">
-
                       <Row className="fissure-item" type="flex" justify="space-between">
                           {
                               this.state.list.map((v,i)=>(
                                   <Col className="fissure-item-col" span={11}>
                                       <div className="title"><span className="titleName">{ v.name }监测点——{ v.equpname }设备</span></div>
                                       <a href={"#/main/geology/detaildata"}>
-                                          <DataOverviewEcharts
-                                              type="acceptance"
-                                              data={v.datas}
-                                              maxdata={v.maxdata}
-                                              mindata={v.mindata}
-                                          />
+                                          {/*<DataOverviewEcharts*/}
+                                              {/*type="acceptance"*/}
+                                              {/*// data={dlfdata}*/}
+                                              {/*// maxdata={v.maxdata}*/}
+                                              {/*// mindata={v.mindata}*/}
+                                          {/*/>*/}
                                       </a>
                                   </Col>
                               ))

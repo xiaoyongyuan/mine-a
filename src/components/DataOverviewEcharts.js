@@ -339,6 +339,10 @@ class DataOverviewEcharts extends Component {
             tooltip: {
                 trigger: 'axis'
             },
+            // legend: {
+            //     data:['X轴','Y轴','Z轴'],
+            //     top:-10,
+            // },
             grid: {
                 left: '5%',
                 right: '8%',
