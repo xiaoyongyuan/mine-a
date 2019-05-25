@@ -413,7 +413,15 @@ class Soilbreathe extends Component {
 
 
   componentDidMount(){
-  }
+
+  };
+
+    updata = () => {//提交
+        let data={
+            imageUrl:this.state.imageUrl,
+        };
+        console.log("data",data);
+    };
 
   render() {
       const uploadButton = (
@@ -552,7 +560,7 @@ class Soilbreathe extends Component {
           </Row>
           <Row>
               <Col className="button-col">
-                  <Button type="primary">提交</Button>
+                  <Button type="primary" onClick={this.updata}>提交</Button>
                   <Button >取消</Button>
               </Col>
           </Row>

@@ -1,0 +1,25 @@
+.t_r {
+    text-align: right
+}
+.t_l {
+    text-align: left;
+    position: relative;
+}
+.equ_row {
+    position: relative;
+    height: 40px;
+    line-height: 40px;
+}
+.box-padding{
+    color: black;
+}
+ .canclebtn{
+    margin-left: 20px;
+}
+.canclebtn-col{
+    display: flex;
+   justify-content: flex-end;
+}
+.projectintro{
+
+}
