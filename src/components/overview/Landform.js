@@ -54,6 +54,9 @@ class Landform extends Component {
   }
   componentDidMount(){
   }
+  openfile=(fileurl)=>{
+    window.open(fileurl,'_black')
+  }
 
   render() {
     return (
@@ -76,9 +79,7 @@ class Landform extends Component {
                         <Row type="flex" justify="space-between">
                             <Col span={24} className="landform-date">
                                 <span>2018-09-01</span>
-                                <a href={"#/main/overview/preview"}>
-                                    <Icon className="icon" type="file-word"/>
-                                </a>
+                                <Icon className="icon" type="file-word" onClick={(v)=>this.openfile('https://view.officeapps.live.com/op/view.aspx?src=api.aokecloud.cn/upload/椒图数据字典20190417.docx')}/>
                             </Col>
                         </Row>
                     </Col>

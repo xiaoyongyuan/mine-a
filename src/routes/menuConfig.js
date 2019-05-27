@@ -129,21 +129,32 @@ export default {
             component: "Recommend",
           }]
     },
-      {
-          title: '系统管理',
-          key: '/systemmanage',
-          children: [
-              {
-                  title: '企业信息',
-                  key: '/main/companyinfo',
-                  component: "Companyinfo",
-              },
-              {
-                  title: '用户管理',
-                  key: '/main/userinfo',
-                  component: "Userinfo",
-              }]
-      },
+    {
+        title: '项目管理',
+        key: '/project',
+        children: [
+            {
+                title: '项目方案',
+                key: '/main/scheme',
+                component: "Scheme",
+            },
+            ]
+    },
+    {
+        title: '系统管理',
+        key: '/systemmanage',
+        children: [
+            {
+                title: '企业信息',
+                key: '/main/companyinfo',
+                component: "Companyinfo",
+            },
+            {
+                title: '用户管理',
+                key: '/main/userinfo',
+                component: "Userinfo",
+            }]
+    }, 
   ],
     other:[
         {
@@ -168,8 +179,13 @@ export default {
         },
         {
             title: '富文本编辑',
-            key: '/main/Edit',
+            key: '/main/edit',
             component: "Edit",
+        },
+        {
+            title: '富文本编辑',
+            key: '/main/lookplan',
+            component: "Lookplan",
         },
         {
             title: '地形地貌监测数据预览',
