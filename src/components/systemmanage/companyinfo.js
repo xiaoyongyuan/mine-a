@@ -29,6 +29,7 @@ class Companyinfo extends Component {
                     cname:res.data.cname,
                     addrs:res.data.addrs,
                     username:res.data.username,
+                    Logo:res.data.Logo,
                     tel:res.data.tel,
                     email:res.data.email,
                     zcaddrs:res.data.addrs,
@@ -245,7 +246,7 @@ class Companyinfo extends Component {
                       企业logo：
                   </Col>
                   <Col span={21} className="t_l">
-                      beigo
+                     <img className="img-logo" src={this.state.Logo}/>
                   </Col>
               </Row>
               <Row className="equ_row">

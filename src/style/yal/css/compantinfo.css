@@ -20,6 +20,7 @@
     display: flex;
    justify-content: flex-end;
 }
-.projectintro{
-
+.img-logo{
+    width: 200px;
+    height: 100px;
 }
