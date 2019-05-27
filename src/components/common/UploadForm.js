@@ -15,15 +15,9 @@ class FilterForm extends React.Component{
       equipment:[]
     }
 
-    handleFilterSubmit = (e)=>{
-        e.preventDefault();
-        this.props.form.validateFields((err, values) => {
-            if (!err) {
-              this.props.filterSubmit(values);
-            }
-        });
-        // let fieldsValue = this.props.form.getFieldsValue();
-        // this.props.filterSubmit(fieldsValue);
+    handleFilterSubmit = ()=>{
+        let fieldsValue = this.props.form.getFieldsValue();
+        this.props.filterSubmit(fieldsValue);
     }
     reset = ()=>{
         this.props.form.resetFields();
@@ -65,13 +59,12 @@ class FilterForm extends React.Component{
         const { getFieldDecorator } = this.props.form;
         const formList = this.props.formList;
         const formItemList = [];
-        if (formList.item && formList.item.length>0){
-            formList.item.forEach((item,i)=>{
-                if(item.type==='RANGPICKER'){ //双日期
+        if (formList && formList.length>0){
+            formList.forEach((item,i)=>{
+                if(item.type==='RANGPICKER'){
                     const RANGPICKER = <FormItem label={item.label} key={item.field}>
                         {
                             getFieldDecorator([item.field],{
-                                rules:item.rules,
                                 initialValue: item.initialValue?[moment(item.initialValue[0]),moment(item.initialValue[1])]:null
                             })(
                                 <RangePicker showTime={item.showTime || false} format={item.format || "YYYY-MM-DD"}/>
@@ -138,6 +131,7 @@ class FilterForm extends React.Component{
                     if(!this.state.monitoring.length){
                         this.dot(item.initialValue,item.own);
                     }
+                    
                     const selectdot=<FormItem label={item.label} key={item.field || 'dot'}>
                         {
                             getFieldDecorator([item.field|| 'dot'], {
@@ -181,59 +175,34 @@ class FilterForm extends React.Component{
                     </FormItem>
                     formItemList.push(selectdot)
 
-                }else if(item.type === 'upload'){ //上传
-                    const uploade=<Form.Item label={item.label} key='upload'>
-                        {getFieldDecorator([item.field||'upload'], {
-                          rules: item.rules,
-                        })(
-                          <Upload {...item.property}>
-                            <Button>
-                              <Icon type="upload" /> 选择文件
-                            </Button>
-                          </Upload>,
-                        )}
-                      </Form.Item>
+                }else if(item.type === 'uploade'){ //上传
+                    const uploade=<Form.Item label="Upload" extra="">
+                      {getFieldDecorator('upload', {
+                        valuePropName: 'fileList',
+                        getValueFromEvent: this.normFile,
+                      })(
+                        <Upload name="logo" action="https://www.easy-mock.com/mock/5ce208b85fa13b1e54d26e06/mainapi/uploader" listType="picture">
+                          <Button>
+                            <Icon type="upload" /> Click to upload
+                          </Button>
+                        </Upload>,
+                      )}
+                    </Form.Item>
                     formItemList.push(uploade)
-                }else if(item.type === 'button'){ //button
-                    const Buttons=<FormItem key="buts">
-                        {
-                           item.button.map((el,ind)=><Button key={'but'+ind} type={el.type} style={{ margin: '0 10px' }} onClick={this[el.click]}>{el.label}</Button>) 
-                        }
-                        </FormItem>;
-                    formItemList.push(Buttons)
                 }else{}
             })
         }
         return formItemList;
     }
     render(){
-        const formList = this.props.formList;
-        const formItemLayout = {
-          labelCol: {
-            xs: { span: 24 },
-            sm: { span: 8 },
-          },
-          wrapperCol: {
-            xs: { span: 24 },
-            sm: { span: 16 },
-          },
-        };
         return (
-            <div>
-                {
-                    formList.type ?
-                    <Form className='baseform' layout="inline">
-                        { this.initFormList() }
-                    </Form>
-                    :<Form className='baseform' {...formItemLayout}  >
-                        { this.initFormList() }
-                    </Form>
-
-
-                }
-                
-            
-            </div>
+            <Form className='baseform' layout="inline">
+                { this.initFormList() }
+                <FormItem>
+                    <Button type="primary" style={{ margin: '0 20px' }} onClick={this.handleFilterSubmit}>查询</Button>
+                    <Button onClick={this.reset}>重置</Button>
+                </FormItem>
+            </Form>
         );
     }
 }

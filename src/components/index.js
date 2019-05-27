@@ -34,7 +34,13 @@ import Evideo from './equipment/Evideo'
 import MyPlan from './plan/MyPlan'
 import Recommend from './plan/Recommend'
 import Edit from './plan/Edit'
+import Lookplan from './plan/Lookplan'
 import Detailplan from './plan/detailplan'
+
+
+//项目管理
+import Scheme from './project/Scheme'
+
 
 //系统管理
 import Companyinfo from './systemmanage/companyinfo'
@@ -46,6 +52,7 @@ export default {
   Aquifer,Landform,Pollution,Soil,Preview,Geology,
   Insarmanage,Aquifermanage,Landformmanage,Pollutionmanage,Soilmanage,
   Monitor,ClaaMonitor,Evideo,
-  MyPlan,Recommend,Edit,Detailplan,
-    Companyinfo,Userinfo
+  MyPlan,Recommend,Edit,Detailplan,Lookplan,
+  Scheme,
+  Companyinfo,Userinfo
 };

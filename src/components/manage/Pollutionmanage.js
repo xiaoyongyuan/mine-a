@@ -71,6 +71,11 @@ class Pollutionmanage extends Component {
     this.params.page=1;
     this.requestList();
   }
+  uploadOk=(params)=>{ //上传提交
+    this.changeState('newShow',false)
+    console.log(params)
+  }
+
   selectEquiptype=(e)=>{ //选择设备
     this.setState({equipment:e.target.value,page:1})
     this.requestList();
@@ -161,12 +166,13 @@ class Pollutionmanage extends Component {
               pagination={this.state.pagination}
           />
         </div>
-        <UploadModel newShow={this.state.newShow} newopt={this.handleNewopt} />
+        <UploadModel newShow={this.state.newShow} filterSubmit={this.uploadOk} uploadreset={()=>this.changeState('newShow',false)} />
         <Modal
           title="说明"
           visible={this.state.memoswitch}
           onOk={()=>this.changeState('memoswitch',false)}
           onCancel={()=>this.changeState('memoswitch',false)}
+
         >
           <p>{this.state.memo}</p>
         </Modal>

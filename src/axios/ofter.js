@@ -24,6 +24,16 @@ export default class ofterajax {
                 resolve(res.data) 
             })  
         })
+    }
+    static plantype() {
+        return new Promise((resolve, reject) => {
+           axios.ajax({
+              method: 'get',
+              url: '/plantype',
+            }).then((res)=>{
+                resolve(res) 
+            })  
+        })
     }  
 
 
