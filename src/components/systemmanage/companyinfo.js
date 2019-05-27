@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import {Button,Modal,Row,Col,Typography,Input } from "antd";
-import "../../style/yal/css/compantinfo.css";
+import {Button,Modal,Row,Col,Typography,Input,Upload, Icon, message } from "antd";
+import "../../style/yal/css/compantinfo.less";
 import axios from "../../axios";
 import Utils from "../../utils/utils";
 
@@ -43,6 +43,41 @@ class Companyinfo extends Component {
                 })
             }
         });
+    };
+
+    getBase64 = (img, callback) => {
+        const reader = new FileReader();
+        reader.addEventListener('load', () => callback(reader.result));
+        reader.readAsDataURL(img);
+    };
+
+    //上传文件之前的钩子，参数为上传的文件，若返回 false 则停止上传。
+    beforeUpload = (file) => {
+        const isJPG = file.type === 'image/jpeg';
+        if (!isJPG) {
+            message.error('You can only upload JPG file!');
+        }
+        const isLt2M = file.size / 1024 / 1024 < 2;
+        if (!isLt2M) {
+            message.error('Image must smaller than 2MB!');
+        }
+        return isJPG && isLt2M;
+    };
+
+    handleChange = info => {
+        if (info.file.status === 'uploading') {
+            this.setState({ loading: true });
+            return;
+        }
+        if (info.file.status === 'done') {
+            // Get this url from response in real world.
+            this.getBase64(info.file.originFileObj, Logo =>
+                this.setState({
+                    Logo,
+                    loading: false,
+                }),
+            );
+        }
     };
 
     onChange = str => {
@@ -214,10 +249,17 @@ class Companyinfo extends Component {
     };
 
     render() {
+        const uploadButton = (
+            <div>
+                <Icon type={this.state.loading ? 'loading' : 'plus'} />
+                <div className="ant-upload-text">上传企业logo</div>
+            </div>
+        );
+        const Logo = this.state.Logo;
     return (
       <div className="Companyinfo">
           <div className="box-padding">
-            <Row>
+              <Row>
                 <Col span={12}>
                     <p>企业信息</p>
                 </Col>
@@ -225,7 +267,6 @@ class Companyinfo extends Component {
                     {!this.state.isEdite?(""):(<Button className="canclebtn" onClick={this.handleEditClick}>编辑</Button>)}
                 </Col>
             </Row>
-
               <Row className="equ_row">
                   <Col span={3} className="t_r">
                       企业名称：
@@ -246,7 +287,24 @@ class Companyinfo extends Component {
                       企业logo：
                   </Col>
                   <Col span={21} className="t_l">
-                     <img className="img-logo" src={this.state.Logo}/>
+                      {this.state.isEdite ?
+                          (
+                              <img className="img-logo" src={this.state.Logo}/>
+                          ) :
+                          (
+                              <Upload
+                                  name="avatar"
+                                  listType="picture-card"
+                                  className="avatar-uploader"
+                                  showUploadList={false}
+                                  action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
+                                  beforeUpload={this.beforeUpload}
+                                  onChange={this.handleChange}
+                              >
+                                  {Logo ? <img src={Logo} alt="logo" /> : uploadButton}
+                              </Upload>
+                          )
+                      }
                   </Col>
               </Row>
               <Row className="equ_row">

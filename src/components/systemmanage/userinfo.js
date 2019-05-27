@@ -28,22 +28,67 @@ class Userinfo extends Component {
             modeltitle:'新增',
             visible: true,
             type:0,
+            codetype:'',
         });
     };
-    showModelEdit = (e) =>{
+    showModelEdit = (code,record,index) =>{//编辑用户
+        console.log("code",code);
         this.setState({
             modeltitle:'编辑',
             visible: true,
-            type:0,
+            codetype:code,
+            indexi:index
         });
     };
+    handleCreate = (e) => {//modal提交
+        e.preventDefault();
+        const forms=this.formRef.formref();
+        forms.validateFields((err, values) => {
+            if (!err) {
+                if(!this.state.type){
+                    const data={
+                        name:values.name,
+                        tel:values.tel,
+                        account:values.account,
+                    }
+                    console.log("datahhh",data);
+                    // post({url:"/api/companyuser/add",data:data}, (res)=>{
+                    //     if(res.success){
+                    //         message.success('新增成功')
+                    //         data.code=res.code;
+                    //         const list=this.state.list;
+                    //         list.unshift(data);
+                    //         this.setState({
+                    //             list:list,
+                    //             visible: false,
+                    //         })
+                    //         forms.resetFields();
+                    //         this.setState({
+                    //             page:1,
+                    //         },()=>{
+                    //             this.requestdata();
+                    //             this.props.form.setFieldsValue({
+                    //                 "account":'',
+                    //                 "realname":''
+                    //             })
+                    //         })
+                    //     }
+                    // })
+                }else{
+                    forms.resetFields()
+                }
+
+            }
+        });
+    };
+
     handleCancel = (e) => { //modal取消
-        // const forms=this.formRef.formref();
+        const forms=this.formRef.formref();
         e.preventDefault();
         this.setState({
             visible: false,
         });
-        // forms.resetFields();
+        forms.resetFields();
     };
     componentDidMount(){
         this.requestList();
@@ -75,10 +120,44 @@ class Userinfo extends Component {
             code:code
         });
     };
+    showModalreset = (code,index) => {//重置密码
+        this.setState({
+            resetshow: true,
+            index:index,
+            code:code
+        });
+    };
+    resetCancel = () => {//重置取消
+        this.setState({
+            resetshow:false,
+        });
+    };
+    resetOk = () => {//确认密码重置
+        const data={
+            code:this.state.code,
+        };
+        console.log("data",data);
+    };
     deleteCancel = () =>{ //删除取消
         this.setState({
             deleteshow: false,
         });
+    };
+    deleteOk = (code,index) =>{//确认删除
+        const data={
+            code:this.state.code,
+        };
+        const list=this.state.list;
+        list.splice(this.state.index,1);
+        console.log("data",data);
+        // post({url:"/api/userworker/update",data:data}, (res)=>{
+        //     if(res.success){
+        //         this.setState({
+        //             list:list,
+        //             deleteshow: false,
+        //         })
+        //     }
+        // })
     };
     handleFilterSubmit=(params)=>{ //查询
         this.params = params;
@@ -98,26 +177,27 @@ class Userinfo extends Component {
             dataIndex: 'username',
         },{
             title: '电话',
-            dataIndex: 'phone',
+            dataIndex: 'code',
+            render: (text, record,index) => (text),
         },{
             title: '工号',
-            dataIndex: 'uploader',
+            dataIndex: 'account',
         },{
             title: '职位',
-            dataIndex: 'createon',
+            dataIndex: 'psition',
         },{
             title: '座机',
-            dataIndex: 'createon',
+            dataIndex: 'phone',
         },{
             title: '邮箱',
-            dataIndex: 'createon',
+            dataIndex: 'email',
         },{
             title: '操作',
             key:'option',
-            dataIndex: 'register',
+            dataIndex: 'code',
             columnWidth:'100px',
             render: (text,record,index) =>{
-                return(<div className="tableoption"><span className="greencolor" onClick={this.showModelEdit}>编辑</span><span className="redcolor" onClick={()=>_this.showModaldelete(text,index)}>删除</span><span className="redcolor">密码重置</span></div>)
+                return(<div className="tableoption"><span className="greencolor" onClick={() => _this.showModelEdit(text,record,index)}>编辑</span><span className="redcolor" onClick={()=>_this.showModaldelete(text,index)}>删除</span><span className="redcolor" onClick={()=>_this.showModalreset(text,index)}>密码重置</span></div>)
             }
         }];
     return (
@@ -147,7 +227,7 @@ class Userinfo extends Component {
                      onCancel={this.handleCancel}
               >
                   <ModalForm visible={this.state.visible}
-                             code={this.state.type}
+                             code={this.state.codetype}
                              index={this.state.index}
                              wrappedComponentRef={(form) => this.formRef = form}
                   />
@@ -157,6 +237,12 @@ class Userinfo extends Component {
                      onCancel={this.deleteCancel} okText="确认" cancelText="取消"
               >
                   <p>确认删除吗？</p>
+              </Modal>
+              <Modal title="提示信息" visible={this.state.resetshow} onOk={this.resetOk}
+                     width={370}
+                     onCancel={this.resetCancel} okText="确认" cancelText="取消"
+              >
+                  <p>确认重置密码吗？</p>
               </Modal>
           </div>
       </div>
