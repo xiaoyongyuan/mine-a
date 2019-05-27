@@ -89,6 +89,18 @@ class Companyinfo extends Component {
         const data={
             cname:this.state.cname,
             addrs:this.state.addrs,
+            username:this.state.username,
+            isEdite:true,
+            tel:this.state.tel,
+            email:this.state.email,
+            khdate:this.state.khdate,
+            projectcname:this.state.projectcname,
+            intro:this.state.intro,
+            projectusername:this.state.projectusername,
+            prijecttel:this.state.prijecttel,
+            projectemail:this.state.projectemail,
+            projectaddrs:this.state.projectaddrs,
+            zcaddrs:this.state.zcaddrs,
         };
         axios.ajax({
             method: 'get',
