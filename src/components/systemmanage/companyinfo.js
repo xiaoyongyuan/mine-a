@@ -68,7 +68,8 @@ class Companyinfo extends Component {
       })
     };
     //提交
-    handleSubmitClick = () =>{
+    handleSubmitClick = (e) =>{
+        e.preventDefault();
         this.setState({
             cname:this.state.cname,
             addrs:this.state.addrs,
@@ -84,7 +85,21 @@ class Companyinfo extends Component {
             projectemail:this.state.projectemail,
             projectaddrs:this.state.projectaddrs,
             zcaddrs:this.state.zcaddrs,
-        })
+        });
+        const data={
+            cname:this.state.cname,
+            addrs:this.state.addrs,
+        };
+        axios.ajax({
+            method: 'get',
+            url: '/company',
+            data: data
+        }).then((res)=>{
+            console.log("data",data);
+            if(res.success){
+                console.log("编辑成功！")
+            }
+        });
     };
     //取消
     handleCancleClick = () =>{
