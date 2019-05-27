@@ -261,7 +261,7 @@ class Companyinfo extends Component {
           <div className="box-padding">
               <Row>
                 <Col span={12}>
-                    <p>企业信息</p>
+                    <p> <Icon type="bars" />企业信息</p>
                 </Col>
                 <Col span={12} className="canclebtn-col">
                     {!this.state.isEdite?(""):(<Button className="canclebtn" onClick={this.handleEditClick}>编辑</Button>)}
@@ -287,6 +287,7 @@ class Companyinfo extends Component {
                       企业logo：
                   </Col>
                   <Col span={21} className="t_l">
+                      {/*<img className="img-logo" src={this.state.Logo}/>*/}
                       {this.state.isEdite ?
                           (
                               <img className="img-logo" src={this.state.Logo}/>
@@ -397,7 +398,11 @@ class Companyinfo extends Component {
                       }
                   </Col>
               </Row>
-              <p>项目信息</p>
+              <Row>
+                  <Col span={24}>
+                      <p> <Icon type="bars" />项目信息</p>
+                  </Col>
+              </Row>
               <Row className="equ_row">
                   <Col span={3} className="t_r">
                       项目名称：
@@ -424,7 +429,7 @@ class Companyinfo extends Component {
                               this.state.intro
                           ) :
                           (
-                              <TextArea   onChange={this.InputProjectintroOnchange.bind(this)} value={this.state.intro} />
+                              <TextArea autosize  onChange={this.InputProjectintroOnchange.bind(this)} value={this.state.intro} />
                           )
                       }
                   </Col>
