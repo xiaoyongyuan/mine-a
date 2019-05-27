@@ -308,6 +308,11 @@ class Companyinfo extends Component {
                       }
                   </Col>
               </Row>
+              <Row>
+                  <Col span={24}>
+                      <p> </p>
+                  </Col>
+              </Row>
               <Row className="equ_row">
                   <Col span={3} className="t_r">
                       企业地址：
