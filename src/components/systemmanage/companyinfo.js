@@ -309,7 +309,7 @@ class Companyinfo extends Component {
                   </Col>
               </Row>
               <Row>
-                  <Col span={24}>
+                  <Col span={24} className="introbottom">
                       <p> </p>
                   </Col>
               </Row>
@@ -437,6 +437,11 @@ class Companyinfo extends Component {
                               <TextArea autosize  onChange={this.InputProjectintroOnchange.bind(this)} value={this.state.intro} />
                           )
                       }
+                  </Col>
+              </Row>
+              <Row>
+                  <Col span={24} className="introbottom">
+                      <p> </p>
                   </Col>
               </Row>
               <Row className="equ_row">
