@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import {Form,Input} from 'antd';
 import axios from "../../axios";
 import Utils from "../../utils/utils";
+import "../../style/yal/css/userinfo.less";
 const FormItem = Form.Item;
 let vis=false;
 
@@ -67,10 +68,20 @@ class ModalForm extends Component{
     };
     render(){
         const { getFieldDecorator } = this.props.form;
+        const formItemLayout = {
+            labelCol: {
+                xs: { span: 24 },
+                sm: { span: 3 },
+            },
+            wrapperCol: {
+                xs: { span: 24 },
+                sm: { span: 21 },
+            },
+        };
         return(
             <div className="tc-label">
-                <Form layout="vertical">
-                    <FormItem label="姓名">
+                <Form {...formItemLayout}  layout="vertical">
+                    <FormItem label="姓名：">
                         {getFieldDecorator('name', {
                             rules: [{
                                 required: true, message: '请输入姓名!',
@@ -79,7 +90,7 @@ class ModalForm extends Component{
                             <Input className="ModelFormInput" />
                         )}
                     </FormItem>
-                    <FormItem label="电话">
+                    <FormItem label="电话：">
                         {getFieldDecorator('tel', {
                             rules: [{
                                 required: true, message: '请输入手机号!',
@@ -89,7 +100,7 @@ class ModalForm extends Component{
                             <Input className="ModelFormInput" />
                         )}
                     </FormItem>
-                    <FormItem label="工号">
+                    <FormItem label="工号：">
                         {getFieldDecorator('account', {
                             rules: [{
                                 required: true, message: '请输入工号!',
@@ -98,25 +109,29 @@ class ModalForm extends Component{
                             <Input className="ModelFormInput" />
                         )}
                     </FormItem>
-                    <FormItem label="职位">
+                    <FormItem label="职位：">
                         {getFieldDecorator('position', {
-
+                            rules: [{
+                                required: false,
+                            }],
                         })(
                             <Input className="ModelFormInput" />
                         )}
                     </FormItem>
-                    <FormItem label="座机">
+                    <FormItem label="座机：">
                         {getFieldDecorator('phone', {
-                            // rules: [{
-                            //     pattern: new RegExp(/0\d{2,3}-\d{7,8}/, "g")
-                            // }],
+                            rules: [{
+                                required: false,
+                            }],
                         })(
                             <Input className="ModelFormInput" />
                         )}
                     </FormItem>
-                    <FormItem label="邮箱">
+                    <FormItem label="邮箱：">
                         {getFieldDecorator('email', {
-
+                            rules: [{
+                                required: false,
+                            }],
                         })(
                             <Input className="ModelFormInput" />
                         )}
