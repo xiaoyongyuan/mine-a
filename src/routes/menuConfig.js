@@ -134,6 +134,11 @@ export default {
         key: '/project',
         children: [
             {
+                title: '添加项目',
+                key: '/main/addproject',
+                component: "Addproject",
+            },
+            {
                 title: '项目方案',
                 key: '/main/scheme',
                 component: "Scheme",
