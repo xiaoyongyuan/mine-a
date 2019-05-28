@@ -403,7 +403,7 @@ class Companyinfo extends Component {
                       }
                   </Col>
               </Row>
-              <Row>
+              <Row className="projectinfo">
                   <Col span={24}>
                       <p> <Icon type="bars" />项目信息</p>
                   </Col>
@@ -505,7 +505,7 @@ class Companyinfo extends Component {
                   </Col>
               </Row>
               <Row className="equ_row">
-                  <Col className="t_r_button" span={12} push={2}>
+                  <Col className="t_r_button" span={12} push={3}>
 
                       {!this.state.isEdite ?
                           (
