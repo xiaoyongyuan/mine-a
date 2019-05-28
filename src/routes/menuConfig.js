@@ -138,6 +138,21 @@ export default {
                 key: '/main/scheme',
                 component: "Scheme",
             },
+            {
+                title: '监测规划方案',
+                key: '/main/monitorpro',
+                component: "MonitorPro",
+            },
+            {
+                title: '项目基金',
+                key: '/main/funds',
+                component: "Funds",
+            },
+            {
+                title: '监测报告',
+                key: '/main/monitorrepro',
+                component: "MonitorRepro",
+            },
             ]
     },
     {

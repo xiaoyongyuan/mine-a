@@ -1,5 +1,5 @@
 import React from 'react'
-import { Input, Select, Form, Button, Checkbox, Radio, DatePicker, Upload, Icon} from 'antd'
+import { Input, Select, Form, Button, Checkbox, Radio, DatePicker, Upload, Icon,InputNumber} from 'antd'
 import moment from 'moment'
 import axios from '../../axios'
 import ofterajax from '../../axios/ofter'
@@ -52,12 +52,8 @@ class FilterForm extends React.Component{
                     monitoring:res,
                     dotint:dotint
                 }) 
-            }
-            
-        })  
-        
-        
-        
+            }  
+        })    
     }
 
     initFormList = ()=>{
@@ -134,6 +130,37 @@ class FilterForm extends React.Component{
                         }
                     </FormItem>;
                     formItemList.push(CHECKBOX)
+                }else if (item.type === 'InputNumber') {
+                    const inputNumber = <FormItem label={item.label} key={item.field}>
+                        {
+                            getFieldDecorator([item.field], {
+                                valuePropName: 'checked',
+                                initialValue: item.initialValue //true | false
+                            })(
+                                <InputNumber
+                                  formatter={value => `$ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+                                  parser={value => value.replace(/\$\s?|(,*)/g, '')}
+                                />
+                            )
+                        }
+                    </FormItem>;
+                    formItemList.push(inputNumber)
+                }else if (item.type === 'Radiobut') { 
+                    const Radiobut = <FormItem label={item.label} key={item.field}>
+                        {
+                            getFieldDecorator([item.field], {
+                                initialValue: item.initialValue //true | false
+                            })(
+                                <Radio.Group buttonStyle="solid">
+                                {item.list.map(city => (
+                                    <Radio.Button key={'item.field'+city.id} value={city.id}>{city.text}</Radio.Button>
+                                ))} 
+                                </Radio.Group>
+
+                            )
+                        }
+                    </FormItem>;
+                    formItemList.push(Radiobut)
                 }else if(item.type === 'monitoring'){ //监测点列表
                     if(!this.state.monitoring.length){
                         this.dot(item.initialValue,item.own);

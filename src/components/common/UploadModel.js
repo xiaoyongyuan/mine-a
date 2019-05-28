@@ -49,7 +49,7 @@ class UploadModel extends Component {
       this.props.uploadreset();
   }
   handleFilterSubmit = (params)=>{ //提交表单
-      
+      this.props.filterSubmit(params)
   }
 
   render() {

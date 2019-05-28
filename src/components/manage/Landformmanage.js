@@ -35,8 +35,8 @@ class Landformmanage extends Component {
           type: 'INPUT',
           label: '名称',
           field: 'uname',
-          placeholder: '请输入名称',
-          initialValue: 'sss',
+          placeholder: '',
+          initialValue: '',
         },
         {
           type:'datePicker',
