@@ -17,6 +17,7 @@ class FilterForm extends React.Component{
 
     handleFilterSubmit = ()=>{
         this.props.form.validateFields((err, values) => {
+            console.log("values",values);
             if (!err) {
               this.props.filterSubmit(values);
             }

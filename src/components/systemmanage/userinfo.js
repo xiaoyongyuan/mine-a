@@ -12,15 +12,30 @@ class Userinfo extends Component {
     this.state={
         visible:false,
     };
-      this.formList = [
-          {
-              type: 'INPUT',
-              label: '姓名',
-              field: 'brand',
-              placeholder: '请输入名称',
-              initialValue: '',
-          },
-      ]
+      this.formList={
+          type:'inline',
+          item:[
+              {
+                  type: 'INPUT',
+                  label: '姓名',
+                  field:'name',
+                  placeholder:'',
+              },{
+                  type:'button',
+                  button:[
+                      {
+                          label:'查询',
+                          type:"primary",
+                          click:'handleFilterSubmit',
+                      },
+                      {
+                          label:'重置',
+                          click:'reset',
+                      },
+                  ]
+              }
+          ]
+      }
   };
     showModal = (e) => { //新增弹窗
         e.preventDefault();
@@ -32,7 +47,7 @@ class Userinfo extends Component {
         });
     };
     showModelEdit = (code,record,index) =>{//编辑用户
-        console.log("code",code);
+        console.log("父code",code);
         this.setState({
             modeltitle:'编辑',
             visible: true,
@@ -52,6 +67,23 @@ class Userinfo extends Component {
                         account:values.account,
                     }
                     console.log("datahhh",data);
+                    axios.ajax({
+                        method: 'post',
+                        url: '/api/companyUser',
+                        data: this.params
+                    }).then((res)=>{
+                        console.log("res",res);
+                        if(res.success){
+                            // message.success('新增成功')
+                            // this.setState({
+                            //     list:res.data,
+                            //     pagination:Utils.pagination(res,(current)=>{
+                            //         this.params.page=current;
+                            //         this.requestList();
+                            //     })
+                            // })
+                        }
+                    });
                     // post({url:"/api/companyuser/add",data:data}, (res)=>{
                     //     if(res.success){
                     //         message.success('新增成功')
@@ -96,7 +128,7 @@ class Userinfo extends Component {
     requestList = ()=>{
         axios.ajax({
             method: 'get',
-            url: '/user',
+            url: '/api/companyUser',
             data: this.params
         }).then((res)=>{
             console.log("res",res);
@@ -160,9 +192,9 @@ class Userinfo extends Component {
         // })
     };
     handleFilterSubmit=(params)=>{ //查询
+        params.page=1;
+        console.log("params",params);
         this.params = params;
-        this.params.page=1;
-
         this.requestList();
     };
 

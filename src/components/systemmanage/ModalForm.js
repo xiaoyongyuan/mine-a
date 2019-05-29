@@ -40,21 +40,20 @@ class ModalForm extends Component{
         if(this.state.code){
             const data={
                 code:this.state.code,
-                account:this.state.account,
-                user:'admin'
-            }
+            };
+            console.log("hhhcode出阿里",data);
             axios.ajax({
                 method: 'get',
-                url: '/company',
-                data: this.params
+                url: '/api/companyUserById',
+                data: data
             }).then((res)=>{
-                console.log("res",res);
+                console.log("res111",res);
                 if(res.success){
                     this.props.form.setFieldsValue({
                         // usergender:res.data.usergender,//性别
-                        name: res.data.cname,//姓名
-                        tel: res.data.tel,//账号
-                        email: res.data.email,//邮箱
+                        // name: res.data.cname,//姓名
+                        // tel: res.data.tel,//账号
+                        // email: res.data.email,//邮箱
                         // job_number: res.data.job_number,//工号
                         // memo: res.data.memo,//备注
                         // userpower:res.data.userpower,//类型
