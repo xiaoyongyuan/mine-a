@@ -41,6 +41,7 @@ import Detailplan from './plan/detailplan'
 //项目管理
 import Scheme from './project/Scheme'
 import Funds from './project/Funds'
+import Addproject from './project/addproject'
 
 
 //系统管理
@@ -54,6 +55,6 @@ export default {
   Insarmanage,Aquifermanage,Landformmanage,Pollutionmanage,Soilmanage,
   Monitor,ClaaMonitor,Evideo,
   MyPlan,Recommend,Edit,Detailplan,Lookplan,
-  Scheme,Funds,
+  Scheme,Funds,Addproject,
   Companyinfo,Userinfo
 };

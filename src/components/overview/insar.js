@@ -33,7 +33,7 @@ class Insar extends Component {
     requestList = ()=>{
         axios.ajax({
             method: 'get',
-            url: 'http://192.168.10.3:8002/companyUser/list',
+            url: '/sensing',
             data: this.params
         }).then((res)=>{
             if(res.success){
