@@ -55,9 +55,10 @@ class Scheme extends Component {
     requestList=()=>{
       axios.ajax({
         method: 'get',
-        url: 'sensing',
+        url: '/api/sensing',
         data: this.params
-      }).then((res)=>{
+      })
+      .then((res)=>{
         if(res.success){
           this.setState({
               list:res.data,
