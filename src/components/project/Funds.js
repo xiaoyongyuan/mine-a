@@ -47,6 +47,7 @@ class Funds extends Component {
             {
               label:'取消',
               click:'reset',
+              fafuns:'uploadreset',
             },
           ]
         }
@@ -102,7 +103,6 @@ class Funds extends Component {
       this.setState({[key]:val})
     }
 
-
     render() {
       const columns=[{
         title: '序号',
@@ -151,7 +151,7 @@ class Funds extends Component {
           onCancel={this.reset}
           footer={null}
         >
-            <BaseForm formList={this.formList} filterSubmit={this.handleFilterSubmit}/>          
+            <BaseForm formList={this.formList} filterSubmit={this.handleFilterSubmit} uploadreset={()=>this.changeState('newShow',false)} />          
         </Modal>
       </div>
     );

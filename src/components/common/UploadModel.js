@@ -16,6 +16,12 @@ class UploadModel extends Component {
             label: '上传',
             field: 'uploader',
             placeholder: '点击上传文件',
+            rules: [
+              {
+                required: true,
+                message: '请上传文件',
+              },
+            ],
             property: {
               accept:"application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document",
               showUploadList:true,
@@ -23,8 +29,17 @@ class UploadModel extends Component {
               name:"file" , 
               action:"http://192.168.10.3:8002/api/uploadFile", //上传地址
             }
-          },
-          {
+          },{
+          type: 'INPUT',
+          label: '说明',
+          field: 'memo',
+          placeholder: '',
+          },{
+          type: 'INPUT',
+          label: '说明2',
+          field: 'intro',
+          placeholder: '',
+          },{
             type:'button',
             button:[
               {
@@ -35,14 +50,15 @@ class UploadModel extends Component {
               {
                 label:'取消',
                 click:'reset',
+                fafuns:'onreset'
               },
             ]
           }
         ]
       }
   }
-  changeState=()=>{
-
+  changeState=(key,val)=>{
+      this.setState({[key]:val})
   }
   reset = ()=>{ //取消表单
       this.props.form.resetFields();
@@ -85,9 +101,7 @@ class UploadModel extends Component {
           onCancel={this.reset}
           footer={null}
         >
-            <BaseForm formList={this.formList} filterSubmit={this.handleFilterSubmit}/>
-
-          
+          <BaseForm formList={this.formList} filterSubmit={this.handleFilterSubmit} onreset={this.props.uploadreset}/>          
         </Modal>
       </div>
     );
@@ -106,24 +120,3 @@ class UploadModel extends Component {
 
 export default UploadModel=Form.create({})(UploadModel);
 
-
-
-// <Form className='baseform' {...formItemLayout}>
-//               <Form.Item label="文件">
-//                 {getFieldDecorator('upload', {
-//                   rules: [{
-//                       required: true, message: '请上传文件!'
-//                   }],
-//                 })(
-//                   <Upload {...this.upload()}>
-//                     <Button>
-//                       <Icon type="upload" /> 选择文件
-//                     </Button>
-//                   </Upload>,
-//                 )}
-//               </Form.Item>
-//               <FormItem {...tailFormItemLayout}>
-//                   <Button type="primary" style={{ margin: '0 20px 0 0' }} onClick={this.handleFilterSubmit}>提交</Button>
-//                   <Button onClick={this.reset}>取消</Button>
-//               </FormItem>
-//           </Form>

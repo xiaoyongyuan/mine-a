@@ -15,8 +15,7 @@ class FilterForm extends React.Component{
       equipment:[]
     }
 
-    handleFilterSubmit = (e)=>{
-        e.preventDefault();
+    handleFilterSubmit = ()=>{
         this.props.form.validateFields((err, values) => {
             if (!err) {
               this.props.filterSubmit(values);
@@ -25,8 +24,10 @@ class FilterForm extends React.Component{
         // let fieldsValue = this.props.form.getFieldsValue();
         // this.props.filterSubmit(fieldsValue);
     }
-    reset = ()=>{
+    reset = (fafuns)=>{
+        console.log(fafuns,'dddddddd')
         this.props.form.resetFields();
+        if(fafuns)this.props[fafuns]()
     }
     selectChange=(key,val,type)=>{
         this.props.form.setFieldsValue({[key]:val})
@@ -79,6 +80,7 @@ class FilterForm extends React.Component{
                     const datePicker = <FormItem label={item.label} key={item.field}>
                         {
                             getFieldDecorator([item.field],{
+                                rules:item.rules,
                                 initialValue: moment(item.initialValue)
                             })(
                                 <DatePicker showTime={item.showTime || false} format={item.format || "YYYY-MM-DD"}/>
@@ -90,6 +92,7 @@ class FilterForm extends React.Component{
                     const INPUT = <FormItem label={item.label} key={item.field}>
                         {
                             getFieldDecorator([item.field],{
+                                rules:item.rules,
                                 initialValue: item.initialValue
                             })(
                                 <Input key={item.field} />
@@ -101,12 +104,12 @@ class FilterForm extends React.Component{
                     const SELECT = <FormItem label={item.label} key={item.field}>
                         {
                             getFieldDecorator([item.field], {
+                                rules:item.rules,
                                 initialValue: item.initialValue
                             })(
                                 <Select
                                     style={{ width: item.width }}
                                     placeholder={item.placeholder}
-
                                 >
                                     {item.list.map(city => (
                                         <Option key={city.code} value={city.code}>{city.name}</Option>
@@ -120,6 +123,7 @@ class FilterForm extends React.Component{
                     const CHECKBOX = <FormItem label={item.label} key={item.field}>
                         {
                             getFieldDecorator([item.field], {
+                                rules:item.rules,
                                 valuePropName: 'checked',
                                 initialValue: item.initialValue //true | false
                             })(
@@ -134,7 +138,7 @@ class FilterForm extends React.Component{
                     const inputNumber = <FormItem label={item.label} key={item.field}>
                         {
                             getFieldDecorator([item.field], {
-                                valuePropName: 'checked',
+                                rules:item.rules,
                                 initialValue: item.initialValue //true | false
                             })(
                                 <InputNumber
@@ -149,6 +153,7 @@ class FilterForm extends React.Component{
                     const Radiobut = <FormItem label={item.label} key={item.field}>
                         {
                             getFieldDecorator([item.field], {
+                                rules:item.rules,
                                 initialValue: item.initialValue //true | false
                             })(
                                 <Radio.Group buttonStyle="solid">
@@ -156,7 +161,6 @@ class FilterForm extends React.Component{
                                     <Radio.Button key={'item.field'+city.id} value={city.id}>{city.text}</Radio.Button>
                                 ))} 
                                 </Radio.Group>
-
                             )
                         }
                     </FormItem>;
@@ -168,6 +172,7 @@ class FilterForm extends React.Component{
                     const selectdot=<FormItem label={item.label} key={item.field || 'dot'}>
                         {
                             getFieldDecorator([item.field|| 'dot'], {
+                                rules:item.rules,
                                 initialValue: _this.state.dotint
                             })(
                             <Select
@@ -190,6 +195,7 @@ class FilterForm extends React.Component{
                     const selectdot=<FormItem label={item.label} key={item.field || 'eqipe'}>
                         {
                             getFieldDecorator([item.field|| 'equipment'], {
+                                rules:item.rules,
                                 initialValue: item.initialValue
                             })(
                             <Select
@@ -224,7 +230,7 @@ class FilterForm extends React.Component{
                 }else if(item.type === 'button'){ //button
                     const Buttons=<FormItem key="buts">
                         {
-                           item.button.map((el,ind)=><Button key={'but'+ind} type={el.type} style={{ margin: '0 10px' }} onClick={this[el.click]}>{el.label}</Button>) 
+                           item.button.map((el,ind)=><Button key={'but'+ind} type={el.type} style={{ margin: '0 10px' }} onClick={()=>this[el.click](el.fafuns)}>{el.label}</Button>) 
                         }
                         </FormItem>;
                     formItemList.push(Buttons)
