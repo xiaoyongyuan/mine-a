@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import BaseForm from "../common/BaseForm";
-import {Button,Modal} from "antd";
+import {Button,Modal,message} from "antd";
 import ModalForm from './ModalForm.js';
 import Etable from "../common/Etable";
 import axios from "../../axios";
@@ -72,10 +72,10 @@ class Userinfo extends Component {
                         url: '/api/companyUser',
                         data: data
                     }).then((res)=>{
-                        console.log("res111",res);
                         const list=this.state.list;
                         list.unshift(data);
                         if(res.success){
+                            message.success('新增成功！', 3);
                             this.setState({
                                list:list
                             });
@@ -92,6 +92,7 @@ class Userinfo extends Component {
                         data: data
                     }).then((res)=>{
                         if(res.success){
+                            message.success('编辑成功！', 3);
                             this.requestList();
                         }
                     });
@@ -127,6 +128,7 @@ class Userinfo extends Component {
                 this.setState({
                     list:res.data,
                     pagination:Utils.pagination(res,(current)=>{
+                        console.log("current",current);
                         this.params.page=current;
                         this.requestList();
                     })
@@ -144,6 +146,7 @@ class Userinfo extends Component {
         });
     };
     showModalreset = (code,index) => {//重置密码
+        console.log("code",code);
         this.setState({
             resetshow: true,
             index:index,
@@ -160,13 +163,25 @@ class Userinfo extends Component {
             code:this.state.code,
         };
         console.log("data",data);
+        axios.ajax({
+            method: 'post',
+            url: '/api/resetPassword',
+            data: data
+        }).then((res)=>{
+            if(res.success){
+                this.setState({
+                    resetshow:false,
+                });
+                message.success('密码重置成功！', 3);
+            }
+        });
     };
     deleteCancel = () =>{ //删除取消
         this.setState({
             deleteshow: false,
         });
     };
-    deleteOk = (code,index) =>{//确认删除
+    deleteOk = () =>{//确认删除
         const data={
             ids:this.state.code,
         };
@@ -178,8 +193,8 @@ class Userinfo extends Component {
             url: '/api/companyUser',
             data: data
         }).then((res)=>{
-            console.log("res",res);
             if(res.success){
+                message.success('删除成功！', 3);
                 this.setState({
                     list:list,
                     deleteshow: false,
@@ -206,7 +221,6 @@ class Userinfo extends Component {
         },{
             title: '电话',
             dataIndex: 'code',
-            render: (text, record,index) => (text),
         },{
             title: '工号',
             dataIndex: 'account',
