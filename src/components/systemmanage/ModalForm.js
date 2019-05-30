@@ -18,7 +18,6 @@ class ModalForm extends Component{
         //编辑  数据回填
         this.setState({
             code:this.props.code,
-            account:this.props.account,
         },()=>{
             this.requestdata()
         });
@@ -39,7 +38,7 @@ class ModalForm extends Component{
     requestdata=() => {//取数据
         if(this.state.code){
             const data={
-                code:this.state.code,
+                companyUserId:this.state.code,
             };
             console.log("hhhcode出阿里",data);
             axios.ajax({
@@ -54,7 +53,7 @@ class ModalForm extends Component{
                         // name: res.data.cname,//姓名
                         // tel: res.data.tel,//账号
                         // email: res.data.email,//邮箱
-                        // job_number: res.data.job_number,//工号
+                        tel: res.data.code,//工号
                         // memo: res.data.memo,//备注
                         // userpower:res.data.userpower,//类型
                     });

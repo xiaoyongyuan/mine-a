@@ -25,15 +25,15 @@ export default class Axios {
             loading = document.getElementById('ajaxLoading');
             loading.style.display = 'block';
         }
-        console.log('options.params',options.params)
+        console.log('options.params',options)
         return new Promise((resolve,reject)=>{
             axios({
                 method: options.method || 'get',
                 url: options.url,
                 baseURL: baseURL,
                 headers:{ContentType:'application/json;charset=UTF-8'},
-                params: options.method === 'get' || options.method === 'delete' ? options.params : null,
-                data: options.method === 'post' || options.method === 'put' ? options.params: null,
+                params: options.method === 'get' || options.method === 'delete' ? options.data : null,
+                data: options.method === 'post' || options.method === 'put' ? options.data: null,
             })
             .then((response)=>{
                 if (options.isShowLoading !== false) {

@@ -60,56 +60,42 @@ class Userinfo extends Component {
         const forms=this.formRef.formref();
         forms.validateFields((err, values) => {
             if (!err) {
-                if(!this.state.type){
-                    const data={
-                        name:values.name,
-                        tel:values.tel,
-                        account:values.account,
-                    }
-                    console.log("datahhh",data);
+                const data={
+                    code:12312
+                };
+                if(this.state.type === 0){
+
+                    //编辑接口');
+                    // data.code=this.state.codetype;
                     axios.ajax({
                         method: 'post',
                         url: '/api/companyUser',
-                        data: this.params
+                        data: data
                     }).then((res)=>{
-                        console.log("res",res);
+                        console.log("res111",res);
                         if(res.success){
-                            // message.success('新增成功')
-                            // this.setState({
-                            //     list:res.data,
-                            //     pagination:Utils.pagination(res,(current)=>{
-                            //         this.params.page=current;
-                            //         this.requestList();
-                            //     })
-                            // })
+
                         }
                     });
-                    // post({url:"/api/companyuser/add",data:data}, (res)=>{
+                }else{
+                    //新增接口');
+                    data.account=values.account;
+                    // post({url:"/api/userworker/add",data:data}, (res)=>{
                     //     if(res.success){
-                    //         message.success('新增成功')
+                    //         data.utype=1;
                     //         data.code=res.code;
                     //         const list=this.state.list;
                     //         list.unshift(data);
                     //         this.setState({
                     //             list:list,
-                    //             visible: false,
-                    //         })
-                    //         forms.resetFields();
-                    //         this.setState({
-                    //             page:1,
-                    //         },()=>{
-                    //             this.requestdata();
-                    //             this.props.form.setFieldsValue({
-                    //                 "account":'',
-                    //                 "realname":''
-                    //             })
                     //         })
                     //     }
                     // })
-                }else{
-                    forms.resetFields()
                 }
-
+                this.setState({
+                    visible: false
+                });
+                // forms.resetFields() //清空
             }
         });
     };
