@@ -28,6 +28,7 @@ export default class ofterajax {
     static plantype() {
         return new Promise((resolve, reject) => {
            axios.ajax({
+              baseURL:window.g.mockURL,
               method: 'get',
               url: '/plantype',
             }).then((res)=>{

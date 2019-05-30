@@ -26,6 +26,7 @@ class MyPlan extends Component {
   }
   componentDidMount(){
     const _this=this;
+
     ofteraxios.plantype().then((res)=>{
       if(res.success){
         _this.setState({plantype:res.data},()=>{
@@ -43,8 +44,9 @@ class MyPlan extends Component {
   requestList=()=>{
       this.params.selecttype=this.state.selecttype;
       axios.ajax({
+        baseURL:window.g.cuiURL,
         method: 'get',
-        url: 'plan',
+        url: '/api/plan',
         data: this.params
       }).then((res)=>{
         if(res.success){
