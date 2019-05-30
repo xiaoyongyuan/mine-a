@@ -91,13 +91,8 @@ class Userinfo extends Component {
                         url: '/api/companyUser',
                         data: data
                     }).then((res)=>{
-                        console.log("res编辑",res);
-                        const list=this.state.list;
-                        list[this.state.index]=res.data[0];
                         if(res.success){
-                            this.setState({
-                                list:list
-                            });
+                            this.requestList();
                         }
                     });
                 }
@@ -121,6 +116,7 @@ class Userinfo extends Component {
         this.requestList();
     };
     requestList = ()=>{
+        console.log("this.params",this.params);
         axios.ajax({
             method: 'get',
             url: '/api/companyUser',
@@ -190,14 +186,6 @@ class Userinfo extends Component {
                 })
             }
         });
-        // post({url:"/api/userworker/update",data:data}, (res)=>{
-        //     if(res.success){
-        //         this.setState({
-        //             list:list,
-        //             deleteshow: false,
-        //         })
-        //     }
-        // })
     };
     handleFilterSubmit=(params)=>{ //查询
         params.page=1;
