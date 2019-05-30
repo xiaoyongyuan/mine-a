@@ -49,13 +49,8 @@ class ModalForm extends Component{
                 console.log("res111",res);
                 if(res.success){
                     this.props.form.setFieldsValue({
-                        // usergender:res.data.usergender,//性别
-                        // name: res.data.cname,//姓名
-                        // tel: res.data.tel,//账号
-                        // email: res.data.email,//邮箱
-                        tel: res.data.code,//工号
-                        // memo: res.data.memo,//备注
-                        // userpower:res.data.userpower,//类型
+                        tel: res.data.code,//手机号
+                        account:res.data.account,//工号
                     });
                 }
             });

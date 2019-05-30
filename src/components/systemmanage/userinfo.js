@@ -59,43 +59,52 @@ class Userinfo extends Component {
         e.preventDefault();
         const forms=this.formRef.formref();
         forms.validateFields((err, values) => {
+            console.log("values",values);
             if (!err) {
                 const data={
-                    code:12312
+                    account:values.account,
                 };
                 if(this.state.type === 0){
-
-                    //编辑接口');
-                    // data.code=this.state.codetype;
+                    //新增');
+                    console.log("新增");
                     axios.ajax({
                         method: 'post',
                         url: '/api/companyUser',
                         data: data
                     }).then((res)=>{
                         console.log("res111",res);
+                        const list=this.state.list;
+                        list.unshift(data);
                         if(res.success){
-
+                            this.setState({
+                               list:list
+                            });
                         }
                     });
                 }else{
-                    //新增接口');
-                    data.account=values.account;
-                    // post({url:"/api/userworker/add",data:data}, (res)=>{
-                    //     if(res.success){
-                    //         data.utype=1;
-                    //         data.code=res.code;
-                    //         const list=this.state.list;
-                    //         list.unshift(data);
-                    //         this.setState({
-                    //             list:list,
-                    //         })
-                    //     }
-                    // })
+                    //编辑接口');
+                    console.log("编辑");
+                    data.code=this.state.codetype;
+                    console.log("data",data);
+                    axios.ajax({
+                        method: 'put',
+                        url: '/api/companyUser',
+                        data: data
+                    }).then((res)=>{
+                        console.log("res编辑",res);
+                        const list=this.state.list;
+                        list[this.state.index]=res.data[0];
+                        if(res.success){
+                            this.setState({
+                                list:list
+                            });
+                        }
+                    });
                 }
                 this.setState({
                     visible: false
                 });
-                // forms.resetFields() //清空
+                forms.resetFields() //清空
             }
         });
     };
@@ -163,11 +172,24 @@ class Userinfo extends Component {
     };
     deleteOk = (code,index) =>{//确认删除
         const data={
-            code:this.state.code,
+            ids:this.state.code,
         };
         const list=this.state.list;
         list.splice(this.state.index,1);
         console.log("data",data);
+        axios.ajax({
+            method: 'delete',
+            url: '/api/companyUser',
+            data: data
+        }).then((res)=>{
+            console.log("res",res);
+            if(res.success){
+                this.setState({
+                    list:list,
+                    deleteshow: false,
+                })
+            }
+        });
         // post({url:"/api/userworker/update",data:data}, (res)=>{
         //     if(res.success){
         //         this.setState({
