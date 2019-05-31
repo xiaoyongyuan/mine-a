@@ -38,7 +38,7 @@ class ModalForm extends Component{
     requestdata=() => {//取数据
         if(this.state.code){
             const data={
-                companyUserId:this.state.code,
+                code:this.state.code,
             };
             console.log("hhhcode出阿里",data);
             axios.ajax({
@@ -49,7 +49,7 @@ class ModalForm extends Component{
                 console.log("res111",res);
                 if(res.success){
                     this.props.form.setFieldsValue({
-                        tel: res.data.code,//手机号
+                        // tel: res.data.code,//手机号
                         account:res.data.account,//工号
                     });
                 }
@@ -77,7 +77,7 @@ class ModalForm extends Component{
                     <FormItem label="姓名：">
                         {getFieldDecorator('name', {
                             rules: [{
-                                required: true, message: '请输入姓名!',
+                                // required: true, message: '请输入姓名!',
                             }],
                         })(
                             <Input className="ModelFormInput" />
@@ -86,8 +86,8 @@ class ModalForm extends Component{
                     <FormItem label="电话：">
                         {getFieldDecorator('tel', {
                             rules: [{
-                                required: true, message: '请输入手机号!',
-                                pattern: new RegExp(/^1(3|4|5|6|7|8|9)\d{9}$/, "g")
+                                // required: true, message: '请输入手机号!',
+                                // pattern: new RegExp(/^1(3|4|5|6|7|8|9)\d{9}$/, "g")
                             }],
                         })(
                             <Input className="ModelFormInput" />

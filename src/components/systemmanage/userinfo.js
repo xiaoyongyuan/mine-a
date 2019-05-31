@@ -11,14 +11,15 @@ class Userinfo extends Component {
     super(props);
     this.state={
         visible:false,
+        page: 1,
     };
       this.formList={
           type:'inline',
           item:[
               {
                   type: 'INPUT',
-                  label: '姓名',
-                  field:'name',
+                  label: '工号',
+                  field:'account',
                   placeholder:'',
               },{
                   type:'button',
@@ -116,27 +117,51 @@ class Userinfo extends Component {
     componentDidMount(){
         this.requestList();
     };
+    changePage = (page) => { //分页  页码改变的回调，参数是改变后的页码及每页条数
+        console.log("page",page);
+        this.setState({
+            page: page,
+        }, () => {
+            this.requestList();
+        })
+    };
     requestList = ()=>{
         console.log("this.params",this.params);
+        const quparams = {
+            pagesize: 10,
+            pageindex: this.state.page,
+            account:this.state.account,
+        };
         axios.ajax({
             method: 'get',
             url: '/api/companyUser',
-            data: this.params
+            data: quparams
         }).then((res)=>{
             console.log("res",res);
             if(res.success){
                 this.setState({
                     list:res.data,
-                    pagination:Utils.pagination(res,(current)=>{
-                        console.log("current",current);
-                        this.params.page=current;
-                        this.requestList();
-                    })
+                    total: res.totalcount,
+                    // pagination:Utils.pagination(res,(current)=>{
+                    //     console.log("current",current);
+                    //     this.params.page=current;
+                    //     this.requestList();
+                    // })
                 })
             }
         });
-
-
+    };
+    handleFilterSubmit=(params)=>{ //查询
+        console.log("params",params);
+        this.setState({
+            account:params.account,
+            page:1
+        }, () => {
+            this.requestList();
+        });
+        // console.log("account",this.state.account);
+        // this.params = params;
+        // this.requestList();
     };
     showModaldelete = (code,index) =>{ //删除弹层
         this.setState({
@@ -202,12 +227,7 @@ class Userinfo extends Component {
             }
         });
     };
-    handleFilterSubmit=(params)=>{ //查询
-        params.page=1;
-        console.log("params",params);
-        this.params = params;
-        this.requestList();
-    };
+
 
     render() {
         const _this=this;
@@ -220,7 +240,7 @@ class Userinfo extends Component {
             dataIndex: 'username',
         },{
             title: '电话',
-            dataIndex: 'code',
+            dataIndex: 'tel',
         },{
             title: '工号',
             dataIndex: 'account',
@@ -259,7 +279,13 @@ class Userinfo extends Component {
                   bordered
                   columns={columns}
                   dataSource={this.state.list}
-                  // pagination={this.state.simplepag}
+                  pagination={{
+                      defaultPageSize: 10,
+                      current: this.state.page,
+                      total: this.state.total,
+                      onChange: this.changePage,
+                  }}
+                  // pagination={this.state.pagination}
               />
               <Modal title={ this.state.modeltitle }
                      okText="确认"
