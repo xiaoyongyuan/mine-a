@@ -13,7 +13,7 @@ class FilterForm extends React.Component{
     state={
       monitoring:[],
       equipment:[]
-    }
+    };
 
     handleFilterSubmit = ()=>{
         this.props.form.validateFields((err, values) => {
@@ -22,14 +22,15 @@ class FilterForm extends React.Component{
               this.props.filterSubmit(values);
             }
         });
+        this.props.form.resetFields();
         // let fieldsValue = this.props.form.getFieldsValue();
         // this.props.filterSubmit(fieldsValue);
-    }
+    };
     reset = (fafuns)=>{
         console.log(fafuns,'dddddddd')
         this.props.form.resetFields();
         if(fafuns)this.props[fafuns]()
-    }
+    };
     selectChange=(key,val,type)=>{
         this.props.form.setFieldsValue({[key]:val})
         if(type){

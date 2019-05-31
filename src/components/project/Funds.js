@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {Button,Modal,Radio } from 'antd'
+import {Button, message, Modal, Radio} from 'antd'
 import axios from '../../axios'
 import Utils from "../../utils/utils";
 import BaseForm from "../common/BaseForm"
@@ -10,19 +10,22 @@ import Etable from "../common/Etable"
 class Funds extends Component {
     state  ={
       newShow:false
-    }
+    };
     formList={
-      item:[   
+        item:[
         {
           type: 'Radiobut',
           label: '类型',
-          field:'type',
+          field:'fundtype',
           initialValue:'1',
-          list:[{id:'1',text:'转入'},{id:'0',text:'转出'}]
+          list:[{id:'0',text:'转入'},{id:'1',text:'转出'}]
         },{
           type: 'InputNumber',
           label: '金额',
           field:'money',
+          rules: [{
+               required: true, message: '请输入金额!',
+          }],
         },{
           type: 'datePicker',
           label: '变更时间',
@@ -33,9 +36,9 @@ class Funds extends Component {
         },{
           type: 'INPUT',
           label: '说明',
-          field: 'uname',
+          field: 'memo',
           placeholder: '',
-          initialValue: 'sss',
+          // initialValue: 'sss',
         },{
           type:'button',
           button:[
@@ -52,24 +55,34 @@ class Funds extends Component {
           ]
         }
       ]
-    }
+    };
   
     componentDidMount(){
       this.requestList()
     }
-    handleFilterSubmit=(params)=>{ //查询
-      params.page=1;
-      if(params.doubledata){
-        this.params.bdate=params.doubledata[0]
-        this.params.edate=params.doubledata[1]
-      }
-      this.params=params
-      this.requestList();
-    }
+    handleFilterSubmit=(params)=>{ //提交
+        console.log("params",params);
+        this.changeState('newShow',false);
+        axios.ajax({
+            method: 'post',
+            url: '/api/itemFund',
+            data: params
+        }).then((res)=>{
+            const list=this.state.list;
+            list.unshift(params);
+            if(res.success){
+                message.success('新增成功！', 3);
+                this.setState({
+                    list:list
+                });
+                this.requestList();
+            }
+        });
+    };
     requestList=()=>{
       axios.ajax({
         method: 'get',
-        url: 'funds',
+        url: '/api/itemFund',
         data: this.params
       }).then((res)=>{
         if(res.success){
@@ -82,10 +95,10 @@ class Funds extends Component {
           })
         }
       });
-    }
+    };
     uploadOk=(params)=>{ //上传提交
       const _this=this;
-      this.changeState('newShow',false)
+      this.changeState('newShow',false);
       axios.ajax({
         method: 'get',
         url: 'funds',
@@ -94,14 +107,14 @@ class Funds extends Component {
         if(res.success){
           _this.requestList()
         }
-      })
+      });
 
       //新增提交
       console.log(params)
-    }
+    };
     changeState=(key,val)=>{
       this.setState({[key]:val})
-    }
+    };
 
     render() {
       const columns=[{
@@ -110,12 +123,12 @@ class Funds extends Component {
         render: (text, record,index) => (index+1),
       },{
         title: '余额',
-        dataIndex: 'money',
+        dataIndex: 'balance',
       },{
         title: '变动',
-        dataIndex: 'type',
+        dataIndex: 'fundtype',
         render: (text, record,index) => {
-          return text?record.money:-record.money
+          return text === "0" ?record.money:-record.money
         },
       },{
         title: '变动时间',
@@ -128,8 +141,8 @@ class Funds extends Component {
         dataIndex: 'createon',
       },{
         title: '说明',
-        dataIndex: 'intro',
-      }]
+        dataIndex: 'memo',
+      }];
     return (
       <div className="Funds">
         <div className="selectForm">
@@ -151,7 +164,7 @@ class Funds extends Component {
           onCancel={this.reset}
           footer={null}
         >
-            <BaseForm formList={this.formList} filterSubmit={this.handleFilterSubmit} uploadreset={()=>this.changeState('newShow',false)} />          
+            <BaseForm formList={this.formList} filterSubmit={this.handleFilterSubmit} uploadreset={()=>this.changeState('newShow',false)} />
         </Modal>
       </div>
     );

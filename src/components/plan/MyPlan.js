@@ -46,7 +46,7 @@ class MyPlan extends Component {
       axios.ajax({
         baseURL:window.g.cuiURL,
         method: 'get',
-        url: '/api/plan',
+        url: '/plan',
         data: this.params
       }).then((res)=>{
         if(res.success){
