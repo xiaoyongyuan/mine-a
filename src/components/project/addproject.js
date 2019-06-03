@@ -32,6 +32,7 @@ class Addproject extends Component {
     }
     requestList = ()=>{
         axios.ajax({
+            baseURL:window.g.easyURL,
             method: 'get',
             url: '/getproject',
             data: this.params
@@ -47,10 +48,7 @@ class Addproject extends Component {
                 })
             }
         });
-
-
     };
-
     render() {
         const _this=this;
         const columns=[{

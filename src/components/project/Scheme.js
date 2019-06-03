@@ -11,7 +11,7 @@ import UploadModel from "../common/UploadModel"
 class Scheme extends Component {
     state  ={
       newShow:false
-    }
+    };
     formList={
       type:'inline',
       item:[   
@@ -37,25 +37,25 @@ class Scheme extends Component {
           ]
         }
       ]
-    }
-  
+    };
     componentDidMount(){
       this.requestList()
     }
     handleFilterSubmit=(params)=>{ //查询
       params.page=1;
-      console.log(params,'params')
+      console.log(params,'params');
       if(params.doubledata){
-        this.params.bdate=params.doubledata[0]
+        this.params.bdate=params.doubledata[0];
         this.params.edate=params.doubledata[1]
       }
-      this.params=params
+      this.params=params;
       this.requestList();
-    }
+    };
     requestList=()=>{
       axios.ajax({
+          baseURL:window.g.easyURL,
         method: 'get',
-        url: '/api/sensing',
+        url: '/sensing',
         data: this.params
       })
       .then((res)=>{
@@ -69,10 +69,10 @@ class Scheme extends Component {
           })
         }
       });
-    }
+    };
     uploadOk=(params)=>{ //上传提交
       const _this=this;
-      this.changeState('newShow',false)
+      this.changeState('newShow',false);
       axios.ajax({
         method: 'get',
         url: 'sensing',
@@ -81,15 +81,13 @@ class Scheme extends Component {
         if(res.success){
           _this.requestList()
         }
-      })
-
+      });
       //新增提交
       console.log(params)
-    }
+    };
     changeState=(key,val)=>{
       this.setState({[key]:val})
-    }
-
+    };
     render() {
       const columns=[{
         title: '序号',
@@ -111,7 +109,7 @@ class Scheme extends Component {
         render: (text,record) =>{
           return(<div className="tableoption"><span className="greencolor">预览</span><a download='椒图数据字典20190417' href="https://view.officeapps.live.com/op/view.aspx?src=api.aokecloud.cn/upload/椒图数据字典20190417.docx" className="bluecolor">下载</a></div>)
         }
-      }]
+      }];
     return (
       <div className="Scheme">
         <div className="selectForm">
@@ -134,5 +132,4 @@ class Scheme extends Component {
     );
   }
 }
-
 export default Scheme;

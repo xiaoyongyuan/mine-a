@@ -14,7 +14,7 @@ class Funds extends Component {
     params={
     	pageindex:1,
     	pagesize:12
-    }
+    };
     formList={
         item:[
         {
@@ -60,7 +60,6 @@ class Funds extends Component {
         }
       ]
     };
-  
     componentDidMount(){
       this.requestList()
     }
@@ -113,14 +112,12 @@ class Funds extends Component {
           _this.requestList()
         }
       });
-
       //新增提交
       console.log(params)
     };
     changeState=(key,val)=>{
       this.setState({[key]:val})
     };
-
     render() {
       const columns=[{
         title: '序号',
@@ -151,7 +148,7 @@ class Funds extends Component {
     return (
       <div className="Funds">
         <div className="selectForm">
-          <div className="leftForm"></div>
+          <div className="leftForm" />
           <div className="rightOpt" style={{marginBottom:'10px'}}>
             <Button type="primary" onClick={()=>this.changeState('newShow',true)}>新增</Button>
           </div>
@@ -175,5 +172,4 @@ class Funds extends Component {
     );
   }
 }
-
 export default Funds;

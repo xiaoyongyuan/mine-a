@@ -26,7 +26,6 @@ class MyPlan extends Component {
   }
   componentDidMount(){
     const _this=this;
-
     ofteraxios.plantype().then((res)=>{
       if(res.success){
         _this.setState({plantype:res.data},()=>{
@@ -34,17 +33,14 @@ class MyPlan extends Component {
         })
         } 
     })
-    
-   
   }
   selectopt=(selecttype)=>{ //选择类别
     this.setState({selecttype},()=>this.requestList())
-  }
-
+  };
   requestList=()=>{
       this.params.selecttype=this.state.selecttype;
       axios.ajax({
-        baseURL:window.g.cuiURL,
+          baseURL:window.g.easyURL,
         method: 'get',
         url: '/plan',
         data: this.params
@@ -59,9 +55,7 @@ class MyPlan extends Component {
           })
         }
       });
-  }
-
-
+  };
   render() {     
     return (
       <div className="MyPlan">
@@ -130,5 +124,4 @@ class MyPlan extends Component {
     );
   }
 }
-
 export default MyPlan;

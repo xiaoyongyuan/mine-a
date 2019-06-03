@@ -19,6 +19,7 @@ class Companyinfo extends Component {
     };
     requestList = ()=>{
         axios.ajax({
+            baseURL:window.g.easyURL,
             method: 'get',
             url: '/company',
             data: this.params
