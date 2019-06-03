@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {Button, message, Modal, Radio} from 'antd'
+import {Button, message, Modal, Radio,Tag } from 'antd'
 import axios from '../../axios'
 import Utils from "../../utils/utils";
 import BaseForm from "../common/BaseForm"
@@ -13,7 +13,7 @@ class Funds extends Component {
     };
     params={
     	pageindex:1,
-    	pagesize:12
+    	pagesize:10
     };
     formList={
         item:[
@@ -49,7 +49,7 @@ class Funds extends Component {
             {
               label:'确定',
               type:"primary",
-              click:'handleFilterSubmit',
+              click:'layerSubmit',
             },
             {
               label:'取消',
@@ -63,7 +63,7 @@ class Funds extends Component {
     componentDidMount(){
       this.requestList()
     }
-    handleFilterSubmit=(params)=>{ //提交
+    layerSubmit=(params)=>{ //提交
         console.log("params",params);
         this.changeState('newShow',false);
         axios.ajax({
@@ -130,7 +130,9 @@ class Funds extends Component {
         title: '变动',
         dataIndex: 'fundtype',
         render: (text, record,index) => {
-          return text === "0" ?record.money:-record.money
+            return (
+                text === "0" ?<span className="redcolor">+{record.money}</span >:<span className="greencolor">{-record.money}</span>
+            )
         },
       },{
         title: '变动时间',
@@ -166,7 +168,7 @@ class Funds extends Component {
           onCancel={()=>this.changeState('newShow',false)}
           footer={null}
         >
-            <BaseForm formList={this.formList} filterSubmit={this.handleFilterSubmit} uploadreset={()=>this.changeState('newShow',false)} />
+            <BaseForm formList={this.formList} filterSubmit={this.layerSubmit} uploadreset={()=>this.changeState('newShow',false)} />
         </Modal>
       </div>
     );

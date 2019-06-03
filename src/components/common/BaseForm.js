@@ -14,51 +14,53 @@ class FilterForm extends React.Component{
       monitoring:[],
       equipment:[]
     };
-
-    handleFilterSubmit = ()=>{
+    handleFilterSubmit = ()=>{//查询提交
+        let fieldsValue = this.props.form.getFieldsValue();
+        this.props.filterSubmit(fieldsValue);
+    };
+    layerSubmit = ()=>{//弹窗提交
         this.props.form.validateFields((err, values) => {
             console.log("values",values);
             if (!err) {
-              this.props.filterSubmit(values);
+                this.props.filterSubmit(values);
             }
         });
         this.props.form.resetFields();
-        // let fieldsValue = this.props.form.getFieldsValue();
-        // this.props.filterSubmit(fieldsValue);
     };
     reset = (fafuns)=>{
-        console.log(fafuns,'dddddddd')
+        console.log(fafuns,'dddddddd');
         this.props.form.resetFields();
         if(fafuns)this.props[fafuns]()
     };
     selectChange=(key,val,type)=>{
-        this.props.form.setFieldsValue({[key]:val})
+        this.props.form.setFieldsValue({[key]:val});
         if(type){
             this.setState({dotint:val},()=>this.equipment())  
         }
-    }
+    };
     equipment=()=>{ //获取监测点下的设备
         if(this.state.dotint){
             ofterajax.equipment({dot:this.state.dot}).then((res)=>{
                 this.setState({equipment:res})
             })
         }
-    }
+    };
     dot=(initialValue,own)=>{
         ofterajax.dot().then((res)=>{
             if(res.length){
                 var dotint;
                 if(initialValue){
                     dotint=initialValue
-                }else own?dotint='':dotint=res[0].pointid
+                }else{
+                    own?dotint='':dotint=res[0].pointid
+                }
                 this.setState({
                     monitoring:res,
                     dotint:dotint
                 }) 
             }  
         })    
-    }
-
+    };
     initFormList = ()=>{
         const _this=this;
         const { getFieldDecorator } = this.props.form;
@@ -263,11 +265,7 @@ class FilterForm extends React.Component{
                     :<Form className='baseform' {...formItemLayout}  >
                         { this.initFormList() }
                     </Form>
-
-
                 }
-                
-            
             </div>
         );
     }

@@ -18,28 +18,31 @@ class Companyinfo extends Component {
         this.requestList();
     };
     requestList = ()=>{
+        const quparams = {
+            companyId: 1,
+        };
         axios.ajax({
-            baseURL:window.g.easyURL,
+            baseURL:window.g.cuiURL,
             method: 'get',
-            url: '/company',
-            data: this.params
+            url: '/api/getCompanyById',
+            data: quparams,
         }).then((res)=>{
             console.log("res",res);
             if(res.success){
                 this.setState({
-                    cname:res.data.cname,
-                    addrs:res.data.addrs,
-                    username:res.data.username,
-                    Logo:res.data.Logo,
-                    tel:res.data.tel,
-                    email:res.data.email,
-                    zcaddrs:res.data.addrs,
+                    cname:res.data.cname,//企业名称
+                    addrs:res.data.location,//企业地址
+                    username:res.data.legalperson,//法人
+                    Logo:res.data.logo,//企业logo
+                    tel:res.data.linktel,//联系电话
+                    email:res.data.emailaddress,
+                    zcaddrs:res.data.address,//企业注册地址
                     khdate:res.data.khdate,
                     projectcname:res.data.cname,
-                    intro:res.data.intro,
-                    projectusername:res.data.username,
-                    prijecttel:res.data.tel,
-                    projectemail:res.data.email,
+                    intro:res.data.currentinfo,
+                    projectusername:res.data.linkmen,//项目联系人
+                    prijecttel:res.data.linktel,
+                    projectemail:res.data.emailaddress,
                     projectaddrs:res.data.addrs
                 })
             }
@@ -124,29 +127,33 @@ class Companyinfo extends Component {
             zcaddrs:this.state.zcaddrs,
         });
         const data={
-            cname:this.state.cname,
-            addrs:this.state.addrs,
-            username:this.state.username,
-            isEdite:true,
-            tel:this.state.tel,
-            email:this.state.email,
-            khdate:this.state.khdate,
-            projectcname:this.state.projectcname,
-            intro:this.state.intro,
-            projectusername:this.state.projectusername,
-            prijecttel:this.state.prijecttel,
-            projectemail:this.state.projectemail,
-            projectaddrs:this.state.projectaddrs,
-            zcaddrs:this.state.zcaddrs,
+            code:"1",
+            cname:'写死',
+            // addrs:this.state.addrs,
+            // username:this.state.username,
+            // isEdite:true,
+            // tel:this.state.tel,
+            // email:this.state.email,
+            // khdate:this.state.khdate,
+            // projectcname:this.state.projectcname,
+            // intro:this.state.intro,
+            // projectusername:this.state.projectusername,
+            // prijecttel:this.state.prijecttel,
+            // projectemail:this.state.projectemail,
+            // projectaddrs:this.state.projectaddrs,
+            // zcaddrs:this.state.zcaddrs,
         };
         axios.ajax({
-            method: 'get',
-            url: '/company',
+            baseURL:window.g.cuiURL,
+            method: 'put',
+            url: '/api/company',
             data: data
         }).then((res)=>{
-            console.log("data",data);
-            if(res.success){
-                console.log("编辑成功！")
+            console.log("data",data,res);
+            if(res.success === 1){
+                console.log("编辑成功！");
+                message.success('编辑成功！', 3);
+                this.requestList();
             }
         });
     };
