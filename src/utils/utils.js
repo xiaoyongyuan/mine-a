@@ -13,7 +13,7 @@ export default {
                 callback(current)
             },
             current:data.page,
-            pageSize:data.pageSize || 10,
+            pageSize:data.pagesize || 10,
             total: data.totalcount,
             showTotal:()=>{
                 return `共${data.totalcount}条`

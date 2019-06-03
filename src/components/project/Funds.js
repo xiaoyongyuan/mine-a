@@ -11,6 +11,10 @@ class Funds extends Component {
     state  ={
       newShow:false
     };
+    params={
+    	pageindex:1,
+    	pagesize:12
+    }
     formList={
         item:[
         {
@@ -81,6 +85,7 @@ class Funds extends Component {
     };
     requestList=()=>{
       axios.ajax({
+      	baseURL:'http://192.168.10.3:8003',
         method: 'get',
         url: '/api/itemFund',
         data: this.params
@@ -89,7 +94,7 @@ class Funds extends Component {
           this.setState({
               list:res.data,
               pagination:Utils.pagination(res,(current)=>{
-                  this.params.page=current;
+                  this.params.pageindex=current;
                   this.requestList();
               })
           })
@@ -161,7 +166,7 @@ class Funds extends Component {
           <Modal
           title="新增"
           visible={this.state.newShow}
-          onCancel={this.reset}
+          onCancel={()=>this.changeState('newShow',false)}
           footer={null}
         >
             <BaseForm formList={this.formList} filterSubmit={this.handleFilterSubmit} uploadreset={()=>this.changeState('newShow',false)} />
