@@ -7,20 +7,26 @@ export default {
     },
     {
         title: '大数据',
-        key: '/pandect/datashow',
+        key: '/datashow',
         type:'pandect',
         children: [
             {
                 title: '数据管理',
-                key: '/pandect/datashow/datamanage',
+                key: '/pandect/datamanage',
                 type:'pandect',
                 component: "Datamanage",
             },
             {
                 title: '项目管理',
-                key: '/pandect/datashow/projectmanage',
+                key: '/pandect/projectmanage',
                 type:'pandect',
                 component: "Projectmanage",
+            },
+            {
+                title: '地图',
+                key: '/pandect/mapshow',
+                type:'pandect',
+                component: "MapShow",
             }
         ]
     },

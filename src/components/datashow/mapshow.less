@@ -1,0 +1,115 @@
+.MapShow{
+  position: absolute;
+  overflow: hidden;
+  height: calc(100% - 64px);
+  width: 100%;
+  .arcgis{
+    position:absolute;
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+  }
+  .leftLayer{
+    position:absolute;
+    background: #fff;
+    width: 240px;
+    min-height: 100%;
+    // overflow-y: auto;
+    transition:transform 0.5s cubic-bezier(0.9, 0, 0.3, 0.7), box-shadow 0.5s cubic-bezier(0.9, 0, 0.3, 0.7), -webkit-transform 0.5s cubic-bezier(0.9, 0, 0.3, 0.7);
+    // transform:translateX(-100%);
+  }
+  .roundBtn{
+    position:relative;
+    width:180px;
+    height:180px;
+    margin: 10px auto;
+    background:rgba(0,0,0,.6);
+    border-radius: 90px;
+    &:before{
+      content: '';
+      position:absolute;
+      top: 20px;
+      left: 20px;
+      width: 140px;
+      height: 140px;
+      border-radius: 70px;
+      border:1px solid #f00;
+    };
+    .roundline{
+      width:100%;
+      height: 200px;
+      .rounditem{
+        position:absolute;
+        cursor: pointer;
+        width:40px;
+        height: 40px;
+        line-height: 40px;
+        text-align: center;
+        border-radius:20px;
+        background:rgba(0,0,0,.6);
+        color: #fff;
+        border:1px solid #f0f; 
+        }
+      .pandect{
+        left:70px;
+        top: 1px;
+      }
+      .monitor{
+        left:140px;
+        top: 70px;
+      }
+      .gis{
+        left:70px;
+        top: 140px;
+      }
+      .prodect{
+        left:0px;
+        top: 70px;
+      }
+      .showitem{
+        background: #f0f;
+      }
+    }
+    
+  }
+  .trigger{
+    position:absolute;
+    right: -15px;
+    top:calc(50% - 10px);
+    width:15px;
+    height: 50px;
+    &:before{
+      position:absolute;
+      top:-15px;
+      content:'';
+      width:0;
+      height: 0;
+      border-bottom:15px solid rgba(255,255,255,.3);
+      border-right:15px solid transparent;
+    }
+    &:after{
+      position:absolute;
+      bottom:-15px;
+      content:'';
+      width:0;
+      height: 0;
+      border-top:15px solid rgba(255,255,255,.3);
+      border-right:15px solid transparent;
+    }
+    .triggercont{
+      height: 50px;
+      width: 15px;
+      line-height: 50px;
+      background: rgba(255,255,255,.3);
+    }
+    
+    
+
+
+  }
+
+}
+.percentsty{
+  display: inline-block;
+  width: 70%;
+}
