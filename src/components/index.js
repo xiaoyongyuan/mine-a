@@ -5,6 +5,8 @@
 //大数据
 import Datamanage from './datashow/datamanage'
 import Projectmanage from './datashow/projectmanage'
+import MapShow from './datashow/MapShow'
+
 //数据总览明细
 import Detaildata from './geology/detaildata'
 
@@ -49,7 +51,7 @@ import Companyinfo from './systemmanage/companyinfo'
 import Userinfo from './systemmanage/userinfo'
 
 export default {
-  Datamanage,Projectmanage,
+  Datamanage,Projectmanage,MapShow,
   Insar,Detaildata,Soilbreathe,
   Aquifer,Landform,Pollution,Soil,Preview,Geology,
   Insarmanage,Aquifermanage,Landformmanage,Pollutionmanage,Soilmanage,
