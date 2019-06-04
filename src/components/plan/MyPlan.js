@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import {Row, Col,Select,Pagination, Typography } from "antd";
+import {Row, Col, Select, Pagination, Typography, Button} from "antd";
 import axios from '../../axios'
 import ofteraxios from '../../axios/ofter'
 
@@ -60,7 +60,7 @@ class MyPlan extends Component {
     return (
       <div className="MyPlan">
           <Row>
-              <Col span={5}>
+              <Col span={24}>
                   <Select defaultValue={this.state.selecttype} style={{ width: 120 }} onChange={this.selectopt}>
                       <Option value='' key='ss'>所有</Option>
                       {
@@ -69,6 +69,9 @@ class MyPlan extends Component {
                         ))
                       }
                   </Select>
+                  <Link className="detmain" to={'/main/edit'}>
+                      <Button type="primary" className="addplan">新增</Button>
+                  </Link>
               </Col>
           </Row>
           <div className="planlist">

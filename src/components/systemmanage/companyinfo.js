@@ -19,12 +19,12 @@ class Companyinfo extends Component {
     };
     requestList = ()=>{
         const quparams = {
-            companyId: 1,
+            code: 1,
         };
         axios.ajax({
-            baseURL:window.g.cuiURL,
+            // baseURL:window.g.cuiURL,
             method: 'get',
-            url: '/api/getCompanyById',
+            url: '/api/companyById',
             data: quparams,
         }).then((res)=>{
             console.log("res",res);
@@ -33,7 +33,7 @@ class Companyinfo extends Component {
                     cname:res.data.cname,//企业名称
                     addrs:res.data.location,//企业地址
                     username:res.data.legalperson,//法人
-                    Logo:res.data.logo,//企业logo
+                    logo:res.data.logo,//企业logo
                     tel:res.data.linktel,//联系电话
                     email:res.data.emailaddress,
                     zcaddrs:res.data.address,//企业注册地址
@@ -57,15 +57,15 @@ class Companyinfo extends Component {
 
     //上传文件之前的钩子，参数为上传的文件，若返回 false 则停止上传。
     beforeUpload = (file) => {
-        const isJPG = file.type === 'image/jpeg';
-        if (!isJPG) {
-            message.error('You can only upload JPG file!');
-        }
-        const isLt2M = file.size / 1024 / 1024 < 2;
-        if (!isLt2M) {
-            message.error('Image must smaller than 2MB!');
-        }
-        return isJPG && isLt2M;
+        // const isJPG = file.type === 'image/jpeg';
+        // if (!isJPG) {
+        //     message.error('You can only upload JPG file!');
+        // }
+        // const isLt2M = file.size / 1024 / 1024 < 2;
+        // if (!isLt2M) {
+        //     message.error('Image must smaller than 2MB!');
+        // }
+        // return isJPG && isLt2M;
     };
 
     handleChange = info => {
@@ -74,11 +74,13 @@ class Companyinfo extends Component {
             return;
         }
         if (info.file.status === 'done') {
+            console.log("url地址",info.file.response.data.url);
             // Get this url from response in real world.
-            this.getBase64(info.file.originFileObj, Logo =>
+            this.getBase64(info.file.originFileObj, imageUrl =>
                 this.setState({
-                    Logo,
+                    imageUrl,
                     loading: false,
+                    logo:info.file.response.data.url,
                 }),
             );
         }
@@ -92,6 +94,7 @@ class Companyinfo extends Component {
     handleEditClick = () => {
       this.setState({
           oldcname:this.state.cname,
+          oldlogo:this.state.logo,
           oldaddrs:this.state.addrs,
           oldusername:this.state.username,
           isEdite:false,
@@ -128,23 +131,22 @@ class Companyinfo extends Component {
         });
         const data={
             code:"1",
-            cname:'写死',
-            // addrs:this.state.addrs,
-            // username:this.state.username,
-            // isEdite:true,
-            // tel:this.state.tel,
-            // email:this.state.email,
-            // khdate:this.state.khdate,
-            // projectcname:this.state.projectcname,
-            // intro:this.state.intro,
-            // projectusername:this.state.projectusername,
+            cname:this.state.cname,
+            location:this.state.addrs,
+            legalperson:this.state.username,
+            linktel:this.state.tel,
+            emailaddress:this.state.email,
+            address:this.state.zcaddrs,
+            currentinfo:this.state.intro,
+            linkmen:this.state.projectusername,
+            logo:this.state.logo,
             // prijecttel:this.state.prijecttel,
             // projectemail:this.state.projectemail,
             // projectaddrs:this.state.projectaddrs,
             // zcaddrs:this.state.zcaddrs,
         };
         axios.ajax({
-            baseURL:window.g.cuiURL,
+            // baseURL:window.g.cuiURL,
             method: 'put',
             url: '/api/company',
             data: data
@@ -162,6 +164,7 @@ class Companyinfo extends Component {
         this.setState({
             cname:this.state.oldcname,
             addrs:this.state.oldaddrs,
+            logo:this.state.oldlogo,
             username:this.state.oldusername,
             isEdite:true,
             tel:this.state.oldtel,
@@ -263,7 +266,7 @@ class Companyinfo extends Component {
                 <div className="ant-upload-text">上传企业logo</div>
             </div>
         );
-        const Logo = this.state.Logo;
+        const imageUrl = this.state.imageUrl;
     return (
       <div className="Companyinfo">
           <div className="box-padding">
@@ -285,7 +288,7 @@ class Companyinfo extends Component {
                             this.state.cname
                           ) :
                           (
-                              <Input placeholder="Basic usage"  onChange={this.InputonChange.bind(this)} value={this.state.cname} />
+                              <Input onChange={this.InputonChange.bind(this)} value={this.state.cname} />
                           )
                       }
                   </Col>
@@ -295,22 +298,23 @@ class Companyinfo extends Component {
                       企业logo：
                   </Col>
                   <Col span={21} className="t_l">
-                      {/*<img className="img-logo" src={this.state.Logo}/>*/}
+                      {/*<img className="img-logo" src={this.state.logo}/>*/}
                       {this.state.isEdite ?
                           (
-                              <img className="img-logo" src={this.state.Logo}/>
+                              <img className="img-logo" src={"http://192.168.10.3:8003/"+this.state.logo}/>
                           ) :
                           (
                               <Upload
-                                  name="avatar"
+                                  name="file"
                                   listType="picture-card"
                                   className="avatar-uploader"
                                   showUploadList={false}
-                                  action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
+                                  action="http://192.168.10.3:8003/api/uploadFile"
                                   beforeUpload={this.beforeUpload}
                                   onChange={this.handleChange}
                               >
-                                  {Logo ? <img src={Logo} alt="logo" /> : uploadButton}
+                                  {imageUrl ? <img src={imageUrl} alt="logo" /> : uploadButton}
+                                  {/*{uploadButton}*/}
                               </Upload>
                           )
                       }
@@ -331,7 +335,7 @@ class Companyinfo extends Component {
                               this.state.addrs
                           ) :
                           (
-                              <Input placeholder="Basic usage"  onChange={this.InputassressonChange.bind(this)} value={this.state.addrs} />
+                              <Input   onChange={this.InputassressonChange.bind(this)} value={this.state.addrs} />
                           )
                       }
                   </Col>
@@ -346,7 +350,7 @@ class Companyinfo extends Component {
                               this.state.username
                           ) :
                           (
-                              <Input placeholder="Basic usage"  onChange={this.InputusernameOnChange.bind(this)} value={this.state.username} />
+                              <Input   onChange={this.InputusernameOnChange.bind(this)} value={this.state.username} />
                           )
                       }
                   </Col>
@@ -361,7 +365,7 @@ class Companyinfo extends Component {
                               this.state.tel
                           ) :
                           (
-                              <Input placeholder="Basic usage"  onChange={this.InputTelOnChange.bind(this)} value={this.state.tel} />
+                              <Input   onChange={this.InputTelOnChange.bind(this)} value={this.state.tel} />
                           )
                       }
                   </Col>
@@ -376,7 +380,7 @@ class Companyinfo extends Component {
                               this.state.email
                           ) :
                           (
-                              <Input placeholder="Basic usage"  onChange={this.InputEmailOnchange.bind(this)} value={this.state.email} />
+                              <Input   onChange={this.InputEmailOnchange.bind(this)} value={this.state.email} />
                           )
                       }
                   </Col>
@@ -391,7 +395,7 @@ class Companyinfo extends Component {
                               this.state.zcaddrs
                           ) :
                           (
-                              <Input placeholder="Basic usage"  onChange={this.InputzcaddrsOnchange.bind(this)} value={this.state.zcaddrs} />
+                              <Input   onChange={this.InputzcaddrsOnchange.bind(this)} value={this.state.zcaddrs} />
                           )
                       }
                   </Col>
@@ -406,7 +410,7 @@ class Companyinfo extends Component {
                               this.state.khdate
                           ) :
                           (
-                              <Input placeholder="Basic usage"  onChange={this.InputkhdateOnchange.bind(this)} value={this.state.khdate} />
+                              <Input  onChange={this.InputkhdateOnchange.bind(this)} value={this.state.khdate} />
                           )
                       }
                   </Col>
@@ -426,7 +430,7 @@ class Companyinfo extends Component {
                               this.state.projectcname
                           ) :
                           (
-                              <Input placeholder="Basic usage"  onChange={this.InputProjectNameOnchange.bind(this)} value={this.state.projectcname} />
+                              <Input  onChange={this.InputProjectNameOnchange.bind(this)} value={this.state.projectcname} />
                           )
                       }
                   </Col>
@@ -462,7 +466,7 @@ class Companyinfo extends Component {
                               this.state.projectusername
                           ) :
                           (
-                              <Input placeholder="Basic usage"  onChange={this.InputProjectusernameOnChange.bind(this)} value={this.state.projectusername} />
+                              <Input  onChange={this.InputProjectusernameOnChange.bind(this)} value={this.state.projectusername} />
                           )
                       }
                   </Col>
@@ -477,7 +481,7 @@ class Companyinfo extends Component {
                               this.state.prijecttel
                           ) :
                           (
-                              <Input placeholder="Basic usage"  onChange={this.InputProjectTelOnChange.bind(this)} value={this.state.prijecttel} />
+                              <Input  onChange={this.InputProjectTelOnChange.bind(this)} value={this.state.prijecttel} />
                           )
                       }
                   </Col>
@@ -492,7 +496,7 @@ class Companyinfo extends Component {
                               this.state.projectemail
                           ) :
                           (
-                              <Input placeholder="Basic usage"  onChange={this.InputProjectEmailOnchange.bind(this)} value={this.state.projectemail} />
+                              <Input  onChange={this.InputProjectEmailOnchange.bind(this)} value={this.state.projectemail} />
                           )
                       }
                   </Col>
@@ -507,7 +511,7 @@ class Companyinfo extends Component {
                               this.state.projectaddrs
                           ) :
                           (
-                              <Input placeholder="Basic usage"  onChange={this.InputProjectzcaddrsOnchange.bind(this)} value={this.state.projectaddrs} />
+                              <Input  onChange={this.InputProjectzcaddrsOnchange.bind(this)} value={this.state.projectaddrs} />
                           )
                       }
                   </Col>

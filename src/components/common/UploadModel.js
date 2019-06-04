@@ -23,7 +23,7 @@ class UploadModel extends Component {
               },
             ],
             property: {
-              accept:"application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+              // accept:"application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document",
               showUploadList:true,
               multiple:false,
               name:"file" , 

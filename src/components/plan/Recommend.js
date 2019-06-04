@@ -24,6 +24,7 @@ class Recommend extends Component {
   }
   requestList=()=>{
       axios.ajax({
+          baseURL:'https://www.easy-mock.com/mock/5ce208b85fa13b1e54d26e06/mainapi',
         method: 'get',
         url: 'plan',
         data: this.params
