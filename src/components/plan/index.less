@@ -4,8 +4,10 @@
 				margin: 8px 0;
 				.detmain{
 					display: inline-block;
+					width: 100%;
 					color:rgba(0,0,0,.65);
 					border:1px solid #ccc;
+					//border:1px solid #cc24a1;
 					position:relative;
 					padding:10px;
 					.dettitle{
@@ -15,7 +17,7 @@
 							background:#ddd;
 							padding:5px 8px;
 							width: 100px;
-
+							height: 100px;
 						}
 						.detname{
 							width: calc(100% - 130px);
@@ -56,10 +58,15 @@
 							border-left: 30px transparent dashed;
 					}
 					.intro{
+						height: 110px;
 						text-indent: 28px;
-				    text-align: justify;
-				    font-size: 14px;
-				    padding: 10px 4px 0 0; 
+						text-align: justify;
+						font-size: 14px;
+						padding: 10px 4px 0 0;
+						//display: -webkit-box;
+						//-webkit-box-orient: vertical;
+						//-webkit-line-clamp: 4;
+						overflow: hidden;
 					}
 				}
 			}

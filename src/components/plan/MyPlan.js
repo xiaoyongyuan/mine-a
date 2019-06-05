@@ -21,35 +21,75 @@ class MyPlan extends Component {
       selecttype:'' //选择的类别
     };
     this.params = {
-        page:1,   
+        pageindex:1,
+        pagesize:9
     }
   }
   componentDidMount(){
-    const _this=this;
-    ofteraxios.plantype().then((res)=>{
-      if(res.success){
-        _this.setState({plantype:res.data},()=>{
-          _this.requestList()
-        })
-        } 
-    })
+    // const _this=this;
+    // ofteraxios.plantype().then((res)=>{
+    //   if(res.success){
+    //     _this.setState({plantype:res.data},()=>{
+    //       _this.requestList()
+    //     })
+    //     }
+    // })
+      this.requersPlantType();
+      this.requestList();
   }
   selectopt=(selecttype)=>{ //选择类别
-    this.setState({selecttype},()=>this.requestList())
+      console.log("selecttype",selecttype);
+    this.setState({selecttype},()=>this.getPlanByPlantype())
+  };
+  requersPlantType = () =>{
+      axios.ajax({
+          baseURL:'http://192.168.10.3:8002',
+          method: 'get',
+          url: '/api/findDictionaryByType',
+          data: {
+              dtype:'PLANTYPE',
+          }
+      }).then((res)=>{
+          if(res.success){
+              this.setState({
+                  plantype:res.data
+              })
+          }
+      });
+  };
+  getPlanByPlantype=()=>{
+      this.params.plantype=this.state.selecttype;
+      axios.ajax({
+          baseURL:'http://192.168.10.20:8003/',
+          method: 'get',
+          url: '/api/getPlanByPlantype',
+          data: this.params
+      }).then((res)=>{
+          if(res.success){
+              this.setState({
+                  list:res.data,
+                  pagination:Utils.pagination(res,(current)=>{
+                      this.params.pageindex=current;
+                      this.getPlanByPlantype();
+                  })
+              })
+          }
+      });
   };
   requestList=()=>{
-      this.params.selecttype=this.state.selecttype;
+      console.log("dfd",this.state.selecttype === '');
+      this.params.plantype=this.state.selecttype;
       axios.ajax({
-          baseURL:window.g.easyURL,
+          baseURL:'http://192.168.10.20:8003/',
         method: 'get',
-        url: '/plan',
+        url: '/api/plan',
         data: this.params
       }).then((res)=>{
         if(res.success){
           this.setState({
               list:res.data,
               pagination:Utils.pagination(res,(current)=>{
-                  this.params.page=current;
+                  this.params.pageindex=current;
                   this.requestList();
               })
           })
@@ -65,7 +105,7 @@ class MyPlan extends Component {
                       <Option value='' key='ss'>所有</Option>
                       {
                         this.state.plantype.map((el)=>(
-                          <Option value={el.code} key={el.code}>{el.cname}</Option>
+                          <Option value={el.dvalue} key={el.dvalue}>{el.dname}</Option>
                         ))
                       }
                   </Select>
@@ -79,46 +119,47 @@ class MyPlan extends Component {
               this.state.list.map((v,i)=>(
                       <Col className="gridcol" key={v.code} md={24} xl={12} xxl={8}>
                       {
-                        !v.draft?
+                        v.states?
                         <Link className="detmain" to={'/main/lookplan?id='+v.code}>
                         <div className="dettitle">
                           <div className="detlogo">
-                            <img src={v.Logo} />
+                            {/*<img src={v.Logo} />*/}
                           </div>
                           <div className="detname">
                             <Title level={4}>
                             <Paragraph ellipsis={{ rows: 1}}>
-                                {v.addrs}
+                                {v.title}
                             </Paragraph>
                             </Title>
-                            <div><span className="greencolor">{v.cname}</span> {v.khdate}</div>
+                            {/*<div><span className="greencolor">{v.cname}</span> {v.khdate}</div>*/}
+                              <div><span className="greencolor">测试写死</span> 2019-10-12</div>
                           </div>
                         </div>
-                        <div className="intro">{v.intro}</div>
+                        <div className="intro">{v.summary}</div>
                         </Link>
                         :
                       <Link className="detmain" to={'/main/edit?id='+v.code}>
                         <div className="dettitle">
                           <div className="detlogo">
-                            <img src={v.Logo} />
+                            {/*<img src={v.Logo} />*/}
                           </div>
                           <div className="detname">
                             <Title level={4}>
                             <Paragraph ellipsis={{ rows: 1}}>
-                                {v.addrs}
+                                {v.title}
                             </Paragraph>
                             </Title>
-                            <div><span className="greencolor">{v.cname}</span> {v.khdate}</div>
+                            {/*<div><span className="greencolor">{v.cname}</span> {v.khdate}</div>*/}
+                              <div><span className="greencolor">测试写死</span> 2019-10-12</div>
                           </div>
                         </div>
                         <div className="editbtn">
                           <span style={{color:'#fff'}}>编辑</span>
                         </div>
-                        <div className="intro">{v.intro}</div>
+                        <div className="intro">{v.summary}</div>
                         </Link>
                         }
                       </Col>
-                  
               ))
           }</Row>
           </div>

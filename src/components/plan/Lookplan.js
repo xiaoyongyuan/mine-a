@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import axios from '../../axios'
 import {Typography,Button,Modal,Row} from "antd";
 import "./index.less";
+import {Link} from "react-router-dom";
 const confirm = Modal.confirm;
 const { Title } = Typography;
 class Lookplan extends Component {
@@ -21,16 +22,17 @@ class Lookplan extends Component {
   }
   requestList=()=>{
     axios.ajax({
+        baseURL:'http://192.168.10.20:8003',
       method: 'get',
-      url: 'plan',
-      data: {code:this.state.code}
+      url: '/api/getPlanById',
+      data: {planId:this.state.code}
     }).then((res)=>{
       if(res.success){
-        this.setState({detail:res.data[0]})
+        this.setState({detail:res.data})
         
       }
     });
-  }
+  };
 
   add=()=>{
     const _this=this;
@@ -49,41 +51,36 @@ class Lookplan extends Component {
                 });
             },
         });
-    }
-
-
-
-
+    };
     render() {   
       const detail=this.state.detail;
     return (
       <div className="Lookplan">
-        <Title className="titlelab" level={2}>{detail.addrs}</Title>
+        <Title className="titlelab" level={2}>{detail.title}</Title>
         <p className="titlelab">分类：<b>{detail.zcaddrs}</b></p>
 
         <div className="selectForm">
             <div className="leftForm">
                 <span className="greencolor">{detail.cname} </span>
                 <span> {detail.khdate}</span>
-
             </div>
             {
-              detail.draft?<div className="rightOpt">
+              detail.states?<div className="rightOpt">
                 <Button type="primary"  onClick={this.add}>添加至我的预案</Button>
             </div>:null
             }
-            
-
         </div>
-        <div className="abstract"><b>摘要： </b><span>{detail.intro}</span></div>
-        <div dangerouslySetInnerHTML={{__html:detail.content}}></div>
+        <div className="abstract"><b>摘要： </b><span>{detail.summary}</span></div>
+        <div dangerouslySetInnerHTML={{__html:detail.planinfo}}></div>
         <Row className="plantit butstyle">
             {
-              detail.draft?
+              detail.states?
                 <Button type="primary" className="butstyle"  onClick={this.add}>添加至我的预案</Button>
                 :null
             }
-            <Button className="butstyle" type={!detail.draft?"primary":null} onClick={()=>this.getContent(0)}>返回</Button>
+            <Link className="detmain" to={'/main/myplan'}>
+                <Button className="butstyle" type={!detail.states?"primary":null}>返回</Button>
+            </Link>
         </Row>
       </div>
     );

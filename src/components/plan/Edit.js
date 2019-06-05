@@ -31,25 +31,47 @@ class Edit extends Component {
   componentDidMount(){
     const _this=this;
     const ids=this.props.query.id;
+    console.log("ids",ids);
+      this.requersPlantType();
     if(ids){
-      this.setState({code:ids})
-      _this.requestList()
+      this.setState(
+          {
+              code:ids
+          },()=>_this.requestList()
+      );
     }
-
-    ofteraxios.plantype().then((res)=>{
-      if(res.success){
-        _this.setState({plantype:res.data,selecttype:res.data[0].code})
-        } 
-    })
+    // ofteraxios.plantype().then((res)=>{
+    //   if(res.success){
+    //     _this.setState({plantype:res.data,selecttype:res.data[0].code})
+    //     }
+    // })
 
   }
+    requersPlantType = () =>{
+        axios.ajax({
+            baseURL:'http://192.168.10.3:8002',
+            method: 'get',
+            url: '/api/findDictionaryByType',
+            data: {
+                dtype:'PLANTYPE',
+            }
+        }).then((res)=>{
+            if(res.success){
+                this.setState({
+                    plantype:res.data
+                })
+            }
+        });
+    };
   requestList=()=>{
     axios.ajax({
+        baseURL:'http://192.168.10.20:8003',
       method: 'get',
-      url: 'plan',
-      data: {code:this.state.code}
+      url: '/api/getPlanById',
+      data: {planId:this.state.code}
     }).then((res)=>{
       if(res.success){
+          console.log("res",res);
         const data=res.data;
         const editorS=this.state.editorState;
         const contentBlock=htmltod(htnl);
@@ -57,8 +79,9 @@ class Edit extends Component {
         const editorState = EditorState.createWithContent(contentState);
         this.setState({
           editorState:editorState, //内容
-          // title:res.data.title, //标题
-          // selecttype:res.data.selecttype //类别
+          inputval:res.data.title, //标题
+            abstract:res.data.summary,//摘要
+          selecttype:res.data.plantype //类别
         },()=>{
           console.log('ddddd',editorState)
         })
@@ -70,7 +93,6 @@ class Edit extends Component {
     this.setState({
             [type]:selecttype
         }
-        // ,()=>this.requestList()
     )
   };
     //输入标题
@@ -95,29 +117,50 @@ class Edit extends Component {
           editorState
       });
   };
-  getContent=(draft)=>{ //获取内容
+  getContent=(states)=>{ //获取内容
     const params={
-      draft, //是否为草稿
+        states, //是否为草稿
         planinfo:draftjstoh(convertToRaw(this.state.editorState.getCurrentContent())), //内容
-      title:this.state.inputval, //标题
+        title:this.state.inputval, //标题
         plantype:this.state.selecttype, //类别
         summary:this.state.abstract,//摘要
     };
     console.log("params",params);
     // if(!params.content || !params.title || !params.selecttype) message.warn('请填写完整！');
     // return;
-    axios.ajax({
-        baseURL:'http://192.168.10.20:8003',
-      method: 'post',
-      url: '/api/plan',
-      data: params
-    }).then((res)=>{
-      if(res.success){
-          message.success('新增成功！', 3);
-          //返回上一页
-          window.history.go(-1);
-      }
-    });
+      const ids=this.props.query.id;
+     console.log("ids",ids);
+     if(ids === undefined){
+         console.log("新增");
+         axios.ajax({
+             baseURL:'http://192.168.10.20:8003',
+             method: 'post',
+             url: '/api/plan',
+             data: params
+         }).then((res)=>{
+             if(res.success){
+                 message.success('新增成功！', 3);
+                 //返回上一页
+                 window.history.go(-1);
+             }
+         });
+     }else {
+         console.log("编辑");
+         params.code=ids;
+         axios.ajax({
+             baseURL:'http://192.168.10.20:8003',
+             method: 'put',
+             url: '/api/plan',
+             data: params
+         }).then((res)=>{
+             if(res.success){
+                 message.success('编辑成功！', 3);
+                 //返回上一页
+                 window.history.go(-1);
+             }
+         });
+     }
+
   };
   render() {
     const { editorState } = this.state;
@@ -134,7 +177,7 @@ class Edit extends Component {
                 <Select value={this.state.selecttype} placeholder="请选择类别" style={{ width: 120 }} onChange={(value)=>this.selectopt('selecttype',value)}>
                       {
                         this.state.plantype.map((el)=>(
-                          <Option value={el.code} key={el.code}>{el.cname}</Option>
+                          <Option value={el.dvalue} key={el.dvalue}>{el.dname}</Option>
                         ))
                       }
                   </Select>
