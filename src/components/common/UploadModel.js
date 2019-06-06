@@ -27,7 +27,7 @@ class UploadModel extends Component {
               showUploadList:true,
               multiple:false,
               name:"file" , 
-              action:"http://192.168.10.3:8002/api/uploadFile", //上传地址
+              action:"http://192.168.10.3:8002/sys/api/uploadFile", //上传地址
             }
           },{
           type: 'INPUT',

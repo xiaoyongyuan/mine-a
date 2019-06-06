@@ -16,7 +16,9 @@ class Recommend extends Component {
       pagination:{}
     };
     this.params = {
-        page:1,   
+        pageindex:1,
+        pagesize:9,
+        recommendtype:2,
     }
   }
   componentDidMount(){
@@ -24,16 +26,16 @@ class Recommend extends Component {
   }
   requestList=()=>{
       axios.ajax({
-          baseURL:'https://www.easy-mock.com/mock/5ce208b85fa13b1e54d26e06/mainapi',
+          baseURL:'http://192.168.10.20:8003',
         method: 'get',
-        url: 'plan',
+        url: '/api/getPlanByRecommendtype',
         data: this.params
       }).then((res)=>{
         if(res.success){
           this.setState({
               list:res.data,
               pagination:Utils.pagination(res,(current)=>{
-                  this.params.page=current;
+                  this.params.pageindex=current;
                   this.requestList();
               })
           })
@@ -68,27 +70,39 @@ class Recommend extends Component {
                         <Col className="gridcol" key={v.code} md={24} xl={12} xxl={8}>
                           <div className="detmain">
                           <Link className="" to={'/main/lookplan?id='+v.code}  style={{color:'rgba(0, 0, 0, 0.65)'}}>
+                              {/*<Link className="" to={'/main/lookplan'}  style={{color:'rgba(0, 0, 0, 0.65)'}}>*/}
                           <div className="dettitle">
                             <div className="detlogo">
-                              <img src={v.Logo} />
+                              {/*<img src={v.Logo} />*/}
                             </div>
                             <div className="detname">
                               <Title level={4}>
                               <Paragraph ellipsis={{ rows: 1}}>
-                                  {v.addrs}
+                                  {v.title}
                               </Paragraph>
                               </Title>
-                              <div><span className="greencolor">{v.cname}</span> {v.khdate}</div>
+                              {/*<div><span className="greencolor">{v.cname}</span> {v.khdate}</div>*/}
+                                <div><span className="greencolor">测试写死</span> 2019-10-12</div>
                             </div>
                           </div>
                           </Link>
                           {
-                            v.draft?<div className="editbtn addmy">
+                            v.states?<div className="editbtn addmy">
                             <span onClick={(v)=>this.add(v.code)}  style={{color:'#fff'}}>添加</span>
                             </div>
                             :null
                           }
-                          <Link className="intro" to={'/main/lookplan?id='+v.code}  style={{color:'rgba(0, 0, 0, 0.65)'}}>{v.intro}</Link>
+                              <Link className="intro" to={'/main/lookplan?id='+v.code}  style={{color:'rgba(0, 0, 0, 0.65)'}}>
+                                  <div className="intro">
+                                      {v.summary}
+                                  </div>
+                              </Link>
+                              {/*<Link  to={'/main/lookplan'}  style={{color:'rgba(0, 0, 0, 0.65)'}}>*/}
+                                  {/*<div className="intro">*/}
+                                      {/*{v.summary}*/}
+                                  {/*</div>*/}
+
+                              {/*</Link>*/}
                           </div>
                         </Col>
                     

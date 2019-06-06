@@ -35,15 +35,16 @@ class MyPlan extends Component {
     //     }
     // })
       this.requersPlantType();
-      this.requestList();
+      this.getPlanByPlantype();
+      // this.requestList();
   }
   selectopt=(selecttype)=>{ //选择类别
       console.log("selecttype",selecttype);
-    this.setState({selecttype},()=>this.getPlanByPlantype())
+    this.setState({selecttype,page:1,},()=>this.getPlanByPlantype())
   };
   requersPlantType = () =>{
       axios.ajax({
-          baseURL:'http://192.168.10.3:8002',
+          baseURL:'http://192.168.10.3:8002/sys',
           method: 'get',
           url: '/api/findDictionaryByType',
           data: {
@@ -58,9 +59,9 @@ class MyPlan extends Component {
       });
   };
   getPlanByPlantype=()=>{
-      this.params.plantype=this.state.selecttype;
+      this.params.plantype=this.state.selecttype || 0;
       axios.ajax({
-          baseURL:'http://192.168.10.20:8003/',
+          baseURL:'http://192.168.10.20:8003',
           method: 'get',
           url: '/api/getPlanByPlantype',
           data: this.params
@@ -100,7 +101,7 @@ class MyPlan extends Component {
     return (
       <div className="MyPlan">
           <Row>
-              <Col span={24}>
+              <Col span={24} className="query-col">
                   <Select defaultValue={this.state.selecttype} style={{ width: 120 }} onChange={this.selectopt}>
                       <Option value='' key='ss'>所有</Option>
                       {

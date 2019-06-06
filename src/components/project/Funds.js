@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {Button, message, Modal, Radio,Tag } from 'antd'
+import {Button, message, Modal } from 'antd'
 import axios from '../../axios'
 import Utils from "../../utils/utils";
 import BaseForm from "../common/BaseForm"
@@ -84,7 +84,7 @@ class Funds extends Component {
     };
     requestList=()=>{
       axios.ajax({
-      	baseURL:'http://192.168.10.3:8003',
+      	baseURL:'http://192.168.10.3:8003/sys',
         method: 'get',
         url: '/api/itemFund',
         data: this.params

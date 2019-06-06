@@ -49,7 +49,7 @@ class Edit extends Component {
   }
     requersPlantType = () =>{
         axios.ajax({
-            baseURL:'http://192.168.10.3:8002',
+            baseURL:'http://192.168.10.3:8002/sys',
             method: 'get',
             url: '/api/findDictionaryByType',
             data: {

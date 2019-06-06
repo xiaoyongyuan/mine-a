@@ -78,7 +78,7 @@ class Lookplan extends Component {
                 <Button type="primary" className="butstyle"  onClick={this.add}>添加至我的预案</Button>
                 :null
             }
-            <Link className="detmain" to={'/main/myplan'}>
+            <Link className="detmain" to={'/main/recommend'}>
                 <Button className="butstyle" type={!detail.states?"primary":null}>返回</Button>
             </Link>
         </Row>

@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
-import {Row, Col,DatePicker,Button,Table, Badge, Menu, Dropdown, Icon} from "antd";
+import {Row, Col,DatePicker,Button,Table} from "antd";
 import arcgis from "../../style/yal/image/test.png";
 import "../../style/yal/css/soil.css";
 
-const { MonthPicker, RangePicker, WeekPicker } = DatePicker;
+const { RangePicker } = DatePicker;
 
 //嵌套字表
 const expandedRowRender = () => {
@@ -54,21 +54,21 @@ for (let i = 0; i < 3; ++i) {
 }
 
 //字表
-const zb =
-    <table border="1">
-    <tr>
-        <th>Month</th>
-        <th>Savings</th>
-    </tr>
-    <tr>
-        <td>January</td>
-        <td>$100</td>
-    </tr>
-    <tr>
-        <td>February</td>
-        <td>$80</td>
-    </tr>
-</table>;
+// const zb =
+//     <table border="1">
+//     <tr>
+//         <th>Month</th>
+//         <th>Savings</th>
+//     </tr>
+//     <tr>
+//         <td>January</td>
+//         <td>$100</td>
+//     </tr>
+//     <tr>
+//         <td>February</td>
+//         <td>$80</td>
+//     </tr>
+// </table>;
 
 class Soil extends Component {
   constructor(props){

@@ -301,7 +301,7 @@ class Companyinfo extends Component {
                       {/*<img className="img-logo" src={this.state.logo}/>*/}
                       {this.state.isEdite ?
                           (
-                              <img className="img-logo" src={"http://192.168.10.3:8003/"+this.state.logo}/>
+                              <img className="img-logo" src={"http://192.168.10.3:8003/sys/"+this.state.logo}/>
                           ) :
                           (
                               <Upload
@@ -309,7 +309,7 @@ class Companyinfo extends Component {
                                   listType="picture-card"
                                   className="avatar-uploader"
                                   showUploadList={false}
-                                  action="http://192.168.10.3:8003/api/uploadFile"
+                                  action="http://192.168.10.3:8003/sys/api/uploadFile"
                                   beforeUpload={this.beforeUpload}
                                   onChange={this.handleChange}
                               >
