@@ -44,7 +44,7 @@ class MyPlan extends Component {
   };
   requersPlantType = () =>{
       axios.ajax({
-          baseURL:'http://192.168.10.3:8002/sys',
+          baseURL:'http://192.168.10.29:8003/sys',
           method: 'get',
           url: '/api/findDictionaryByType',
           data: {

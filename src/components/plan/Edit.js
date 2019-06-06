@@ -5,13 +5,9 @@ import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css'
 import { EditorState, convertToRaw, ContentState} from 'draft-js';
 import draftjstoh from 'draftjs-to-html'
 import htmltod from 'html-to-draftjs'
-
-import ofteraxios from '../../axios/ofter'
 import {Input,Row,Col,Select,Button,message } from "antd";
 import "./index.less";
 import {Link} from "react-router-dom";
-
-const htnl='<p>dddddddddddddddd</p><h2>ssssssssssss</h2>'
 const Option = Select.Option;
 const { TextArea } = Input;
 class Edit extends Component {
@@ -40,16 +36,10 @@ class Edit extends Component {
           },()=>_this.requestList()
       );
     }
-    // ofteraxios.plantype().then((res)=>{
-    //   if(res.success){
-    //     _this.setState({plantype:res.data,selecttype:res.data[0].code})
-    //     }
-    // })
-
   }
     requersPlantType = () =>{
         axios.ajax({
-            baseURL:'http://192.168.10.3:8002/sys',
+            baseURL:'http://192.168.10.29:8003/sys',
             method: 'get',
             url: '/api/findDictionaryByType',
             data: {
@@ -72,9 +62,10 @@ class Edit extends Component {
     }).then((res)=>{
       if(res.success){
           console.log("res",res);
-        const data=res.data;
-        const editorS=this.state.editorState;
-        const contentBlock=htmltod(htnl);
+        // const data=res.data;
+        // const editorS=this.state.editorState;
+        const planinfo = res.data.planinfo;
+        const contentBlock=htmltod(planinfo);
         const contentState=ContentState.createFromBlockArray(contentBlock.contentBlocks);
         const editorState = EditorState.createWithContent(contentState);
         this.setState({
