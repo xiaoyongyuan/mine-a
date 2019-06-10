@@ -84,7 +84,7 @@ class Funds extends Component {
     };
     requestList=()=>{
       axios.ajax({
-      	baseURL:'http://192.168.10.29:8003/sys',
+      	baseURL:'http://192.168.10.29:8001/sys',
         method: 'get',
         url: '/api/itemFund',
         data: this.params
