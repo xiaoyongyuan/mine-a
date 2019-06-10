@@ -61,7 +61,7 @@ class MyPlan extends Component {
   getPlanByPlantype=()=>{
       this.params.plantype=this.state.selecttype || 0;
       axios.ajax({
-          baseURL:'http://192.168.10.29:8002/bizservice',
+          baseURL:'http://192.168.10.20:8003/bizservice',
           method: 'get',
           url: '/api/getPlanByPlantype',
           data: this.params

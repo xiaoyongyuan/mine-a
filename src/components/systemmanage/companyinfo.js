@@ -146,7 +146,7 @@ class Companyinfo extends Component {
             // zcaddrs:this.state.zcaddrs,
         };
         axios.ajax({
-            // baseURL:window.g.cuiURL,
+            baseURL:'http://192.168.10.3:8003/sys',
             method: 'put',
             url: '/api/company',
             data: data
@@ -156,6 +156,8 @@ class Companyinfo extends Component {
                 console.log("编辑成功！");
                 message.success('编辑成功！', 3);
                 this.requestList();
+            }else {
+                message.error('修改企业失败，企业角色必传！',3);
             }
         });
     };
