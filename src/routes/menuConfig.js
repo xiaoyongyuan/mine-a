@@ -30,96 +30,96 @@ export default {
             }
         ]
     },
-    {
-        title: '数据总览',
-        key: '/overview',
-        children: [
-            {
-                title: 'InSAR遥感影像',
-                key: '/main/insar',
-                component: "Insar",
-            },
-            {
-                title: '地质灾害数据',
-                key: '/main/geology',
-                component: "Geology",
-            },
-            {
-              title: '含水层监测数据',
-              key: '/main/aquifer',
-              component: "Aquifer",
-            },
-            {
-              title: '地形地貌检测数据',
-              key: '/main/landform',
-              component: "Landform",
-            },
-            {
-              title: '水土污染监测数据',
-              key: '/main/pollution',
-              component: "Pollution",
-            },
-            {
-              title: '土地损毁与复垦监测数据',
-              key: '/main/soil',
-              component: "Soil",
-            }
-        ]
-    },
+    // {
+    //     title: '数据总览',
+    //     key: '/overview',
+    //     children: [
+    //         {
+    //             title: 'InSAR遥感影像',
+    //             key: '/main/insar',
+    //             component: "Insar",
+    //         },
+    //         {
+    //             title: '地质灾害数据',
+    //             key: '/main/geology',
+    //             component: "Geology",
+    //         },
+    //         {
+    //           title: '含水层监测数据',
+    //           key: '/main/aquifer',
+    //           component: "Aquifer",
+    //         },
+    //         {
+    //           title: '地形地貌检测数据',
+    //           key: '/main/landform',
+    //           component: "Landform",
+    //         },
+    //         {
+    //           title: '水土污染监测数据',
+    //           key: '/main/pollution',
+    //           component: "Pollution",
+    //         },
+    //         {
+    //           title: '土地损毁与复垦监测数据',
+    //           key: '/main/soil',
+    //           component: "Soil",
+    //         }
+    //     ]
+    // },
     // {
     // 	title: '预警系统',
     //     key: '/main/soil',
     // },
-    {
-        title: '数据管理',
-        key: '/manage',
-        children: [
-            {
-              title: 'inSAR遥感数据',
-              key: '/main/insarmanage',
-              component: "Insarmanage",
-            },
-            {
-              title: '含水层数据',
-              key: '/main/aquifermanage',
-              component: "Aquifermanage",
-            },
-            {
-              title: '地形地貌高分遥感数据',
-              key: '/main/landformmanage',
-              component: "Landformmanage",
-            },
-            {
-              title: '水土污染监测数据',
-              key: '/main/pollutionmanage',
-              component: "Pollutionmanage",
-            },
-            {
-              title: '土地损毁与复垦数据',
-              key: '/main/soilmanage',
-              component: "Soilmanage",
-            },   
-        ]
-    },
-    {
-        title: '设备管理',
-        key: '/equipment',
-        children: [
-          {
-            title: '我的设备',
-            key: '/main/monitor',
-            component: "Monitor",
-          },
-          {
-          	title: 'claa设备',
-          	key: '/main/claamonitor',
-            component: "ClaaMonitor",
-          },{
-          	title: '视频监控',
-          	key: '/main/evideo',
-            component: "Evideo",
-          }]
-    },
+    // {
+    //     title: '数据管理',
+    //     key: '/manage',
+    //     children: [
+    //         {
+    //           title: 'inSAR遥感数据',
+    //           key: '/main/insarmanage',
+    //           component: "Insarmanage",
+    //         },
+    //         {
+    //           title: '含水层数据',
+    //           key: '/main/aquifermanage',
+    //           component: "Aquifermanage",
+    //         },
+    //         {
+    //           title: '地形地貌高分遥感数据',
+    //           key: '/main/landformmanage',
+    //           component: "Landformmanage",
+    //         },
+    //         {
+    //           title: '水土污染监测数据',
+    //           key: '/main/pollutionmanage',
+    //           component: "Pollutionmanage",
+    //         },
+    //         {
+    //           title: '土地损毁与复垦数据',
+    //           key: '/main/soilmanage',
+    //           component: "Soilmanage",
+    //         },   
+    //     ]
+    // },
+    // {
+    //     title: '设备管理',
+    //     key: '/equipment',
+    //     children: [
+    //       {
+    //         title: '我的设备',
+    //         key: '/main/monitor',
+    //         component: "Monitor",
+    //       },
+    //       {
+    //       	title: 'claa设备',
+    //       	key: '/main/claamonitor',
+    //         component: "ClaaMonitor",
+    //       },{
+    //       	title: '视频监控',
+    //       	key: '/main/evideo',
+    //         component: "Evideo",
+    //       }]
+    // },
     {
         title: '系统预案',
         key: '/plan',
@@ -139,18 +139,18 @@ export default {
         title: '项目管理',
         key: '/project',
         children: [
-            {
-                title: '添加项目',
-                key: '/main/addproject',
-                component: "Addproject",
-            },
+            // {
+            //     title: '添加项目',
+            //     key: '/main/addproject',
+            //     component: "Addproject",
+            // },
             {
                 title: '项目方案',
                 key: '/main/scheme',
                 component: "Scheme",
             },
             {
-                title: '监测规划方案',
+                title: '监测规划',
                 key: '/main/monitorpro',
                 component: "Monitorpro",
             },
@@ -160,9 +160,49 @@ export default {
                 component: "Funds",
             },
             {
+                title: '评估报告',
+                key: '/main/assessrepro',
+                component: "AssessRepro",
+            },
+            {
+                title: '调查报告',
+                key: '/main/surveyrepro',
+                component: "SurveyRepro",
+            },
+            {
+                title: '勘察报告',
+                key: '/main/prospectrepro',
+                component: "ProspectRepro",
+            },
+            {
+                title: '设计报告',
+                key: '/main/designrepro',
+                component: "DesignRepro",
+            },
+            {
+                title: '项目施工',
+                key: '/main/construction',
+                component: "Construction",
+            },
+            {
+                title: '施工监理',
+                key: '/main/supervisor',
+                component: "Supervisor",
+            },
+            {
                 title: '监测报告',
                 key: '/main/monitorrepro',
                 component: "MonitorRepro",
+            },
+            {
+                title: '治理方案',
+                key: '/main/treatment',
+                component: "Treatment",
+            },
+            {
+                title: '施工监理',
+                key: '/main/checkaccept',
+                component: "CheckAccept",
             },
             ]
     },

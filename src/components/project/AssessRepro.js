@@ -4,17 +4,17 @@ import axios from '../../axios'
 import Utils from "../../utils/utils";
 import BaseForm from "../common/BaseForm"
 import Etable from "../common/Etable"
-import MonitModel from "./MonitModel"
+import ItemModel from "./itemModel"
 
 
 
-class Monitorpro extends Component {
+class AssessRepro extends Component {
     state  ={
       newShow:false
     };
     params={
       pageindex:1,
-      itemtype:2
+      itemtype:4
 
     }
     formList={
@@ -81,6 +81,7 @@ class Monitorpro extends Component {
     };
     uploadOk=(params)=>{ //上传提交
       this.setState({newShow:false})
+      params.itemtype=4
       const _this=this
       axios.ajax({
         baseURL:window.g.cuiURL,
@@ -103,14 +104,11 @@ class Monitorpro extends Component {
         dataIndex: 'index',
         render: (text, record,index) => (index+1),
       },{
-        title: '文件名',
-        dataIndex: 'title',
+        title: '名称',
+        dataIndex: 'itemtitle',
       },{
-        title: '适用年限',
-        dataIndex: 'begindate',
-        render: (text,record) =>{
-          return(<div>{text+'--'+record.enddate}</div>)
-        }
+        title: '所属项目',
+        dataIndex: 'projectid',
       },{
         title: '上传人',
         dataIndex: 'uploader',
@@ -132,7 +130,7 @@ class Monitorpro extends Component {
         }
       }];
     return (
-      <div className="Monitorpro">
+      <div className="AssessRepro">
         <div className="selectForm">
           <div className="leftForm"> 
             <BaseForm formList={this.formList} filterSubmit={this.handleFilterSubmit}/>
@@ -148,9 +146,9 @@ class Monitorpro extends Component {
               dataSource={this.state.list}
               pagination={this.state.pagination}
           />
-        <MonitModel newShow={this.state.newShow} filterSubmit={this.uploadOk} uploadreset={()=>this.changeState('newShow',false)} />
+        <ItemModel newShow={this.state.newShow} filterSubmit={this.uploadOk} uploadreset={()=>this.changeState('newShow',false)} />
       </div>
     );
   }
 }
-export default Monitorpro;
+export default AssessRepro;

@@ -5,7 +5,6 @@ import Login from './components/login'
 import Main from './components/main'
 import Pandect from './components/pandect'
 import Notfound from './components/pages/notfound'
-
 import Common from './components/cs/common'
 
 
@@ -15,7 +14,7 @@ class Routes extends Component {
     return (
       <HashRouter>
       	<Switch>
-          <Route exact path="/" render={()=> <Redirect to="/main/Aquifer" push />}/>
+          <Route exact path="/" render={()=> <Redirect to="/main/scheme" push />}/>
       		<Route path="/login" component={Login}/>
       		<Route path="/main" component={Main}/>
       		<Route path="/pandect" component={Pandect} />

@@ -45,7 +45,15 @@ import Scheme from './project/Scheme'
 import Funds from './project/Funds'
 import Addproject from './project/addproject'
 import Monitorpro from './project/monitorpro'
-
+import AssessRepro from './project/AssessRepro'
+import SurveyRepro from './project/SurveyRepro'
+import ProspectRepro from './project/ProspectRepro'
+import DesignRepro from './project/DesignRepro'
+import Construction from './project/Construction'
+import Supervisor from './project/Supervisor'
+import MonitorRepro from './project/MonitorRepro'
+import Treatment from './project/Treatment'
+import CheckAccept from './project/CheckAccept'
 
 
 //系统管理
@@ -59,6 +67,6 @@ export default {
   Insarmanage,Aquifermanage,Landformmanage,Pollutionmanage,Soilmanage,
   Monitor,ClaaMonitor,Evideo,
   MyPlan,Recommend,Edit,Detailplan,Lookplan,
-  Scheme,Funds,Addproject,Monitorpro,
+  Scheme,Funds,Addproject,Monitorpro,AssessRepro,SurveyRepro,ProspectRepro,Supervisor,MonitorRepro,Treatment,CheckAccept,
   Companyinfo,Userinfo
 };
