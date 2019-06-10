@@ -6,7 +6,7 @@ import ofteraxios from '../../axios/ofter'
 
 const FormItem = Form.Item;
 const Option = Select.Option;
-class UploadModel extends Component {
+class ItemModel extends Component {
   constructor(props){
     super(props);
     this.state={
@@ -21,54 +21,7 @@ class UploadModel extends Component {
       name:"file" , 
       action:"http://192.168.10.20:8004/sys/api/uploadFile", //上传地址
     }
-    this.formList ={
-        item:[
-        {
-          type: 'INPUT',
-          label: '项目名称',
-          field: 'titles',
-          placeholder: '',
-          rules: [
-              {
-                required: true,
-                message: '请填写项目名称',
-              },
-            ],
-        },
-        {
-          type: 'RANGPICKER',
-          label: '年份',
-          field:'doubledata',
-          placeholder:'请选择年份',
-          showTime:false,
-          format:'YYYY-MM-DD',
-          rules: [
-              {
-                required: true,
-                message: '请选择年份',
-              },
-            ],
-        },
-          {
-            type: 'upload',
-            label: '上传',
-            field: 'uploader',
-            placeholder: '点击上传文件',
-            rules: [
-              {
-                required: true,
-                message: '请上传文件',
-              },
-            ],
-            
-          },{
-          type: 'INPUT',
-          label: '备注',
-          field: 'memo',
-          placeholder: '',
-          }
-        ]
-      }
+    
   }
   changeState=(key,val)=>{
       this.setState({[key]:val})
@@ -160,11 +113,12 @@ class UploadModel extends Component {
     
 
     return (
-      <div className="UploadModel">
+      <div className="ItemModel">
         <Modal
           title="上传"
           visible={this.props.newShow}
           onCancel={this.reset}
+          footer={null}
         >
           <Form className='baseform' {...formItemLayout} >
               <FormItem label='名称' key='mont'>
@@ -197,7 +151,7 @@ class UploadModel extends Component {
                       )
                   }
               </FormItem>
-              <FormItem label='监测规划' key='modoc'>
+              <FormItem label='文件' key='modoc'>
                   {getFieldDecorator('filepath', {
                       rules: [{
                             required: true,
@@ -205,34 +159,6 @@ class UploadModel extends Component {
                           }],
                     })(
                       <Upload {...this.property} onChange={(info)=>this.uploadchange(info,'filepath')} onRemove={(info)=>this.removefile(info,'filepath')}>
-                        <Button>
-                          <Icon type="upload" /> 选择文件
-                        </Button>
-                      </Upload>,
-                  )}
-              </FormItem>
-              <FormItem label='CAD' key='mocad'>
-                  {getFieldDecorator('cad', {
-                      rules: [{
-                            required: true,
-                            message: '请上传文件',
-                          }],
-                    })(
-                      <Upload {...this.property} onChange={(info)=>this.uploadchange(info,'cad')} onRemove={(info)=>this.removefile(info,'cad')}>
-                        <Button>
-                          <Icon type="upload" /> 选择文件
-                        </Button>
-                      </Upload>,
-                  )}
-              </FormItem>
-              <FormItem label='Excel' key='moExcel'>
-                  {getFieldDecorator('excel', {
-                      rules: [{
-                            required: true,
-                            message: '请上传文件',
-                          }],
-                    })(
-                      <Upload {...this.property} onChange={(info)=>this.uploadchange(info,'excel')} onRemove={(info)=>this.removefile(info,'excel')}>
                         <Button>
                           <Icon type="upload" /> 选择文件
                         </Button>
@@ -267,5 +193,5 @@ class UploadModel extends Component {
   }
 }
 
-export default UploadModel=Form.create({})(UploadModel);
+export default ItemModel=Form.create({})(ItemModel);
 

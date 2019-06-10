@@ -84,7 +84,7 @@ class Monitorpro extends Component {
       const _this=this
       axios.ajax({
         baseURL:window.g.cuiURL,
-        method: 'post',
+        method: 'get',
         url: '/api/itemfile',
         data: params
       })
