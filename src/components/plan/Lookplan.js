@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import axios from '../../axios'
-import {Typography,Button,Modal,Row} from "antd";
+import {Typography,Button,Modal,Row,message} from "antd";
 import "./index.less";
 import {Link} from "react-router-dom";
 const confirm = Modal.confirm;
@@ -40,14 +40,18 @@ class Lookplan extends Component {
             title: '添加',
             content: '确认添加至我的预案？',
             onOk() {
+                console.log("code",_this.state.code);
                 axios.ajax({
-                    baseURL:'http://192.168.10.29:8002/bizservice',
-                  method: 'put',
-                  url: '/api/planStates',
-                  data: {code:this.state.code}
+                    baseURL:'http://192.168.10.20:8003/bizservice',
+                  method: 'get',
+                  url: '/api/setMyPlan',
+                  data: {
+                        code:_this.state.code,
+                      companycode:'122'
+                    }
                 }).then((res)=>{
                   if(res.success){
-                    _this.requestList()
+                      message.success('已设置为我的预案！');
                   }
                 });
             },
