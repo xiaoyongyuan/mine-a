@@ -140,6 +140,7 @@ class Companyinfo extends Component {
             currentinfo:this.state.intro,
             linkmen:this.state.projectusername,
             logo:this.state.logo,
+            // roleIds:1,
             // prijecttel:this.state.prijecttel,
             // projectemail:this.state.projectemail,
             // projectaddrs:this.state.projectaddrs,
@@ -156,7 +157,8 @@ class Companyinfo extends Component {
                 console.log("编辑成功！");
                 message.success('编辑成功！', 3);
                 this.requestList();
-            }else {
+            }
+            if(res.success === 0){
                 message.error('修改企业失败，企业角色必传！',3);
             }
         });
