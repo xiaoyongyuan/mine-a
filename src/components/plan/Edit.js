@@ -39,7 +39,7 @@ class Edit extends Component {
   }
     requersPlantType = () =>{
         axios.ajax({
-            baseURL:'http://192.168.10.29:8003/sys',
+            baseURL:'http://192.168.10.29:8001/sys',
             method: 'get',
             url: '/api/findDictionaryByType',
             data: {
@@ -55,7 +55,7 @@ class Edit extends Component {
     };
   requestList=()=>{
     axios.ajax({
-        baseURL:'http://192.168.10.20:8003',
+        baseURL:'http://192.168.10.29:8002/bizservice',
       method: 'get',
       url: '/api/getPlanById',
       data: {planId:this.state.code}
@@ -124,7 +124,7 @@ class Edit extends Component {
      if(ids === undefined){
          console.log("新增");
          axios.ajax({
-             baseURL:'http://192.168.10.20:8003',
+             baseURL:'http://192.168.10.29:8002/bizservice',
              method: 'post',
              url: '/api/plan',
              data: params
@@ -139,7 +139,7 @@ class Edit extends Component {
          console.log("编辑");
          params.code=ids;
          axios.ajax({
-             baseURL:'http://192.168.10.20:8003',
+             baseURL:'http://192.168.10.29:8002/bizservice',
              method: 'put',
              url: '/api/plan',
              data: params

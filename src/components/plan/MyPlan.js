@@ -44,7 +44,7 @@ class MyPlan extends Component {
   };
   requersPlantType = () =>{
       axios.ajax({
-          baseURL:'http://192.168.10.29:8003/sys',
+          baseURL:'http://192.168.10.29:8001/sys',
           method: 'get',
           url: '/api/findDictionaryByType',
           data: {
@@ -61,7 +61,7 @@ class MyPlan extends Component {
   getPlanByPlantype=()=>{
       this.params.plantype=this.state.selecttype || 0;
       axios.ajax({
-          baseURL:'http://192.168.10.20:8003',
+          baseURL:'http://192.168.10.29:8002/bizservice',
           method: 'get',
           url: '/api/getPlanByPlantype',
           data: this.params
@@ -81,7 +81,7 @@ class MyPlan extends Component {
       console.log("dfd",this.state.selecttype === '');
       this.params.plantype=this.state.selecttype;
       axios.ajax({
-          baseURL:'http://192.168.10.20:8003/',
+          baseURL:'http://192.168.10.29:8002/bizservice',
         method: 'get',
         url: '/api/plan',
         data: this.params

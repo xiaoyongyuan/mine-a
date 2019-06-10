@@ -22,7 +22,7 @@ class Lookplan extends Component {
   }
   requestList=()=>{
     axios.ajax({
-        baseURL:'http://192.168.10.20:8003',
+        baseURL:'http://192.168.10.29:8002/bizservice',
       method: 'get',
       url: '/api/getPlanById',
       data: {planId:this.state.code}
