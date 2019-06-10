@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import ReactEcharts from 'echarts-for-react';
-import { Icon,List,Card,Progress} from 'antd'
-
+import { Icon,List,Card,Progress,Typography } from 'antd'
 
 import './mapshow.less'
+const { Paragraph } = Typography;
 class Itemshow extends Component {
     constructor(props){
         super(props);
@@ -12,32 +12,61 @@ class Itemshow extends Component {
     }
 
     componentDidMount(){
+        const carouselpart=document.getElementById('carouselpart');
+        setInterval(()=>{
+                
+        },1000)
+
+    }
+    warnico=(type)=>{ //预警颜色
+        switch(type){
+            case 1:
+                return 'warnico greenbg'
+            case 2:
+                return 'warnico redbg'
+            case 3:
+                return 'warnico bluebg'
+            default:
+                return 'warnico'
+        }
 
     }
 
     render() {
         const warnlist=[{
             code:1,
-            text:"xx点超过预警值",
+            text:"1xx点超过预警值",
         },{
             code:2,
-            text:"xx点超过预警值",
+            text:"2xx点超过预警值",
         },{
             code:3,
-            text:"xx点超过预警值",
+            text:"3xx点超过预警值",
+        },{
+            code:4,
+            text:"4xx点超过预警值",
+        },{
+            code:5,
+            text:"5xx点超过预警值",
+        },{
+            code:6,
+            text:"6xx点超过预警值",
         },]
         const netlist=[{
             code:1,
-            text:"形变监测网",
-        },{
-            code:2,
-            text:"地裂缝监测网",
+            text:"形变沉降监测网",
         },{
             code:3,
             text:"地形地貌监测网",
         },{
             code:4,
-            text:"土地损毁与复垦监测网",
+            text:"土地损毁监测网",
+        },{
+            code:7,
+            text:"土壤环境监测网",
+        },{
+            code:2,
+            text:"地裂缝监测网",
         },{
             code:5,
             text:"地下水监测网",
@@ -45,12 +74,9 @@ class Itemshow extends Component {
             code:6,
             text:"地表水监测网",
         },{
-            code:7,
-            text:"土地环境监测网",
-        },{
             code:8,
             text:"雨量监测网",
-        },]
+        }]
         const prodectsch=[{
             code:1,
             text:"监测方案",
@@ -88,7 +114,7 @@ class Itemshow extends Component {
             text:"治理方案",
             num:8,
         },{
-            code:10,
+            code:11,
             text:"项目验收",
             num:1,
         },]
@@ -96,25 +122,30 @@ class Itemshow extends Component {
             <div className="Itemshow">
                 <div className="pandectitem" style={{display:this.props.showitem=='pandect'?'block':'none'}}>
                     <List bordered>
-                        <List.Item key='Item1'>基础数据个数：<b>12</b>个</List.Item>
-                        <List.Item key='Item2'>监测设备个数：<b>12</b>个</List.Item>
-                        <List.Item key='Item3'>遥感监测图：<b>12</b>个</List.Item>
+                        <List.Item key='Item1'>基础数据</List.Item>
+                        <List.Item key='Item2'>监测设备</List.Item>
+                        <List.Item key='Item3'>遥感监测</List.Item>
                         <List.Item key='Item4'>空间分析</List.Item>
                         <List.Item key='Item5'>图层管理</List.Item>
                         <List.Item key='Item6'>矿区导航</List.Item> 
                     </List>
-                    <Card title="预警信息">
-                      {warnlist.map((item)=>(<p key={item.code}>{item.text}</p>))}
-                    </Card>
+                    <dl className="columndl">
+                        <dt className="columndt">预警信息<a className="columndtright">更多<Icon type="right" /></a></dt>
+                        <div className="carouselcol">
+                        <div className="carouselpart" id="carouselpart">
+                        {warnlist.map((item)=>(<dd className="columndd" key={'warn'+item.code}><Paragraph ellipsis><span className={this.warnico(item.code)}>[警]</span>{item.text}</Paragraph></dd>))}
+                        </div>
+                        </div>
+                    </dl>
                     <Card title="矿区雨量">
                       
                     </Card>
                 </div>
                 <div className="pandectitem"  style={{display:this.props.showitem=='monitor'?'block':'none'}}>
-                    <List key='netlist' bordered 
-                        dataSource={netlist}
-                        renderItem={item => (<List.Item key={item.code}>{item.text}</List.Item>)}
-                    />
+                    <dl key='net' className="columndl">
+                        <dt className="columndt">监测网<a className="columndtright">详情<Icon type="right" /></a></dt>
+                        {netlist.map((item)=>(<dd className="columndd" key={'net'+item.code}>{item.text}</dd>))}
+                    </dl>
                 </div>
                 <div className="pandectitem"  style={{display:this.props.showitem=='gis'?'block':'none'}}>
                     <List bordered>
@@ -125,10 +156,10 @@ class Itemshow extends Component {
                     </List>
                 </div>
                 <div className="pandectitem"  style={{display:this.props.showitem=='prodect'?'block':'none'}}>
-                    <List key='netlist' bordered 
-                        dataSource={prodectsch}
-                        renderItem={item => (<List.Item key={'pand'+item.code}><span>{item.text} </span><span className='percentsty'><Progress percent={item.num} showInfo={false} /></span></List.Item>)}
-                    />
+                    <dl key='prodectcol' className="columndl">
+                        <dt className="columndt">项目进度<a className="columndtright">详情<Icon type="right" /></a></dt>
+                        {prodectsch.map((item)=>(<dd className="columndd" key={'prodects'+item.code}><span>{item.text} </span><span className='percentsty'><Progress percent={item.num} showInfo={false} /></span></dd>))}
+                    </dl>
                 </div>
             </div>
         );

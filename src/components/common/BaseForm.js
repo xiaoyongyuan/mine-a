@@ -1,5 +1,5 @@
 import React from 'react'
-import { Input, Select, Form, Button, Checkbox, Radio, DatePicker, Upload, Icon,InputNumber} from 'antd'
+import { Input, Select, Form, Button, Checkbox, Radio, DatePicker, Upload, Icon,InputNumber,message} from 'antd'
 import moment from 'moment'
 import axios from '../../axios'
 import ofterajax from '../../axios/ofter'
@@ -19,16 +19,19 @@ class FilterForm extends React.Component{
         this.props.filterSubmit(fieldsValue);
     };
     layerSubmit = ()=>{//弹窗提交
+        const _this=this;
         this.props.form.validateFields((err, values) => {
-            console.log("values",values);
             if (!err) {
-                this.props.filterSubmit(values);
+                var data=values;
+                if(values.upload)data.fileurl=_this.state.fileurl  
+                console.log('提交前',this.state.fileurl,data)
+                _this.props.filterSubmit(data);
+                    _this.props.form.resetFields();
             }
         });
-        this.props.form.resetFields();
+        
     };
     reset = (fafuns)=>{
-        console.log(fafuns,'dddddddd');
         this.props.form.resetFields();
         if(fafuns)this.props[fafuns]()
     };
@@ -45,6 +48,24 @@ class FilterForm extends React.Component{
             })
         }
     };
+    uploadchange=(info)=>{ //上传文件
+        if (info.file.status === 'uploading') {
+            this.setState({ loading: true });
+            return;
+        }
+        if (info.file.status === 'done') {
+          const resp=info.file.response;
+          if(resp.success){
+            this.setState({fileurl:resp.data.url},()=>{
+                console.log('上传成功',this.state.fileurl)
+            })
+          }else{
+            message.error(resp.msg)
+          }
+          
+            
+        }
+    }
     dot=(initialValue,own)=>{
         ofterajax.dot().then((res)=>{
             if(res.length){
@@ -105,6 +126,7 @@ class FilterForm extends React.Component{
                     </FormItem>;
                     formItemList.push(INPUT)
                 } else if (item.type === 'SELECT') {
+                    console.log('dddd',item)
                     const SELECT = <FormItem label={item.label} key={item.field}>
                         {
                             getFieldDecorator([item.field], {
@@ -220,10 +242,10 @@ class FilterForm extends React.Component{
 
                 }else if(item.type === 'upload'){ //上传
                     const uploade=<Form.Item label={item.label} key='upload'>
-                        {getFieldDecorator([item.field||'upload'], {
+                        {getFieldDecorator('upload', {
                           rules: item.rules,
                         })(
-                          <Upload {...item.property}>
+                          <Upload {...item.property} onChange={this.uploadchange}>
                             <Button>
                               <Icon type="upload" /> 选择文件
                             </Button>

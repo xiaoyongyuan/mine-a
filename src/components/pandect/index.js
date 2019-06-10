@@ -10,7 +10,7 @@ class Pandect extends Component {
     return (
       <div className="pandect">
         <Layout>
-          <Header><LayerHeader /></Header>
+          {/*<Header><LayerHeader /></Header>*/}
         	<Content className='Content'>
             <MenuRoutes />
           </Content>

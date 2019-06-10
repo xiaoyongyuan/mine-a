@@ -25,7 +25,7 @@ export default class ofterajax {
             })  
         })
     }
-    static plantype() {
+    static plantype() { //预案类型
         return new Promise((resolve, reject) => {
            axios.ajax({
               baseURL:window.g.easyURL,
@@ -35,7 +35,18 @@ export default class ofterajax {
                 resolve(res) 
             })  
         })
-    }  
+    }
+    static projectlist() { //项目方案列表
+        return new Promise((resolve, reject) => {
+           axios.ajax({
+              baseURL:window.g.easyURL,
+              method: 'get',
+              url: '/getproject',
+            }).then((res)=>{
+                resolve(res) 
+            })  
+        })
+    }   
 
 
 

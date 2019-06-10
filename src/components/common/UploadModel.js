@@ -1,16 +1,50 @@
 import React, { Component } from 'react';
 import {Modal,message, Input, Select, Form, Button, Checkbox, Radio, DatePicker, Upload, Icon} from 'antd'
 import BaseForm from "../common/BaseForm"
+import ofteraxios from '../../axios/ofter'
 
 const FormItem = Form.Item;
-const urls='https://www.easy-mock.com/mock/5ce208b85fa13b1e54d26e06/mainapi'
 class UploadModel extends Component {
   constructor(props){
     super(props);
     this.state={
     };
+    this.projectlist=()=>{
+      ofteraxios.projectlist().then(res=>{
+        if(res.success){
+          res.data.map(item=>{return {code:item.code,name:item.projectname}})
+        }
+      })
+
+    }
     this.formList ={
-        item:[   
+        item:[
+        {
+          type: 'INPUT',
+          label: '项目名称',
+          field: 'titles',
+          placeholder: '',
+          rules: [
+              {
+                required: true,
+                message: '请填写项目名称',
+              },
+            ],
+        },
+        {
+          type: 'RANGPICKER',
+          label: '年份',
+          field:'doubledata',
+          placeholder:'请选择年份',
+          showTime:false,
+          format:'YYYY-MM-DD',
+          rules: [
+              {
+                required: true,
+                message: '请选择年份',
+              },
+            ],
+        },
           {
             type: 'upload',
             label: '上传',
@@ -23,21 +57,16 @@ class UploadModel extends Component {
               },
             ],
             property: {
-              // accept:"application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+              accept:"application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document",
               showUploadList:true,
               multiple:false,
               name:"file" , 
-              action:"http://192.168.10.29:8003/sys/api/uploadFile", //上传地址
+              action:"http://192.168.10.20:8004/sys/api/uploadFile", //上传地址
             }
           },{
           type: 'INPUT',
-          label: '说明',
+          label: '备注',
           field: 'memo',
-          placeholder: '',
-          },{
-          type: 'INPUT',
-          label: '说明2',
-          field: 'intro',
           placeholder: '',
           },{
             type:'button',
@@ -45,7 +74,7 @@ class UploadModel extends Component {
               {
                 label:'提交',
                 type:"primary",
-                click:'handleFilterSubmit',
+                click:'layerSubmit',
               },
               {
                 label:'取消',
@@ -60,12 +89,22 @@ class UploadModel extends Component {
   changeState=(key,val)=>{
       this.setState({[key]:val})
   }
+  componentDidMount(){
+    }
   reset = ()=>{ //取消表单
       this.props.form.resetFields();
       this.props.uploadreset();
   }
+
   handleFilterSubmit = (params)=>{ //提交表单
-      this.props.filterSubmit(params)
+    console.log('params.file',params,params.file)
+    var data={}
+    data.title=params.titles
+    data.filepath=params.fileurl
+    data.begindate=params.doubledata[0].format('YYYY/MM/DD')
+    data.enddate=params.doubledata[1].format('YYYY/MM/DD')
+    // data.title=params.upload.file.name
+      this.props.filterSubmit(data)
   }
 
   render() {

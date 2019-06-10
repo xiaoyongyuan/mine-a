@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import moment from 'moment';
 import Itemshow from './Itemshow';
 import { Icon} from 'antd'
+import ArcGISMap from './ArcGISMap';
+
 
 
 import './mapshow.less'
@@ -21,6 +23,8 @@ class MapShow extends Component {
         setInterval(()=>{
                 _this.setState({systime:moment().format('YYYY-MM-DD hh:mm:ss')})
         },1000)
+
+
     }
     clickbtn=(val)=>{
         this.setState({showitem:val})
@@ -34,8 +38,9 @@ class MapShow extends Component {
         return (
             <div className="MapShow">
                 <div className="arcgis">
-                    {/*<iframe width="500" height="400" frameborder="0" scrolling="no" allowfullscreen src="https://beidou.esrichina.com/arcgis/apps/Styler/index.html?appid=9239380a32a94415b8be5aac982f9350"></iframe>*/}
+                    <ArcGISMap />
                 </div>
+                <div className="leftmove" style={this.state.tigclose?{transform:'translateX(-100%)'}:null} >
                 <div className="leftLayer" style={this.state.tigclose?{transform:'translateX(-100%)'}:null}>
                     <div className="switchRound">
                         <p><span>{this.state.systime}</span><Icon type="setting" theme="filled" /></p>
@@ -51,9 +56,11 @@ class MapShow extends Component {
                     <div className="itemshow">
                         <Itemshow showitem={this.state.showitem} />   
                     </div>
-                    <div className="trigger" onClick={this.trigger}>
-                        <div className="triggercont"><Icon type={this.state.tigclose?'double-right':'double-left'} /></div>
-                    </div>
+                    
+                </div>
+                <div className="trigger" onClick={this.trigger}>
+                    <div className="triggercont"><Icon type={this.state.tigclose?'double-right':'double-left'} /></div>
+                </div>
                 </div>
             </div>
         );

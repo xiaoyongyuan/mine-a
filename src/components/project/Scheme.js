@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {Button} from 'antd'
+import {Button,message} from 'antd'
 import axios from '../../axios'
 import Utils from "../../utils/utils";
 import BaseForm from "../common/BaseForm"
@@ -38,6 +38,7 @@ class Scheme extends Component {
         }
       ]
     };
+    
     componentDidMount(){
       this.requestList()
     }
@@ -53,9 +54,10 @@ class Scheme extends Component {
     };
     requestList=()=>{
       axios.ajax({
-          baseURL:window.g.easyURL,
+        baseURL:window.g.cuiURL,
         method: 'get',
-        url: '/sensing',
+        // url:'/getproject',
+        url: '/api/getProjectList',
         data: this.params
       })
       .then((res)=>{
@@ -70,15 +72,21 @@ class Scheme extends Component {
         }
       });
     };
+    preview=(filepath)=>{ //预览文件
+      window.open('http://192.168.10.20:8004/sys/UploadFile/OfficeFile/1136541326366367744.docx')
+    }
     uploadOk=(params)=>{ //上传提交
+      console.log('paramsparams',params)
       const _this=this;
       this.changeState('newShow',false);
       axios.ajax({
-        method: 'get',
-        url: 'sensing',
+        baseURL:window.g.cuiURL,
+        method: 'post',
+        url: '/api/project',
         data: params
       }).then((res)=>{
         if(res.success){
+          message.success('操作成功！')
           _this.requestList()
         }
       });
@@ -95,7 +103,13 @@ class Scheme extends Component {
         render: (text, record,index) => (index+1),
       },{
         title: '文件名',
-        dataIndex: 'filepath',
+        dataIndex: 'title',
+      },{
+        title: '适用年限',
+        dataIndex: 'begindate',
+        render: (text,record) =>{
+          return(<div>{text+'--'+record.enddate}</div>)
+        }
       },{
         title: '上传人',
         dataIndex: 'uploader',
@@ -107,7 +121,13 @@ class Scheme extends Component {
         key:'option',
         dataIndex: 'register',
         render: (text,record) =>{
-          return(<div className="tableoption"><span className="greencolor">预览</span><a download='椒图数据字典20190417' href="https://view.officeapps.live.com/op/view.aspx?src=api.aokecloud.cn/upload/椒图数据字典20190417.docx" className="bluecolor">下载</a></div>)
+          return(<div className="tableoption">
+          <a className="greencolor" onClick={()=>this.preview(record.filepath)}>预览</a>
+          <form method='GET' action='https://view.officeapps.live.com/op/view.aspx?src=api.aokecloud.cn/upload/椒图数据字典20190417.docx'>
+            <a type='submit' className="bluecolor">
+          下载</a>
+          </form>
+          </div>)
         }
       }];
     return (
