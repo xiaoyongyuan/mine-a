@@ -41,9 +41,10 @@ class Lookplan extends Component {
             content: '确认添加至我的预案？',
             onOk() {
                 axios.ajax({
-                  method: 'get',
-                  url: 'plan',
-                  data: {ids:this.state.code}
+                    baseURL:'http://192.168.10.29:8002/bizservice',
+                  method: 'put',
+                  url: '/api/planStates',
+                  data: {code:this.state.code}
                 }).then((res)=>{
                   if(res.success){
                     _this.requestList()
