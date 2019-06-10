@@ -147,7 +147,7 @@ class Companyinfo extends Component {
             // zcaddrs:this.state.zcaddrs,
         };
         axios.ajax({
-            baseURL:'http://192.168.10.3:8003/sys',
+            baseURL:'http://192.168.10.29:8001/sys',
             method: 'put',
             url: '/api/company',
             data: data
