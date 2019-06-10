@@ -152,7 +152,7 @@ export default {
             {
                 title: '监测规划方案',
                 key: '/main/monitorpro',
-                component: "MonitorPro",
+                component: "Monitorpro",
             },
             {
                 title: '项目基金',

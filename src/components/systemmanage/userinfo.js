@@ -133,6 +133,7 @@ class Userinfo extends Component {
             account:this.state.account,
         };
         axios.ajax({
+            baseURL:'http://192.168.10.29:8001/sys',
             method: 'get',
             url: '/api/companyUser',
             data: quparams
