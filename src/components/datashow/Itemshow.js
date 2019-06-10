@@ -157,7 +157,7 @@ class Itemshow extends Component {
                 </div>
                 <div className="pandectitem"  style={{display:this.props.showitem=='prodect'?'block':'none'}}>
                     <dl key='prodectcol' className="columndl">
-                        <dt className="columndt">项目进度<a className="columndtright">详情<Icon type="right" /></a></dt>
+                        <dt className="columndt">项目进度<a className="columndtright" href='#/main/scheme'>详情<Icon type="right" /></a></dt>
                         {prodectsch.map((item)=>(<dd className="columndd" key={'prodects'+item.code}><span>{item.text} </span><span className='percentsty'><Progress percent={item.num} showInfo={false} /></span></dd>))}
                     </dl>
                 </div>

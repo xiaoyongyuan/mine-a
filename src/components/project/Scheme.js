@@ -12,6 +12,9 @@ class Scheme extends Component {
     state  ={
       newShow:false
     };
+    params={
+      pageindex:1
+    }
     formList={
       type:'inline',
       item:[   
@@ -43,7 +46,7 @@ class Scheme extends Component {
       this.requestList()
     }
     handleFilterSubmit=(params)=>{ //查询
-      params.page=1;
+      params.pageindex=1;
       console.log(params,'params');
       if(params.doubledata){
         this.params.bdate=params.doubledata[0];
@@ -65,7 +68,7 @@ class Scheme extends Component {
           this.setState({
               list:res.data,
               pagination:Utils.pagination(res,(current)=>{
-                  this.params.page=current;
+                  this.params.pageindex=current;
                   this.requestList();
               })
           })

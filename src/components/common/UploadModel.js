@@ -97,12 +97,11 @@ class UploadModel extends Component {
   }
 
   handleFilterSubmit = (params)=>{ //提交表单
-    console.log('params.file',params,params.file)
     var data={}
     data.title=params.titles
     data.filepath=params.fileurl
-    data.begindate=params.doubledata[0].format('YYYY/MM/DD')
-    data.enddate=params.doubledata[1].format('YYYY/MM/DD')
+    data.begindate=params.doubledata[0].format('YYYY-MM-DD')
+    data.enddate=params.doubledata[1].format('YYYY-MM-DD')
     // data.title=params.upload.file.name
       this.props.filterSubmit(data)
   }

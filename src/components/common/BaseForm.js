@@ -126,7 +126,6 @@ class FilterForm extends React.Component{
                     </FormItem>;
                     formItemList.push(INPUT)
                 } else if (item.type === 'SELECT') {
-                    console.log('dddd',item)
                     const SELECT = <FormItem label={item.label} key={item.field}>
                         {
                             getFieldDecorator([item.field], {

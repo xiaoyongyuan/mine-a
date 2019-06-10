@@ -4,7 +4,7 @@ import axios from '../../axios'
 import Utils from "../../utils/utils";
 import BaseForm from "../common/BaseForm"
 import Etable from "../common/Etable"
-import UploadModel from "../common/UploadModel"
+import MonitModel from "./MonitModel"
 
 
 
@@ -12,6 +12,11 @@ class Monitorpro extends Component {
     state  ={
       newShow:false
     };
+    params={
+      pageindex:1,
+      itemtype:2
+
+    }
     formList={
       type:'inline',
       item:[   
@@ -43,7 +48,7 @@ class Monitorpro extends Component {
       this.requestList()
     }
     handleFilterSubmit=(params)=>{ //查询
-      params.page=1;
+      params.pageindex=1;
       console.log(params,'params');
       if(params.doubledata){
         this.params.bdate=params.doubledata[0];
@@ -56,8 +61,7 @@ class Monitorpro extends Component {
       axios.ajax({
         baseURL:window.g.cuiURL,
         method: 'get',
-        // url:'/getproject',
-        url: '/api/getProjectList',
+        url: '/api/getItemfileList',
         data: this.params
       })
       .then((res)=>{
@@ -65,7 +69,7 @@ class Monitorpro extends Component {
           this.setState({
               list:res.data,
               pagination:Utils.pagination(res,(current)=>{
-                  this.params.page=current;
+                  this.params.pageindex=current;
                   this.requestList();
               })
           })
@@ -147,7 +151,7 @@ class Monitorpro extends Component {
               dataSource={this.state.list}
               pagination={this.state.pagination}
           />
-        <UploadModel newShow={this.state.newShow} filterSubmit={this.uploadOk} uploadreset={()=>this.changeState('newShow',false)} />
+        <MonitModel newShow={this.state.newShow} filterSubmit={this.uploadOk} uploadreset={()=>this.changeState('newShow',false)} />
       </div>
     );
   }

@@ -55,8 +55,7 @@ class MapShow extends Component {
                     </div>
                     <div className="itemshow">
                         <Itemshow showitem={this.state.showitem} />   
-                    </div>
-                    
+                    </div>                    
                 </div>
                 <div className="trigger" onClick={this.trigger}>
                     <div className="triggercont"><Icon type={this.state.tigclose?'double-right':'double-left'} /></div>
