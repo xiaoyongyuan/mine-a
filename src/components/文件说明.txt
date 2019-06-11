@@ -1,0 +1,53 @@
+已定模块：
+
+   datashow -- 大数据三个页面
+ 
+   project  -- 项目页面
+ 
+   plan  --预案页面
+ 
+   systemmanage  --系统管理页面
+
+  common -- 公共组件
+
+  
+
+
+保留页面
+
+  geology/detaildata    监测数据图表展示
+
+ 
+
+  overview/soilbreathe  土地损毁与复垦上传页面。就是不想删。先保留
+
+
+
+
+待定页面：
+ overview  --数据总览模块
+
+ soil -- 预警模块
+
+ manage  --数据管理模块
+
+ equipment  --设备管理模块
+
+
+
+
+
+ 
+
+
+
+废弃的页面：
+
+ plan/detailplan   预案详情
+
+ addproject   添加项目
+
+ overview/preview  文件预览  
+
+ 
+

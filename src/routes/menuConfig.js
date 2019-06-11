@@ -1,11 +1,6 @@
 export default {
   menuList : [
     {
-        title: '首页',
-        key: '/home',
-        component: "Datamanage",
-    },
-    {
         title: '大数据',
         key: '/datashow',
         type:'pandect',
@@ -120,34 +115,25 @@ export default {
     //         component: "Evideo",
     //       }]
     // },
-    {
-        title: '系统预案',
-        key: '/plan',
-        children: [
-          {
-            title: '我的预案',
-            key: '/main/myplan',
-            component: "MyPlan",
-          },
-          {
-            title: '推荐预案',
-            key: '/main/recommend',
-            component: "Recommend",
-          }]
-    },
+    
     {
         title: '项目管理',
         key: '/project',
         children: [
-            // {
-            //     title: '添加项目',
-            //     key: '/main/addproject',
-            //     component: "Addproject",
-            // },
             {
                 title: '项目方案',
                 key: '/main/scheme',
                 component: "Scheme",
+            },
+            {
+                title: '项目调查',
+                key: '/main/surveyrepro',
+                component: "SurveyRepro",
+            },
+            {
+                title: '项目评估',
+                key: '/main/assessrepro',
+                component: "AssessRepro",
             },
             {
                 title: '监测规划',
@@ -155,27 +141,12 @@ export default {
                 component: "Monitorpro",
             },
             {
-                title: '项目基金',
-                key: '/main/funds',
-                component: "Funds",
-            },
-            {
-                title: '评估报告',
-                key: '/main/assessrepro',
-                component: "AssessRepro",
-            },
-            {
-                title: '调查报告',
-                key: '/main/surveyrepro',
-                component: "SurveyRepro",
-            },
-            {
-                title: '勘察报告',
+                title: '项目勘察',
                 key: '/main/prospectrepro',
                 component: "ProspectRepro",
             },
             {
-                title: '设计报告',
+                title: '项目设计',
                 key: '/main/designrepro',
                 component: "DesignRepro",
             },
@@ -195,9 +166,14 @@ export default {
                 component: "MonitorRepro",
             },
             {
-                title: '治理方案',
+                title: '项目治理',
                 key: '/main/treatment',
                 component: "Treatment",
+            },
+            {
+                title: '项目基金',
+                key: '/main/funds',
+                component: "Funds",
             },
             {
                 title: '项目验收',
@@ -205,6 +181,21 @@ export default {
                 component: "CheckAccept",
             },
             ]
+    },
+    {
+        title: '系统预案',
+        key: '/plan',
+        children: [
+          {
+            title: '我的预案',
+            key: '/main/myplan',
+            component: "MyPlan",
+          },
+          {
+            title: '推荐预案',
+            key: '/main/recommend',
+            component: "Recommend",
+          }]
     },
     {
         title: '系统管理',
@@ -224,26 +215,6 @@ export default {
   ],
     other:[
         {
-        title: 'inSAR详细数据',
-        key: '/main/geology/detaildata',
-        component: "Detaildata",
-        },
-        {
-            title: '检测报告详细数据',
-            key: '/main/geology/detaildata',
-            component: "Detaildata",
-        },
-        {
-            title: '预案详情',
-            key: '/main/plan/detailplan',
-            component: "Detailplan",
-        },
-        {
-            title: '土地损毁复垦新增',
-            key: '/main/overview/soilbreathe',
-            component: "Soilbreathe",
-        },
-        {
             title: '富文本编辑',
             key: '/main/edit',
             component: "Edit",
@@ -253,6 +224,25 @@ export default {
             key: '/main/lookplan',
             component: "Lookplan",
         },
+
+
+
+//以下页面先保留
+        {
+        title: 'inSAR详细数据',
+        key: '/main/geology/detaildata',
+        component: "Detaildata",
+        },
+        {
+            title: '土地损毁复垦新增',
+            key: '/main/overview/soilbreathe',
+            component: "Soilbreathe",
+        },
+        {
+            title: '预案详情',
+            key: '/main/plan/detailplan',
+            component: "Detailplan",
+        },        
         {
             title: '地形地貌监测数据预览',
             key: '/main/overview/preview',
