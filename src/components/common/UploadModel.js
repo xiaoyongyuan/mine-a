@@ -15,8 +15,7 @@ class UploadModel extends Component {
           res.data.map(item=>{return {code:item.code,name:item.projectname}})
         }
       })
-
-    }
+    };
     this.formList ={
         item:[
         {
