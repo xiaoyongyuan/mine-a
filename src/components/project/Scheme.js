@@ -49,10 +49,9 @@ class Scheme extends Component {
       params.pageindex=1;
       console.log(params,'params');
       if(params.doubledata){
-        this.params.bdate=params.doubledata[0];
-        this.params.edate=params.doubledata[1]
+        this.params.bdate=params.doubledata[0].format('YYYY-MM-DD HH:mm:ss');
+        this.params.edate=params.doubledata[1].format('YYYY-MM-DD HH:mm:ss');
       }
-      this.params=params;
       this.requestList();
     };
     requestList=()=>{

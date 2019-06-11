@@ -73,10 +73,9 @@ class Monitorpro extends Component {
     handleFilterSubmit=(params)=>{ //查询
       params.pageindex=1;
       if(params.doubledata){
-        this.params.bdate=params.doubledata[0];
-        this.params.edate=params.doubledata[1]
+          this.params.bdate=params.doubledata[0].format('YYYY-MM-DD HH:mm:ss');
+          this.params.edate=params.doubledata[1].format('YYYY-MM-DD HH:mm:ss')
       }
-      this.params=params;
       this.requestList();
     };
     uploadOk=(params)=>{ //上传提交

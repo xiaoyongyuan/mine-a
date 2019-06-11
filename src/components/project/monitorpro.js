@@ -15,8 +15,7 @@ class monitorpro extends Component {
     params={
         pageindex:1,
         itemtype:11
-
-    }
+    };
     formList={
         type:'inline',
         item:[
