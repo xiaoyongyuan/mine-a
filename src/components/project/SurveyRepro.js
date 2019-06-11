@@ -14,9 +14,10 @@ class SurveyRepro extends Component {
     };
     params={
       pageindex:1,
-      itemtype:5
-
-    }
+      itemtype:5,
+        createonbegin:'',
+        createonend:''
+    };
     formList={
       type:'inline',
       item:[   
@@ -52,7 +53,7 @@ class SurveyRepro extends Component {
       axios.ajax({
         baseURL:window.g.cuiURL,
         method: 'get',
-        url: '/api/getItemfileList',
+        url: '/api/getItemByItemtype',
         data: this.params
       })
       .then((res)=>{
@@ -69,18 +70,21 @@ class SurveyRepro extends Component {
     };
     preview=(filepath)=>{ //预览文件
       window.open('http://192.168.10.20:8004/sys/UploadFile/OfficeFile/1136541326366367744.docx')
-    }
+    };
     handleFilterSubmit=(params)=>{ //查询
       if(params.doubledata){
-        this.params.bdate=params.doubledata[0].format('YYYY-MM-DD HH:mm:ss');
-        this.params.edate=params.doubledata[1].format('YYYY-MM-DD HH:mm:ss')
+        this.params.createonbegin=params.doubledata[0].format('YYYY-MM-DD HH:mm:ss');
+        this.params.createonend=params.doubledata[1].format('YYYY-MM-DD HH:mm:ss');
+      }else {
+          this.params.createonbegin = '';
+          this.params.createonend = ''
       }
       this.requestList();
     };
     uploadOk=(params)=>{ //上传提交
-      this.setState({newShow:false})
-      params.itemtype=5
-      const _this=this
+      this.setState({newShow:false});
+      params.itemtype=5;
+      const _this=this;
       axios.ajax({
         baseURL:window.g.cuiURL,
         method: 'post',

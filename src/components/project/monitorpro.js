@@ -14,7 +14,9 @@ class monitorpro extends Component {
     };
     params={
         pageindex:1,
-        itemtype:11
+        itemtype:11,
+        createonbegin:'',
+        createonend:''
     };
     formList={
         type:'inline',
@@ -51,7 +53,7 @@ class monitorpro extends Component {
         axios.ajax({
             baseURL:window.g.cuiURL,
             method: 'get',
-            url: '/api/getItemfileList',
+            url: '/api/getItemByItemtype',
             data: this.params
         })
             .then((res)=>{
@@ -71,8 +73,11 @@ class monitorpro extends Component {
     };
     handleFilterSubmit=(params)=>{ //查询
         if(params.doubledata){
-            this.params.bdate=params.doubledata[0].format('YYYY-MM-DD HH:mm:ss');
-            this.params.edate=params.doubledata[1].format('YYYY-MM-DD HH:mm:ss')
+            this.params.createonbegin=params.doubledata[0].format('YYYY-MM-DD HH:mm:ss');
+            this.params.createonend=params.doubledata[1].format('YYYY-MM-DD HH:mm:ss');
+        }else {
+            this.params.createonbegin = '';
+            this.params.createonend = ''
         }
         this.requestList();
     };
