@@ -14,7 +14,7 @@ class Scheme extends Component {
     };
     params={
       pageindex:1
-    }
+    };
     formList={
       type:'inline',
       item:[   
