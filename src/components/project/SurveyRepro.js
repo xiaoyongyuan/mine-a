@@ -8,13 +8,13 @@ import ItemModel from "./itemModel"
 
 
 
-class AssessRepro extends Component {
+class SurveyRepro extends Component {
     state  ={
       newShow:false
     };
     params={
       pageindex:1,
-      itemtype:4
+      itemtype:5
 
     }
     formList={
@@ -79,7 +79,7 @@ class AssessRepro extends Component {
     };
     uploadOk=(params)=>{ //上传提交
       this.setState({newShow:false})
-      params.itemtype=4
+      params.itemtype=5
       const _this=this
       axios.ajax({
         baseURL:window.g.cuiURL,
@@ -128,7 +128,7 @@ class AssessRepro extends Component {
         }
       }];
     return (
-      <div className="AssessRepro">
+      <div className="SurveyRepro">
         <div className="selectForm">
           <div className="leftForm"> 
             <BaseForm formList={this.formList} filterSubmit={this.handleFilterSubmit}/>
@@ -149,4 +149,4 @@ class AssessRepro extends Component {
     );
   }
 }
-export default AssessRepro;
+export default SurveyRepro;

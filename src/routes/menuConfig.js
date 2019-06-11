@@ -200,7 +200,7 @@ export default {
                 component: "Treatment",
             },
             {
-                title: '施工监理',
+                title: '项目验收',
                 key: '/main/checkaccept',
                 component: "CheckAccept",
             },

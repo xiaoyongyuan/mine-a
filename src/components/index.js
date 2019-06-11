@@ -68,5 +68,5 @@ export default {
   Monitor,ClaaMonitor,Evideo,
   MyPlan,Recommend,Edit,Detailplan,Lookplan,
   Scheme,Funds,Addproject,Monitorpro,AssessRepro,SurveyRepro,ProspectRepro,Supervisor,MonitorRepro,Treatment,CheckAccept,
-  Companyinfo,Userinfo
+  Companyinfo,Userinfo,DesignRepro,Construction
 };
