@@ -18,8 +18,8 @@ class ItemModel extends Component {
       accept:"application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document",
       showUploadList:true,
       multiple:false,
-      name:"file" , 
-      action:"http://192.168.10.20:8004/sys/api/uploadFile", //上传地址
+      name:"file" ,
+        action:"http://192.168.10.29:8001/sys/api/uploadFile", //上传地址
     }
     
   }
