@@ -71,12 +71,14 @@ class AssessRepro extends Component {
       window.open('http://192.168.10.20:8004/sys/UploadFile/OfficeFile/1136541326366367744.docx')
     }
     handleFilterSubmit=(params)=>{ //查询
-      params.pageindex=1;
-      if(params.doubledata){
-        this.params.bdate=params.doubledata[0];
-        this.params.edate=params.doubledata[1]
+      var para={
+        pageindex:1,
+        itemtype:4
       }
-      this.params=params;
+      if(params.doubledata){
+        this.params.bdate=params.doubledata[0].format('YYYY-MM-DD HH:mm:ss');
+        this.params.edate=params.doubledata[1].format('YYYY-MM-DD HH:mm:ss')
+      }
       this.requestList();
     };
     uploadOk=(params)=>{ //上传提交
