@@ -103,7 +103,7 @@ class Equipmanage extends Component {
             render: (text,record,index) =>{
                 return(
                     <div>
-                        <img src={text} style={{width:'100px',height:'50px' }}></img>
+                        <img src={text} style={{width:'100px',height:'50px' }} />
                     </div>
                 )
             }
