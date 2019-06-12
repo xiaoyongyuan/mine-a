@@ -59,6 +59,8 @@ import CheckAccept from './project/CheckAccept'
 //系统管理
 import Companyinfo from './systemmanage/companyinfo'
 import Userinfo from './systemmanage/userinfo'
+import Equipmanage from './systemmanage/equipmanage'
+import Basicdata from './systemmanage/basicdata'
 
 export default {
   Datamanage,Projectmanage,MapShow,
@@ -68,5 +70,5 @@ export default {
   Monitor,ClaaMonitor,Evideo,
   MyPlan,Recommend,Edit,Detailplan,Lookplan,
   Scheme,Funds,Addproject,Monitorpro,AssessRepro,SurveyRepro,ProspectRepro,Supervisor,MonitorRepro,Treatment,CheckAccept,
-  Companyinfo,Userinfo,DesignRepro,Construction
+  Companyinfo,Userinfo,DesignRepro,Construction,Equipmanage,Basicdata
 };

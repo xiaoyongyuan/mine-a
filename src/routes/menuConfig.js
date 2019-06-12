@@ -210,7 +210,18 @@ export default {
                 title: '用户管理',
                 key: '/main/userinfo',
                 component: "Userinfo",
-            }]
+            },
+            {
+                title: '设备管理',
+                key: '/main/equipmanage',
+                component: "Equipmanage",
+            },
+            {
+                title: '基础数据',
+                key: '/main/basicdata',
+                component: "Basicdata",
+            },
+            ]
     }, 
   ],
     other:[
