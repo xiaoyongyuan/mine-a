@@ -1,11 +1,34 @@
 import React, { Component } from 'react';
+import BaseForm from "../common/BaseForm";
+import {Button} from "antd";
 
 class Warning extends Component {
-  constructor(props){
-      super(props);
-      this.state={
-      };
-  }
+    formList={
+        type:'inline',
+        item:[
+            {
+                type: 'RANGPICKER',
+                label: '时间',
+                field:'doubledata',
+                placeholder:'请选择时间',
+                showTime:true,
+                format:'YYYY-MM-DD HH:mm:ss'
+            },{
+                type:'button',
+                button:[
+                    {
+                        label:'查询',
+                        type:"primary",
+                        click:'handleFilterSubmit',
+                    },
+                    {
+                        label:'重置',
+                        click:'reset',
+                    },
+                ]
+            }
+        ]
+    };
 
   componentDidMount() {
   }
@@ -14,7 +37,14 @@ class Warning extends Component {
     render() {
     return (
       <div className="Warning">
-      aa
+          <div className="selectForm">
+              <div className="leftForm">
+                  <BaseForm formList={this.formList}/>
+              </div>
+              <div className="rightOpt">
+                  <Button type="primary">新增</Button>
+              </div>
+          </div>
       </div>
     );
   }
