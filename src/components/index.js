@@ -55,6 +55,12 @@ import MonitorRepro from './project/MonitorRepro'
 import Treatment from './project/Treatment'
 import CheckAccept from './project/CheckAccept'
 
+//监测数据
+import Dotequip from './monitor/Dotequip'
+import Threshold from './monitor/Threshold'
+import ThresholdDot from './monitor/ThresholdDot'
+import Warning from './monitor/Warning'
+import Dotdetails from './monitor/Dotdetails'
 
 //系统管理
 import Companyinfo from './systemmanage/companyinfo'
@@ -70,5 +76,6 @@ export default {
   Monitor,ClaaMonitor,Evideo,
   MyPlan,Recommend,Edit,Detailplan,Lookplan,
   Scheme,Funds,Addproject,Monitorpro,AssessRepro,SurveyRepro,ProspectRepro,Supervisor,MonitorRepro,Treatment,CheckAccept,
-  Companyinfo,Userinfo,DesignRepro,Construction,Equipmanage,Basicdata
+  Dotequip,Threshold,ThresholdDot,Warning,Dotdetails,
+  Companyinfo,Userinfo,DesignRepro,Construction,Equipmanage,Basicdata,
 };

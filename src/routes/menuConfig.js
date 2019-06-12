@@ -1,7 +1,7 @@
 export default {
   menuList : [
     {
-        title: '大数据',
+        title: '总览',
         key: '/datashow',
         type:'pandect',
         children: [
@@ -180,21 +180,40 @@ export default {
                 key: '/main/checkaccept',
                 component: "CheckAccept",
             },
+            {
+                title: '系统预案',
+                key: '/plan',
+                children: [
+                  {
+                    title: '我的预案',
+                    key: '/main/myplan',
+                    component: "MyPlan",
+                  },
+                  {
+                    title: '推荐预案',
+                    key: '/main/recommend',
+                    component: "Recommend",
+                  }]
+            },
             ]
-    },
+    },    
     {
-        title: '系统预案',
-        key: '/plan',
+        title: '监测数据',
+        key: '/monitor',
         children: [
           {
-            title: '我的预案',
-            key: '/main/myplan',
-            component: "MyPlan",
+            title: '点位设备',
+            key: '/main/dotequip',
+            component: "Dotequip",
           },
           {
-            title: '推荐预案',
-            key: '/main/recommend',
-            component: "Recommend",
+            title: '阈值设置',
+            key: '/main/threshold',
+            component: "Threshold",
+          },{
+            title: '预警设置',
+            key: '/main/warning',
+            component: "Warning",
           }]
     },
     {
@@ -234,6 +253,16 @@ export default {
             title: '富文本编辑',
             key: '/main/lookplan',
             component: "Lookplan",
+        },
+        {
+            title: '点位详情',
+            key: '/main/dotdetails',
+            component: "Dotdetails",
+        },
+        {
+            title: '点位阈值',
+            key: '/main/thresholddot',
+            component: "ThresholdDot",
         },
 
 
