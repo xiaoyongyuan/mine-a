@@ -1,10 +1,8 @@
 import React, { Component } from 'react';
 import Etable from "../common/Etable"
-import BaseForm from "../common/BaseForm";
 import {Button, message, Switch} from "antd";
 import axios from "../../axios";
 import Utils from "../../utils/utils";
-import {Link} from "react-router-dom";
 import ItemModel from "./ThresholdDotModel";
 
 class Threshold extends Component {
@@ -23,12 +21,11 @@ class Threshold extends Component {
     };
     uploadOk=(params)=>{ //上传提交
         this.setState({newShow:false});
-        params.itemtype=9;
         const _this=this;
         axios.ajax({
-            baseURL:window.g.cuiURL,
+            baseURL:window.g.easyURL,
             method: 'post',
-            url: '/api/itemfile',
+            url: '/threshold_dot',
             data: params
         })
             .then((res)=>{
@@ -56,7 +53,26 @@ class Threshold extends Component {
                 }
             });
     };
-
+    isstart = (code) =>{
+        console.log("code",code);
+        axios.ajax({
+            baseURL:window.g.easyURL,
+            method: 'put',
+            url: '/threshold_net',
+            data: code
+        }).then((res)=>{
+            if(res.success){
+                message.success('设置成功！');
+                // this.setState({
+                //     list:res.data,
+                //     pagination:Utils.pagination(res,(current)=>{
+                //         this.params.pageindex=current;
+                //         this.requestList();
+                //     })
+                // })
+            }
+        });
+    };
     onChange = (checked) =>{
         console.log(`switch to ${checked}`);
     };
@@ -70,30 +86,44 @@ class Threshold extends Component {
             title: '名称',
             dataIndex: 'name',
         },{
-            title: '状态',
-            dataIndex: 'uploader',
-        },{
             title: '生成时间',
             dataIndex: 'createon',
         },{
             title: '低阈值',
-            dataIndex: 'high',
+            dataIndex: 'lower',
         },{
             title: '高阈值',
             dataIndex: 'high',
         },{
-            title: '监测网阈值',
-            dataIndex: 'netswtich',
+            title: '状态',
+            // dataIndex: 'status',
             render:(text, record,index) =>{
                 return(
                     <div>
-                        <Switch onChange={this.onChange} />
+                    {
+                        record.status === 0?<span className="redcolor">未生效</span>:<span className="greencolor">已生效</span>
+                    }
+                    </div>
+                )
+            }
+        },{
+            title: '监测网阈值',
+            dataIndex: 'status',
+            render:(text, record,index) =>{
+                return(
+                    <div className="tableoption">
+                        {/*<a className="greencolor" onClick={()=>this.preview(record.filepath)}>预览</a>*/}
+                        {
+                            text?
+                                <span className="redcolor" onClick={()=>this.isstart(0)}>解除</span>:
+                                <span className="greencolor" onClick={()=>this.isstart(1)}>应用</span>
+                        }
                     </div>
                 )
             }
         },{
             title: '备注',
-            dataIndex: 'createon',
+            dataIndex: 'remark',
         },];
         return (
             <div className="Threshold">

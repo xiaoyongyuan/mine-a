@@ -20,12 +20,11 @@ class Threshold extends Component {
   }
     uploadOk=(params)=>{ //上传提交
         this.setState({newShow:false});
-        params.itemtype=9;
         const _this=this;
         axios.ajax({
-            baseURL:window.g.cuiURL,
+            baseURL:window.g.easyURL,
             method: 'post',
-            url: '/api/itemfile',
+            url: '/threshold_net',
             data: params
         })
             .then((res)=>{
@@ -96,20 +95,29 @@ class Threshold extends Component {
             title: '设备类型',
             dataIndex: 'projectid',
         },{
-            title: '状态',
-            dataIndex: 'uploader',
-        },{
             title: '生成时间',
             dataIndex: 'createon',
         },{
             title: '低阈值',
-            dataIndex: 'high',
+            dataIndex: 'lower',
         },{
             title: '高阈值',
             dataIndex: 'high',
         },{
             title: '备注',
-            dataIndex: 'createon',
+            dataIndex: 'remark',
+        },{
+            title: '状态',
+            dataIndex: 'status',
+            render:(text, record,index) =>{
+                return(
+                    <div>
+                        {
+                            text === 0?<span className="redcolor">未生效</span>:<span className="greencolor">已生效</span>
+                        }
+                    </div>
+                )
+            }
         },{
             title: '操作',
             key:'option',
@@ -123,7 +131,8 @@ class Threshold extends Component {
                                 <span className="redcolor" onClick={()=>this.isstart(0)}>禁用</span>:
                                 <span className="greencolor" onClick={()=>this.isstart(1)}>启用</span>
                         }
-                    </div>)
+                    </div>
+                )
             }
         }];
     return (
