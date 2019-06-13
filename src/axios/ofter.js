@@ -47,7 +47,19 @@ export default class ofterajax {
                 resolve(res) 
             })  
         })
-    }   
+    }
+    static montinetlist() { //监测网列表
+        return new Promise((resolve, reject) => {
+            axios.ajax({
+                baseURL:window.g.easyURL,
+                method: 'get',
+                url: '/montinet',
+                data: {pagesize:200}
+            }).then((res)=>{
+                resolve(res)
+            })
+        })
+    }
 
 
 
