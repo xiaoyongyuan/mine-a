@@ -20,12 +20,11 @@ class Threshold extends Component {
   }
     uploadOk=(params)=>{ //上传提交
         this.setState({newShow:false});
-        params.itemtype=9;
         const _this=this;
         axios.ajax({
-            baseURL:window.g.cuiURL,
+            baseURL:window.g.easyURL,
             method: 'post',
-            url: '/api/itemfile',
+            url: '/threshold_net',
             data: params
         })
             .then((res)=>{
@@ -103,13 +102,13 @@ class Threshold extends Component {
             dataIndex: 'createon',
         },{
             title: '低阈值',
-            dataIndex: 'high',
+            dataIndex: 'lower',
         },{
             title: '高阈值',
             dataIndex: 'high',
         },{
             title: '备注',
-            dataIndex: 'createon',
+            dataIndex: 'remark',
         },{
             title: '操作',
             key:'option',

@@ -125,16 +125,16 @@ class ItemModel extends Component {
                       )
                   }
               </FormItem>
-              <FormItem label='高阈值' key='memo'>
+              <FormItem label='高阈值' key='heightvalue'>
                   {
-                      getFieldDecorator('memo')(
+                      getFieldDecorator('heightvalue')(
                           <Input key='memoInput' />
                       )
                   }
               </FormItem>
-              <FormItem label='低阈值' key='memo'>
+              <FormItem label='低阈值' key='lowvalue'>
                   {
-                      getFieldDecorator('memo')(
+                      getFieldDecorator('lowvalue')(
                           <Input key='memoInput' />
                       )
                   }

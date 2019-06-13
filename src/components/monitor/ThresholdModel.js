@@ -1,9 +1,6 @@
 import React, { Component } from 'react';
-import {Modal,message, Input, Select, Form, Button, Checkbox, Radio, DatePicker, Upload, Icon} from 'antd'
-import BaseForm from "../common/BaseForm"
+import {Modal,Input, Select, Form, Button} from 'antd'
 import ofteraxios from '../../axios/ofter'
-
-
 const FormItem = Form.Item;
 const Option = Select.Option;
 class ItemModel extends Component {
@@ -12,6 +9,10 @@ class ItemModel extends Component {
     this.state={
       project:[], //项目方案列表
       selectp:'', //选择的项目方案
+        montinet:[],//监测方案列表
+        selectmontinet:'',//选择的监测方案
+        equiptype:[],//设备类型列表
+        selectequiptype:'',//选择的设备类型
     };
 
     this.property={
@@ -25,67 +26,101 @@ class ItemModel extends Component {
   }
   changeState=(key,val)=>{
       this.setState({[key]:val})
-  }
+  };
   componentWillMount(){
     ofteraxios.projectlist().then(res=>{ //项目列表
       if(res.success){
-        var project=[]
-        res.data.map(item=>project.push({code:item.code,name:item.title}) )
-        this.setState({project,selectp:project.length?project[0].code:''})
+        var project=[];
+        res.data.map(
+            item=>project.push(
+                {
+                    code:item.code,
+                    name:item.title
+                }
+            )
+        );
+        this.setState(
+            {
+                project,
+                selectp:project.length?project[0].code:''
+            }
+        )
       }
-    })
+    });
 
   }
   componentDidMount(){
-    }
+
+  }
   reset = ()=>{ //取消表单
     this.setState({
-      excel:'',
-      filepath:'',
-      filename_cad:''
-    })
+        projectid:'',
+        montinetid:'',
+        equiptypeid:'',
+        heightvalue:'',
+        lowvalue:'',
+    });
       this.props.form.resetFields();
       this.props.uploadreset()
-  }
+  };
   handleFilterSubmit = ()=>{//查询提交
     const _this=this;
       this.props.form.validateFields((err, values) => {
+          console.log("values33",values);
           if (!err) {
               var data=values;
-              data.filename_cad=_this.state.cad
-              data.itemtype=2
-              data.filepath=_this.state.filepath
-              data.excel=_this.state.excel
+              // data.filename_cad=_this.state.cad;
+              // data.filepath=_this.state.filepath;
+              // data.excel=_this.state.excel;
               _this.props.filterSubmit(data);
               _this.props.form.resetFields();
           }
       });
         
   };
-
-  uploadchange=(info,fileurl)=>{ //上传文件
-    console.log('fileurlfileurl',info,fileurl)
-        if (info.file.status === 'uploading') {
-            this.setState({ loading: true });
-            return;
-        }
-        if (info.file.status === 'done') {
-          const resp=info.file.response;
-          if(resp.success){
-            this.setState({[fileurl]:resp.data.url},()=>{
-                console.log('上传成功',this.state[fileurl])
-            })
-          }else{
-            message.error(resp.msg)
-          }
-          
-            
-        }
-    }
-  removefile=(file,fileurl)=>{ //删除文件
-    this.setState({[fileurl]:''})
-
-  } 
+    projectidChange = (value) =>{
+        console.log("value",value);
+        ofteraxios.montinetlist().then(res=>{ //监测网列表
+            if(res.success){
+                var montinet=[];
+                res.data.map(
+                    item=>montinet.push(
+                        {
+                            code:item.code,
+                            name:item.name
+                        }
+                    )
+                );
+                this.setState(
+                    {
+                        montinet,
+                        selectmontinet:montinet.length?montinet[0].code:''
+                    }
+                )
+            }
+        });
+    };
+    montinetidChange =()=>{
+        ofteraxios.montinetlist().then(res=>{ //设备类型列表
+            if(res.success){
+                var equiptype=[];
+                res.data.map(
+                    item=>equiptype.push(
+                        {
+                            code:item.code,
+                            name:item.name
+                        }
+                    )
+                );
+                this.setState(
+                    {
+                        equiptype,
+                        selectequiptype:equiptype.length?equiptype[0].code:''
+                    }
+                )
+            }
+        });
+    };
   render() {
     const { getFieldDecorator } = this.props.form;
     const formItemLayout = {
@@ -112,12 +147,11 @@ class ItemModel extends Component {
                       getFieldDecorator('projectid', {
                           rules:[{
                               required: true,
-                              message: '请选择项目',
+                              message: '请选择规划方案',
                           }],
                           initialValue: this.state.selectp
                       })(
-                          <Select
-                          >
+                          <Select onChange={this.projectidChange}>
                               {this.state.project.map(city => (
                                   <Option key={city.code} value={city.code}>{city.name}</Option>
                               ))}
@@ -125,36 +159,34 @@ class ItemModel extends Component {
                       )
                   }
               </FormItem>
-              <FormItem label='监测网' key='projectid'>
+              <FormItem label='监测网' key='montinetid'>
                   {
-                      getFieldDecorator('projectid', {
+                      getFieldDecorator('montinetid', {
                           rules:[{
                               required: true,
-                              message: '请选择项目',
+                              message: '请选择监测网',
                           }],
-                          initialValue: this.state.selectp
+                          initialValue: '----请选择----'
                       })(
-                          <Select
-                          >
-                              {this.state.project.map(city => (
+                          <Select onChange={this.montinetidChange}>
+                              {this.state.montinet.map(city => (
                                   <Option key={city.code} value={city.code}>{city.name}</Option>
                               ))}
                           </Select>
                       )
                   }
               </FormItem>
-              <FormItem label='设备类型' key='projectid'>
+              <FormItem label='设备类型' key='equiptypeid'>
                 {
-                    getFieldDecorator('projectid', {
+                    getFieldDecorator('equiptypeid', {
                         rules:[{
                           required: true,
-                          message: '请选择项目',
+                          message: '请选设备类型',
                         }],
-                        initialValue: this.state.selectp
+                        initialValue: '----请选择----'
                     })(
-                        <Select
-                        >
-                          {this.state.project.map(city => (
+                        <Select>
+                          {this.state.equiptype.map(city => (
                               <Option key={city.code} value={city.code}>{city.name}</Option>
                           ))}     
                         </Select>
@@ -162,16 +194,16 @@ class ItemModel extends Component {
                   }
               </FormItem>
 
-              <FormItem label='高阈值' key='memo'>
+              <FormItem label='高阈值' key='heightvalue'>
                   {
-                      getFieldDecorator('memo')(
+                      getFieldDecorator('heightvalue')(
                           <Input key='memoInput' />
                       )
                   }
               </FormItem>
-              <FormItem label='低阈值' key='memo'>
+              <FormItem label='低阈值' key='lowvalue'>
                   {
-                      getFieldDecorator('memo')(
+                      getFieldDecorator('lowvalue')(
                           <Input key='memoInput' />
                       )
                   }
