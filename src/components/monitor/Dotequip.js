@@ -1,30 +1,24 @@
 import React, { Component } from "react";
-import { Row, Col, Radio, Button } from "antd";
+import { Row, Col, Radio, Button, Modal, DatePicker, message } from "antd";
 import axios from "../../axios";
 
 import Table from "../common/Etable";
 import Form from "../common/BaseForm";
 import "../../style/jhy/css/dotequip.less";
-
+const confirm = Modal.confirm;
 const easyURL = window.g.easyURL;
-const monitorNetType = [
-  { label: "形变监测网", value: "1" },
-  { label: "地裂缝监测网", value: "2" },
-  { label: "雨量监测网", value: "3" },
-  { label: "土壤环境监测网", value: "4" },
-  { label: "沉降监测网", value: "5" },
-  { label: "地下水监测网", value: "6" },
-  { label: "地表水监测网", value: "7" },
-  { label: "土地损毁与复垦监测网", value: "8" }
-];
 class Dotequip extends Component {
   constructor(props) {
     super(props);
     this.state = {
       projectList: [],
-      projSelected: "",
-      monintSelected: "",
-      tableData: []
+      typeList: [],
+      projSelected: 1,
+      monintSelected: 1,
+      tableData: [],
+      bindmodalshow: false,
+      setTime: "",
+      bindDevId: ""
     };
     this.columns = [
       {
@@ -39,12 +33,12 @@ class Dotequip extends Component {
       },
       {
         title: "安装时间",
-        dataIndex: "createon",
+        dataIndex: "data",
         align: "center"
       },
       {
         title: "创建时间",
-        dataIndex: "data",
+        dataIndex: "createon",
         align: "center"
       },
       {
@@ -72,21 +66,15 @@ class Dotequip extends Component {
         dataIndex: "state",
         render: text => {
           switch (text) {
-            case 0:
-              {
-                return <div>未启用</div>;
-              }
-              break;
-            case 1:
-              {
-                return <div>启用</div>;
-              }
-              break;
-            case 2:
-              {
-                return <div>弃用</div>;
-              }
-              break;
+            case 0: {
+              return <div>未绑定</div>;
+            }
+            case 1: {
+              return <div>启用</div>;
+            }
+            case 2: {
+              return <div>弃用</div>;
+            }
           }
         },
         align: "center"
@@ -99,15 +87,37 @@ class Dotequip extends Component {
           switch (text) {
             case 0:
               {
-                return <Button type="primary">绑定</Button>;
+                return (
+                  <Button
+                    type="primary"
+                    onClick={() => {
+                      this.handBind(record.cid);
+                    }}
+                  >
+                    绑定
+                  </Button>
+                );
               }
               break;
             case 1:
               {
                 return (
                   <div>
-                    <Button type="primary">查看</Button>
-                    <Button type="primary" style={{ marginLeft: "5px" }}>
+                    <Button
+                      type="primary"
+                      onClick={() => {
+                        this.handDetail(record);
+                      }}
+                    >
+                      查看
+                    </Button>
+                    <Button
+                      type="primary"
+                      style={{ marginLeft: "5px" }}
+                      onClick={() => {
+                        this.handAbandon(record.cid, record.state);
+                      }}
+                    >
                       弃用
                     </Button>
                   </div>
@@ -118,8 +128,21 @@ class Dotequip extends Component {
               {
                 return (
                   <div>
-                    <Button type="primary">查看</Button>
-                    <Button type="primary" style={{ marginLeft: "5px" }}>
+                    <Button
+                      type="primary"
+                      onClick={() => {
+                        this.handDetail(record);
+                      }}
+                    >
+                      查看
+                    </Button>
+                    <Button
+                      type="primary"
+                      style={{ marginLeft: "5px" }}
+                      onClick={() => {
+                        this.handUnseal(record.cid, record.state);
+                      }}
+                    >
                       启用
                     </Button>
                   </div>
@@ -136,9 +159,15 @@ class Dotequip extends Component {
       }
     ];
   }
-
-  componentDidMount() {
+  componentWillMount() {
     this.getProjectList();
+    this.getTypeList();
+  }
+  componentDidMount() {
+    console.log(this.state.projectList);
+    this.getDeviceList();
+  }
+  componentDidUpdate(prevProps, prevState) {
     console.log(this.state.projectList);
   }
   getProjectList = () => {
@@ -167,10 +196,32 @@ class Dotequip extends Component {
         }
       });
   };
-  componentDidUpdate(prevProps, prevState) {
-    this.getDeviceList();
-    console.log(this.state.projectList);
-  }
+  getTypeList = () => {
+    axios
+      .ajax({
+        method: "get",
+        url: easyURL + "/montinet"
+      })
+      .then(res => {
+        if (res.success) {
+          var tlist = [];
+          res.data.map(v => {
+            tlist.push({
+              label: v.name,
+              value: v.code
+            });
+          });
+          this.setState(
+            {
+              typeList: tlist
+            },
+            () => {
+              console.log(this.state.typeList, "[[[[[[[[[[[[[[[[[[[");
+            }
+          );
+        }
+      });
+  };
 
   getDeviceList = () => {
     axios
@@ -205,11 +256,119 @@ class Dotequip extends Component {
       }
     );
   };
+  handSetTime = v => {
+    this.setState({
+      setTime: v
+    });
+  };
+  submitTime = () => {
+    console.log("提交了");
+    const _this = this;
+    axios
+      .ajax({
+        method: "put",
+        url: easyURL + "/monitordot",
+        data: {
+          id: this.state.bindDevId,
+          time: this.state.setTime
+        }
+      })
+      .then(res => {
+        if (res.success) {
+          message.success("绑定成功");
+          this.setState({
+            bindmodalshow: false
+          });
+          _this.getDeviceList();
+        } else {
+          message.error("绑定失败");
+        }
+      });
+  };
+  cancleTMod = () => {
+    console.log("关闭了");
+    this.setState({
+      bindmodalshow: false
+    });
+  };
+  handBind = id => {
+    this.setState({
+      bindmodalshow: true,
+      bindDevId: id
+    });
+  };
+  handDetail = record => {
+    window.location.href = `/#/main/dotdetails/proid:${
+      this.state.projSelected
+    }&&netid:${this.state.monintSelected}&&cid:${record.cid}`;
+  };
+
+  handAbandon = (id, state) => {
+    const _this = this;
+
+    confirm({
+      title: "确认弃用吗？",
+      okText: "确认",
+      okType: "danger",
+      cancelText: "取消",
+      onOk() {
+        axios
+          .ajax({
+            method: "put",
+            url: easyURL + "/monitordot",
+            data: {
+              id: id,
+              status: state
+            }
+          })
+          .then(res => {
+            if (res.success) {
+              message.error("已弃用");
+              _this.getDeviceList();
+            }
+          });
+      }
+    });
+  };
+  handUnseal = (id, state) => {
+    const _this = this;
+
+    confirm({
+      title: "确认启用吗？",
+      okText: "确认",
+      okType: "success",
+      cancelText: "取消",
+      onOk() {
+        axios
+          .ajax({
+            method: "put",
+            url: easyURL + "/monitordot",
+            data: {
+              id: id,
+              status: state
+            }
+          })
+          .then(res => {
+            if (res.success) {
+              message.success("已启用");
+              _this.getDeviceList();
+            }
+          });
+      }
+    });
+  };
   render() {
     return (
       <div className="dotequip">
         <div className="optbox">
-          <Row className="moniproj">
+          <Row
+            className="moniproj"
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              alignItems: "center"
+            }}
+          >
             <Col span={4} className="capt">
               监测网规划
             </Col>
@@ -221,13 +380,20 @@ class Dotequip extends Component {
               />
             </Col>
           </Row>
-          <Row className="monitype">
-            <Col span={4} className="capt" style={{ display: "flex" }}>
+          <Row
+            className="monitype"
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              alignItems: "center"
+            }}
+          >
+            <Col span={4} className="capt">
               监测网类型
             </Col>
             <Col span={19}>
               <Radio.Group
-                options={monitorNetType}
+                options={this.state.typeList}
                 onChange={this.handSelectM}
                 value={1}
               />
@@ -244,9 +410,38 @@ class Dotequip extends Component {
             </Col>
           </Row>
         </div>
-        <div className="devicelist">
+        <div className="devicelist" style={{ marginTop: "10px" }}>
           <Table columns={this.columns} dataSource={this.state.tableData} />
         </div>
+        <Modal
+          centered={true}
+          destroyOnClose={true}
+          visible={this.state.bindmodalshow}
+          title="绑定设备"
+          onCancel={() => {
+            this.cancleTMod();
+          }}
+          onOk={() => {
+            this.submitTime();
+          }}
+          cancelText="取消"
+          okText="提交"
+          okType="success"
+          bodyStyle={{
+            display: "flex",
+            flexDirection: "row",
+            justifyContent: "center"
+          }}
+        >
+          <span>安装时间：</span>{" "}
+          <DatePicker
+            showTime
+            placeholder="请选取安装时间"
+            onChange={date => {
+              this.handSetTime(date);
+            }}
+          />
+        </Modal>
       </div>
     );
   }

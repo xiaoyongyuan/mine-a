@@ -1,29 +1,29 @@
 export default {
-  menuList : [
+  menuList: [
     {
-        title: '总览',
-        key: '/datashow',
-        type:'pandect',
-        children: [
-            {
-                title: '数据管理',
-                key: '/pandect/datamanage',
-                type:'pandect',
-                component: "Datamanage",
-            },
-            {
-                title: '项目管理',
-                key: '/pandect/projectmanage',
-                type:'pandect',
-                component: "Projectmanage",
-            },
-            {
-                title: '地图',
-                key: '/pandect/mapshow',
-                type:'pandect',
-                component: "MapShow",
-            }
-        ]
+      title: "总览",
+      key: "/datashow",
+      type: "pandect",
+      children: [
+        {
+          title: "数据管理",
+          key: "/pandect/datamanage",
+          type: "pandect",
+          component: "Datamanage"
+        },
+        {
+          title: "项目管理",
+          key: "/pandect/projectmanage",
+          type: "pandect",
+          component: "Projectmanage"
+        },
+        {
+          title: "地图",
+          key: "/pandect/mapshow",
+          type: "pandect",
+          component: "MapShow"
+        }
+      ]
     },
     // {
     //     title: '数据总览',
@@ -93,7 +93,7 @@ export default {
     //           title: '土地损毁与复垦数据',
     //           key: '/main/soilmanage',
     //           component: "Soilmanage",
-    //         },   
+    //         },
     //     ]
     // },
     // {
@@ -115,178 +115,179 @@ export default {
     //         component: "Evideo",
     //       }]
     // },
-    
+
     {
-        title: '项目管理',
-        key: '/project',
-        children: [
+      title: "项目管理",
+      key: "/project",
+      children: [
+        {
+          title: "项目方案",
+          key: "/main/scheme",
+          component: "Scheme"
+        },
+        {
+          title: "项目调查",
+          key: "/main/surveyrepro",
+          component: "SurveyRepro"
+        },
+        {
+          title: "项目评估",
+          key: "/main/assessrepro",
+          component: "AssessRepro"
+        },
+        {
+          title: "监测规划",
+          key: "/main/monitorpro",
+          component: "Monitorpro"
+        },
+        {
+          title: "项目勘察",
+          key: "/main/prospectrepro",
+          component: "ProspectRepro"
+        },
+        {
+          title: "项目设计",
+          key: "/main/designrepro",
+          component: "DesignRepro"
+        },
+        {
+          title: "项目施工",
+          key: "/main/construction",
+          component: "Construction"
+        },
+        {
+          title: "施工监理",
+          key: "/main/supervisor",
+          component: "Supervisor"
+        },
+        {
+          title: "监测报告",
+          key: "/main/monitorrepro",
+          component: "MonitorRepro"
+        },
+        {
+          title: "项目治理",
+          key: "/main/treatment",
+          component: "Treatment"
+        },
+        {
+          title: "项目基金",
+          key: "/main/funds",
+          component: "Funds"
+        },
+        {
+          title: "项目验收",
+          key: "/main/checkaccept",
+          component: "CheckAccept"
+        },
+        {
+          title: "系统预案",
+          key: "/plan",
+          children: [
             {
-                title: '项目方案',
-                key: '/main/scheme',
-                component: "Scheme",
+              title: "我的预案",
+              key: "/main/myplan",
+              component: "MyPlan"
             },
             {
-                title: '项目调查',
-                key: '/main/surveyrepro',
-                component: "SurveyRepro",
-            },
-            {
-                title: '项目评估',
-                key: '/main/assessrepro',
-                component: "AssessRepro",
-            },
-            {
-                title: '监测规划',
-                key: '/main/monitorpro',
-                component: "Monitorpro",
-            },
-            {
-                title: '项目勘察',
-                key: '/main/prospectrepro',
-                component: "ProspectRepro",
-            },
-            {
-                title: '项目设计',
-                key: '/main/designrepro',
-                component: "DesignRepro",
-            },
-            {
-                title: '项目施工',
-                key: '/main/construction',
-                component: "Construction",
-            },
-            {
-                title: '施工监理',
-                key: '/main/supervisor',
-                component: "Supervisor",
-            },
-            {
-                title: '监测报告',
-                key: '/main/monitorrepro',
-                component: "MonitorRepro",
-            },
-            {
-                title: '项目治理',
-                key: '/main/treatment',
-                component: "Treatment",
-            },
-            {
-                title: '项目基金',
-                key: '/main/funds',
-                component: "Funds",
-            },
-            {
-                title: '项目验收',
-                key: '/main/checkaccept',
-                component: "CheckAccept",
-            },
-            {
-                title: '系统预案',
-                key: '/plan',
-                children: [
-                  {
-                    title: '我的预案',
-                    key: '/main/myplan',
-                    component: "MyPlan",
-                  },
-                  {
-                    title: '推荐预案',
-                    key: '/main/recommend',
-                    component: "Recommend",
-                  }]
-            },
-            ]
-    },    
-    {
-        title: '监测数据',
-        key: '/monitor',
-        children: [
-          {
-            title: '点位设备',
-            key: '/main/dotequip',
-            component: "Dotequip",
-          },
-          {
-            title: '阈值设置',
-            key: '/main/threshold',
-            component: "Threshold",
-          },{
-            title: '预警设置',
-            key: '/main/warning',
-            component: "Warning",
-          }]
+              title: "推荐预案",
+              key: "/main/recommend",
+              component: "Recommend"
+            }
+          ]
+        }
+      ]
     },
     {
-        title: '系统管理',
-        key: '/systemmanage',
-        children: [
-            {
-                title: '企业信息',
-                key: '/main/companyinfo',
-                component: "Companyinfo",
-            },
-            {
-                title: '用户管理',
-                key: '/main/userinfo',
-                component: "Userinfo",
-            },
-            {
-                title: '设备管理',
-                key: '/main/equipmanage',
-                component: "Equipmanage",
-            },
-            {
-                title: '基础数据',
-                key: '/main/basicdata',
-                component: "Basicdata",
-            },
-            ]
-    }, 
+      title: "监测数据",
+      key: "/monitor",
+      children: [
+        {
+          title: "点位设备",
+          key: "/main/dotequip",
+          component: "Dotequip"
+        },
+        {
+          title: "阈值设置",
+          key: "/main/threshold",
+          component: "Threshold"
+        },
+        {
+          title: "预警设置",
+          key: "/main/warning",
+          component: "Warning"
+        }
+      ]
+    },
+    {
+      title: "系统管理",
+      key: "/systemmanage",
+      children: [
+        {
+          title: "企业信息",
+          key: "/main/companyinfo",
+          component: "Companyinfo"
+        },
+        {
+          title: "用户管理",
+          key: "/main/userinfo",
+          component: "Userinfo"
+        },
+        {
+          title: "设备管理",
+          key: "/main/equipmanage",
+          component: "Equipmanage"
+        },
+        {
+          title: "基础数据",
+          key: "/main/basicdata",
+          component: "Basicdata"
+        }
+      ]
+    }
   ],
-    other:[
-        {
-            title: '富文本编辑',
-            key: '/main/edit',
-            component: "Edit",
-        },
-        {
-            title: '富文本编辑',
-            key: '/main/lookplan',
-            component: "Lookplan",
-        },
-        {
-            title: '点位详情',
-            key: '/main/dotdetails',
-            component: "Dotdetails",
-        },
-        {
-            title: '点位阈值',
-            key: '/main/thresholddot',
-            component: "ThresholdDot",
-        },
+  other: [
+    {
+      title: "富文本编辑",
+      key: "/main/edit",
+      component: "Edit"
+    },
+    {
+      title: "富文本编辑",
+      key: "/main/lookplan",
+      component: "Lookplan"
+    },
+    {
+      title: "点位详情",
+      key: "/main/dotdetails/*",
+      component: "Dotdetails"
+    },
+    {
+      title: "点位阈值",
+      key: "/main/thresholddot",
+      component: "ThresholdDot"
+    },
 
-
-
-//以下页面先保留
-        {
-        title: 'inSAR详细数据',
-        key: '/main/geology/detaildata',
-        component: "Detaildata",
-        },
-        {
-            title: '土地损毁复垦新增',
-            key: '/main/overview/soilbreathe',
-            component: "Soilbreathe",
-        },
-        {
-            title: '预案详情',
-            key: '/main/plan/detailplan',
-            component: "Detailplan",
-        },        
-        {
-            title: '地形地貌监测数据预览',
-            key: '/main/overview/preview',
-            component: "Preview",
-        },
-    ]
-}
+    //以下页面先保留
+    {
+      title: "inSAR详细数据",
+      key: "/main/geology/detaildata",
+      component: "Detaildata"
+    },
+    {
+      title: "土地损毁复垦新增",
+      key: "/main/overview/soilbreathe",
+      component: "Soilbreathe"
+    },
+    {
+      title: "预案详情",
+      key: "/main/plan/detailplan",
+      component: "Detailplan"
+    },
+    {
+      title: "地形地貌监测数据预览",
+      key: "/main/overview/preview",
+      component: "Preview"
+    }
+  ]
+};
