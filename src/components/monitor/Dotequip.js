@@ -159,16 +159,11 @@ class Dotequip extends Component {
       }
     ];
   }
-  componentWillMount() {
+  componentWillMount() {}
+  componentDidMount() {
     this.getProjectList();
     this.getTypeList();
-  }
-  componentDidMount() {
-    console.log(this.state.projectList);
     this.getDeviceList();
-  }
-  componentDidUpdate(prevProps, prevState) {
-    console.log(this.state.projectList);
   }
   getProjectList = () => {
     axios
@@ -190,7 +185,7 @@ class Dotequip extends Component {
               projectList: plist
             },
             () => {
-              console.log(this.state.projectList, "[[[[[[[[[[[[[[[[[[[");
+              console.log(this.state.projectList);
             }
           );
         }
@@ -216,7 +211,7 @@ class Dotequip extends Component {
               typeList: tlist
             },
             () => {
-              console.log(this.state.typeList, "[[[[[[[[[[[[[[[[[[[");
+              console.log(this.state.typeList);
             }
           );
         }
@@ -224,6 +219,7 @@ class Dotequip extends Component {
   };
 
   getDeviceList = () => {
+    console.log(this.state.projSelected, this.state.monintSelected);
     axios
       .ajax({
         method: "get",
@@ -242,9 +238,14 @@ class Dotequip extends Component {
       });
   };
   handSelectP = e => {
-    this.setState({
-      projSelected: e.target.value
-    });
+    this.setState(
+      {
+        projSelected: e.target.value
+      },
+      () => {
+        this.getDeviceList();
+      }
+    );
   };
   handSelectM = e => {
     this.setState(
@@ -257,6 +258,7 @@ class Dotequip extends Component {
     );
   };
   handSetTime = v => {
+    console.log(v, "time");
     this.setState({
       setTime: v
     });
@@ -292,10 +294,15 @@ class Dotequip extends Component {
     });
   };
   handBind = id => {
-    this.setState({
-      bindmodalshow: true,
-      bindDevId: id
-    });
+    this.setState(
+      {
+        bindmodalshow: true,
+        bindDevId: id
+      },
+      () => {
+        console.log(this.state.bindmodalshow, this.state.bindDevId, "300");
+      }
+    );
   };
   handDetail = record => {
     window.location.href = `/#/main/dotdetails/proid:${

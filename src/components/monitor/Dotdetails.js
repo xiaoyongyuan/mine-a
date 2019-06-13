@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Tabs } from "antd";
-import Form from "../common/BaseForm";
+import BaseForm from "../common/BaseForm";
 import axios from "../../axios";
 import Table from "../common/Etable";
 import CurveChart from "./CurveChart";
@@ -10,51 +10,64 @@ import "../../style/jhy/css/dotdetails.less";
 const easyURL = window.g.easyURL;
 
 const { TabPane } = Tabs;
-function callback(key) {
-  console.log(key);
-}
 class Dotdetails extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      columns: [],
       datalist: [],
       begintime: "",
       endtime: ""
     };
-    this.formList = [
+  }
+  formList = {
+    type: "inline",
+    item: [
       {
         type: "RANGPICKER",
         label: "双日期",
         field: "doubledata",
+        // rules:,
         placeholder: "请选择日期",
         initialValue: ["2019-03-09 12:09:09", "2019-03-09 12:09:09"],
         showTime: true,
         format: "YYYY-MM-DD HH:mm:ss"
       },
       {
-        type: "button"
-        // fafuns:
+        type: "button",
+        button: [
+          {
+            label: "查询",
+            type: "primary",
+            click: "handleFilterSubmit"
+          }
+        ]
       }
-    ];
-  }
-  componentWillMount() {
-    this.getColumns();
-  }
+    ]
+  };
   componentDidMount() {
+    this.getList();
+  }
+  getList = () => {
     const par = this.props.match.params[0];
     const rst = par.substring(par.indexOf("&&") + 2, par.lastIndexOf("&&"));
+    const proid = par
+      .substring(0, par.indexOf("&&"))
+      .substring(par.substring(0, par.indexOf("&&")).indexOf(":") + 1);
     const type = rst.substring(rst.indexOf(":") + 1);
+    const cid = par
+      .substring(par.lastIndexOf("&&") + 2)
+      .substring(par.substring(par.lastIndexOf("&&") + 2).indexOf(":") + 1);
+
     axios
       .ajax({
         method: "get",
         url: easyURL + "/monitordotdata",
         data: {
-          // id: par[2].cid,
-          // type: par[1].netid
-          // cid: par[2].cid
-          // createonbegin :
-          // createonend
+          id: cid,
+          type: type,
+          // proid: proid,
+          createonbegin: this.state.begintime,
+          createonend: this.state.endtime
         }
       })
       .then(res => {
@@ -65,8 +78,7 @@ class Dotdetails extends Component {
           });
         }
       });
-  }
-
+  };
   getColumns = () => {
     const par = this.props.match.params[0];
     const rst = par.substring(par.indexOf("&&") + 2, par.lastIndexOf("&&"));
@@ -346,20 +358,36 @@ class Dotdetails extends Component {
       default:
         break;
     }
-    this.setState({
-      columns: columns
-    });
+    return columns;
   };
-
+  handleFilterSubmit = data => {
+    console.log(data);
+    this.setState(
+      {
+        begintime: data[0],
+        endtime: data[1]
+      },
+      () => {
+        this.getList();
+      }
+    );
+  };
   render() {
     return (
       <div className="dotdetails">
+        <div className="selectForm">
+          <div className="leftForm">
+            <BaseForm
+              formList={this.formList}
+              filterSubmit={this.handleFilterSubmit}
+            />
+          </div>
+        </div>
+
         <Tabs type="card">
           <TabPane tab="数据列表" key="1">
-            <Form formList={this.formList} />
-
             <Table
-              columns={this.state.columns}
+              columns={this.getColumns()}
               dataSource={this.state.datalist}
             />
           </TabPane>
