@@ -95,9 +95,6 @@ class Threshold extends Component {
             title: '设备类型',
             dataIndex: 'projectid',
         },{
-            title: '状态',
-            dataIndex: 'uploader',
-        },{
             title: '生成时间',
             dataIndex: 'createon',
         },{
@@ -109,6 +106,18 @@ class Threshold extends Component {
         },{
             title: '备注',
             dataIndex: 'remark',
+        },{
+            title: '状态',
+            dataIndex: 'status',
+            render:(text, record,index) =>{
+                return(
+                    <div>
+                        {
+                            text === 0?<span className="redcolor">未生效</span>:<span className="greencolor">已生效</span>
+                        }
+                    </div>
+                )
+            }
         },{
             title: '操作',
             key:'option',
@@ -122,7 +131,8 @@ class Threshold extends Component {
                                 <span className="redcolor" onClick={()=>this.isstart(0)}>禁用</span>:
                                 <span className="greencolor" onClick={()=>this.isstart(1)}>启用</span>
                         }
-                    </div>)
+                    </div>
+                )
             }
         }];
     return (
