@@ -1,14 +1,30 @@
 import React, { Component } from 'react';
 import {Modal, Input, Form, Select, Button} from 'antd';
 import WarningConditionsModel from "./WarningConditionsModel";
+import axios from "../../axios";
+import ofteraxios from "../../axios/ofter";
 const FormItem = Form.Item;
 const Option = Select.Option;
 class WarningModel extends Component{
     constructor(props){
         super(props);
         this.state={
-            early:false
+            early:false,
+            project:[]
         };
+    }
+    componentWillMount(){
+        ofteraxios.projectlist().then(res=>{ //项目列表
+            if(res.success){
+                var project=[]
+                res.data.map(item=>project.push({code:item.code,name:item.title}) );
+                this.setState({
+                    project,
+                    selectp:project.length?project[0].code:'',
+                })
+            }
+        })
+
     }
     reset = ()=>{ //取消表单
         this.props.form.resetFields();
@@ -19,7 +35,14 @@ class WarningModel extends Component{
     };
     hanlewarningC=()=>{
         this.setState({early:true})
-    }
+    };
+    handleFilterSubmit=()=>{
+        this.props.form.validateFields((err, values) => {
+            if (!err) {
+                this.props.form.resetFields();
+            }
+        });
+    };
     render() {
         const { getFieldDecorator } = this.props.form;
         const formItemLayout = {
@@ -41,11 +64,28 @@ class WarningModel extends Component{
                     footer={null}
                 >
                     <Form className='baseform' {...formItemLayout} >
+                        <FormItem label='项目' key='project'>
+                            {
+                                getFieldDecorator('project',{
+                                    rules:[{
+                                        required: true,
+                                        message: '请输入项目',
+                                    }],
+                                    initialValue: this.state.selectp
+                                })(
+                                    <Select>
+                                        {this.state.project.map(city => (
+                                            <Option key={city.code} value={city.code}>{city.name}</Option>
+                                        ))}
+                                    </Select>
+                                )
+                            }
+                        </FormItem>
                         <FormItem label='名称' key='name'>
                             {
                                 getFieldDecorator('name',{
                                     rules:[{
-                                        required: false,
+                                        required: true,
                                         message: '请输入标题',
                                     }],
                                 })(
@@ -57,7 +97,7 @@ class WarningModel extends Component{
                             {
                                 getFieldDecorator('rank',{
                                     rules:[{
-                                        required: false,
+                                        required: true,
                                         message: '请输入标题',
                                     }],
                                     initialValue:"0"
@@ -76,7 +116,7 @@ class WarningModel extends Component{
                             {
                                 getFieldDecorator('relation',{
                                     rules:[{
-                                        required: false,
+                                        required: true,
                                         message: '请输入标题',
                                     }],
                                     initialValue:"3"
@@ -89,14 +129,26 @@ class WarningModel extends Component{
                                 )
                             }
                         </FormItem>
+                        <FormItem label='备注' key='memo'>
+                            {
+                                getFieldDecorator('memo',{
+                                    rules:[{
+                                        required: true,
+                                        message: '请输入备注',
+                                    }],
+                                })(
+                                    <Input key='montInput' />
+                                )
+                            }
+                        </FormItem>
                         <FormItem>
                             <Button onClick={this.hanlewarningC}>添加预警条件</Button>
-                            <WarningConditionsModel early={this.state.early} earlyreset={()=>this.changeState('early',false)} />
+                            <WarningConditionsModel early={this.state.early} selectp={this.state.selectp} earlyreset={()=>this.changeState('early',false)} />
                         </FormItem>
                         <FormItem key="buts">
-                            <Button type='primary' onClick={this.handleFilterSubmit}>确定</Button>
-                            <Button style={{ margin: '0 10px' }} onClick={this.reset}>取消</Button>
-                        </FormItem>
+                        <Button type='primary' onClick={this.handleFilterSubmit}>确定</Button>
+                        <Button style={{ margin: '0 10px' }} onClick={this.reset}>取消</Button>
+                    </FormItem>
                     </Form>
                 </Modal>
             </div>

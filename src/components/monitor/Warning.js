@@ -66,7 +66,7 @@ class Warning extends Component {
         this.codeArr=[];
     }
     componentDidMount() {
-        this.requestList()
+        this.requestList();
     }
     handleFilterSubmit=(params)=>{ //查询
         this.params.rank =params.rank;
@@ -96,16 +96,21 @@ class Warning extends Component {
     changeState=(key,val)=>{
         this.setState({[key]:val})
     };
-    onSelectChange = (selectedRowKeys,selectedRows) => {
-        selectedRows.map((v)=>{
-            this.codeArr.push(v.code);
-        });
+    onSelectChange = (selectedRowKeys) => {
         this.setState({
             selectedRowKeys
         });
     };
+    //单选
+    handleSelect=(record, selected)=>{
+        if(selected){
+             this.codeArr.push(record.code);
+        }else{
+            this.codeArr.splice(this.codeArr.indexOf(record.code),1);
+        }
+    };
     hanleApplication=()=>{
-        if(!this.state.selectedRowKeys){
+        if(this.codeArr.length===0){
             message.warning("请选择数据!");
         }else{
             axios.ajax({
@@ -115,12 +120,11 @@ class Warning extends Component {
                 data:{
                     code:this.codeArr.toString()
                 }
-            })
-                .then((res)=>{
-                    if(res.success){
-                        message.success("应用成功！")
-                    }
-                });
+            }).then((res)=>{
+                if(res.success){
+                    message.success("应用成功！")
+                }
+            });
         }
     };
     uploadOk=(params)=>{ //上传提交
@@ -170,11 +174,11 @@ class Warning extends Component {
             title: '报警条件',
             dataIndex: 'ifType',
         }];
-        const {selectedRowKeys,selectedRows } = this.state;
+        const {selectedRowKeys } = this.state;
         const rowSelection = {
             selectedRowKeys,
-            selectedRows,
             onChange: this.onSelectChange,
+            onSelect:this.handleSelect,
         };
         return (
            <div className="Warning">
