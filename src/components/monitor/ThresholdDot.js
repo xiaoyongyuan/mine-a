@@ -90,18 +90,18 @@ class Threshold extends Component {
             dataIndex: 'createon',
         },{
             title: '低阈值',
-            dataIndex: 'high',
+            dataIndex: 'lower',
         },{
             title: '高阈值',
             dataIndex: 'high',
         },{
             title: '状态',
-            dataIndex: 'status',
+            // dataIndex: 'status',
             render:(text, record,index) =>{
                 return(
                     <div>
                     {
-                        text === 0?<span className="redcolor">未生效</span>:<span className="greencolor">已生效</span>
+                        record.status === 0?<span className="redcolor">未生效</span>:<span className="greencolor">已生效</span>
                     }
                     </div>
                 )
@@ -123,7 +123,7 @@ class Threshold extends Component {
             }
         },{
             title: '备注',
-            dataIndex: 'createon',
+            dataIndex: 'remark',
         },];
         return (
             <div className="Threshold">
