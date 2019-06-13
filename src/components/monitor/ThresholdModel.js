@@ -9,20 +9,11 @@ class ItemModel extends Component {
     this.state={
       project:[], //项目方案列表
       selectp:'', //选择的项目方案
-        montinet:[],//监测方案列表
+        montinet:[],//监测网列表
         selectmontinet:'',//选择的监测方案
         equiptype:[],//设备类型列表
         selectequiptype:'',//选择的设备类型
     };
-
-    this.property={
-      accept:"application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document",
-      showUploadList:true,
-      multiple:false,
-      name:"file" ,
-        action:"http://192.168.10.29:8001/sys/api/uploadFile", //上传地址
-    }
-    
   }
   changeState=(key,val)=>{
       this.setState({[key]:val})
@@ -59,6 +50,8 @@ class ItemModel extends Component {
         equiptypeid:'',
         heightvalue:'',
         lowvalue:'',
+        montinet:[],
+        equiptype:[],
     });
       this.props.form.resetFields();
       this.props.uploadreset()
