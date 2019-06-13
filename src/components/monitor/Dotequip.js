@@ -376,7 +376,8 @@ class Dotequip extends Component {
               <Radio.Group
                 options={this.state.projectList}
                 onChange={this.handSelectP}
-                value={1}
+                defaultValue={1}
+                value={this.state.projSelected}
               />
             </Col>
           </Row>
@@ -395,7 +396,8 @@ class Dotequip extends Component {
               <Radio.Group
                 options={this.state.typeList}
                 onChange={this.handSelectM}
-                value={1}
+                defaultValue={1}
+                value={this.state.monintSelected}
               />
               <Row>
                 <Col />
