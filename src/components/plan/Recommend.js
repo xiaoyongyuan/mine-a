@@ -38,7 +38,7 @@ class Recommend extends Component {
       this.params.recommendtype=this.state.recommendtype;
       this.params.plantype=this.state.selecttype || 0;
       axios.ajax({
-          baseURL:'http://192.168.10.20:8003/bizservice',
+          baseURL:'http://192.168.10.29:8002/bizservice',
         method: 'get',
         url: '/api/getPlanByRecommendtype',
           data:this.params,

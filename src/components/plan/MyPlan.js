@@ -53,7 +53,7 @@ class MyPlan extends Component {
       this.params.plantype=this.state.selecttype || 0;
       // this.params.pageindex = this.state.pageindex;
       axios.ajax({
-          baseURL:'http://192.168.10.20:8003/bizservice',
+          baseURL:'http://192.168.10.29:8002/bizservice',
           method: 'get',
           url: '/api/getPlanByPlantype',
           data: this.params
