@@ -396,16 +396,6 @@ class Dotequip extends Component {
                 defaultValue={1}
                 value={this.state.monintSelected}
               />
-              <Row>
-                <Col />
-                <Col />
-                <Col />
-                <Col />
-                <Col />
-                <Col />
-                <Col />
-                <Col />
-              </Row>
             </Col>
           </Row>
         </div>
