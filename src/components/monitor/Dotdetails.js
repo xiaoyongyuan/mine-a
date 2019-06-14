@@ -76,15 +76,23 @@ class Dotdetails extends Component {
                             console.log(this.state.datalist);
                             console.log("xdata",this.state.xdata);
                             var xdata=[];
+                            var levelvalue=[];
+                            var vertical = [];
                             res.data.map(item =>
-                                // {
-                                //   console.log("item",item.createon.substring(0,10));
-                                // }
-                                xdata.push(item.createon.substring(0,10))
+                                xdata.push(item.createon.substring(0,10)),
+                            );
+                            res.data.map(item =>
+                                levelvalue.push(item.x)
+                            );
+                            res.data.map(item =>
+                                vertical.push(item.y)
                             );
                             console.log("xdata",xdata);
+                            console.log("levelvalue",levelvalue);
                             this.setState({
-                                xdata:xdata
+                                xdata:xdata,
+                                levelvalue:levelvalue,
+                                vertical
                             })
                         }
                     );
@@ -396,7 +404,7 @@ class Dotdetails extends Component {
                         />
                     </TabPane>
                     <TabPane tab="曲线图" key="2">
-                        <CurveChart xdata={this.state.xdata}/>
+                        <CurveChart xdata={this.state.xdata} levelvalue={this.state.levelvalue} vertical={this.state.vertical}/>
                     </TabPane>
                     <TabPane tab="报警信息" key="3">
                         <AlarmInfo netid={this.state.netid} cid={this.state.cid} />

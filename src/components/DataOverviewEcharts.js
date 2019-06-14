@@ -364,6 +364,7 @@ class DataOverviewEcharts extends Component {
                     name:'X轴',
                     type:'line',
                     data:this.props.datax
+                    // data:[1,2,3]
                 },
                 {
                     name:'Y轴',
@@ -394,7 +395,8 @@ class DataOverviewEcharts extends Component {
               trigger: 'axis'
           },
           legend: {
-              data:['最高气温','最低气温']
+              data:['水平位移','垂直位移'],
+              left:'left'
           },
           toolbox: {
               show: true,
@@ -409,7 +411,7 @@ class DataOverviewEcharts extends Component {
           xAxis:  {
               type: 'category',
               boundaryGap: false,
-              data: ['周一','周二','周三','周四','周五','周六','周日']
+              data:this.props.xdata
           },
           yAxis: {
               type: 'value',
@@ -428,6 +430,7 @@ class DataOverviewEcharts extends Component {
                   name:'水平位移',
                   type:'line',
                   data:[11, 7, 15, 13, 12, 13, 10],
+                  // data:this.props.levelvalue,
                   // markPoint: {
                   //     data: [
                   //         {type: 'max', name: '最大值'},
@@ -444,6 +447,7 @@ class DataOverviewEcharts extends Component {
                   name:'垂直位移',
                   type:'line',
                   data:[-1, -12, -2, -5, -3, -2, -10],
+                  // data:this.props.vertical,
                   // markPoint: {
                   //     data: [
                   //         {name: '周最低', value: -2, xAxis: 1, yAxis: -1.5}
