@@ -21,42 +21,35 @@ class AlarmInfo extends Component {
       {
         type: "SELECT",
         label: "预警类别",
-        initialValue: "蓝色",
+        defaultValue: 0,
         field: "alarmtype",
         list: [
           {
-            code: "1",
+            code: 0,
+            name: "全部"
+          },
+          {
+            code: 1,
             name: "蓝色"
           },
           {
-            code: "2",
+            code: 2,
             name: "橙色"
           },
           {
-            code: "3",
+            code: 3,
             name: "黄色"
           },
           {
-            code: "4",
+            code: 4,
             name: "红色"
           }
         ]
       },
       {
-        type: "datePicker",
-        label: "开始日期-",
-        field: "begintime",
-        placeholder: "请选择日期",
-        initialValue: ["2018-05-29"],
-        showTime: true,
-        format: "YYYY-MM-DD HH:mm:ss"
-      },
-      {
-        type: "datePicker",
-        label: "-结束日期",
-        field: "endtime",
-        placeholder: "请选择日期",
-        initialValue: ["22018-05-29"],
+        type: "RANGPICKER",
+        label: "筛选日期",
+        field: "doubledata",
         showTime: true,
         format: "YYYY-MM-DD HH:mm:ss"
       },
@@ -80,22 +73,22 @@ class AlarmInfo extends Component {
     },
     {
       title: "IMEI",
-      dataIndex: "code",
+      dataIndex: "cid",
       align: "center"
     },
     {
       title: "灾害名称",
-      dataIndex: "code",
+      dataIndex: "name",
       align: "center"
     },
     {
       title: "报警时间",
-      dataIndex: "code",
+      dataIndex: "data",
       align: "center"
     },
     {
       title: "报警原因",
-      dataIndex: "code",
+      dataIndex: "rank",
       align: "center"
     }
   ];
@@ -133,8 +126,14 @@ class AlarmInfo extends Component {
     this.setState(
       {
         alarmtype: data.alarmtype,
-        begintime: moment(data.begintime).format("YYYY-MM-DD HH:mm:ss"),
-        endtime: moment(data.endtime).format("YYYY-MM-DD HH:mm:ss")
+        begintime:
+          data.doubledata != null
+            ? moment(data.doubledata[0]).format("YYYY-MM-DD HH:mm:ss")
+            : null,
+        endtime:
+          data.doubledata != null
+            ? moment(data.doubledata[1]).format("YYYY-MM-DD HH:mm:ss")
+            : null
       },
       () => {
         this.getList();
