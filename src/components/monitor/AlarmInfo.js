@@ -114,15 +114,12 @@ class AlarmInfo extends Component {
             {
               datalist: res.data
             },
-            () => {
-              console.log(this.state.datalist);
-            }
+            () => {}
           );
         }
       });
   };
   handleFilterSubmit = data => {
-    console.log(data);
     this.setState(
       {
         alarmtype: data.alarmtype,
@@ -147,6 +144,7 @@ class AlarmInfo extends Component {
           formList={this.formList}
           filterSubmit={this.handleFilterSubmit}
         />
+
         <Table columns={this.columns} dataSource={this.state.datalist} />
       </div>
     );
