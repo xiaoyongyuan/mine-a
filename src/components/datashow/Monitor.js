@@ -52,7 +52,7 @@ class Monitor extends Component {
                     </List>
                 </dl>
                 <dl className="columndl">
-                    <dt className="columndt">监测设备<a className="columndtright"></a></dt>
+                    <dt className="columndt">监测设备</dt>
                     <div className="egraph">
                             
                     </div>

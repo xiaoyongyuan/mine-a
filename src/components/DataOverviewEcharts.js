@@ -382,6 +382,100 @@ class DataOverviewEcharts extends Component {
         });
     };
 
+    //点位设备曲线图
+    dotdetails=()=>{
+      let option = {
+          title: {
+              text: 'GNSS监测点1#',
+              left:'center',
+              subtext: '2019年03月'
+          },
+          tooltip: {
+              trigger: 'axis'
+          },
+          legend: {
+              data:['最高气温','最低气温']
+          },
+          toolbox: {
+              show: true,
+              feature: {
+                  dataZoom: {
+                      yAxisIndex: 'none'
+                  },
+                  restore: {},
+                  saveAsImage: {}
+              }
+          },
+          xAxis:  {
+              type: 'category',
+              boundaryGap: false,
+              data: ['周一','周二','周三','周四','周五','周六','周日']
+          },
+          yAxis: {
+              type: 'value',
+              name:"位移量(mm)",
+              axisLabel: {
+                  formatter: '{value} mm'
+              }
+          },
+          dataZoom: [{
+              startValue: '2014-06-01'
+          }, {
+              type: 'inside'
+          }],
+          series: [
+              {
+                  name:'水平位移',
+                  type:'line',
+                  data:[11, 7, 15, 13, 12, 13, 10],
+                  // markPoint: {
+                  //     data: [
+                  //         {type: 'max', name: '最大值'},
+                  //         {type: 'min', name: '最小值'}
+                  //     ]
+                  // },
+                  markLine: {
+                      data: [
+                          {type: 'average', name: '平均值'}
+                      ]
+                  }
+              },
+              {
+                  name:'垂直位移',
+                  type:'line',
+                  data:[-1, -12, -2, -5, -3, -2, -10],
+                  // markPoint: {
+                  //     data: [
+                  //         {name: '周最低', value: -2, xAxis: 1, yAxis: -1.5}
+                  //     ]
+                  // },
+                  markLine: {
+                      data: [
+                          {type: 'average', name: '平均值'},
+                          [{
+                              symbol: 'none',
+                              x: '90%',
+                              yAxis: 'max'
+                          }, {
+                              symbol: 'circle',
+                              label: {
+                                  normal: {
+                                      position: 'start',
+                                      formatter: '最大值'
+                                  }
+                              },
+                              type: 'max',
+                              name: '最高点'
+                          }]
+                      ]
+                  }
+              }
+          ]
+      };
+        this.setState({
+            option
+        });
+    };
     render() {
         return(
             <ReactEcharts

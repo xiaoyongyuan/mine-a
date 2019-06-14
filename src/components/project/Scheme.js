@@ -75,7 +75,7 @@ class Scheme extends Component {
       });
     };
     preview=(filepath)=>{ //预览文件
-      window.open('http://192.168.10.20:8004/sys/UploadFile/OfficeFile/1136541326366367744.docx')
+      window.open(window.g.baseURL+filepath);
     }
     uploadOk=(params)=>{ //上传提交
       console.log('paramsparams',params)
