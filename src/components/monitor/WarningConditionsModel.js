@@ -52,8 +52,11 @@ class WarningConditionsModel extends Component{
         this.props.form.validateFields((err, values) => {
             if (!err) {
                 var filter=[];
-                filter.push(values,this.state.monitoring);
-                _this.props.filterSubmit(filter,this.state.monitoring);
+                var arr=[];
+                arr.monitoring=this.state.monitoring;
+                arr.values=[values];
+                filter.push(arr);
+                _this.props.filterSubmit(arr);
                 this.props.form.resetFields();
             }
         });

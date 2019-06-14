@@ -50,14 +50,17 @@ class WarningModel extends Component{
             }
         });
     };
-    uploadOk=(params,monitoring)=>{ //上传提交
+    uploadOk=(params)=>{ //上传提交
         console.log(params)
         this.setState({early:false});
         this.setState({
-            inputContext:params
+            inputContext:params.values
         });
-        monitoring.map((v)=>{
-           this.state.context.push(v.label);
+        params.monitoring.map((v)=>{
+           //this.state.context.push(v.label);
+           this.setState({
+               context:v.label
+           })
         });
         params.map((v)=>{
        /* axios.ajax({
