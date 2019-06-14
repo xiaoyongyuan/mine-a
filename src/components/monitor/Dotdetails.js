@@ -69,10 +69,23 @@ class Dotdetails extends Component {
         if (res.success) {
           this.setState(
             {
-              datalist: res.data
+              datalist: res.data,
+                // xdata:res.data.createon
             },
             () => {
               console.log(this.state.datalist);
+                console.log("xdata",this.state.xdata);
+                var xdata=[];
+                res.data.map(item =>
+                    // {
+                    //   console.log("item",item.createon.substring(0,10));
+                    // }
+                    xdata.push(item.createon.substring(0,10))
+                );
+                console.log("xdata",xdata);
+                this.setState({
+                    xdata:xdata
+                })
             }
           );
         }
@@ -383,7 +396,7 @@ class Dotdetails extends Component {
             />
           </TabPane>
           <TabPane tab="曲线图" key="2">
-            <CurveChart />
+            <CurveChart xdata={this.state.xdata}/>
           </TabPane>
           <TabPane tab="报警信息" key="3">
             <AlarmInfo netid={this.state.netid} cid={this.state.cid} />
