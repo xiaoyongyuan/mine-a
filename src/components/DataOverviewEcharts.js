@@ -386,8 +386,9 @@ class DataOverviewEcharts extends Component {
     dotdetails=()=>{
       let option = {
           title: {
-              text: '未来一周气温变化',
-              subtext: '纯属虚构'
+              text: 'GNSS监测点1#',
+              left:'center',
+              subtext: '2019年03月'
           },
           tooltip: {
               trigger: 'axis'
@@ -401,8 +402,6 @@ class DataOverviewEcharts extends Component {
                   dataZoom: {
                       yAxisIndex: 'none'
                   },
-                  dataView: {readOnly: false},
-                  magicType: {type: ['line', 'bar']},
                   restore: {},
                   saveAsImage: {}
               }
@@ -414,21 +413,27 @@ class DataOverviewEcharts extends Component {
           },
           yAxis: {
               type: 'value',
+              name:"位移量(mm)",
               axisLabel: {
-                  formatter: '{value} °C'
+                  formatter: '{value} mm'
               }
           },
+          dataZoom: [{
+              startValue: '2014-06-01'
+          }, {
+              type: 'inside'
+          }],
           series: [
               {
-                  name:'最高气温',
+                  name:'水平位移',
                   type:'line',
-                  data:[11, 11, 15, 13, 12, 13, 10],
-                  markPoint: {
-                      data: [
-                          {type: 'max', name: '最大值'},
-                          {type: 'min', name: '最小值'}
-                      ]
-                  },
+                  data:[11, 7, 15, 13, 12, 13, 10],
+                  // markPoint: {
+                  //     data: [
+                  //         {type: 'max', name: '最大值'},
+                  //         {type: 'min', name: '最小值'}
+                  //     ]
+                  // },
                   markLine: {
                       data: [
                           {type: 'average', name: '平均值'}
@@ -436,14 +441,14 @@ class DataOverviewEcharts extends Component {
                   }
               },
               {
-                  name:'最低气温',
+                  name:'垂直位移',
                   type:'line',
-                  data:[1, -2, 2, 5, 3, 2, 0],
-                  markPoint: {
-                      data: [
-                          {name: '周最低', value: -2, xAxis: 1, yAxis: -1.5}
-                      ]
-                  },
+                  data:[-1, -12, -2, -5, -3, -2, -10],
+                  // markPoint: {
+                  //     data: [
+                  //         {name: '周最低', value: -2, xAxis: 1, yAxis: -1.5}
+                  //     ]
+                  // },
                   markLine: {
                       data: [
                           {type: 'average', name: '平均值'},
