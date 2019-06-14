@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Row, Col, Radio, Button, Modal, DatePicker, message } from "antd";
 import axios from "../../axios";
-
+import moment from "moment";
 import Table from "../common/Etable";
 import Form from "../common/BaseForm";
 import "../../style/jhy/css/dotequip.less";
@@ -258,9 +258,8 @@ class Dotequip extends Component {
     );
   };
   handSetTime = v => {
-    console.log(v, "time");
     this.setState({
-      setTime: v
+      setTime: moment(v).format("YYYY-MM-DD HH:mm:ss")
     });
   };
   submitTime = () => {
@@ -330,7 +329,7 @@ class Dotequip extends Component {
           })
           .then(res => {
             if (res.success) {
-              message.error("已弃用");
+              message.success("已弃用");
               _this.getDeviceList();
             }
           });

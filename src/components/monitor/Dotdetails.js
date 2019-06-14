@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { Tabs } from "antd";
 import BaseForm from "../common/BaseForm";
 import axios from "../../axios";
+import moment from "moment";
 import Table from "../common/Etable";
 import CurveChart from "./CurveChart";
 import AlarmInfo from "./AlarmInfo";
@@ -361,11 +362,10 @@ class Dotdetails extends Component {
     return columns;
   };
   handleFilterSubmit = data => {
-    console.log(data);
     this.setState(
       {
-        begintime: data[0],
-        endtime: data[1]
+        begintime: moment(data.doubledata[0]).format("YYYY-MM-DD HH:mm:ss"),
+        endtime: moment(data.doubledata[1]).format("YYYY-MM-DD HH:mm:ss")
       },
       () => {
         this.getList();
