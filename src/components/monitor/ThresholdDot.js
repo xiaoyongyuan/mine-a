@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import Etable from "../common/Etable"
-import {Button, message, Switch} from "antd";
+import {Button, message, Modal} from "antd";
 import axios from "../../axios";
 import Utils from "../../utils/utils";
 import ItemModel from "./ThresholdDotModel";
-
+const confirm = Modal.confirm;
 class Threshold extends Component {
     constructor(props){
         super(props);
@@ -14,10 +14,36 @@ class Threshold extends Component {
     }
 
     componentDidMount() {
-        this.requestList();
+        const ids=this.props.query.id;
+        const cid=this.props.query.cid;
+        console.log("cid",cid);
+        if(ids) this.setState({code:ids,cid:cid},()=>this.requestList());
     }
+    requestList=()=>{
+        axios.ajax({
+            baseURL:window.g.easyURL,
+            method: 'get',
+            url: '/thresholddotlist',
+            data: {planId:this.state.code}
+        })
+            .then((res)=>{
+                if(res.success){
+                    this.setState({
+                        list:res.data,
+                        pagination:Utils.pagination(res,(current)=>{
+                            this.params.pageindex=current;
+                            this.requestList();
+                        })
+                    })
+                }
+            });
+    };
     changeState=(key,val)=>{
-        this.setState({[key]:val})
+        this.setState(
+            {
+                [key]:val
+            }
+            )
     };
     uploadOk=(params)=>{ //上传提交
         this.setState({newShow:false});
@@ -34,44 +60,57 @@ class Threshold extends Component {
                 }else{message.warn(res.msg)}
             });
     };
-    requestList=()=>{
-        axios.ajax({
-            baseURL:window.g.easyURL,
-            method: 'get',
-            url: '/thresholddotlist',
-            data: this.params
-        })
-            .then((res)=>{
-                if(res.success){
-                    this.setState({
-                        list:res.data,
-                        pagination:Utils.pagination(res,(current)=>{
-                            this.params.pageindex=current;
-                            this.requestList();
-                        })
-                    })
-                }
-            });
-    };
+
     isstart = (code) =>{
         console.log("code",code);
-        axios.ajax({
-            baseURL:window.g.easyURL,
-            method: 'put',
-            url: '/threshold_net',
-            data: code
-        }).then((res)=>{
-            if(res.success){
-                message.success('设置成功！');
-                // this.setState({
-                //     list:res.data,
-                //     pagination:Utils.pagination(res,(current)=>{
-                //         this.params.pageindex=current;
-                //         this.requestList();
-                //     })
-                // })
-            }
-        });
+        if(code){
+            this.setState({
+                title:"确认应用吗？"
+            },()=>{
+                confirm({
+                    title: this.state.title,
+                    okText: "确认",
+                    okType: "danger",
+                    cancelText: "取消",
+                    onOk() {
+                        axios.ajax({
+                            baseURL:window.g.easyURL,
+                            method: 'put',
+                            url: '/threshold_net',
+                            data: code
+                        }).then((res)=>{
+                            if(res.success){
+                                message.success('设置成功！');
+                            }
+                        });
+                    }
+                });
+            })
+        }else{
+            this.setState({
+                title:"确认解除吗？"
+            },()=>{
+                confirm({
+                    title: this.state.title,
+                    okText: "确认",
+                    okType: "danger",
+                    cancelText: "取消",
+                    onOk() {
+                        axios.ajax({
+                            baseURL:window.g.easyURL,
+                            method: 'put',
+                            url: '/threshold_net',
+                            data: code
+                        }).then((res)=>{
+                            if(res.success){
+                                message.success('设置成功！');
+                            }
+                        });
+                    }
+                });
+            })
+        }
+
     };
     onChange = (checked) =>{
         console.log(`switch to ${checked}`);
@@ -142,7 +181,7 @@ class Threshold extends Component {
                     dataSource={this.state.list}
                     // pagination={this.state.pagination}
                 />
-                <ItemModel newShow={this.state.newShow} filterSubmit={this.uploadOk} uploadreset={()=>this.changeState('newShow',false)} />
+                <ItemModel cid={this.state.cid} code={this.state.code} newShow={this.state.newShow} filterSubmit={this.uploadOk} uploadreset={()=>this.changeState('newShow',false)} />
             </div>
         );
     }

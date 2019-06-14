@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {Modal,Input, Select, Form, Button} from 'antd'
+import {Modal,InputNumber, Select, Form, Button} from 'antd'
 import ofteraxios from '../../axios/ofter'
 const FormItem = Form.Item;
 const Option = Select.Option;
@@ -15,13 +15,19 @@ class ItemModel extends Component {
       this.setState({[key]:val})
   };
   componentWillMount(){
-    ofteraxios.projectlist().then(res=>{ //项目列表
-      if(res.success){
-        var project=[];
-        res.data.map(item=>project.push({code:item.code,name:item.title}));
-        this.setState({project,selectp:project.length?project[0].code:''})
+
+
+  }
+  componentWillReceiveProps(nextProps){
+      if(nextProps.newShow){
+          ofteraxios.thresholdDotlist(this.props.code,this.props.cid).then(res=>{ //监测点列表
+              if(res.success){
+                  var project=[];
+                  res.data.map(item=>project.push({code:item.code,name:item.title}));
+                  this.setState({project,selectp:project.length?project[0].code:''})
+              }
+          })
       }
-    })
   }
   componentDidMount(){
 
@@ -67,6 +73,7 @@ class ItemModel extends Component {
         <Modal
           title="监测点阈值新增"
           visible={this.props.newShow}
+          code={this.props.code}
           onCancel={this.reset}
           footer={null}
         >
@@ -92,14 +99,14 @@ class ItemModel extends Component {
               <FormItem label='高阈值' key='heightvalue'>
                   {
                       getFieldDecorator('heightvalue')(
-                          <Input key='memoInput' />
+                          <InputNumber key='memoInput' />
                       )
                   }
               </FormItem>
               <FormItem label='低阈值' key='lowvalue'>
                   {
                       getFieldDecorator('lowvalue')(
-                          <Input key='memoInput' />
+                          <InputNumber key='memoInput' />
                       )
                   }
               </FormItem>
