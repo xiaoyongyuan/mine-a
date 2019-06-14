@@ -11,7 +11,8 @@ class WarningModel extends Component{
         this.state={
             early:false,
             project:[],
-            inputContext:[]
+            inputContext:[],
+            context:[]
         };
     }
     componentWillMount(){
@@ -39,20 +40,26 @@ class WarningModel extends Component{
     };
     handleFilterSubmit=()=>{
         const _this=this;
+        const allparam={};
         this.props.form.validateFields((err, values) => {
             if (!err) {
-                _this.props.filterSubmit(values,this.state.inputContext);
+                allparam.values=values;
+                allparam.inputContext=this.state.inputContext;
+                _this.props.filterSubmitModel(allparam,this.state.inputContext);
                 this.props.form.resetFields();
             }
         });
     };
-    uploadOk=(params)=>{ //上传提交
+    uploadOk=(params,monitoring)=>{ //上传提交
+        console.log(params)
         this.setState({early:false});
         this.setState({
             inputContext:params
         });
+        monitoring.map((v)=>{
+           this.state.context.push(v.label);
+        });
         params.map((v)=>{
-            console.log(v,"33")
        /* axios.ajax({
             baseURL:window.g.cuiURL,
             method: 'post',
@@ -71,10 +78,37 @@ class WarningModel extends Component{
         })
     };
     hanleDelete=(i)=>{
-        console.log("000");
         this.state.inputContext.splice(i,1);
-
-        console.log(this.state.inputContext)
+    };
+    hanleContext=(name,time,datas,judge)=>{
+        return this.hanleTime(time)+ this.hanlejudge(judge)+ this.hanleData(datas)+this.state.context;
+    };
+    hanleData=(datas)=>{
+        if(datas==="1"){
+            return "水平";
+        }else if(datas==="2"){
+            return "垂直";
+        }
+    };
+    hanleTime=(time)=>{
+        if(time==="1"){
+            return "每小时";
+        }else if(time==="2"){
+            return "日";
+        }else if(time==="3"){
+            return "快速";
+        }
+    };
+    hanlejudge=(judge)=>{
+        if(judge==="1"){
+            return "大于";
+        }else if(judge==="2"){
+            return "大于等于";
+        }else if(judge==="3"){
+            return "小于";
+        }else if(judge==="4"){
+            return "小于等于";
+        }
     };
     render() {
         const { getFieldDecorator } = this.props.form;
@@ -176,13 +210,13 @@ class WarningModel extends Component{
                             <Button onClick={this.hanlewarningC}>添加预警条件</Button>
                             <WarningConditionsModel early={this.state.early} selectp={this.state.selectp} filterSubmit={this.uploadOk} earlyreset={()=>this.changeState('early',false)} />
                         </FormItem>
-                        {
-                           this.state.inputContext.map((v,i)=>(
-                                <div style={{display:this.state.inputContext?"block":"none"}} key={i}>
-                                    <Input style={{width:"50%"}} value={v.name+v.time+v.datas+v.judge} /><Icon type="close-circle" onClick={()=>this.hanleDelete(i)} />
-                                </div>
-                            ))
-                        }
+                        <div style={{display:this.state.inputContext?"block":"none"}}>
+                            {
+                                this.state.inputContext.map((v,i)=>(
+                                    <p key={i}><Input style={{width:"90%"}} key='montInput' value={this.hanleContext(v.name,v.time,v.datas,v.judge)} /><Icon type="close-circle" onClick={()=>this.hanleDelete(i)} /></p>
+                                ))
+                            }
+                        </div>
                         <FormItem key="buts">
                         <Button type='primary' onClick={this.handleFilterSubmit}>确定</Button>
                         <Button style={{ margin: '0 10px' }} onClick={this.reset}>取消</Button>

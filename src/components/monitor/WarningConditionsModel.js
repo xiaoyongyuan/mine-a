@@ -52,20 +52,19 @@ class WarningConditionsModel extends Component{
         this.props.form.validateFields((err, values) => {
             if (!err) {
                 var filter=[];
-                filter.push(values);
-                console.log(filter,"filter");
-                _this.props.filterSubmit(filter);
+                filter.push(values,this.state.monitoring);
+                _this.props.filterSubmit(filter,this.state.monitoring);
                 this.props.form.resetFields();
             }
         });
     };
     onChange = (value,selectedOptions) => {
-        //onsole.log(value,selectedOptions)
+        this.setState({monitoring:selectedOptions});
+        //console.log(value,selectedOptions)
     };
     loadData = selectedOptions => {
         const targetOption = selectedOptions[selectedOptions.length - 1];
         targetOption.loading = true;
-        var target=[];
         targetOption.loading = false;
             axios.ajax({
                 baseURL:window.g.easyURL,
@@ -77,18 +76,20 @@ class WarningConditionsModel extends Component{
                 }
             }).then((res)=>{
                 if(res.success){
+                    var target=[];
                     res.data.map((v)=>{
                         target.push({
                             label:v.name,
-                            value: v.name,
+                            value: v.code,
                         })
-                    })
+                    });
+                    targetOption.children = target;
+                    this.setState({
+                        options: [...this.state.options],
+                    });
                 }
             });
-            targetOption.children = target;
-            this.setState({
-                options: [...this.state.options],
-            });
+
     };
     render() {
         const { getFieldDecorator } = this.props.form;
@@ -168,7 +169,7 @@ class WarningConditionsModel extends Component{
                                     <Option value="1">大于</Option>
                                     <Option value="2">大于等于</Option>
                                     <Option value="3">小于</Option>
-                                    <Option value="3">小于等于</Option>
+                                    <Option value="4">小于等于</Option>
                                 </Select>
                             )
                         }
