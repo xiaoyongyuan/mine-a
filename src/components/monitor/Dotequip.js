@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Row, Col, Radio, Button, Modal, DatePicker, message } from "antd";
 import axios from "../../axios";
-
+import moment from "moment";
 import Table from "../common/Etable";
 import Form from "../common/BaseForm";
 import "../../style/jhy/css/dotequip.less";
@@ -159,16 +159,11 @@ class Dotequip extends Component {
       }
     ];
   }
-  componentWillMount() {
+  componentWillMount() {}
+  componentDidMount() {
     this.getProjectList();
     this.getTypeList();
-  }
-  componentDidMount() {
-    console.log(this.state.projectList);
     this.getDeviceList();
-  }
-  componentDidUpdate(prevProps, prevState) {
-    console.log(this.state.projectList);
   }
   getProjectList = () => {
     axios
@@ -190,7 +185,7 @@ class Dotequip extends Component {
               projectList: plist
             },
             () => {
-              console.log(this.state.projectList, "[[[[[[[[[[[[[[[[[[[");
+              console.log(this.state.projectList);
             }
           );
         }
@@ -216,7 +211,7 @@ class Dotequip extends Component {
               typeList: tlist
             },
             () => {
-              console.log(this.state.typeList, "[[[[[[[[[[[[[[[[[[[");
+              console.log(this.state.typeList);
             }
           );
         }
@@ -224,6 +219,7 @@ class Dotequip extends Component {
   };
 
   getDeviceList = () => {
+    console.log(this.state.projSelected, this.state.monintSelected);
     axios
       .ajax({
         method: "get",
@@ -242,9 +238,14 @@ class Dotequip extends Component {
       });
   };
   handSelectP = e => {
-    this.setState({
-      projSelected: e.target.value
-    });
+    this.setState(
+      {
+        projSelected: e.target.value
+      },
+      () => {
+        this.getDeviceList();
+      }
+    );
   };
   handSelectM = e => {
     this.setState(
@@ -258,7 +259,7 @@ class Dotequip extends Component {
   };
   handSetTime = v => {
     this.setState({
-      setTime: v
+      setTime: moment(v).format("YYYY-MM-DD HH:mm:ss")
     });
   };
   submitTime = () => {
@@ -292,10 +293,15 @@ class Dotequip extends Component {
     });
   };
   handBind = id => {
-    this.setState({
-      bindmodalshow: true,
-      bindDevId: id
-    });
+    this.setState(
+      {
+        bindmodalshow: true,
+        bindDevId: id
+      },
+      () => {
+        console.log(this.state.bindmodalshow, this.state.bindDevId, "300");
+      }
+    );
   };
   handDetail = record => {
     window.location.href = `/#/main/dotdetails/proid:${
@@ -323,7 +329,7 @@ class Dotequip extends Component {
           })
           .then(res => {
             if (res.success) {
-              message.error("已弃用");
+              message.success("已弃用");
               _this.getDeviceList();
             }
           });
@@ -376,7 +382,8 @@ class Dotequip extends Component {
               <Radio.Group
                 options={this.state.projectList}
                 onChange={this.handSelectP}
-                value={1}
+                defaultValue={1}
+                value={this.state.projSelected}
               />
             </Col>
           </Row>
@@ -395,7 +402,8 @@ class Dotequip extends Component {
               <Radio.Group
                 options={this.state.typeList}
                 onChange={this.handSelectM}
-                value={1}
+                defaultValue={1}
+                value={this.state.monintSelected}
               />
               <Row>
                 <Col />

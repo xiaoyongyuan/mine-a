@@ -1,7 +1,8 @@
 import React, { Component } from "react";
 import { Tabs } from "antd";
-import Form from "../common/BaseForm";
+import BaseForm from "../common/BaseForm";
 import axios from "../../axios";
+import moment from "moment";
 import Table from "../common/Etable";
 import CurveChart from "./CurveChart";
 import AlarmInfo from "./AlarmInfo";
@@ -10,9 +11,6 @@ import "../../style/jhy/css/dotdetails.less";
 const easyURL = window.g.easyURL;
 
 const { TabPane } = Tabs;
-function callback(key) {
-  console.log(key);
-}
 class Dotdetails extends Component {
   constructor(props) {
     super(props);
@@ -21,36 +19,56 @@ class Dotdetails extends Component {
       begintime: "",
       endtime: ""
     };
-    this.formList = [
+  }
+  formList = {
+    type: "inline",
+    item: [
       {
         type: "RANGPICKER",
         label: "双日期",
         field: "doubledata",
+        // rules:,
         placeholder: "请选择日期",
         initialValue: ["2019-03-09 12:09:09", "2019-03-09 12:09:09"],
         showTime: true,
         format: "YYYY-MM-DD HH:mm:ss"
       },
       {
-        type: "button"
-        // fafuns:
+        type: "button",
+        button: [
+          {
+            label: "查询",
+            type: "primary",
+            click: "handleFilterSubmit"
+          }
+        ]
       }
-    ];
-  }
-
+    ]
+  };
   componentDidMount() {
-    const par = this.props.match.params[0].split("&&");
-    console.log(par[1]);
+    this.getList();
+  }
+  getList = () => {
+    const par = this.props.match.params[0];
+    const rst = par.substring(par.indexOf("&&") + 2, par.lastIndexOf("&&"));
+    const proid = par
+      .substring(0, par.indexOf("&&"))
+      .substring(par.substring(0, par.indexOf("&&")).indexOf(":") + 1);
+    const type = rst.substring(rst.indexOf(":") + 1);
+    const cid = par
+      .substring(par.lastIndexOf("&&") + 2)
+      .substring(par.substring(par.lastIndexOf("&&") + 2).indexOf(":") + 1);
+
     axios
       .ajax({
         method: "get",
         url: easyURL + "/monitordotdata",
         data: {
-          id: par[2].cid,
-          type: par[1].netid
-          // cid: par[2].cid
-          // createonbegin :
-          // createonend
+          id: cid,
+          type: type,
+          // proid: proid,
+          createonbegin: this.state.begintime,
+          createonend: this.state.endtime
         }
       })
       .then(res => {
@@ -61,288 +79,313 @@ class Dotdetails extends Component {
           });
         }
       });
-  }
-
+  };
   getColumns = () => {
-    const par = this.props.match.params[0].split("&&");
+    const par = this.props.match.params[0];
+    const rst = par.substring(par.indexOf("&&") + 2, par.lastIndexOf("&&"));
+    const type = rst.substring(rst.indexOf(":") + 1);
+    var columns;
+    switch (type) {
+      case "1":
+        {
+          columns = [
+            {
+              title: "编号",
+              dataIndex: "code",
+              align: "center"
+            },
+            {
+              title: "数据时间",
+              dataIndex: "createon",
+              align: "center"
+            },
+            {
+              title: "水平位移",
+              dataIndex: "x",
+              align: "center"
+            },
+            {
+              title: "垂直位移",
+              dataIndex: "y",
+              align: "center"
+            },
+            {
+              title: "统计时长",
+              dataIndex: "",
+              align: "center"
+            },
+            {
+              title: "水平差值",
+              dataIndex: "xdiff",
+              align: "center"
+            },
+            {
+              title: "垂直差值",
+              dataIndex: "ydiff",
+              align: "center"
+            }
+          ];
+        }
+        break;
+      case "2":
+        {
+          columns = [
+            {
+              title: "编号",
+              dataIndex: "code",
+              align: "center"
+            },
+            {
+              title: "数据时间",
+              dataIndex: "createon",
+              align: "center"
+            },
+            {
+              title: "裂缝值",
+              dataIndex: "x",
+              align: "center"
+            },
+            {
+              title: "统计时长",
+              dataIndex: "",
+              align: "center"
+            },
+            {
+              title: "裂缝差值",
+              dataIndex: "xdiff",
+              align: "center"
+            }
+          ];
+        }
+        break;
 
-    var columns = [];
-    switch (par[1].netid) {
-      case 1: {
-        columns = [
-          {
-            title: "编号",
-            dataIndex: "code",
-            align: "center"
-          },
-          {
-            title: "数据时间",
-            dataIndex: "createon",
-            align: "center"
-          },
-          {
-            title: "水平位移",
-            dataIndex: "x",
-            align: "center"
-          },
-          {
-            title: "垂直位移",
-            dataIndex: "y",
-            align: "center"
-          },
-          {
-            title: "统计时长",
-            dataIndex: "",
-            align: "center"
-          },
-          {
-            title: "水平差值",
-            dataIndex: "xdiff",
-            align: "center"
-          },
-          {
-            title: "垂直差值",
-            dataIndex: "ydiff",
-            align: "center"
-          }
-        ];
-        return columns;
-      }
+      case "3":
+        {
+          columns = [
+            {
+              title: "编号",
+              dataIndex: "code",
+              align: "center"
+            },
+            {
+              title: "数据时间",
+              dataIndex: "createon",
+              align: "center"
+            },
+            {
+              title: "沉降值",
+              dataIndex: "x",
+              align: "center"
+            },
+            {
+              title: "统计时长",
+              dataIndex: "",
+              align: "center"
+            },
+            {
+              title: "沉降差值",
+              dataIndex: "xdiff",
+              align: "center"
+            }
+          ];
+        }
+        break;
 
-      case 2: {
-        columns = [
-          {
-            title: "编号",
-            dataIndex: "code",
-            align: "center"
-          },
-          {
-            title: "数据时间",
-            dataIndex: "createon",
-            align: "center"
-          },
-          {
-            title: "裂缝值",
-            dataIndex: "x",
-            align: "center"
-          },
-          {
-            title: "统计时长",
-            dataIndex: "",
-            align: "center"
-          },
-          {
-            title: "裂缝差值",
-            dataIndex: "xdiff",
-            align: "center"
-          }
-        ];
-        return columns;
-      }
+      case "4":
+        {
+          columns = [
+            {
+              title: "编号",
+              dataIndex: "code",
+              align: "center"
+            },
+            {
+              title: "数据时间",
+              dataIndex: "createon",
+              align: "center"
+            },
+            {
+              title: "土地损毁",
+              dataIndex: "vals",
+              align: "center"
+            },
+            {
+              title: "土地复垦",
+              dataIndex: "valsdiff",
+              align: "center"
+            },
+            {
+              title: "统计时长",
+              dataIndex: "",
+              align: "center"
+            }
+          ];
+        }
+        break;
 
-      case 3: {
-        columns = [
-          {
-            title: "编号",
-            dataIndex: "code",
-            align: "center"
-          },
-          {
-            title: "数据时间",
-            dataIndex: "createon",
-            align: "center"
-          },
-          {
-            title: "沉降值",
-            dataIndex: "x",
-            align: "center"
-          },
-          {
-            title: "统计时长",
-            dataIndex: "",
-            align: "center"
-          },
-          {
-            title: "沉降差值",
-            dataIndex: "xdiff",
-            align: "center"
-          }
-        ];
-        return columns;
-      }
+      case "5":
+        {
+          columns = [
+            {
+              title: "编号",
+              dataIndex: "code",
+              align: "center"
+            },
+            {
+              title: "数据时间",
+              dataIndex: "createon",
+              align: "center"
+            },
+            {
+              title: "水压值",
+              dataIndex: "x",
+              align: "center"
+            },
+            {
+              title: "统计时长",
+              dataIndex: "",
+              align: "center"
+            },
+            {
+              title: "水压差值",
+              dataIndex: "xdiff",
+              align: "center"
+            }
+          ];
+        }
+        break;
 
-      case 4: {
-        columns = [
-          {
-            title: "编号",
-            dataIndex: "code",
-            align: "center"
-          },
-          {
-            title: "数据时间",
-            dataIndex: "createon",
-            align: "center"
-          },
-          {
-            title: "土地损毁",
-            dataIndex: "vals",
-            align: "center"
-          },
-          {
-            title: "土地复垦",
-            dataIndex: "valsdiff",
-            align: "center"
-          },
-          {
-            title: "统计时长",
-            dataIndex: "",
-            align: "center"
-          }
-        ];
-        return columns;
-      }
+      case "6":
+        {
+          columns = [
+            {
+              title: "编号",
+              dataIndex: "code",
+              align: "center"
+            },
+            {
+              title: "数据时间",
+              dataIndex: "createon",
+              align: "center"
+            },
+            {
+              title: "水位值",
+              dataIndex: "x",
+              align: "center"
+            },
+            {
+              title: "统计时长",
+              dataIndex: "",
+              align: "center"
+            },
+            {
+              title: "水位差值",
+              dataIndex: "ydiff",
+              align: "center"
+            }
+          ];
+        }
+        break;
 
-      case 5: {
-        columns = [
-          {
-            title: "编号",
-            dataIndex: "code",
-            align: "center"
-          },
-          {
-            title: "数据时间",
-            dataIndex: "createon",
-            align: "center"
-          },
-          {
-            title: "水压值",
-            dataIndex: "x",
-            align: "center"
-          },
-          {
-            title: "统计时长",
-            dataIndex: "",
-            align: "center"
-          },
-          {
-            title: "水压差值",
-            dataIndex: "xdiff",
-            align: "center"
-          }
-        ];
-        return columns;
-      }
+      case "7":
+        {
+          columns = [
+            {
+              title: "编号",
+              dataIndex: "code",
+              align: "center"
+            },
+            {
+              title: "数据时间",
+              dataIndex: "createon",
+              align: "center"
+            },
+            {
+              title: "水分率",
+              dataIndex: "x",
+              align: "center"
+            },
+            {
+              title: "统计时长",
+              dataIndex: "",
+              align: "center"
+            },
+            {
+              title: "水平差值",
+              dataIndex: "xdiff",
+              align: "center"
+            },
+            {
+              title: "水分率差值",
+              dataIndex: "ydiff",
+              align: "center"
+            }
+          ];
+        }
+        break;
 
-      case 6: {
-        columns = [
-          {
-            title: "编号",
-            dataIndex: "code",
-            align: "center"
-          },
-          {
-            title: "数据时间",
-            dataIndex: "createon",
-            align: "center"
-          },
-          {
-            title: "水位值",
-            dataIndex: "x",
-            align: "center"
-          },
-          {
-            title: "统计时长",
-            dataIndex: "",
-            align: "center"
-          },
-          {
-            title: "水位差值",
-            dataIndex: "ydiff",
-            align: "center"
-          }
-        ];
-        return columns;
-      }
-
-      case 7: {
-        columns = [
-          {
-            title: "编号",
-            dataIndex: "code",
-            align: "center"
-          },
-          {
-            title: "数据时间",
-            dataIndex: "createon",
-            align: "center"
-          },
-          {
-            title: "水分率",
-            dataIndex: "x",
-            align: "center"
-          },
-          {
-            title: "统计时长",
-            dataIndex: "",
-            align: "center"
-          },
-          {
-            title: "水平差值",
-            dataIndex: "xdiff",
-            align: "center"
-          },
-          {
-            title: "水分率差值",
-            dataIndex: "ydiff",
-            align: "center"
-          }
-        ];
-        return columns;
-      }
-
-      case 8: {
-        columns = [
-          {
-            title: "编号",
-            dataIndex: "code",
-            align: "center"
-          },
-          {
-            title: "数据时间",
-            dataIndex: "createon",
-            align: "center"
-          },
-          {
-            title: "雨量值",
-            dataIndex: "x",
-            align: "center"
-          },
-          {
-            title: "统计时长",
-            dataIndex: "",
-            align: "center"
-          },
-          {
-            title: "雨量差值",
-            dataIndex: "ydiff",
-            align: "center"
-          }
-        ];
-        return columns;
-      }
+      case "8":
+        {
+          columns = [
+            {
+              title: "编号",
+              dataIndex: "code",
+              align: "center"
+            },
+            {
+              title: "数据时间",
+              dataIndex: "createon",
+              align: "center"
+            },
+            {
+              title: "雨量值",
+              dataIndex: "x",
+              align: "center"
+            },
+            {
+              title: "统计时长",
+              dataIndex: "",
+              align: "center"
+            },
+            {
+              title: "雨量差值",
+              dataIndex: "ydiff",
+              align: "center"
+            }
+          ];
+        }
+        break;
 
       default:
         break;
     }
+    return columns;
   };
-
+  handleFilterSubmit = data => {
+    this.setState(
+      {
+        begintime: moment(data.doubledata[0]).format("YYYY-MM-DD HH:mm:ss"),
+        endtime: moment(data.doubledata[1]).format("YYYY-MM-DD HH:mm:ss")
+      },
+      () => {
+        this.getList();
+      }
+    );
+  };
   render() {
     return (
       <div className="dotdetails">
+        <div className="selectForm">
+          <div className="leftForm">
+            <BaseForm
+              formList={this.formList}
+              filterSubmit={this.handleFilterSubmit}
+            />
+          </div>
+        </div>
+
         <Tabs type="card">
           <TabPane tab="数据列表" key="1">
-            <Form formList={this.formList} />
-
             <Table
               columns={this.getColumns()}
               dataSource={this.state.datalist}

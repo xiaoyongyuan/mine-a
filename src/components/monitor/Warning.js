@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import BaseForm from "../common/BaseForm"
-import {Button, message} from "antd";
+import {Button, message, Modal} from "antd";
 import Etable from "../common/Etable";
 import Utils from "../../utils/utils";
 import axios from "../../axios";
@@ -61,7 +61,8 @@ class Warning extends Component {
     constructor(props){
         super(props);
         this.state={
-            list:[]
+            list:[],
+            visible:false
         };
         this.codeArr=[];
     }
@@ -113,22 +114,56 @@ class Warning extends Component {
         if(this.codeArr.length===0){
             message.warning("请选择数据!");
         }else{
-            axios.ajax({
-                baseURL:window.g.easyURL,
-                method: 'put',
-                url: '/warnlist',
-                data:{
-                    code:this.codeArr.toString()
-                }
-            }).then((res)=>{
-                if(res.success){
-                    message.success("应用成功！")
-                }
+            this.setState({
+                visible:true
             });
         }
     };
-    uploadOk=(params)=>{ //上传提交
-        this.setState({newShow:false});
+    handleOkApplication=()=>{
+        axios.ajax({
+            baseURL:window.g.easyURL,
+            method: 'put',
+            url: '/warnlist',
+            data:{
+                code:this.codeArr.toString()
+            }
+        }).then((res)=>{
+            if(res.success){
+                this.setState({
+                    visible:false
+                });
+                message.success("应用成功！")
+            }
+        });
+    };
+    handleCancelApplication=()=>{
+        this.setState({
+            visible:false
+        });
+    };
+    uploadOkInsert=(params,conditions)=>{ //上传提交
+        console.log(params,conditions,"预警");
+        if(conditions.length>=1){
+            this.setState({newShow:false});
+            /*axios.ajax({
+            baseURL:window.g.cuiURL,
+            method: 'post',
+            url: 'warnlist',
+            data: {
+                project:params.project,
+                name:params.name,
+                rank:params.rank,
+                judge:params.judge,
+                memo:params.memo,
+            }
+        }).then((res)=>{
+            if(res.success){
+                console.log(res.data)
+            }
+        });*/
+        }else{
+            message.warning("请添加报警条件!");
+        }
     };
     render() {
         const columns=[{
@@ -199,7 +234,16 @@ class Warning extends Component {
                    pagination={this.state.pagination}
                    rowSelection={rowSelection}
                />
-               <WarningModel newShow={this.state.newShow} filterSubmit={this.uploadOk} uploadreset={()=>this.changeState('newShow',false)}/>
+               <WarningModel newShow={this.state.newShow} filterSubmit={this.uploadOkInsert} uploadreset={()=>this.changeState('newShow',false)}/>
+               <Modal
+                   title="提示"
+                   visible={this.state.visible}
+                   onOk={this.handleOkApplication}
+                   onCancel={this.handleCancelApplication}
+                   width={350}
+               >
+                   确定是否应用?
+               </Modal>
            </div>
         );
     }

@@ -122,7 +122,7 @@ class Itemshow extends Component {
             <div className="Itemshow">
                 <div className="pandectitem" style={{display:this.props.showitem=='pandect'?'block':'none'}}>
                     <List bordered>
-                        <List.Item key='Item1'>基础数据</List.Item>
+                        <List.Item className='listitem' key='Item1'> 基础数据</List.Item>
                         <List.Item key='Item2'>监测设备</List.Item>
                         <List.Item key='Item3'>遥感监测</List.Item>
                         <List.Item key='Item4'>空间分析</List.Item>
@@ -137,9 +137,9 @@ class Itemshow extends Component {
                         </div>
                         </div>
                     </dl>
-                    <Card title="矿区雨量">
+                    // <Card title="矿区雨量">
                       
-                    </Card>
+                    // </Card>
                 </div>
                 <div className="pandectitem"  style={{display:this.props.showitem=='monitor'?'block':'none'}}>
                     <dl key='net' className="columndl">

@@ -9,7 +9,8 @@ class WarningConditionsModel extends Component{
     constructor(props){
         super(props);
         this.state={
-            options:[]
+            options:[],
+            target:[]
         };
     }
     reset = ()=>{ //取消表单
@@ -36,6 +37,7 @@ class WarningConditionsModel extends Component{
                         arrs.push({
                             value: v.code,
                             label: v.name,
+                            isLeaf: false,
                         });
                     });
                     this.setState({
@@ -46,41 +48,47 @@ class WarningConditionsModel extends Component{
         }
     };
     handleFilterSubmit=()=>{
+        const _this=this;
         this.props.form.validateFields((err, values) => {
             if (!err) {
+                var filter=[];
+                filter.push(values);
+                console.log(filter,"filter");
+                _this.props.filterSubmit(filter);
                 this.props.form.resetFields();
             }
         });
     };
-    onChange = (value) => {
-      if(this.props.selectp && value){
-          axios.ajax({
-              baseURL:window.g.easyURL,
-              method: 'get',
-              url: '/monitordot',
-              data:{
-                  projected:this.props.selectp,
-                  netid:value
-              }
-          }).then((res)=>{
-              if(res.success){
-                  console.log(res.data,"888");
-                  res.data.map((v)=>{
-                      this.state.options.push({
-                          children:[{
-                              value: v.code,
-                              label: v.name,
-                          }]});
-                  });
-
-              }
-          });
-      }
+    onChange = (value,selectedOptions) => {
+        //onsole.log(value,selectedOptions)
     };
     loadData = selectedOptions => {
         const targetOption = selectedOptions[selectedOptions.length - 1];
         targetOption.loading = true;
-
+        var target=[];
+        targetOption.loading = false;
+            axios.ajax({
+                baseURL:window.g.easyURL,
+                method: 'get',
+                url: '/monitordot',
+                data:{
+                    projected:this.props.selectp,
+                    netid:selectedOptions[0].value
+                }
+            }).then((res)=>{
+                if(res.success){
+                    res.data.map((v)=>{
+                        target.push({
+                            label:v.name,
+                            value: v.name,
+                        })
+                    })
+                }
+            });
+            targetOption.children = target;
+            this.setState({
+                options: [...this.state.options],
+            });
     };
     render() {
         const { getFieldDecorator } = this.props.form;
@@ -106,7 +114,7 @@ class WarningConditionsModel extends Component{
                         {
                             getFieldDecorator('name',{
                                 rules:[{
-                                    required: false,
+                                    required: true,
                                     message: '请输入标题',
                                 }],
                             })(
@@ -118,15 +126,15 @@ class WarningConditionsModel extends Component{
                         {
                             getFieldDecorator('time',{
                                 rules:[{
-                                    required: false,
+                                    required: true,
                                     message: '请输入标题',
                                 }],
-                                initialValue:"0"
+                                initialValue:"1"
                             })(
                                 <Select>
-                                    <Option value="0">全部</Option>
                                     <Option value="1">小时</Option>
-                                    <Option value="1">分钟</Option>
+                                    <Option value="2">日</Option>
+                                    <Option value="3">快速</Option>
                                 </Select>
                             )
                         }
@@ -135,13 +143,12 @@ class WarningConditionsModel extends Component{
                         {
                             getFieldDecorator('datas',{
                                 rules:[{
-                                    required: false,
+                                    required: true,
                                     message: '请输入标题',
                                 }],
-                                initialValue:"0"
+                                initialValue:"1"
                             })(
                                 <Select>
-                                    <Option value="0">全部</Option>
                                     <Option value="1">水平</Option>
                                     <Option value="2">垂直</Option>
                                 </Select>
@@ -152,13 +159,12 @@ class WarningConditionsModel extends Component{
                         {
                             getFieldDecorator('judge',{
                                 rules:[{
-                                    required: false,
+                                    required: true,
                                     message: '请输入标题',
                                 }],
-                                initialValue:"0"
+                                initialValue:"1"
                             })(
                                 <Select>
-                                    <Option value="0">全部</Option>
                                     <Option value="1">大于</Option>
                                     <Option value="2">大于等于</Option>
                                     <Option value="3">小于</Option>
