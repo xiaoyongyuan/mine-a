@@ -259,7 +259,7 @@ export default {
     },
     {
       title: "点位详情",
-      key: "/main/dotdetails/*",
+      key: "/main/dotdetails*",
       component: "Dotdetails"
     },
     {

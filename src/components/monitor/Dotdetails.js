@@ -17,7 +17,9 @@ class Dotdetails extends Component {
     this.state = {
       datalist: [],
       begintime: "",
-      endtime: ""
+      endtime: "",
+      netid: "",
+      cid: ""
     };
   }
   formList = {
@@ -25,9 +27,8 @@ class Dotdetails extends Component {
     item: [
       {
         type: "RANGPICKER",
-        label: "双日期",
+        label: "筛选日期",
         field: "doubledata",
-        // rules:,
         placeholder: "请选择日期",
         initialValue: ["2019-03-09 12:09:09", "2019-03-09 12:09:09"],
         showTime: true,
@@ -46,44 +47,39 @@ class Dotdetails extends Component {
     ]
   };
   componentDidMount() {
+    this.setState({
+      netid: this.props.query.netid,
+      cid: this.props.query.cid
+    });
     this.getList();
   }
   getList = () => {
-    const par = this.props.match.params[0];
-    const rst = par.substring(par.indexOf("&&") + 2, par.lastIndexOf("&&"));
-    const proid = par
-      .substring(0, par.indexOf("&&"))
-      .substring(par.substring(0, par.indexOf("&&")).indexOf(":") + 1);
-    const type = rst.substring(rst.indexOf(":") + 1);
-    const cid = par
-      .substring(par.lastIndexOf("&&") + 2)
-      .substring(par.substring(par.lastIndexOf("&&") + 2).indexOf(":") + 1);
-
     axios
       .ajax({
         method: "get",
         url: easyURL + "/monitordotdata",
         data: {
-          id: cid,
-          type: type,
-          // proid: proid,
+          id: this.props.query.cid,
+          type: this.props.query.netid,
           createonbegin: this.state.begintime,
           createonend: this.state.endtime
         }
       })
       .then(res => {
-        console.log(res);
         if (res.success) {
-          this.setState({
-            datalist: res.data
-          });
+          this.setState(
+            {
+              datalist: res.data
+            },
+            () => {
+              console.log(this.state.datalist);
+            }
+          );
         }
       });
   };
   getColumns = () => {
-    const par = this.props.match.params[0];
-    const rst = par.substring(par.indexOf("&&") + 2, par.lastIndexOf("&&"));
-    const type = rst.substring(rst.indexOf(":") + 1);
+    const type = this.props.query.netid;
     var columns;
     switch (type) {
       case "1":
@@ -375,17 +371,12 @@ class Dotdetails extends Component {
   render() {
     return (
       <div className="dotdetails">
-        <div className="selectForm">
-          <div className="leftForm">
+        <Tabs type="card">
+          <TabPane tab="数据列表" key="1">
             <BaseForm
               formList={this.formList}
               filterSubmit={this.handleFilterSubmit}
             />
-          </div>
-        </div>
-
-        <Tabs type="card">
-          <TabPane tab="数据列表" key="1">
             <Table
               columns={this.getColumns()}
               dataSource={this.state.datalist}
@@ -395,7 +386,7 @@ class Dotdetails extends Component {
             <CurveChart />
           </TabPane>
           <TabPane tab="报警信息" key="3">
-            <AlarmInfo />
+            <AlarmInfo netid={this.state.netid} cid={this.state.cid} />
           </TabPane>
           <TabPane tab="检测报告" key="4">
             <CheckReport />

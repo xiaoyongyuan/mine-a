@@ -304,9 +304,9 @@ class Dotequip extends Component {
     );
   };
   handDetail = record => {
-    window.location.href = `/#/main/dotdetails/proid:${
-      this.state.projSelected
-    }&&netid:${this.state.monintSelected}&&cid:${record.cid}`;
+    window.location.href = `/#/main/dotdetails?netid=${
+      this.state.monintSelected
+    }&cid=${record.cid}`;
   };
 
   handAbandon = (id, state) => {
