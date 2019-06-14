@@ -17,7 +17,9 @@ class Dotdetails extends Component {
     this.state = {
       datalist: [],
       begintime: "",
-      endtime: ""
+      endtime: "",
+      netid: "",
+      cid: ""
     };
   }
   formList = {
@@ -25,11 +27,8 @@ class Dotdetails extends Component {
     item: [
       {
         type: "RANGPICKER",
-        label: "双日期",
+        label: "筛选日期",
         field: "doubledata",
-        // rules:,
-        placeholder: "请选择日期",
-        initialValue: ["2019-03-09 12:09:09", "2019-03-09 12:09:09"],
         showTime: true,
         format: "YYYY-MM-DD HH:mm:ss"
       },
@@ -46,44 +45,37 @@ class Dotdetails extends Component {
     ]
   };
   componentDidMount() {
+    this.setState({
+      netid: this.props.query.netid,
+      cid: this.props.query.cid
+    });
     this.getList();
   }
   getList = () => {
-    const par = this.props.match.params[0];
-    const rst = par.substring(par.indexOf("&&") + 2, par.lastIndexOf("&&"));
-    const proid = par
-      .substring(0, par.indexOf("&&"))
-      .substring(par.substring(0, par.indexOf("&&")).indexOf(":") + 1);
-    const type = rst.substring(rst.indexOf(":") + 1);
-    const cid = par
-      .substring(par.lastIndexOf("&&") + 2)
-      .substring(par.substring(par.lastIndexOf("&&") + 2).indexOf(":") + 1);
-
     axios
       .ajax({
         method: "get",
         url: easyURL + "/monitordotdata",
         data: {
-          id: cid,
-          type: type,
-          // proid: proid,
+          id: this.props.query.cid,
+          type: this.props.query.netid,
           createonbegin: this.state.begintime,
           createonend: this.state.endtime
         }
       })
       .then(res => {
-        console.log(res);
         if (res.success) {
-          this.setState({
-            datalist: res.data
-          });
+          this.setState(
+            {
+              datalist: res.data
+            },
+            () => {}
+          );
         }
       });
   };
   getColumns = () => {
-    const par = this.props.match.params[0];
-    const rst = par.substring(par.indexOf("&&") + 2, par.lastIndexOf("&&"));
-    const type = rst.substring(rst.indexOf(":") + 1);
+    const type = this.props.query.netid;
     var columns;
     switch (type) {
       case "1":
@@ -102,26 +94,57 @@ class Dotdetails extends Component {
             {
               title: "水平位移",
               dataIndex: "x",
+              render: text => {
+                if (text < 0) {
+                  return <span style={{ color: "red" }}>{text}</span>;
+                } else {
+                  return text;
+                }
+              },
               align: "center"
             },
             {
               title: "垂直位移",
               dataIndex: "y",
+              render: text => {
+                if (text < 0) {
+                  return <span style={{ color: "red" }}>{text}</span>;
+                } else {
+                  return text;
+                }
+              },
               align: "center"
             },
             {
               title: "统计时长",
               dataIndex: "",
+              render: () => {
+                return 1;
+              },
               align: "center"
             },
             {
               title: "水平差值",
               dataIndex: "xdiff",
+              render: text => {
+                if (text < 0) {
+                  return <span style={{ color: "red" }}>{text}</span>;
+                } else {
+                  return text;
+                }
+              },
               align: "center"
             },
             {
               title: "垂直差值",
               dataIndex: "ydiff",
+              render: text => {
+                if (text < 0) {
+                  return <span style={{ color: "red" }}>{text}</span>;
+                } else {
+                  return text;
+                }
+              },
               align: "center"
             }
           ];
@@ -143,16 +166,33 @@ class Dotdetails extends Component {
             {
               title: "裂缝值",
               dataIndex: "x",
+              render: text => {
+                if (text < 0) {
+                  return <span style={{ color: "red" }}>{text}</span>;
+                } else {
+                  return text;
+                }
+              },
               align: "center"
             },
             {
               title: "统计时长",
               dataIndex: "",
+              render: () => {
+                return 1;
+              },
               align: "center"
             },
             {
               title: "裂缝差值",
               dataIndex: "xdiff",
+              render: text => {
+                if (text < 0) {
+                  return <span style={{ color: "red" }}>{text}</span>;
+                } else {
+                  return text;
+                }
+              },
               align: "center"
             }
           ];
@@ -175,16 +215,33 @@ class Dotdetails extends Component {
             {
               title: "沉降值",
               dataIndex: "x",
+              render: text => {
+                if (text < 0) {
+                  return <span style={{ color: "red" }}>{text}</span>;
+                } else {
+                  return text;
+                }
+              },
               align: "center"
             },
             {
               title: "统计时长",
               dataIndex: "",
+              render: () => {
+                return 1;
+              },
               align: "center"
             },
             {
               title: "沉降差值",
               dataIndex: "xdiff",
+              render: text => {
+                if (text < 0) {
+                  return <span style={{ color: "red" }}>{text}</span>;
+                } else {
+                  return text;
+                }
+              },
               align: "center"
             }
           ];
@@ -207,16 +264,33 @@ class Dotdetails extends Component {
             {
               title: "土地损毁",
               dataIndex: "vals",
+              render: text => {
+                if (text < 0) {
+                  return <span style={{ color: "red" }}>{text}</span>;
+                } else {
+                  return text;
+                }
+              },
               align: "center"
             },
             {
               title: "土地复垦",
               dataIndex: "valsdiff",
+              render: text => {
+                if (text < 0) {
+                  return <span style={{ color: "red" }}>{text}</span>;
+                } else {
+                  return text;
+                }
+              },
               align: "center"
             },
             {
               title: "统计时长",
               dataIndex: "",
+              render: () => {
+                return 1;
+              },
               align: "center"
             }
           ];
@@ -239,16 +313,33 @@ class Dotdetails extends Component {
             {
               title: "水压值",
               dataIndex: "x",
+              render: text => {
+                if (text < 0) {
+                  return <span style={{ color: "red" }}>{text}</span>;
+                } else {
+                  return text;
+                }
+              },
               align: "center"
             },
             {
               title: "统计时长",
               dataIndex: "",
+              render: () => {
+                return 1;
+              },
               align: "center"
             },
             {
               title: "水压差值",
               dataIndex: "xdiff",
+              render: text => {
+                if (text < 0) {
+                  return <span style={{ color: "red" }}>{text}</span>;
+                } else {
+                  return text;
+                }
+              },
               align: "center"
             }
           ];
@@ -271,16 +362,33 @@ class Dotdetails extends Component {
             {
               title: "水位值",
               dataIndex: "x",
+              render: text => {
+                if (text < 0) {
+                  return <span style={{ color: "red" }}>{text}</span>;
+                } else {
+                  return text;
+                }
+              },
               align: "center"
             },
             {
               title: "统计时长",
               dataIndex: "",
+              render: () => {
+                return 1;
+              },
               align: "center"
             },
             {
               title: "水位差值",
               dataIndex: "ydiff",
+              render: text => {
+                if (text < 0) {
+                  return <span style={{ color: "red" }}>{text}</span>;
+                } else {
+                  return text;
+                }
+              },
               align: "center"
             }
           ];
@@ -303,21 +411,45 @@ class Dotdetails extends Component {
             {
               title: "水分率",
               dataIndex: "x",
+              render: text => {
+                if (text < 0) {
+                  return <span style={{ color: "red" }}>{text}</span>;
+                } else {
+                  return text;
+                }
+              },
               align: "center"
             },
             {
               title: "统计时长",
               dataIndex: "",
+              render: () => {
+                return 1;
+              },
               align: "center"
             },
             {
               title: "水平差值",
               dataIndex: "xdiff",
+              render: text => {
+                if (text < 0) {
+                  return <span style={{ color: "red" }}>{text}</span>;
+                } else {
+                  return text;
+                }
+              },
               align: "center"
             },
             {
               title: "水分率差值",
               dataIndex: "ydiff",
+              render: text => {
+                if (text < 0) {
+                  return <span style={{ color: "red" }}>{text}</span>;
+                } else {
+                  return text;
+                }
+              },
               align: "center"
             }
           ];
@@ -340,16 +472,33 @@ class Dotdetails extends Component {
             {
               title: "雨量值",
               dataIndex: "x",
+              render: text => {
+                if (text < 0) {
+                  return <span style={{ color: "red" }}>{text}</span>;
+                } else {
+                  return text;
+                }
+              },
               align: "center"
             },
             {
               title: "统计时长",
               dataIndex: "",
+              render: () => {
+                return 1;
+              },
               align: "center"
             },
             {
               title: "雨量差值",
               dataIndex: "ydiff",
+              render: text => {
+                if (text < 0) {
+                  return <span style={{ color: "red" }}>{text}</span>;
+                } else {
+                  return text;
+                }
+              },
               align: "center"
             }
           ];
@@ -364,8 +513,14 @@ class Dotdetails extends Component {
   handleFilterSubmit = data => {
     this.setState(
       {
-        begintime: moment(data.doubledata[0]).format("YYYY-MM-DD HH:mm:ss"),
-        endtime: moment(data.doubledata[1]).format("YYYY-MM-DD HH:mm:ss")
+        begintime:
+          data.doubledata != null
+            ? moment(data.doubledata[0]).format("YYYY-MM-DD HH:mm:ss")
+            : null,
+        endtime:
+          data.doubledata != null
+            ? moment(data.doubledata[1]).format("YYYY-MM-DD HH:mm:ss")
+            : null
       },
       () => {
         this.getList();
@@ -375,17 +530,12 @@ class Dotdetails extends Component {
   render() {
     return (
       <div className="dotdetails">
-        <div className="selectForm">
-          <div className="leftForm">
+        <Tabs type="card">
+          <TabPane tab="数据列表" key="1">
             <BaseForm
               formList={this.formList}
               filterSubmit={this.handleFilterSubmit}
             />
-          </div>
-        </div>
-
-        <Tabs type="card">
-          <TabPane tab="数据列表" key="1">
             <Table
               columns={this.getColumns()}
               dataSource={this.state.datalist}
@@ -395,7 +545,7 @@ class Dotdetails extends Component {
             <CurveChart />
           </TabPane>
           <TabPane tab="报警信息" key="3">
-            <AlarmInfo />
+            <AlarmInfo netid={this.state.netid} cid={this.state.cid} />
           </TabPane>
           <TabPane tab="检测报告" key="4">
             <CheckReport />

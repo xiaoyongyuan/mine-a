@@ -20,7 +20,12 @@ class Prodect extends Component {
         
         return (
             <div className="Prodect">
-                Prodect
+                <dl className="columndl">
+                    <dt className="columndt">项目管理<a className="columndtright"></a></dt>
+                    <div className="egraph">
+                            
+                    </div>
+                </dl>
             </div>
         );
     }

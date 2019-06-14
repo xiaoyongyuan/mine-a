@@ -184,9 +184,7 @@ class Dotequip extends Component {
             {
               projectList: plist
             },
-            () => {
-              console.log(this.state.projectList);
-            }
+            () => {}
           );
         }
       });
@@ -210,16 +208,13 @@ class Dotequip extends Component {
             {
               typeList: tlist
             },
-            () => {
-              console.log(this.state.typeList);
-            }
+            () => {}
           );
         }
       });
   };
 
   getDeviceList = () => {
-    console.log(this.state.projSelected, this.state.monintSelected);
     axios
       .ajax({
         method: "get",
@@ -263,7 +258,6 @@ class Dotequip extends Component {
     });
   };
   submitTime = () => {
-    console.log("提交了");
     const _this = this;
     axios
       .ajax({
@@ -287,7 +281,6 @@ class Dotequip extends Component {
       });
   };
   cancleTMod = () => {
-    console.log("关闭了");
     this.setState({
       bindmodalshow: false
     });
@@ -298,15 +291,13 @@ class Dotequip extends Component {
         bindmodalshow: true,
         bindDevId: id
       },
-      () => {
-        console.log(this.state.bindmodalshow, this.state.bindDevId, "300");
-      }
+      () => {}
     );
   };
   handDetail = record => {
-    window.location.href = `/#/main/dotdetails/proid:${
-      this.state.projSelected
-    }&&netid:${this.state.monintSelected}&&cid:${record.cid}`;
+    window.location.href = `/#/main/dotdetails?netid=${
+      this.state.monintSelected
+    }&cid=${record.cid}`;
   };
 
   handAbandon = (id, state) => {

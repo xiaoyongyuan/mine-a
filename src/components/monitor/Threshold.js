@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 import Etable from "../common/Etable"
 import BaseForm from "../common/BaseForm";
-import {Button,message} from "antd";
+import {Button,message,Modal} from "antd";
 import axios from "../../axios";
 import Utils from "../../utils/utils";
 import {Link} from "react-router-dom";
-import ItemModel from "./ThresholdModel.js"
-
+import ThresholdModel from "./ThresholdModel.js"
+const confirm = Modal.confirm;
 class Threshold extends Component {
   constructor(props){
       super(props);
@@ -56,23 +56,67 @@ class Threshold extends Component {
     };
     isstart = (code) =>{
         console.log("code",code);
-        axios.ajax({
-            baseURL:window.g.easyURL,
-            method: 'put',
-            url: '/threshold_net',
-            data: code
-        }).then((res)=>{
-            if(res.success){
-                message.success('设置成功！');
-                // this.setState({
-                //     list:res.data,
-                //     pagination:Utils.pagination(res,(current)=>{
-                //         this.params.pageindex=current;
-                //         this.requestList();
-                //     })
-                // })
-            }
-        });
+        if(code){
+            this.setState({
+                title:"确认启用吗？"
+            },()=>{
+                confirm({
+                    title: this.state.title,
+                    okText: "确认",
+                    okType: "danger",
+                    cancelText: "取消",
+                    onOk() {
+                        axios.ajax({
+                            baseURL:window.g.easyURL,
+                            method: 'put',
+                            url: '/threshold_net',
+                            data: code
+                        }).then((res)=>{
+                            if(res.success){
+                                message.success('设置成功！');
+                                // this.setState({
+                                //     list:res.data,
+                                //     pagination:Utils.pagination(res,(current)=>{
+                                //         this.params.pageindex=current;
+                                //         this.requestList();
+                                //     })
+                                // })
+                            }
+                        });
+                    }
+                });
+            })
+        }else{
+            this.setState({
+                title:"确认禁用吗？"
+            },()=>{
+                confirm({
+                    title: this.state.title,
+                    okText: "确认",
+                    okType: "danger",
+                    cancelText: "取消",
+                    onOk() {
+                        axios.ajax({
+                            baseURL:window.g.easyURL,
+                            method: 'put',
+                            url: '/threshold_net',
+                            data: code
+                        }).then((res)=>{
+                            if(res.success){
+                                message.success('设置成功！');
+                                // this.setState({
+                                //     list:res.data,
+                                //     pagination:Utils.pagination(res,(current)=>{
+                                //         this.params.pageindex=current;
+                                //         this.requestList();
+                                //     })
+                                // })
+                            }
+                        });
+                    }
+                });
+            })
+        }
     };
     render() {
         const columns=[{
@@ -82,15 +126,15 @@ class Threshold extends Component {
         },{
             title: '名称',
             dataIndex: 'name',
-            render:(text, record,index) =>{
-                return(
-                    <Link className="detmain" to={'/main/thresholddot?id='+record.code}>
-                        <div>
-                            {text}
-                        </div>
-                    </Link>
-                )
-           }
+           //  render:(text, record,index) =>{
+           //      return(
+           //          <Link className="detmain" to={'/main/thresholddot?id='+record.code}>
+           //              <div>
+           //                  {text}
+           //              </div>
+           //          </Link>
+           //      )
+           // }
         },{
             title: '设备类型',
             dataIndex: 'projectid',
@@ -131,6 +175,9 @@ class Threshold extends Component {
                                 <span className="redcolor" onClick={()=>this.isstart(0)}>禁用</span>:
                                 <span className="greencolor" onClick={()=>this.isstart(1)}>启用</span>
                         }
+                        <Link className="detmain" to={'/main/thresholddot?id='+record.code+'&cid='+record.cid}>
+                            <span>查看点位阈值</span>
+                        </Link>
                     </div>
                 )
             }
@@ -152,7 +199,7 @@ class Threshold extends Component {
               dataSource={this.state.list}
               // pagination={this.state.pagination}
           />
-          <ItemModel newShow={this.state.newShow} filterSubmit={this.uploadOk} uploadreset={()=>this.changeState('newShow',false)} />
+          <ThresholdModel newShow={this.state.newShow} filterSubmit={this.uploadOk} uploadreset={()=>this.changeState('newShow',false)} />
       </div>
     );
   }

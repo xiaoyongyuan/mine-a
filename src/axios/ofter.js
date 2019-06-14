@@ -48,13 +48,48 @@ export default class ofterajax {
             })  
         })
     }
-    static montinetlist() { //监测网列表
+    static thresholdDotlist(projectid,cid) { //监测点列表
+        return new Promise((resolve, reject) => {
+            axios.ajax({
+                baseURL:window.g.cuiURL,
+                method: 'get',
+                url: '/api/getProjectList',
+                data: {
+                    pagesize:200,
+                    projectid,
+                    cid
+                }
+            }).then((res)=>{
+                resolve(res)
+            })
+        })
+    }
+    static montinetlist(value) { //监测网列表
         return new Promise((resolve, reject) => {
             axios.ajax({
                 baseURL:window.g.easyURL,
                 method: 'get',
                 url: '/montinet',
-                data: {pagesize:200}
+                data: {
+                    pagesize:200,
+                    projectid:value,
+                }
+            }).then((res)=>{
+                resolve(res)
+            })
+        })
+    }
+    static equiptypelist(projectid,montinetid) { //设备类型列表
+        return new Promise((resolve, reject) => {
+            axios.ajax({
+                baseURL:window.g.easyURL,
+                method: 'get',
+                url: '/montinet',
+                data: {
+                    pagesize:200,
+                    projectid,
+                    montinetid
+                }
             }).then((res)=>{
                 resolve(res)
             })
