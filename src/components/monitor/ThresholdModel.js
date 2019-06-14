@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
-import {Modal,Input, Select, Form, Button} from 'antd'
+import {Modal,InputNumber , Select, Form, Button} from 'antd'
 import ofteraxios from '../../axios/ofter'
 const FormItem = Form.Item;
 const Option = Select.Option;
-class ItemModel extends Component {
+class ThresholdModel extends Component {
   constructor(props){
     super(props);
     this.state={
@@ -19,27 +19,32 @@ class ItemModel extends Component {
       this.setState({[key]:val})
   };
   componentWillMount(){
-    ofteraxios.projectlist().then(res=>{ //项目列表
-      if(res.success){
-        var project=[];
-        res.data.map(
-            item=>project.push(
-                {
-                    code:item.code,
-                    name:item.title
-                }
-            )
-        );
-        this.setState(
-            {
-                project,
-                selectp:project.length?project[0].code:''
-            }
-        )
-      }
-    });
 
   }
+    componentWillReceiveProps(nextProps){
+      console.log("nextProps",nextProps);
+      if(nextProps.newShow){
+          ofteraxios.projectlist().then(res=>{ //项目列表
+              if(res.success){
+                  var project=[];
+                  res.data.map(
+                      item=>project.push(
+                          {
+                              code:item.code,
+                              name:item.title
+                          }
+                      )
+                  );
+                  this.setState(
+                      {
+                          project,
+                          selectp:project.length?project[0].code:''
+                      }
+                  )
+              }
+          });
+      }
+    }
   componentDidMount(){
 
   }
@@ -73,7 +78,7 @@ class ItemModel extends Component {
   };
     projectidChange = (value) =>{
         console.log("value",value);
-        ofteraxios.montinetlist().then(res=>{ //监测网列表
+        ofteraxios.montinetlist(value).then(res=>{ //监测网列表
             if(res.success){
                 var montinet=[];
                 res.data.map(
@@ -86,6 +91,7 @@ class ItemModel extends Component {
                 );
                 this.setState(
                     {
+                        projectid:value,
                         montinet,
                         selectmontinet:montinet.length?montinet[0].code:''
                     }
@@ -93,8 +99,9 @@ class ItemModel extends Component {
             }
         });
     };
-    montinetidChange =()=>{
-        ofteraxios.montinetlist().then(res=>{ //设备类型列表
+    montinetidChange =(value)=>{
+        console.log("value",value);
+        ofteraxios.equiptypelist(this.state.projectid,value).then(res=>{ //设备类型列表
             if(res.success){
                 var equiptype=[];
                 res.data.map(
@@ -127,7 +134,7 @@ class ItemModel extends Component {
       },
     };
     return (
-      <div className="ItemModel">
+      <div className="ThresholdModel">
         <Modal
           title="监测网阈值新增"
           visible={this.props.newShow}
@@ -190,14 +197,14 @@ class ItemModel extends Component {
               <FormItem label='高阈值' key='heightvalue'>
                   {
                       getFieldDecorator('heightvalue')(
-                          <Input key='memoInput' />
+                          <InputNumber  key='memoInput' />
                       )
                   }
               </FormItem>
               <FormItem label='低阈值' key='lowvalue'>
                   {
                       getFieldDecorator('lowvalue')(
-                          <Input key='memoInput' />
+                          <InputNumber  key='memoInput' />
                       )
                   }
               </FormItem>
@@ -212,5 +219,5 @@ class ItemModel extends Component {
   }
 }
 
-export default ItemModel=Form.create({})(ItemModel);
+export default ThresholdModel=Form.create({})(ThresholdModel);
 
