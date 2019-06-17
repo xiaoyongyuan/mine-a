@@ -14,20 +14,17 @@ class CurveChart extends Component {
       var levelvalue = this.props.levelvalue;
       var vertical = this.props.vertical;
       var typeid = this.props.typeid;
-      console.log("zhouyitypeid",typeid);
       this.setState({
           xdata:xdata,
           levelvalue:levelvalue,
           vertical,
           typeid
       });
-      console.log("vertical11",vertical);
   }
   componentDidMount(){
 
   }
     test = (value) => {
-      console.log("typevalue",value);
       var EchaetsType;
       if(value === '1'){
           EchaetsType = "dotdetails";
