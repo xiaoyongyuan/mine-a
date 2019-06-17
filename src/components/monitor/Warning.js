@@ -141,9 +141,9 @@ class Warning extends Component {
             visible:false
         });
     };
-    uploadOkInsert=(params,conditions)=>{ //上传提交
-        console.log(params,conditions,"预警");
-        if(conditions.length>=1){
+    uploadOkInsert=(params,inputContext)=>{ //上传提交
+        console.log(params,"预警")
+        if(inputContext.length>=1){
             this.setState({newShow:false});
             /*axios.ajax({
             baseURL:window.g.cuiURL,
@@ -155,6 +155,7 @@ class Warning extends Component {
                 rank:params.rank,
                 judge:params.judge,
                 memo:params.memo,
+                conditions:params.conditions
             }
         }).then((res)=>{
             if(res.success){
@@ -234,7 +235,7 @@ class Warning extends Component {
                    pagination={this.state.pagination}
                    rowSelection={rowSelection}
                />
-               <WarningModel newShow={this.state.newShow} filterSubmit={this.uploadOkInsert} uploadreset={()=>this.changeState('newShow',false)}/>
+               <WarningModel newShow={this.state.newShow} filterSubmitModel={this.uploadOkInsert} uploadreset={()=>this.changeState('newShow',false)}/>
                <Modal
                    title="提示"
                    visible={this.state.visible}
