@@ -100,7 +100,11 @@ class Dotdetails extends Component {
             });
     };
     getColumns = () => {
+        // var that = this;
         const type = this.props.query.netid;
+        // that.setState({
+        //     typeid:type
+        // });
         var columns;
         switch (type) {
             case "1":
@@ -404,7 +408,7 @@ class Dotdetails extends Component {
                         />
                     </TabPane>
                     <TabPane tab="曲线图" key="2">
-                        <CurveChart xdata={this.state.xdata} levelvalue={this.state.levelvalue} vertical={this.state.vertical}/>
+                        <CurveChart typeid={this.props.query.code} xdata={this.state.xdata} levelvalue={this.state.levelvalue} vertical={this.state.vertical}/>
                     </TabPane>
                     <TabPane tab="报警信息" key="3">
                         <AlarmInfo netid={this.state.netid} cid={this.state.cid} />

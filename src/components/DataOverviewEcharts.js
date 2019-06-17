@@ -408,15 +408,15 @@ class DataOverviewEcharts extends Component {
                   saveAsImage: {}
               }
           },
-          xAxis:  {
-              type: 'category',
-              boundaryGap: false,
+          xAxis:  {//直角坐标系 grid 中的 x 轴，一般情况下单个 grid 组件最多只能放上下两个 x 轴，多于两个 x 轴需要通过配置 offset 属性防止同个位置多个 x 轴的重叠。
+              type: 'category',//坐标轴类型。'value' 数值轴，适用于连续数据。'category' 类目轴，适用于离散的类目数据，'time' 时间轴，
+              boundaryGap: false ,//坐标轴两边留白策略，类目轴和非类目轴的设置和表现不一样。
               data:this.props.xdata
           },
           yAxis: {
               type: 'value',
               name:"位移量(mm)",
-              axisLabel: {
+              axisLabel: {//坐标轴刻度相关设置。
                   formatter: '{value} mm'
               }
           },
@@ -480,6 +480,58 @@ class DataOverviewEcharts extends Component {
             option
         });
     };
+
+    //点位设备曲线图2
+    dotdetailtwo=()=>{
+        let option = {
+            title: {
+                text: 'GNSS监测点1#',
+                left:'center',
+                subtext: '2019年03月'
+            },
+            tooltip: {
+                trigger: 'axis'
+            },
+            toolbox: {//工具栏。内置有导出图片，数据视图，动态类型切换，数据区域缩放，重置五个工具。
+                show: true,
+                feature: {
+                    dataZoom: {
+                        yAxisIndex: 'none'
+                    },
+                    restore: {},
+                    saveAsImage: {}
+                }
+            },
+            xAxis: {
+                type: 'category',
+                boundaryGap: false ,
+                // data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+                data:this.props.xdata
+            },
+            yAxis: {
+                type: 'value',
+                name:"降雨量(mm)",
+                axisLabel: {//坐标轴刻度相关设置。
+                    formatter: '{value} mm'
+                }
+            },
+            dataZoom: [{
+                startValue: '2014-06-01'
+            }, {
+                type: 'inside'
+            }],
+            series: [{
+                name:'降雨量',
+                data: [820, 932, 901, 934, 1290, 1330, 1320],
+                type: 'line'
+            }]
+        };
+        this.setState({
+            option
+        })
+    };
+
+
     render() {
         return(
             <ReactEcharts
