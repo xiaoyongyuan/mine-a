@@ -21,7 +21,7 @@ class AlarmInfo extends Component {
       {
         type: "SELECT",
         label: "预警类别",
-        defaultValue: 0,
+        initialValue: 0,
         field: "alarmtype",
         list: [
           {

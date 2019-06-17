@@ -150,7 +150,7 @@ class FilterForm extends React.Component {
             <FormItem label={item.label} key={item.field}>
               {getFieldDecorator(`${item.field}`, {
                 rules: item.rules,
-                initialValue: item.defaultValue
+                initialValue: item.initialValue
               })(
                 <Select
                   style={{ width: item.width }}
