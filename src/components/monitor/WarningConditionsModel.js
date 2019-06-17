@@ -17,8 +17,10 @@ class WarningConditionsModel extends Component{
         this.props.form.resetFields();
         this.props.earlyreset()
     };
-    componentDidMount() {
-        this.network();
+    componentWillReceiveProps(nextProps){
+        if(nextProps.early){
+            this.network();
+        }
     }
     //网
     network=()=>{

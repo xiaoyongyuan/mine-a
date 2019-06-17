@@ -12,21 +12,27 @@ class WarningModel extends Component{
             early:false,
             project:[],
             inputContext:[],
-            context:[]
+            context:[],
+            receive:[]
         };
     }
-    componentWillMount(){
-        ofteraxios.projectlist().then(res=>{ //项目列表
-            if(res.success){
-                var project=[]
-                res.data.map(item=>project.push({code:item.code,name:item.title}) );
-                this.setState({
-                    project,
-                    selectp:project.length?project[0].code:'',
-                })
-            }
-        })
-
+    componentWillReceiveProps(nextProps){
+        if(nextProps.newShow){
+            ofteraxios.projectlist().then(res=>{ //项目列表
+                if(res.success){
+                    var project=[];
+                    res.data.map(item=>project.push({code:item.code,name:item.title}) );
+                    this.setState({
+                        project,
+                        selectp:project.length?project[0].code:'',
+                    })
+                }
+            })
+        }else{
+            this.setState({
+                receive:[]
+            })
+        }
     }
     reset = ()=>{ //取消表单
         this.props.form.resetFields();
@@ -44,28 +50,24 @@ class WarningModel extends Component{
         this.props.form.validateFields((err, values) => {
             if (!err) {
                 allparam.values=values;
-                allparam.inputContext=this.state.inputContext;
-                _this.props.filterSubmitModel(allparam,this.state.inputContext);
+                allparam.receive=this.state.receive;
+                _this.props.filterSubmitModel(allparam,this.state.receive);
                 this.props.form.resetFields();
             }
         });
     };
     uploadOk=(params)=>{ //上传提交
-        //console.log(params);
         this.setState({early:false});
         let arrs=[];//存取监测点
-        let receive=[];
+        //取出监测点
         params.monitoring.map((v)=>{
             arrs.push(v.label);
         });
-        if(arrs.length>=0){
-            params.values[0]["pointsPro"]=arrs.toString();
-            receive.push(params.values);
-            this.setState({
-                inputContext:params.values
-            })
+        // 给params.values赋值属性pointsPro
+        params.values[0]["pointsPro"]=arrs.toString();
+        for(let i in params.values){
+            this.state.receive.push(params.values[i]);
         }
-        console.log(this.state.inputContext.push(params.values[0]),"params.values")
         params.map((v)=>{
        /* axios.ajax({
             baseURL:window.g.cuiURL,
@@ -84,11 +86,37 @@ class WarningModel extends Component{
         });*/
         })
     };
+    //删除监测点
     hanleDelete=(i)=>{
-        //this.state.inputContext.splice(i,1);
+        const arrs= this.state.receive;
+        arrs.splice(i,1);
+        this.setState({
+            receive:arrs
+        });
     };
-    hanleContext=(name,time,datas,judge,pointsPro)=>{
+    hanleContext=(time,datas,judge,pointsPro)=>{
         return this.hanleTime(time)+ this.hanlejudge(judge)+ this.hanleData(datas)+this.state.context+pointsPro;
+    };
+    //select选择项目
+    projectidChange=(value)=>{
+        ofteraxios.montinetlist(value).then(res=>{ //监测网列表
+            if(res.success){
+                var montinet=[];
+                res.data.map(item=>montinet.push(
+                        {
+                            code:item.code,
+                            name:item.name
+                        }
+                    ));
+                this.setState(
+                    {
+                        projectid:value,
+                        montinet,
+                        selectmontinet:montinet.length?montinet[0].code:''
+                    }
+                )
+            }
+        });
     };
     hanleData=(datas)=>{
         if(datas==="1"){
@@ -129,6 +157,7 @@ class WarningModel extends Component{
                 sm: { span: 10 },
             },
         };
+        //console.log(this.state.receive,'ddddddddddd')
            return (
             <div className="ItemModel">
                 <Modal
@@ -147,7 +176,7 @@ class WarningModel extends Component{
                                     }],
                                     initialValue: this.state.selectp
                                 })(
-                                    <Select>
+                                    <Select onChange={this.projectidChange}>
                                         {this.state.project.map(city => (
                                             <Option key={city.code} value={city.code}>{city.name}</Option>
                                         ))}
@@ -217,10 +246,10 @@ class WarningModel extends Component{
                             <Button onClick={this.hanlewarningC}>添加预警条件</Button>
                             <WarningConditionsModel early={this.state.early} selectp={this.state.selectp} filterSubmit={this.uploadOk} earlyreset={()=>this.changeState('early',false)} />
                         </FormItem>
-                        <div style={{display:this.state.inputContext?"block":"none"}}>
+                        <div style={{display:this.state.receive.length>0?"block":"none"}}>
                             {
-                                this.state.inputContext.map((v,i)=>(
-                                    <p key={i}><Input style={{width:"90%"}} key='montInput' value={this.hanleContext(v.name,v.time,v.datas,v.judge,v.pointsPro)} /><Icon type="close-circle" onClick={()=>this.hanleDelete(i)} /></p>
+                                this.state.receive.map((v,i)=>(
+                                <p style={{margin:"10px 0"}} key={i}><Input style={{width:"90%"}} key='montInput' value={this.hanleContext(v.time,v.datas,v.judge,v.pointsPro)} /><Icon style={{marginLeft:"7px",fontSize:"18px"}} type="close-circle" onClick={()=>this.hanleDelete(i)} /></p>
                                 ))
                             }
                         </div>

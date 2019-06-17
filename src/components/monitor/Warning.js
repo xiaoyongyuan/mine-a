@@ -143,9 +143,9 @@ class Warning extends Component {
             visible:false
         });
     };
-    uploadOkInsert=(params,inputContext)=>{ //上传提交
+    uploadOkInsert=(params,receive)=>{ //上传提交
         console.log(params,"预警")
-        if(inputContext.length>=1){
+        if(receive.length>=1){
             this.setState({newShow:false});
             /*axios.ajax({
             baseURL:window.g.cuiURL,
@@ -157,7 +157,7 @@ class Warning extends Component {
                 rank:params.rank,
                 judge:params.judge,
                 memo:params.memo,
-                conditions:params.conditions
+                conditions:receive
             }
         }).then((res)=>{
             if(res.success){
