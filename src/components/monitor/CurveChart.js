@@ -13,31 +13,44 @@ class CurveChart extends Component {
       var xdata = this.props.xdata;
       var levelvalue = this.props.levelvalue;
       var vertical = this.props.vertical;
+      var typeid = this.props.typeid;
+      console.log("zhouyitypeid",typeid);
       this.setState({
           xdata:xdata,
           levelvalue:levelvalue,
           vertical,
+          typeid
       });
       console.log("vertical11",vertical);
   }
   componentDidMount(){
 
-}
+  }
+    test = (value) => {
+      console.log("typevalue",value);
+      var EchaetsType;
+      if(value === '1'){
+          EchaetsType = "dotdetails";
+      }else if(value === '2'){
+          EchaetsType = "dotdetailtwo";
+      }else {
+          EchaetsType = "displacement";
+      }
+       return(
+           <DataOverviewEcharts
+            type={EchaetsType}
+            xdata={this.state.xdata}
+            levelvalue={this.state.levelvalue}
+            vertical={this.props.vertical}
+        />
+       )
+    };
   render() {
     return (
         <div className="CurveChart" style={{width:"100%",height:'600px' }}>
-            <DataOverviewEcharts
-                type="dotdetails"
-                xdata={this.state.xdata}
-                levelvalue={this.state.levelvalue}
-                vertical={this.props.vertical}
-            />
-            {/*<DataOverviewEcharts*/}
-                {/*type="displacement"*/}
-                {/*datax={[22, 675, 356, 789, 339, 1330, 1320,720, 632, 501, 660, 880, 660, 567,934, 660, 880, 1320,720, 632, 501, 934, 509, 134]}*/}
-                {/*// datay={v.datay}*/}
-                {/*// dataz={v.dataz}*/}
-            {/*/>*/}
+            {
+                this.test(this.state.typeid)
+            }
         </div>
     );
   }
