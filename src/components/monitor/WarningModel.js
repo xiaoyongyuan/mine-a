@@ -51,17 +51,21 @@ class WarningModel extends Component{
         });
     };
     uploadOk=(params)=>{ //上传提交
-        console.log(params)
+        //console.log(params);
         this.setState({early:false});
-        this.setState({
-            inputContext:params.values
-        });
+        let arrs=[];//存取监测点
+        let receive=[];
         params.monitoring.map((v)=>{
-           //this.state.context.push(v.label);
-           this.setState({
-               context:v.label
-           })
+            arrs.push(v.label);
         });
+        if(arrs.length>=0){
+            params.values[0]["pointsPro"]=arrs.toString();
+            receive.push(params.values);
+            this.setState({
+                inputContext:params.values
+            })
+        }
+        console.log(this.state.inputContext.push(params.values[0]),"params.values")
         params.map((v)=>{
        /* axios.ajax({
             baseURL:window.g.cuiURL,
@@ -81,10 +85,10 @@ class WarningModel extends Component{
         })
     };
     hanleDelete=(i)=>{
-        this.state.inputContext.splice(i,1);
+        //this.state.inputContext.splice(i,1);
     };
-    hanleContext=(name,time,datas,judge)=>{
-        return this.hanleTime(time)+ this.hanlejudge(judge)+ this.hanleData(datas)+this.state.context;
+    hanleContext=(name,time,datas,judge,pointsPro)=>{
+        return this.hanleTime(time)+ this.hanlejudge(judge)+ this.hanleData(datas)+this.state.context+pointsPro;
     };
     hanleData=(datas)=>{
         if(datas==="1"){
@@ -216,7 +220,7 @@ class WarningModel extends Component{
                         <div style={{display:this.state.inputContext?"block":"none"}}>
                             {
                                 this.state.inputContext.map((v,i)=>(
-                                    <p key={i}><Input style={{width:"90%"}} key='montInput' value={this.hanleContext(v.name,v.time,v.datas,v.judge)} /><Icon type="close-circle" onClick={()=>this.hanleDelete(i)} /></p>
+                                    <p key={i}><Input style={{width:"90%"}} key='montInput' value={this.hanleContext(v.name,v.time,v.datas,v.judge,v.pointsPro)} /><Icon type="close-circle" onClick={()=>this.hanleDelete(i)} /></p>
                                 ))
                             }
                         </div>

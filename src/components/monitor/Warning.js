@@ -19,7 +19,7 @@ class Warning extends Component {
                 type: 'INPUT',
                 label: '预警名称',
                 field:'name',
-                placeholder:'',
+                placeholder:''
             },{
                 type: 'SELECT',
                 label: '预警级别',
@@ -31,7 +31,8 @@ class Warning extends Component {
                     {code: '1', name: '蓝色'},
                     {code: '2', name: '黄色'},
                     {code: '3', name: '橙色'},
-                    {code: '4', name: '红色'}]
+                    {code: '4', name: '红色'}],
+                width:"77px"
             },{
                 type: 'SELECT',
                 label: '状态',
@@ -41,7 +42,8 @@ class Warning extends Component {
                 list: [
                     {code: '3', name: '全部'},
                     {code: '0', name: '解除'},
-                    {code: '1', name: '失效'}]
+                    {code: '1', name: '失效'}],
+                width:"77px"
             },{
                 type:'button',
                 button:[
