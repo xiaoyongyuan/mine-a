@@ -112,7 +112,7 @@ class Dotequip extends Component {
                       查看
                     </Button>
                     <Button
-                      type="primary"
+                      type="danger"
                       style={{ marginLeft: "5px" }}
                       onClick={() => {
                         this.handAbandon(record.cid, record.state);

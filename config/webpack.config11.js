@@ -429,16 +429,7 @@ module.exports = function(webpackEnv) {
                   javascriptEnabled: true, 
                   modules: false,
                   modifyVars: {
-                      "@primary-color": "#0062A1",  //主题色
-                      "@table-header-bg": "#2E8ECB",//表格头部颜色
-                      "@table-header-color":"#fff" ,//表格头部字体颜色
-                      "@layout-header-background":"#0062A1",//layout头部背景色
-                      "layout-sider-background":"#282B34",//左边导航背景色
-                      "@menu-bg":"#202126",//菜单背景色
-                      "@menu-item-active-bg":"#35383D",//菜单选中的背景色
-                      "@menu-item-color":"#fff",//菜单项字体颜色
-                      "@menu-item-group-title-color":"#fff",
-                      "@btn-danger-bg":"#E84C3D",//按钮type为danger的背景颜色
+                      "@primary-color": "#f9c700"  //主题色
                   }
                 }
               }
