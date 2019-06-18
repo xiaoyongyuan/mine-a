@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import ReactEcharts from 'echarts-for-react';
 import { Icon,List,Card,Progress,Typography } from 'antd'
-
+import Egraph from './../common/Egraph'
 import './mapshow.less'
 class Prodect extends Component {
     constructor(props){
@@ -22,7 +22,7 @@ class Prodect extends Component {
                 <dl className="columndl">
                     <dt className="columndt">项目管理<a className="columndtright"></a></dt>
                     <div className="egraph">
-                      
+                      <Egraph dataHeight='400' cahrtp='progressbar' />
                     </div>
                 </dl>
             </div>

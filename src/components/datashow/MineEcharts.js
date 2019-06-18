@@ -894,7 +894,6 @@ class mineEcharts extends Component {
                     type:'pie',
                     selectedMode: 'single',
                     radius: [0, '40%'],
-
                     label: {
                         normal: {
                             position: 'inner'
