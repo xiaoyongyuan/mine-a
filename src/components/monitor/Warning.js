@@ -4,6 +4,7 @@ import {Button, message, Modal} from "antd";
 import Etable from "../common/Etable";
 import Utils from "../../utils/utils";
 import axios from "../../axios";
+import "../../style/ztt/css/warning.less";
 import WarningModel from "./WarningModel";
 class Warning extends Component {
     state  ={
@@ -225,7 +226,7 @@ class Warning extends Component {
                        <BaseForm formList={this.formList} filterSubmit={this.handleFilterSubmit} />
                    </div>
                    <div className="rightOpt">
-                       <Button type="primary" onClick={()=>this.changeState('newShow',true)}>新增</Button>
+                       <Button type="primary" onClick={()=>this.changeState('newShow',true)}><span className="actionfont action-xinzeng"/>新增</Button>
                        <Button type="primary" onClick={this.hanleApplication}>应用</Button>
                    </div>
                </div>
