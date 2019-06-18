@@ -123,16 +123,12 @@ class MyPlan extends Component {
                                     {/*<img src={v.Logo} />*/}
                                   </div>
                                   <div className="detname">
-                                    <Title level={4}>
-                                    <Paragraph ellipsis={{ rows: 1}}>
-                                        {v.title}
-                                    </Paragraph>
-                                    </Title>
+                                      <div className="plan-title">{v.title}</div>
                                     {/*<div><span className="greencolor">{v.cname}</span> {v.khdate}</div>*/}
                                       <div><span className="greencolor">测试写死</span> 2019-10-12</div>
+                                      <div className="intro">{v.summary}</div>
                                   </div>
                                 </div>
-                                <div className="intro">{v.summary}</div>
                                 </Link>
                                 :
                               <Link className="detmain" to={'/main/edit?id='+v.code}>
@@ -141,19 +137,15 @@ class MyPlan extends Component {
                                     {/*<img src={v.Logo} />*/}
                                   </div>
                                   <div className="detname">
-                                    <Title level={4}>
-                                    <Paragraph ellipsis={{ rows: 1}}>
-                                        {v.title}
-                                    </Paragraph>
-                                    </Title>
+                                      <div className="plan-title">{v.title}</div>
                                     {/*<div><span className="greencolor">{v.cname}</span> {v.khdate}</div>*/}
-                                      <div><span className="greencolor">测试写死</span> 2019-10-12</div>
+                                      <div><span className="greencolor">测试写死</span> <span className="time-plan">2019-10-12</span></div>
+                                      <div className="intro">{v.summary}</div>
                                   </div>
                                 </div>
                                 <div className="editbtn">
                                   <span style={{color:'#fff'}}>编辑</span>
                                 </div>
-                                <div className="intro">{v.summary}</div>
                                 </Link>
                                 }
                               </Col>

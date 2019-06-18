@@ -6,23 +6,46 @@
 					display: inline-block;
 					width: 100%;
 					color:rgba(0,0,0,.65);
-					border:1px solid #ccc;
-					//border:1px solid #cc24a1;
+					border:1px solid #E4F4FD;
 					position:relative;
-					padding:10px;
 					.dettitle{
 						display: flex;
 						justify-content:flex-start;
 						.detlogo{
 							background:#ddd;
-							padding:5px 8px;
-							width: 100px;
-							height: 100px;
+							width: 130px;
+							height: 130px;
 						}
 						.detname{
 							width: calc(100% - 130px);
 							padding-left:10px;
 							padding-top:5px;
+							background-color: #F2F9FF;
+							.intro{
+								width: 100%;
+								text-indent: 2rem;
+								text-align: justify;
+								font-size: 14px;
+								padding: 10px 4px 0 0;
+								overflow: hidden;
+								text-overflow: ellipsis;
+								white-space: nowrap;
+								color: #000;
+							}
+							.ant-typography, .ant-typography h4{
+								color: #306EA6;
+							}
+							.greencolor{
+								color: #306EA6;
+							}
+							.time-plan{
+								color: #878685;
+							}
+							.plan-title{
+								color: #005D9E;
+								font-size: 18px;
+								font-weight: bold;
+							}
 						}
 						
 					}
@@ -35,38 +58,29 @@
 							top:0;
 							right:0;
 							content: '';
-							border: 30px #f00 solid;
-							border-bottom: 30px transparent dashed;
-							border-left: 30px transparent dashed;
+							border: 26px #2D8DCD solid;
+							border-bottom: 26px transparent dashed;
+							border-left: 26px transparent dashed;
+							border-radius: 6px;
 						}
 						span{
 							position: absolute;
-							top:-8px;
-							right:-10px;
+							top:-4px;
+							right:-3px;
 							display: inline-block;
-							width:60px;
-							height: 60px;
-							line-height: 60px;
+							width:42px;
+							height: 42px;
+							line-height: 42px;
 							text-align: center;
+							font-size: 13px;
 							color: #fff;
 							transform:rotate(45deg);
 						}
 					}
 					.addmy:before{
-							border: 30px #1ECD6E solid;
-							border-bottom: 30px transparent dashed;
-							border-left: 30px transparent dashed;
-					}
-					.intro{
-						height: 110px;
-						text-indent: 28px;
-						text-align: justify;
-						font-size: 14px;
-						padding: 10px 4px 0 0;
-						//display: -webkit-box;
-						//-webkit-box-orient: vertical;
-						//-webkit-line-clamp: 4;
-						overflow: hidden;
+							border: 26px #1ECD6E solid;
+							border-bottom: 26px transparent dashed;
+							border-left: 26px transparent dashed;
 					}
 				}
 			}
