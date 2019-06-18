@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
-import {Modal,InputNumber , Select, Form, Button} from 'antd'
+import {Modal, InputNumber, Select, Form, Button, message} from 'antd'
 import ofteraxios from '../../axios/ofter'
+import axios from "../../axios";
 const FormItem = Form.Item;
 const Option = Select.Option;
+let vis=false;
 class ThresholdModel extends Component {
   constructor(props){
     super(props);
@@ -22,28 +24,79 @@ class ThresholdModel extends Component {
 
   }
     componentWillReceiveProps(nextProps){
-      console.log("nextProps",nextProps);
-      if(nextProps.newShow){
-          ofteraxios.projectlist().then(res=>{ //项目列表
-              if(res.success){
-                  var project=[];
-                  res.data.map(
-                      item=>project.push(
-                          {
-                              code:item.code,
-                              name:item.title
-                          }
-                      )
-                  );
-                  this.setState(
-                      {
-                          project,
-                          selectp:project.length?project[0].code:''
-                      }
-                  )
-              }
-          });
-      }
+      console.log("nextProps1122",nextProps);
+
+        if( nextProps.newShow !== vis){
+            vis=nextProps.newShow;
+            if(nextProps.newShow){
+                ofteraxios.projectlist().then(res=>{ //规划方案列表
+                    if(res.success){
+                        var project=[];
+                        res.data.map(
+                            item=>project.push(
+                                {
+                                    code:item.code,
+                                    name:item.title
+                                }
+                            )
+                        );
+                        this.setState(
+                            {
+                                project,
+                                selectp:project.length?project[0].code:''
+                            }
+                        )
+                    }
+                });
+
+                ofteraxios.montinetlist().then(res=>{ //监测网列表
+                    if(res.success){
+                        console.log("res",res);
+                        var montinet=[];
+                        res.data.map(
+                            item=>montinet.push(
+                                {
+                                    code:item.dvalue,
+                                    name:item.dname
+                                }
+                            )
+                        );
+                        this.setState(
+                            {
+                                montinet,
+                                selectmontinet:montinet.length?montinet[0].code:''
+                            }
+                        )
+                    }
+                });
+
+                ofteraxios.equiptypelist().then(res=>{ //设备类型列表
+                    if(res.success){
+                        var equiptype=[];
+                        res.data.map(
+                            item=>equiptype.push(
+                                {
+                                    code:item.dvalue,
+                                    name:item.dname
+                                }
+                            )
+                        );
+                        this.setState(
+                            {
+                                equiptype,
+                                selectequiptype:equiptype.length?equiptype[0].code:''
+                            }
+                        )
+                    }
+                });
+            }
+        }
+      // if(nextProps.newShow){
+      //
+      //
+      //
+      //
+      // }
     }
   componentDidMount(){
 
@@ -51,7 +104,7 @@ class ThresholdModel extends Component {
   reset = ()=>{ //取消表单
     this.setState({
         projectid:'',
-        montinetid:'',
+        netname:'',
         equiptypeid:'',
         heightvalue:'',
         lowvalue:'',
@@ -67,6 +120,22 @@ class ThresholdModel extends Component {
           console.log("values33",values);
           if (!err) {
               var data=values;
+              axios.ajax({
+                  baseURL:window.g.deviceURL,
+                  method: 'post',
+                  url: '/api/monitorNet',
+                  data: values
+              }).then((res)=>{
+                  const list=this.state.list;
+                  // list.unshift(values);
+                  if(res.success){
+                      message.success('新增成功！', 3);
+                      this.setState({
+                          list:list
+                      });
+                      this.requestList();
+                  }
+              });
               // data.filename_cad=_this.state.cad;
               // data.filepath=_this.state.filepath;
               // data.excel=_this.state.excel;
@@ -78,48 +147,11 @@ class ThresholdModel extends Component {
   };
     projectidChange = (value) =>{
         console.log("value",value);
-        ofteraxios.montinetlist(value).then(res=>{ //监测网列表
-            if(res.success){
-                var montinet=[];
-                res.data.map(
-                    item=>montinet.push(
-                        {
-                            code:item.code,
-                            name:item.name
-                        }
-                    )
-                );
-                this.setState(
-                    {
-                        projectid:value,
-                        montinet,
-                        selectmontinet:montinet.length?montinet[0].code:''
-                    }
-                )
-            }
-        });
+
     };
     montinetidChange =(value)=>{
         console.log("value",value);
-        ofteraxios.equiptypelist(this.state.projectid,value).then(res=>{ //设备类型列表
-            if(res.success){
-                var equiptype=[];
-                res.data.map(
-                    item=>equiptype.push(
-                        {
-                            code:item.code,
-                            name:item.name
-                        }
-                    )
-                );
-                this.setState(
-                    {
-                        equiptype,
-                        selectequiptype:equiptype.length?equiptype[0].code:''
-                    }
-                )
-            }
-        });
+
     };
   render() {
     const { getFieldDecorator } = this.props.form;
@@ -159,14 +191,14 @@ class ThresholdModel extends Component {
                       )
                   }
               </FormItem>
-              <FormItem label='监测网' key='montinetid'>
+              <FormItem label='监测网' key='netname'>
                   {
-                      getFieldDecorator('montinetid', {
+                      getFieldDecorator('netname', {
                           rules:[{
                               required: true,
                               message: '请选择监测网',
                           }],
-                          initialValue: '----请选择----'
+                          initialValue: this.state.selectmontinet
                       })(
                           <Select onChange={this.montinetidChange}>
                               {this.state.montinet.map(city => (
@@ -183,7 +215,7 @@ class ThresholdModel extends Component {
                           required: true,
                           message: '请选设备类型',
                         }],
-                        initialValue: '----请选择----'
+                        initialValue: this.state.selectequiptype
                     })(
                         <Select>
                           {this.state.equiptype.map(city => (

@@ -48,6 +48,37 @@ export default class ofterajax {
             })  
         })
     }
+    static montinetlist() { //监测网列表
+        return new Promise((resolve, reject) => {
+            axios.ajax({
+                baseURL:window.g.sysURL,
+                method: 'get',
+                url: '/api/findDictionaryByType',
+                data: {
+                    pagesize:200,
+                    dtype:'MONITORNET'
+                }
+            }).then((res)=>{
+                resolve(res)
+            })
+        })
+    }
+    static equiptypelist() { //设备类型列表
+        return new Promise((resolve, reject) => {
+            axios.ajax({
+                baseURL:window.g.sysURL,
+                method: 'get',
+                url: '/api/findDictionaryByType',
+                data: {
+                    pagesize:200,
+                    dtype:'DEVICETYPE'
+                }
+            }).then((res)=>{
+                resolve(res)
+            })
+        })
+    }
+
     static thresholdDotlist(projectid,cid) { //监测点列表
         return new Promise((resolve, reject) => {
             axios.ajax({
@@ -64,38 +95,4 @@ export default class ofterajax {
             })
         })
     }
-    static montinetlist(value) { //监测网列表
-        return new Promise((resolve, reject) => {
-            axios.ajax({
-                baseURL:window.g.easyURL,
-                method: 'get',
-                url: '/montinet',
-                data: {
-                    pagesize:200,
-                    projectid:value,
-                }
-            }).then((res)=>{
-                resolve(res)
-            })
-        })
-    }
-    static equiptypelist(projectid,montinetid) { //设备类型列表
-        return new Promise((resolve, reject) => {
-            axios.ajax({
-                baseURL:window.g.easyURL,
-                method: 'get',
-                url: '/montinet',
-                data: {
-                    pagesize:200,
-                    projectid,
-                    montinetid
-                }
-            }).then((res)=>{
-                resolve(res)
-            })
-        })
-    }
-
-
-
 }
