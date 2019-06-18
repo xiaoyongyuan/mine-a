@@ -38,9 +38,9 @@ class Threshold extends Component {
     };
     requestList=()=>{
         axios.ajax({
-            baseURL:window.g.easyURL,
+            baseURL:window.g.deviceURL,
             method: 'get',
-            url: '/thresholdnetlist',
+            url: '/api/monitorNet',
             data: this.params
         }).then((res)=>{
                 if(res.success){
@@ -125,16 +125,7 @@ class Threshold extends Component {
             render: (text, record,index) => (index+1),
         },{
             title: '名称',
-            dataIndex: 'name',
-           //  render:(text, record,index) =>{
-           //      return(
-           //          <Link className="detmain" to={'/main/thresholddot?id='+record.code}>
-           //              <div>
-           //                  {text}
-           //              </div>
-           //          </Link>
-           //      )
-           // }
+            dataIndex: 'netname',
         },{
             title: '设备类型',
             dataIndex: 'projectid',
@@ -143,13 +134,13 @@ class Threshold extends Component {
             dataIndex: 'createon',
         },{
             title: '低阈值',
-            dataIndex: 'lower',
+            dataIndex: 'minimum',
         },{
             title: '高阈值',
-            dataIndex: 'high',
+            dataIndex: 'maximum',
         },{
             title: '备注',
-            dataIndex: 'remark',
+            dataIndex: 'memo',
         },{
             title: '状态',
             dataIndex: 'status',
@@ -169,7 +160,6 @@ class Threshold extends Component {
             render: (text,record) =>{
                 return(
                     <div className="tableoption">
-                       {/*<a className="greencolor" onClick={()=>this.preview(record.filepath)}>预览</a>*/}
                         {
                             text?
                                 <span className="redcolor" onClick={()=>this.isstart(0)}>禁用</span>:
