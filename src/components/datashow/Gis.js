@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import ReactEcharts from 'echarts-for-react';
 import { Icon,List,Card,Progress,Typography } from 'antd'
+import Egraph from './../common/Egraph'
+
+
 
 import './mapshow.less'
 class Gis extends Component {
@@ -28,13 +31,13 @@ class Gis extends Component {
                 <dl className="columndl">
                     <dt className="columndt">土地损毁</dt>
                     <div className="egraph">
-                            
+                        <Egraph key='sunh' dataHeight='150' cahrtp='meter' />  
                     </div>
                 </dl>
                 <dl className="columndl">
                     <dt className="columndt">土地复垦</dt>
                     <div className="egraph">
-                            
+                        <Egraph key='fuk' dataHeight='150' cahrtp='meter' />    
                     </div>
                 </dl>
             </div>

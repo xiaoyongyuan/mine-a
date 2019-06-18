@@ -18,7 +18,7 @@ class MapShow extends Component {
         super(props);
         this.state={ 
             leftLayer:true,
-            showitem:'pandect', 
+            showitem:'Gis', 
         };
     }
     componentWillMount(){
