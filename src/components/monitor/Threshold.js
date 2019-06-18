@@ -148,7 +148,7 @@ class Threshold extends Component {
                 return(
                     <div>
                         {
-                            text === 0?<span className="redcolor">未生效</span>:<span className="greencolor">已生效</span>
+                            text === 0?<span className="state-bg-not redcolor">未启用</span>:<span className="greencolor state-bg-normal">正常</span>
                         }
                     </div>
                 )

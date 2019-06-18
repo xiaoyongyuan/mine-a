@@ -67,13 +67,13 @@ class Dotequip extends Component {
         render: text => {
           switch (text) {
             case 0: {
-              return <div>未绑定</div>;
+              return <div className="state-bg-not">未绑定</div>;
             }
             case 1: {
-              return <div>启用</div>;
+              return <div className="state-bg-normal">启用</div>;
             }
             case 2: {
-              return <div>弃用</div>;
+              return <div className="state-bg-abandoning">弃用</div>;
             }
           }
         },
@@ -90,6 +90,7 @@ class Dotequip extends Component {
                 return (
                   <Button
                     type="primary"
+                    className="btn-binding"
                     onClick={() => {
                       this.handBind(record.cid);
                     }}
@@ -114,6 +115,7 @@ class Dotequip extends Component {
                     <Button
                       type="danger"
                       style={{ marginLeft: "5px" }}
+                      className="btn-abandoning"
                       onClick={() => {
                         this.handAbandon(record.cid, record.state);
                       }}
@@ -130,6 +132,7 @@ class Dotequip extends Component {
                   <div>
                     <Button
                       type="primary"
+                      className="btn-look"
                       onClick={() => {
                         this.handDetail(record);
                       }}
@@ -138,6 +141,7 @@ class Dotequip extends Component {
                     </Button>
                     <Button
                       type="primary"
+                      className="btn-use"
                       style={{ marginLeft: "5px" }}
                       onClick={() => {
                         this.handUnseal(record.cid, record.state);
