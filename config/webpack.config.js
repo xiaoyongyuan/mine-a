@@ -439,6 +439,7 @@ module.exports = function(webpackEnv) {
                       "@menu-item-color":"#fff",//菜单项字体颜色
                       "@menu-item-group-title-color":"#fff",
                       "@btn-danger-bg":"#E84C3D",//按钮type为danger的背景颜色
+                      "@btn-danger-color":"#fff",//按钮字体颜色
                   }
                 }
               }
