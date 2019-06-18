@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import ReactEcharts from 'echarts-for-react';
 import { Icon,List,Card,Progress,Typography } from 'antd'
-
+import Egraph from './../common/Egraph'
 import './mapshow.less'
 const { Paragraph } = Typography;
 class Pandect extends Component {
@@ -41,7 +41,7 @@ class Pandect extends Component {
             <div className="Pandect">
                 <div className="pandectitem">
                     <List className='listitem' style={{marginLeft:'30px',marginRight:'30px'}}>
-                        <List.Item key='Item1'><Icon type="home" /> 基础数据</List.Item>
+                        <List.Item key='Item1'><i className="actionfont action-jichushujuguanli"></i> 基础数据</List.Item>
                         <List.Item key='Item2'><Icon type="home" /> 监测设备</List.Item>
                         <List.Item key='Item3'><Icon type="home" /> 遥感监测</List.Item>
                         <List.Item key='Item4'><Icon type="home" /> 空间分析</List.Item>
@@ -59,7 +59,7 @@ class Pandect extends Component {
                     <div className="columndl" style={{marginBottom:'10px'}}>
                         <div className="columndt">矿区雨量</div>
                         <div className="egraph">
-                            
+                           <Egraph key='fuk' dataHeight='150' cahrtp='brokenline' /> 
                         </div>
                     </div>
                     

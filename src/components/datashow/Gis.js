@@ -18,8 +18,7 @@ class Gis extends Component {
     }
 
 
-    render() {
-        
+    render() {       
         return (
             <div className="Gis">
                 <List className='listitem'>
