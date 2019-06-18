@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import ReactEcharts from 'echarts-for-react';
 import { Icon,List,Card,Progress,Typography } from 'antd'
-
+import Egraph from './../common/Egraph'
 import './mapshow.less'
 class Monitor extends Component {
     constructor(props){
@@ -54,7 +54,7 @@ class Monitor extends Component {
                 <dl className="columndl">
                     <dt className="columndt">监测设备</dt>
                     <div className="egraph">
-                            
+                        <Egraph dataHeight='150' cahrtp='columnar' />  
                     </div>
                 </dl>
             </div>

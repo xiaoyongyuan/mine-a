@@ -3,5 +3,8 @@ window.g = {
     baseURL:'http://192.168.10.29:8001/sys',
     cuiURL:'http://192.168.10.29:8002/bizservice',
     cui29URL:'http://192.168.10.29:8003/bizservice',
+    bizserviceURL:'http://192.168.10.11:8001/bizservice',
+    sysURL:'http://192.168.10.11:8001/sys',
+    deviceURL:'http://192.168.10.11:8001/device'
 
 };
