@@ -23,6 +23,14 @@ class Egraph extends Component {
       item:['项目方案','监测规划','评估报告','调查报告','勘察报告','设计报告','施工报告','施工监理','治理方案','项目验收',],
       values:[60,100,40,20,70,48,30,69,78,0]
     }
+    const columnar={ //进度测试数据
+      item:['地形地貌','土地环境','地下水','雨量'],
+      values:[60,121,43,87]
+    }
+    const brokenline={ //进度测试数据
+      item:['2','4','6','8','10','12','14','16','18','20','22','24','26','28'],
+      values:[10,2,5,0,0,1,3,4,2,0,1,0,0,2]
+    }
     switch(cahrtp){
       case 'progressbar':
         this.progressbar(data)
@@ -31,7 +39,10 @@ class Egraph extends Component {
         this.meter()
         break;
       case 'columnar':
-        this.columnar()
+        this.columnar(columnar)
+        break;
+      case 'brokenline':
+        this.brokenline(brokenline)
         break;
 
     }
@@ -100,8 +111,7 @@ class Egraph extends Component {
     ];
   }
 
-  getAxisTick=()=>{
-      
+  getAxisTick=()=>{     
       var tickWidth = (startAngle - endAngle - (splitNumber - 1) * splitWidth) / splitNumber;
       var ticks = [];
         for(var i=0; i<splitNumber; i++){
@@ -274,65 +284,150 @@ class Egraph extends Component {
 };
     this.setState({option})
   }
-  columnar=()=>{
+  columnar=(data)=>{ //柱状图
     var option = {
-        xAxis: {
-            data: ['涉恐人员', '涉稳人员', '涉毒人员', '在逃人员', '刑事犯罪\n前科、劣迹人员', '肇事肇祸\n精神病人', '重点上访\n人员'],
-            axisLine: {
-                lineStyle: {
-                    color: '#0177d4'
-                }
-            },
-            axisLabel: {
-                color: '#fff',
-                fontSize: 14
-            }
-        },
-        yAxis: {
-            name: "（人）",
-            nameTextStyle: {
-                color: '#fff',
-                fontSize: 16
-            },
-            axisLine: {
-                lineStyle: {
-                    color: '#0177d4'
-                }
-            },
-            axisLabel: {
-                color: '#fff',
-                fontSize: 16
-            },
-            splitLine: {
-                show:false,
-                lineStyle: {
-                    color: '#0177d4'
-                }
-            },
-            interval:500,
-            max:5000
+          grid: {
+              left: '5%',
+              right: '5%',
+              bottom: '5%',
+              top: '7%',
+              height: '85%',
+              containLabel: true,
+              z: 22
+          },
+          xAxis: {
+              data: data.item,
+              axisLine: {
+                  lineStyle: {
+                      color: '#0177d4'
+                  }
+              },
+              axisLabel: {
+                  color: '#fff',
+                  fontSize: 10
+              }
+          },
+          yAxis: {
+              name: "（个）",
+              nameTextStyle: {
+                  color: '#fff',
+                  fontSize: 12
+              },
+              axisLine: {
+                  lineStyle: {
+                      color: '#0177d4'
+                  }
+              },
+              axisLabel: {
+                  color: '#fff',
+                  fontSize: 10
+              },
+              splitLine: {
+                  show:false,
+              },
 
-        },
-        series: [{
-            type: 'bar',
-            barWidth: 18,
-            itemStyle:{
-                normal:{
-                    color:new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
-                        offset: 0,
-                        color: '#00b0ff'
-                    }, {
-                        offset: 0.8,
-                        color: '#7052f4'
-                    }], false)
-                }
-            },
-            data: [254, 3254, 1654, 2454, 4757, 2011, 1211]
-        }]
-    };
+          },
+          series: [{
+              type: 'bar',
+              barWidth: 10,
+              itemStyle:{
+                  normal:{
+                      barBorderRadius: 30,
+                      color:new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+                          offset: 0,
+                          color: '#00F3FF'
+                      }, {
+                          offset: 0.8,
+                          color: '#0184FF'
+                      }], false)
+                  }
+              },
+              data: data.values
+          }]
+      };
     this.setState({option})
 
   }
+  brokenline=(data)=>{  //折线
+    var option = {
+        tooltip: {
+        },
+        title: {
+            left: 'right',
+            text: '(5月)',
+            textStyle: {
+                color: '#fff',
+                fontSize: 10
+            },
+
+        },
+        grid: {
+          top: '8%',
+          left: '1%',
+          right: '1%',
+          bottom: '8%',
+          containLabel: true,
+        },
+        xAxis: [{
+          type: 'category',
+          boundaryGap: false,
+          axisLine: { //坐标轴轴线相关设置。数学上的x轴
+             show: true,
+             lineStyle: {
+               color: '#233e64'
+             },
+           },
+           axisLabel: { //坐标轴刻度标签的相关设置
+             textStyle: {
+               color: '#6a9cd5',
+               margin:15,
+             },
+           },
+           axisTick: { show: false,},
+          data: data.item,
+        }],
+        yAxis: [{
+          type: 'value',
+          splitLine: {
+             show: false,
+             lineStyle: {
+               color: '#233e64'
+             }
+           },
+           axisLine: {show: true,},
+           axisLabel: {
+             textStyle: {
+               color: '#6a9cd5',
+               
+             },
+           },
+           axisTick: { show: false,},  
+        }],
+        series: [{
+          name: '降雨量',
+          type: 'line',
+          smooth: false, //是否平滑曲线显示
+          symbolSize:0,
+          lineStyle: {
+            normal: {
+              color: "#47C2E1"   // 线条颜色
+            }
+          },
+          areaStyle: { //区域填充样式
+                    normal: {
+                     //线性渐变，前4个参数分别是x0,y0,x2,y2(范围0~1);相当于图形包围盒中的百分比。如果最后一个参数是‘true’，则该四个值是绝对像素位置。
+                       color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+                 { offset: 0,  color: 'rgba(61,234,255, 0.9)'}, 
+                 { offset: 1,  color: 'rgba(61,234,255, 0)'}
+               ], false),
+                 }
+             },
+          data: data.values
+        }]
+    };
+    this.setState({option})
+  }
+
 
   render() {    
     return (
