@@ -277,6 +277,11 @@ export default {
       key: "/main/thresholddot",
       component: "ThresholdDot"
     },
+    {
+      title: "监测规划变更",
+      key: "/main/monitorprolook",
+      component: "Monitorprolook"
+    },
 
     //以下页面先保留
     {
