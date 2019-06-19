@@ -58,9 +58,11 @@ class Dotdetails extends Component {
     axios
       .ajax({
         method: "get",
-        url: bizserviceURL + "/api/getMonitordeviceById",
+        url: bizserviceURL + "/api/monitorDataTransfer",
         data: {
-          code: this.props.query.code
+          deviceId: this.props.query.deviceId,
+          companyCode: this.props.query.companyCode,
+          dataType: this.props.query.dataType
         }
       })
       .then(res => {
@@ -68,25 +70,25 @@ class Dotdetails extends Component {
         if (res.success) {
           this.setState(
             {
-              datalist: res.data,
-              xdata: res.data.createon
+              datalist: res.data
+              // xdata: res.data.createon
             },
             () => {
               console.log(this.state.datalist);
-              console.log("xdata", this.state.xdata);
-              var xdata = [];
-              var levelvalue = [];
-              var vertical = [];
-              res.data.map(item => xdata.push(item.createon.substring(0, 10)));
-              res.data.map(item => levelvalue.push(item.x));
-              res.data.map(item => vertical.push(item.y));
-              console.log("xdata", xdata);
-              console.log("levelvalue", levelvalue);
-              this.setState({
-                xdata: xdata,
-                levelvalue: levelvalue,
-                vertical
-              });
+              // console.log("xdata", this.state.xdata);
+              // var xdata = [];
+              // var levelvalue = [];
+              // var vertical = [];
+              // res.data.map(item => xdata.push(item.createon.substring(0, 10)));
+              // res.data.map(item => levelvalue.push(item.x));
+              // res.data.map(item => vertical.push(item.y));
+              // console.log("xdata", xdata);
+              // console.log("levelvalue", levelvalue);
+              // this.setState({
+              //   xdata: xdata,
+              //   levelvalue: levelvalue,
+              //   vertical
+              // });
             }
           );
         }
@@ -401,12 +403,12 @@ class Dotdetails extends Component {
             />
           </TabPane>
           <TabPane tab="曲线图" key="2">
-            <CurveChart
+            {/* <CurveChart
               typeid={this.props.query.code}
               xdata={this.state.xdata}
               levelvalue={this.state.levelvalue}
               vertical={this.state.vertical}
-            />
+            /> */}
           </TabPane>
           <TabPane tab="报警信息" key="3">
             <AlarmInfo netid={this.state.netid} cid={this.state.cid} />

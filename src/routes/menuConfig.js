@@ -2,29 +2,36 @@ export default {
   menuList: [
     {
       title: "总览",
-      key: "/datashow",
+      key: "/pandect/mapshow",
       type: "pandect",
-      children: [
-        {
-          title: "数据管理",
-          key: "/pandect/datamanage",
-          type: "pandect",
-          component: "Datamanage"
-        },
-        {
-          title: "项目管理",
-          key: "/pandect/projectmanage",
-          type: "pandect",
-          component: "Projectmanage"
-        },
-        {
-          title: "地图",
-          key: "/pandect/mapshow",
-          type: "pandect",
-          component: "MapShow"
-        }
-      ]
+      component: "MapShow"
+
     },
+    // {
+    //   title: "总览",
+    //   key: "/datashow",
+    //   type: "pandect",
+    //   children: [
+    //     {
+    //       title: "数据管理",
+    //       key: "/pandect/datamanage",
+    //       type: "pandect",
+    //       component: "Datamanage"
+    //     },
+    //     {
+    //       title: "项目管理",
+    //       key: "/pandect/projectmanage",
+    //       type: "pandect",
+    //       component: "Projectmanage"
+    //     },
+    //     {
+    //       title: "地图",
+    //       key: "/pandect/mapshow",
+    //       type: "pandect",
+    //       component: "MapShow"
+    //     }
+    //   ]
+    // },
     // {
     //     title: '数据总览',
     //     key: '/overview',
