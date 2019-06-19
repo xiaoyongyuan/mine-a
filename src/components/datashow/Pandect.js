@@ -41,12 +41,12 @@ class Pandect extends Component {
             <div className="Pandect">
                 <div className="pandectitem">
                     <List className='listitem' style={{marginLeft:'30px',marginRight:'30px'}}>
-                        <List.Item key='Item1'><i className="actionfont action-jichushujuguanli"></i> 基础数据</List.Item>
-                        <List.Item key='Item2'><Icon type="home" /> 监测设备</List.Item>
-                        <List.Item key='Item3'><Icon type="home" /> 遥感监测</List.Item>
-                        <List.Item key='Item4'><Icon type="home" /> 空间分析</List.Item>
-                        <List.Item key='Item5'><Icon type="home" /> 图层管理</List.Item>
-                        <List.Item key='Item6'><Icon type="home" /> 矿区导航</List.Item> 
+                        <List.Item key='Item1'><i className="actionfont action-shujuzonglan"></i> 基础数据</List.Item>
+                        <List.Item key='Item2'><i className="actionfont action-101"></i> 监测设备</List.Item>
+                        <List.Item key='Item3'><i className="actionfont action-shebeiguanli"></i> 遥感监测</List.Item>
+                        <List.Item key='Item4'><i className="actionfont action-jichushujuguanli"></i> 空间分析</List.Item>
+                        <List.Item key='Item5'><i className="actionfont action-guanli1"></i> 图层管理</List.Item>
+                        <List.Item key='Item6'><i className="actionfont action-daohang"></i> 矿区导航</List.Item> 
                     </List>
                     <dl className="columndl">
                         <dt className="columndt">预警信息<a className="columndtright"></a></dt>

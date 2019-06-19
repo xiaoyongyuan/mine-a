@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { Form, Icon, Input, Button, Checkbox } from "antd";
-
+import { Form, Icon, Input, Button, Checkbox,message } from "antd";
+import axios from '../../axios'
 
 import './index.less';
 import "../../style/ztt/css/fastspeed.css";
@@ -8,6 +8,38 @@ import "../../style/ztt/css/style.css";
 import "../../style/ztt/css/normalize.css"
 const FormItem = Form.Item;
 class Login extends Component {
+
+  componentDidMount() {
+    axios.logout({
+        })
+  }
+
+
+
+  handleSubmit = e => { //登录提交
+    e.preventDefault();
+    this.props.form.validateFields((err, values) => {
+      if (!err) {
+        //获取到的表单的值values
+        const { fetchData } = this.props;
+        axios.login({
+          data: {
+            passWord:values.passWord,
+            userName:values.userName,
+          }
+        }).then((res)=>{
+          if(res.access_token){
+            localStorage.setItem("token", res.access_token);
+            this.props.history.push("/pandect/mapshow")
+          }else{
+            message.warn('用户名或密码错误！')
+          }
+        })
+
+        
+      }
+    });
+  };
   render() {
     const { getFieldDecorator } = this.props.form;
     return (
@@ -25,7 +57,7 @@ class Login extends Component {
                 onSubmit={this.handleSubmit}
                 style={{ maxWidth: "280px", margin: "0 auto" }}>
                 <FormItem>
-                  {getFieldDecorator("account", {
+                  {getFieldDecorator("userName", {
                     rules: [{ required: true, message: "请输入用户名!" }]
                   })(
                     <Input
@@ -35,7 +67,7 @@ class Login extends Component {
                   )}
                 </FormItem>
                 <FormItem>
-                  {getFieldDecorator("password", {
+                  {getFieldDecorator("passWord", {
                     rules: [{ required: true, message: "请输入密码!" }]
                   })(
                     <Input

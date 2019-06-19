@@ -13,7 +13,7 @@ export default class Axios {
                 if (response&&response.status == 'success') {
                     resolve(response);
                 } else {
-                    reject(response.messsage);
+                    reject(response.msg);
                 }
             })
         })
@@ -25,7 +25,6 @@ export default class Axios {
             loading = document.getElementById('ajaxLoading');
             loading.style.display = 'block';
         }
-        console.log('options',options)
         return new Promise((resolve,reject)=>{
             axios({
                 method: options.method || 'get',
@@ -34,6 +33,9 @@ export default class Axios {
                 headers:{ContentType:'application/json;charset=UTF-8'},
                 params: options.method === 'get' || options.method === 'delete' ? options.data : null,
                 data: options.method === 'post' || options.method === 'put' ? options.data: null,
+                headers: {
+                  AUTHORIZATION: 'Bearer '+localStorage.getItem("token")
+                }
             })
             .then((response)=>{
                 if (options.isShowLoading !== false) {
@@ -44,11 +46,62 @@ export default class Axios {
                     const res=response.data;
                     if(res.success===1){
                         resolve(res)
-                    }else if(res.success===2){
-                        window.href='#/login'
-                    }else message.error(res.message)
-                }else reject(response.messsage);
+                    }else if(res.success=='401' || res.success=='402'){
+                        console.log(11)
+                        message.error(res.msg)
+                        window.location.href='#/login'
+                    }else message.error(res.msg)
+                }else reject(response.msg);
             });
+
+        })
+    }
+
+    static login(options){
+        let loading;
+        if (options.isShowLoading !== false){
+            loading = document.getElementById('ajaxLoading');
+            loading.style.display = 'block';
+        }
+        return new Promise((resolve,reject)=>{
+            axios.post('http://192.168.10.12:8006/oauth/login/login',options.data)
+                .then((response)=>{
+                    if (options.isShowLoading !== false) {
+                        loading = document.getElementById('ajaxLoading');
+                        loading.style.display = 'none';
+                    }
+                    if(response&&response.status=='200'){
+                        const res=response.data;
+                        resolve(res)
+                    }else reject(response.msg);
+
+                })
+
+
+        })
+    }
+    static logout(options){
+        let loading;
+        if (options.isShowLoading !== false){
+            loading = document.getElementById('ajaxLoading');
+            loading.style.display = 'block';
+        }
+        return new Promise((resolve,reject)=>{
+            axios.get('http://192.168.10.12:8001/login/exit',null,{headers: {
+                  AUTHORIZATION: 'Bearer '+localStorage.getItem("token")
+                }})
+                .then((response)=>{
+                    if (options.isShowLoading !== false) {
+                        loading = document.getElementById('ajaxLoading');
+                        loading.style.display = 'none';
+                    }
+                    if(response&&response.status=='200'){
+                        const res=response.data;
+                        resolve(res)
+                    }else reject(response.msg);
+
+                })
+
 
         })
     }

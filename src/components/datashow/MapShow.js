@@ -51,16 +51,16 @@ class MapShow extends Component {
                 <div className="leftLayer" style={this.state.tigclose?{transform:'translateX(-100%)'}:null}>
                     <div className="leftmeun">
                         <div className='clickmeun'>
-                            <a href="" className='filledsty filledact'>
+                            <a href="#/pandect/mapshow" className='filledsty filledact'>
                                 <Icon type="home" />
                             </a>
-                            <a href="" className='filledsty'>
+                            <a href="#/main/userinfo" className='filledsty'>
                                 <Icon type="user" />
                             </a>
-                            <a href="" className='filledsty'>
+                            <a href="#/main/companyinfo" className='filledsty'>
                                 <Icon type="setting" />
                             </a>
-                            <a href="" className='filledsty'>
+                            <a href="#/main/scheme" className='filledsty'>
                                 <Icon type="ellipsis" />
                             </a>
                         </div>
