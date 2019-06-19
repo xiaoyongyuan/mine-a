@@ -135,7 +135,7 @@ class monitorpro extends Component {
                 if(text==0) return(
                     <div className='tableoption'>
                         <span className='yellowcolor'>修改</span>
-                        <span className='bluecolor'>预览</span>
+                        <a className='bluecolor' target="_blank"  href={"https://view.officeapps.live.com/op/view.aspx?src="+window.g.filelook+record.filepath}>预览</a>
                         <span className='bluecolor'>文档下载</span>
                         <span className='bluecolor'>CAD下载</span>
                         <span className='greencolor'>执行</span>
@@ -143,7 +143,7 @@ class monitorpro extends Component {
                 else if(text==1) return(
                     <div className='tableoption'>
                         <span className='yellowcolor'>变更</span>
-                        <span className='bluecolor'>预览</span>
+                        <a className='bluecolor' target="_blank"  href={"https://view.officeapps.live.com/op/view.aspx?src="+window.g.filelook+record.filepath}>预览</a>
                         <span className='bluecolor'>文档下载</span>
                         <span className='bluecolor'>CAD下载</span>
                         <a className='greencolor' href={'#/main/monitorprolook?id='+record.code}>查看</a>

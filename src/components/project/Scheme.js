@@ -130,9 +130,9 @@ class Scheme extends Component {
         dataIndex: 'register',
         render: (text,record) =>{
           return(<div className="tableoption">
-              <a className="greencolor" onClick={()=>this.preview(record.filepath)}><Button type="primary">预览</Button></a>
+              <a className="greencolor"  target="_blank" href={"https://view.officeapps.live.com/op/view.aspx?src="+window.g.filelook+record.filepath}  onClick={()=>this.preview(record.filepath)}><Button type="primary">预览</Button></a>
           <form method='GET' action='https://view.officeapps.live.com/op/view.aspx?src=api.aokecloud.cn/upload/椒图数据字典20190417.docx'>
-              <a type='submit' className="bluecolor"><Button type="primary">下载</Button></a>
+              <a type='submit'  href={window.g.filelook+record.filepath} className="bluecolor"><Button type="primary">下载</Button></a>
           </form>
           </div>)
         }
