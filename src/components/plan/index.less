@@ -13,13 +13,17 @@
 						display: flex;
 						justify-content:flex-start;
 						.detlogo{
+							display: flex;
+							align-items:center;
+							justify-content: center;
 							background:#ddd;
 							width: 130px;
 							height: 130px;
 						}
 						.detlogo img{
-							width: 100%;
-							height:100%;
+							width:88%;
+							height:88%;
+							border-radius: 4px;
 						}
 						.detname{
 							width: calc(100% - 130px);
@@ -28,16 +32,15 @@
 							background-color: #F2F9FF;
 							.intro{
 								width: 100%;
-								height: 55px;
+								height: 60px;
+								display:-webkit-box;
+								-webkit-line-clamp: 3;
 								overflow: hidden;
-								/*text-overflow: ellipsis;
-								display: -webkit-box;
-								-webkit-line-clamp: 4;  // 控制多行的行数
-								-webkit-box-orient: vertical;*/
+								/* autoprefixer: off */
+								-webkit-box-orient: vertical;
+								/* autoprefixer: on */
 								text-indent: 2rem;
-							/*	text-align: justify;*/
 								font-size: 14px;
-								padding: 10px 8px 8px 0;
 								color: #000;
 							}
 							.ant-typography, .ant-typography h4{
@@ -53,6 +56,10 @@
 								color: #005D9E;
 								font-size: 18px;
 								font-weight: bold;
+								overflow: hidden;
+								text-overflow: ellipsis;
+								white-space: nowrap;
+								padding: 0 6px 0 0;
 							}
 							.planMore{
 								float: right;
@@ -61,7 +68,7 @@
 								color: #1983C7;
 							}
 						}
-						
+
 					}
 					.editbtn{
 						position:absolute;

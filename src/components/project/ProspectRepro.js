@@ -69,7 +69,8 @@ class ProspectRepro extends Component {
             });
     };
     preview=(filepath)=>{ //预览文件
-        window.open('http://192.168.10.29:8002/sys'+filepath)
+        console.log(filepath)
+       /* window.open('api.aokecloud.cn/upload/椒图数据字典20190417.docx')*/
     };
     handleFilterSubmit=(params)=>{ //查询
         if(params.doubledata){
@@ -123,10 +124,9 @@ class ProspectRepro extends Component {
             dataIndex: 'register',
             render: (text,record) =>{
                 return(<div className="tableoption">
-                    <a className="greencolor" onClick={()=>this.preview(record.filepath)}>预览</a>
+                    <a className="greencolor" target="_blank" href={"https://view.officeapps.live.com/op/view.aspx?src=http://192.168.10.29:8001/sys/UploadFile/OfficeFile/1141266137313837056.docx"} onClick={()=>this.preview(record.filepath)}><Button type="primary">预览</Button></a>
                     <form method='GET' action='https://view.officeapps.live.com/op/view.aspx?src=api.aokecloud.cn/upload/椒图数据字典20190417.docx'>
-                        <a type='submit' className="bluecolor">
-                            下载</a>
+                        <a type='submit' href="api.aokecloud.cn/upload/椒图数据字典20190417.docx" download className="bluecolor"><Button type="primary">下载</Button></a>
                     </form>
                 </div>)
             }
@@ -148,6 +148,7 @@ class ProspectRepro extends Component {
                     dataSource={this.state.list}
                     pagination={this.state.pagination}
                 />
+
                 <ItemModel newShow={this.state.newShow} filterSubmit={this.uploadOk} uploadreset={()=>this.changeState('newShow',false)} />
             </div>
         );
