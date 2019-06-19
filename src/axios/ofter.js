@@ -39,10 +39,9 @@ export default class ofterajax {
     static projectlist() { //项目方案列表
         return new Promise((resolve, reject) => {
            axios.ajax({
-              baseURL:window.g.cuiURL,
+              baseURL:window.g.wangURL,
               method: 'get',
-              url: '/api/getProjectList',
-              data: {pagesize:200}
+              url: '/api/getProjectAllItem',
             }).then((res)=>{
                 resolve(res) 
             })  
