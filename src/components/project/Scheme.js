@@ -105,7 +105,7 @@ class Scheme extends Component {
         render: (text, record,index) => (index+1),
       },{
         title: '文件名',
-        dataIndex: 'title',
+        dataIndex: 'projectname',
       },{
         title: '适用年限',
         dataIndex: 'begindate',

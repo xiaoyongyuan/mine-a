@@ -18,6 +18,9 @@ class Threshold extends Component {
   componentDidMount() {
       this.requestList();
   }
+    // params={
+    //   companycode:'1'
+    // };
     uploadOk=(params)=>{ //上传提交
         this.setState({newShow:false});
         const _this=this;
@@ -34,13 +37,25 @@ class Threshold extends Component {
             });
     };
     changeState=(key,val)=>{
-        this.setState({[key]:val})
+        this.setState({
+            [key]:val,
+            title:'监测网阈值新增',
+            type:0,
+        })
+    };
+    showModelEdit = (key,val,code) =>{//编辑
+        this.setState({
+            [key]:val,
+            title:'监测网阈值编辑',
+            code:code,
+            type:1,
+        })
     };
     requestList=()=>{
         axios.ajax({
-            baseURL:window.g.deviceURL,
+            baseURL:window.g.syshongURL,
             method: 'get',
-            url: '/api/monitorNet',
+            url: '/api/monitorDeviceType',
             data: this.params
         }).then((res)=>{
                 if(res.success){
@@ -54,9 +69,10 @@ class Threshold extends Component {
                 }
             });
     };
-    isstart = (code) =>{
-        console.log("code",code);
-        if(code){
+    isstart = (states,code) =>{
+        var that = this;
+        console.log("states",states);
+        if(states === 0){
             this.setState({
                 title:"确认启用吗？"
             },()=>{
@@ -67,20 +83,17 @@ class Threshold extends Component {
                     cancelText: "取消",
                     onOk() {
                         axios.ajax({
-                            baseURL:window.g.easyURL,
+                            baseURL:window.g.syshongURL,
                             method: 'put',
-                            url: '/threshold_net',
-                            data: code
+                            url: 'api/updateMonitorDeviceTypeStatus',
+                            data: {
+                                states:states,
+                                code:code
+                            }
                         }).then((res)=>{
                             if(res.success){
-                                message.success('设置成功！');
-                                // this.setState({
-                                //     list:res.data,
-                                //     pagination:Utils.pagination(res,(current)=>{
-                                //         this.params.pageindex=current;
-                                //         this.requestList();
-                                //     })
-                                // })
+                                message.success('启用成功！');
+                                that.requestList();
                             }
                         });
                     }
@@ -97,20 +110,17 @@ class Threshold extends Component {
                     cancelText: "取消",
                     onOk() {
                         axios.ajax({
-                            baseURL:window.g.easyURL,
+                            baseURL:window.g.syshongURL,
                             method: 'put',
-                            url: '/threshold_net',
-                            data: code
+                            url: 'api/updateMonitorDeviceTypeStatus',
+                            data: {
+                                states:states,
+                                code:code
+                            }
                         }).then((res)=>{
                             if(res.success){
-                                message.success('设置成功！');
-                                // this.setState({
-                                //     list:res.data,
-                                //     pagination:Utils.pagination(res,(current)=>{
-                                //         this.params.pageindex=current;
-                                //         this.requestList();
-                                //     })
-                                // })
+                                message.success('禁用成功！');
+                                that.requestList();
                             }
                         });
                     }
@@ -124,17 +134,17 @@ class Threshold extends Component {
             dataIndex: 'index',
             render: (text, record,index) => (index+1),
         },{
-            title: '名称',
+            title: '监测网',
             dataIndex: 'netname',
         },{
             title: '设备类型',
-            dataIndex: 'projectid',
+            dataIndex: 'dname',
         },{
             title: '生成时间',
             dataIndex: 'createon',
         },{
             title: '低阈值',
-            dataIndex: 'minimum',
+            dataIndex: 'minumum',
         },{
             title: '高阈值',
             dataIndex: 'maximum',
@@ -143,12 +153,13 @@ class Threshold extends Component {
             dataIndex: 'memo',
         },{
             title: '状态',
-            dataIndex: 'status',
+            dataIndex: 'states',
             render:(text, record,index) =>{
                 return(
                     <div>
                         {
-                            text === 0?<span className="state-bg-not redcolor">未启用</span>:<span className="greencolor state-bg-normal">正常</span>
+
+                            text === '0'?<span className="state-bg-normal greencolor">已生效</span>:<span className="redcolor state-bg-not">未生效</span>
                         }
                     </div>
                 )
@@ -156,16 +167,17 @@ class Threshold extends Component {
         },{
             title: '操作',
             key:'option',
-            dataIndex: 'status',
+            dataIndex: 'states',
             render: (text,record) =>{
                 return(
                     <div className="tableoption">
+                        <span className="greencolor" onClick={()=>this.showModelEdit('newShow',true,record.code)} >编辑</span>
                         {
-                            text?
-                                <span className="redcolor" onClick={()=>this.isstart(0)}>禁用</span>:
-                                <span className="greencolor" onClick={()=>this.isstart(1)}>启用</span>
+                            text === '0'?
+                                <span className="redcolor" onClick={()=>this.isstart(1,record.code)}>禁用</span>:
+                                <span className="greencolor" onClick={()=>this.isstart(0,record.code)}>应用</span>
                         }
-                        <Link className="detmain" to={'/main/thresholddot?id='+record.code+'&cid='+record.cid}>
+                        <Link className="detmain" to={'/main/thresholddot?id='+record.code}>
                             <span>查看点位阈值</span>
                         </Link>
                     </div>
@@ -187,9 +199,9 @@ class Threshold extends Component {
               bordered
               columns={columns}
               dataSource={this.state.list}
-              // pagination={this.state.pagination}
+              pagination={this.state.pagination}
           />
-          <ThresholdModel newShow={this.state.newShow} filterSubmit={this.uploadOk} uploadreset={()=>this.changeState('newShow',false)} />
+          <ThresholdModel type={this.state.type} code={this.state.code} title={this.state.title} newShow={this.state.newShow} filterSubmit={this.uploadOk} uploadreset={()=>this.changeState('newShow',false)} />
       </div>
     );
   }
