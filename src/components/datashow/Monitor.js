@@ -20,27 +20,35 @@ class Monitor extends Component {
         const netlist=[{
             code:1,
             text:"形变沉降监测网",
+            icon:"red",
         },{
             code:3,
             text:"地形地貌监测网",
+            icon:"orange",
         },{
             code:4,
             text:"土地损毁监测网",
+            icon:"yellow",
         },{
             code:7,
             text:"土壤环境监测网",
+            icon:"green",
         },{
             code:2,
             text:"地裂缝监测网",
+            icon:"blue",
         },{
             code:5,
             text:"地下水监测网",
+            icon:"indigo",
         },{
             code:6,
             text:"地表水监测网",
+            icon:"purple",
         },{
             code:8,
             text:"雨量监测网",
+            icon:"gray",
         }]
         
         return (
@@ -48,7 +56,7 @@ class Monitor extends Component {
                 <dl className="columndl">
                     <dt className="columndt">监测网<a className="columndtright"></a></dt>
                     <List className='listitem'>
-                    {netlist.map((item,i)=>(<List.Item key={'Item'+i}><Icon type="home" /> {item.text}</List.Item>))} 
+                    {netlist.map((item,i)=>(<List.Item style={{textAlign:'left',paddingLeft:'35px',position:'relative'}} key={'Item'+i}><span className={'micon micon'+item.icon} /> {item.text}</List.Item>))} 
                     </List>
                 </dl>
                 <dl className="columndl">

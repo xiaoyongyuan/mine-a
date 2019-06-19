@@ -140,7 +140,7 @@ class Threshold extends Component {
                 return(
                     <div>
                     {
-                        record.status === 0?<span className="redcolor">未生效</span>:<span className="greencolor">已生效</span>
+                        record.status === 0?<span className="state-bg-not">未生效</span>:<span className="state-bg-normal">已生效</span>
                     }
                     </div>
                 )
@@ -171,7 +171,7 @@ class Threshold extends Component {
                         {/*<BaseForm formList={this.formList} filterSubmit={this.handleFilterSubmit}/>*/}
                     </div>
                     <div className="rightOpt">
-                        <Button type="primary" onClick={()=>this.changeState('newShow',true)}>新增</Button>
+                        <Button type="primary" onClick={()=>this.changeState('newShow',true)}><span className="actionfont action-xinzeng"/>&nbsp;&nbsp;新增</Button>
                     </div>
                 </div>
                 <Etable

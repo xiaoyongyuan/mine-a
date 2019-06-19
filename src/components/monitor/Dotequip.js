@@ -21,14 +21,16 @@ class Dotequip extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      projectList: [],
-      typeList: [],
-      projSelected: "",
-      monintSelected: "",
-      tableData: [],
-      bindmodalshow: false,
-      bindDevId: "",
-      bindCodeId: ""
+      projectList: [], //项目列表
+      typeList: [], //类型列表
+      projSelected: "", //项目选中
+      projdefsel: "", //项目默认选中
+      monintSelected: "", //监测选中
+      monintdefsel: "", //监测默认选中
+      tableData: [], //
+      bindmodalshow: false, //
+      bindDevId: "", //绑定设备id
+      bindCodeId: "" //绑定code
     };
     this.columns = [
       {
@@ -231,9 +233,16 @@ class Dotequip extends Component {
           });
           this.setState(
             {
-              projectList: plist
+              projectList: plist,
+              projdefsel: res.data[0].code
             },
-            () => {}
+            () => {
+              console.log(
+                this.state.projdefsel,
+                this.state.projectList,
+                "jiekoumorenzhi"
+              );
+            }
           );
         }
       });
@@ -260,7 +269,8 @@ class Dotequip extends Component {
           });
           this.setState(
             {
-              typeList: tlist
+              typeList: tlist,
+              monintdefsel: tlist[0].code
             },
             () => {}
           );
@@ -351,7 +361,9 @@ class Dotequip extends Component {
       });
   };
   handDetail = record => {
-    window.location.href = `/#/main/dotdetails?code=${record.code}`;
+    window.location.href = `/#/main/dotdetails?deviceId=${
+      record.code
+    }&&companyCode=${record.companycode}&&dataType=${record.devicetype}`;
   };
 
   handAbandon = id => {
@@ -369,9 +381,7 @@ class Dotequip extends Component {
               "http://192.168.10.11:9001/bizservice" +
               "/api/disabledMonitorDevice",
             data: {
-              code: id,
-              dataType: "json",
-              contentType: "application/json"
+              code: id
             }
           })
           .then(res => {
@@ -410,6 +420,7 @@ class Dotequip extends Component {
     });
   };
   render() {
+
     return (
       <div className="dotequip">
         <div className="optbox">
@@ -425,12 +436,15 @@ class Dotequip extends Component {
               监测网规划
             </Col>
             <Col span={19}>
-              <Radio.Group
-                options={this.state.projectList}
-                onChange={this.handSelectP}
-                defaultValue={1}
-                value={this.state.projSelected}
-              />
+              {
+                this.state.projectList&&this.state.projdefsel?(<Radio.Group
+                  options={this.state.projectList}
+                  onChange={this.handSelectP}
+                  value={this.state.projSelected}
+                  defaultValue={this.state.projdefsel}
+                />):null
+              }
+              
             </Col>
           </Row>
           <Row
