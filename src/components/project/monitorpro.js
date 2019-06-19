@@ -109,7 +109,7 @@ class monitorpro extends Component {
             dataIndex: 'itemtitle',
         },{
             title: '所属项目',
-            dataIndex: 'title',
+            dataIndex: 'projectname',
         },{
             title: '上传人',
             dataIndex: 'uploader',
@@ -117,13 +117,43 @@ class monitorpro extends Component {
             title: '上传时间',
             dataIndex: 'createon',
         },{
+            title: '状态',
+            dataIndex: 'states',
+            render: (text) =>{
+              if(text==0) return(<div className='graycolor'>编制中</div>)
+              else if(text==1) return(<div className='bluecolor'>执行中</div>)
+              else return(<div className='greencolor'>已完成</div>)
+            }
+        },{
+            title: '备注',
+            dataIndex: 'memo',
+        },{
             title: '操作',
             key:'option',
-            dataIndex: 'register',
+            dataIndex: 'states',
             render: (text,record) =>{
-                return(<div className="tableoption">
-                    <a className="greencolor" onClick={()=>this.preview(record.filepath)}>预览</a>
-                    
+                if(text==0) return(
+                    <div className='tableoption'>
+                        <span className='yellowcolor'>修改</span>
+                        <span className='bluecolor'>预览</span>
+                        <span className='bluecolor'>文档下载</span>
+                        <span className='bluecolor'>CAD下载</span>
+                        <span className='greencolor'>执行</span>
+                    </div>)
+                else if(text==1) return(
+                    <div className='tableoption'>
+                        <span className='yellowcolor'>变更</span>
+                        <span className='bluecolor'>预览</span>
+                        <span className='bluecolor'>文档下载</span>
+                        <span className='bluecolor'>CAD下载</span>
+                        <a className='greencolor' href={'#/main/monitorprolook?id='+record.code}>查看</a>
+                    </div>)
+              else return(
+                <div className='tableoption'>
+                    <span className='bluecolor'>预览</span>
+                    <span className='bluecolor'>文档下载</span>
+                    <span className='bluecolor'>CAD下载</span>
+                    <a className='greencolor' href={'#/main/monitorprolook?id='+record.code}>查看</a>
                 </div>)
             }
         }];

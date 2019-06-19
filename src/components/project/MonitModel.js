@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import {Modal,message, Input, Select, Form, Button, Checkbox, Radio, DatePicker, Upload, Icon} from 'antd'
 import BaseForm from "../common/BaseForm"
 import ofteraxios from '../../axios/ofter'
+import axios from '../../axios'
 
 
 const FormItem = Form.Item;
@@ -25,54 +26,6 @@ class UploadModel extends Component {
       name:"file" , 
       action:"http://192.168.10.20:8004/sys/api/uploadFile", //上传地址
     }
-    this.formList ={
-        item:[
-        {
-          type: 'INPUT',
-          label: '项目名称',
-          field: 'titles',
-          placeholder: '',
-          rules: [
-              {
-                required: true,
-                message: '请填写项目名称',
-              },
-            ],
-        },
-        {
-          type: 'RANGPICKER',
-          label: '年份',
-          field:'doubledata',
-          placeholder:'请选择年份',
-          showTime:false,
-          format:'YYYY-MM-DD',
-          rules: [
-              {
-                required: true,
-                message: '请选择年份',
-              },
-            ],
-        },
-          {
-            type: 'upload',
-            label: '上传',
-            field: 'uploader',
-            placeholder: '点击上传文件',
-            rules: [
-              {
-                required: true,
-                message: '请上传文件',
-              },
-            ],
-            
-          },{
-          type: 'INPUT',
-          label: '备注',
-          field: 'memo',
-          placeholder: '',
-          }
-        ]
-      }
   }
   changeState=(key,val)=>{
       this.setState({[key]:val})
@@ -81,8 +34,8 @@ class UploadModel extends Component {
     ofteraxios.projectlist().then(res=>{ //项目列表
       if(res.success){
         var project=[]
-        res.data.map(item=>project.push({code:item.code,name:item.title}) )
-        this.setState({project,selectp:project.length?project[0].code:''})
+        res.data.map(item=>project.push({code:item.code,name:item.projectname}) )
+        this.setState({project,selectp:''})
       }
     })
 
@@ -137,6 +90,28 @@ class UploadModel extends Component {
     this.setState({[fileurl]:''})
 
   } 
+  selectproj=(value)=>{
+    const _this=this;
+    axios.ajax({
+        baseURL:window.g.wangURL,
+        method: 'get',
+        url: '/api/checkitemFile',
+        data: {
+          itemType:11,
+          projectid:value
+        }
+    }).then((res)=>{
+      if(!res.success){
+        var project=_this.state.project;
+        _this.props.form.setFieldsValue({ projectid: '' });
+        project.map((item,i)=>{
+          if(item.code==value) project[i].disabled=true
+        })
+        this.setState(project)
+      }
+
+    })
+  }
   render() {
     const { getFieldDecorator } = this.props.form;
     const formItemLayout = {
@@ -169,6 +144,7 @@ class UploadModel extends Component {
           title="上传"
           visible={this.props.newShow}
           onCancel={this.reset}
+          footer={null}
         >
           <Form className='baseform' {...formItemLayout} >
               <FormItem label='名称' key='mont'>
@@ -192,10 +168,11 @@ class UploadModel extends Component {
                         }],
                         initialValue: this.state.selectp
                     })(
-                        <Select
+                        <Select onChange={this.selectproj}
                         >
+                          <Option key='noselect' value=''>请选择项目</Option>
                           {this.state.project.map(city => (
-                              <Option key={city.code} value={city.code}>{city.name}</Option>
+                              <Option key={city.code} value={city.code} disabled={city.disabled}>{city.name}</Option>
                           ))}     
                         </Select>
                       )
@@ -216,13 +193,13 @@ class UploadModel extends Component {
                   )}
               </FormItem>
               <FormItem label='CAD' key='mocad'>
-                  {getFieldDecorator('cad', {
+                  {getFieldDecorator('filepathcad', {
                       rules: [{
                             required: true,
                             message: '请上传CAD文件',
                           }],
                     })(
-                      <Upload  {...this.property} accept='application/acad,application/dxf' onChange={(info)=>this.uploadchange(info,'excel')} onRemove={(info)=>this.removefile(info,'cad')}>
+                      <Upload  {...this.property} accept='application/acad,application/dxf' onChange={(info)=>this.uploadchange(info,'filepathcad')} onRemove={(info)=>this.removefile(info,'filepathcad')}>
                         <Button>
                           <Icon type="upload" /> 选择CAD文件
                         </Button>
@@ -230,13 +207,13 @@ class UploadModel extends Component {
                   )}
               </FormItem>
               <FormItem label='Excel' key='moExcel'>
-                  {getFieldDecorator('excel', {
+                  {getFieldDecorator('filepathexcel', {
                       rules: [{
                             required: true,
                             message: '请上传Excel文件',
                           }],
                     })(
-                      <Upload  {...this.property} accept='application/vnd.ms-excel application/x-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' onChange={(info)=>this.uploadchange(info,'excel')} onRemove={(info)=>this.removefile(info,'excel')}>
+                      <Upload  {...this.property} accept='application/vnd.ms-excel application/x-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' onChange={(info)=>this.uploadchange(info,'filepathexcel')} onRemove={(info)=>this.removefile(info,'filepathexcel')}>
                         <Button>
                           <Icon type="upload" /> 选择Excel文件
                         </Button>

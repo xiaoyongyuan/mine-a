@@ -5,55 +5,66 @@ import Utils from "../../utils/utils";
 import BaseForm from "../common/BaseForm"
 import Etable from "../common/Etable"
 import ItemModel from "./itemModel"
+import ofteraxios from '../../axios/ofter'
 
 
-
-class AssessRepro extends Component {
+var projectlistall=[{code: '', name: '全部'}]
+class SurveyRepro extends Component {
     state  ={
-      newShow:false
-    };
-    params={
-      pageindex:1,
-      itemtype:4,
-        createonbegin:'',
-        createonend:''
+      newShow:false,
+      okupdate:1,
     };
     formList={
       type:'inline',
-      item:[   
-        {
-          type: 'RANGPICKER',
-          label: '时间',
-          field:'doubledata',
-          placeholder:'请选择时间',
-          showTime:true,
-          format:'YYYY-MM-DD HH:mm:ss'
-        },{
-          type:'button',
-          button:[
-            {
-              label:'查询',
-              type:"primary",
-              click:'handleFilterSubmit',
-            },
-            {
-              label:'重置',
-              click:'reset',
-            },
-          ]
-        }
-      ]
+        item:[   
+          {
+            type: 'SELECT',
+            label: '所属项目',
+            field: 'projectid',
+            placeholder: '全部',
+            initialValue: '',
+            list: [{code:'',name:'所有项目'}],
+            width:'250px'
+          },{
+            type:'button',
+            button:[
+              {
+                label:'查询',
+                type:"primary",
+                click:'handleFilterSubmit',
+              },
+              {
+                label:'重置',
+                click:'reset',
+              },
+            ]
+          }
+        ]
+      };
+    params={
+      pageindex:1,
+      itemtype:4,
     };
     
+    componentWillMount(){
+      ofteraxios.projectlist().then(res=>{ //项目列表
+        if(res.success){
+          var project=[{code:'',name:'所有项目'}]
+          res.data.map(item=>project.push({code:item.code,name:item.projectname}) )
+          this.formList.item[0].list=project;
+        }
+      })
+    }
+
     componentDidMount(){
       this.requestList()
     }
     
     requestList=()=>{
       axios.ajax({
-        baseURL:window.g.cuiURL,
+        baseURL:window.g.wangURL,
         method: 'get',
-        url: '/api/getItemByItemtype',
+        url: '/api/getItemfileList',
         data: this.params
       })
       .then((res)=>{
@@ -70,24 +81,22 @@ class AssessRepro extends Component {
     };
     preview=(filepath)=>{ //预览文件
       window.open('http://192.168.10.20:8004/sys/UploadFile/OfficeFile/1136541326366367744.docx')
-    }
+    };
     handleFilterSubmit=(params)=>{ //查询
-      var para={
-        pageindex:1,
-        itemtype:4
-      }
-        if(params.doubledata){
-            this.params.createonbegin=params.doubledata[0].format('YYYY-MM-DD HH:mm:ss');
-            this.params.createonend=params.doubledata[1].format('YYYY-MM-DD HH:mm:ss');
-        }else {
-            this.params.createonbegin = '';
-            this.params.createonend = ''
-        }
+      console.log(params,'paramsparamsparams')
+      this.params.projectid=params.projectid;
+      // if(params.doubledata){
+      //   this.params.createonbegin=params.doubledata[0].format('YYYY-MM-DD HH:mm:ss');
+      //   this.params.createonend=params.doubledata[1].format('YYYY-MM-DD HH:mm:ss');
+      // }else {
+      //     this.params.createonbegin = '';
+      //     this.params.createonend = ''
+      // }
       this.requestList();
     };
     uploadOk=(params)=>{ //上传提交
       this.setState({newShow:false});
-      params.itemtype=4;
+      params.itemtype=5;
       const _this=this;
       axios.ajax({
         baseURL:window.g.cuiURL,
@@ -114,7 +123,7 @@ class AssessRepro extends Component {
         dataIndex: 'itemtitle',
       },{
         title: '所属项目',
-        dataIndex: 'projectid',
+        dataIndex: 'projectname',
       },{
         title: '上传人',
         dataIndex: 'uploader',
@@ -122,27 +131,29 @@ class AssessRepro extends Component {
         title: '上传时间',
         dataIndex: 'createon',
       },{
+        title: '备注',
+        dataIndex: 'memo',
+      },{
         title: '操作',
         key:'option',
         dataIndex: 'register',
         render: (text,record) =>{
           return(<div className="tableoption">
-          <a className="greencolor" onClick={()=>this.preview(record.filepath)}>预览</a>
+              <a className="greencolor" onClick={()=>this.preview(record.filepath)}><Button type="primary">预览</Button></a>
           <form method='GET' action='https://view.officeapps.live.com/op/view.aspx?src=api.aokecloud.cn/upload/椒图数据字典20190417.docx'>
-            <a type='submit' className="bluecolor">
-          下载</a>
+              <a type='submit' className="bluecolor"><Button type="primary">下载</Button></a>
           </form>
           </div>)
         }
       }];
     return (
-      <div className="AssessRepro">
+      <div className="SurveyRepro">
         <div className="selectForm">
           <div className="leftForm"> 
             <BaseForm formList={this.formList} filterSubmit={this.handleFilterSubmit}/>
           </div>
           <div className="rightOpt">
-            <Button type="primary" onClick={()=>this.changeState('newShow',true)}>新增</Button>
+            <Button type="primary" onClick={()=>this.changeState('newShow',true)}><span className="actionfont action-xinzeng"/>&nbsp;&nbsp;新增</Button>
           </div>
         </div>
         <Etable
@@ -152,9 +163,9 @@ class AssessRepro extends Component {
               dataSource={this.state.list}
               pagination={this.state.pagination}
           />
-        <ItemModel newShow={this.state.newShow} filterSubmit={this.uploadOk} uploadreset={()=>this.changeState('newShow',false)} />
+        <ItemModel  newShow={this.state.newShow} filterSubmit={this.uploadOk} uploadreset={()=>this.changeState('newShow',false)} />
       </div>
     );
   }
 }
-export default AssessRepro;
+export default SurveyRepro;
