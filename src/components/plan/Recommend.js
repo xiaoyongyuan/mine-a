@@ -3,7 +3,8 @@ import { Link } from 'react-router-dom';
 import {Row, Col, Select, Pagination, Typography, Modal, Radio, Button,Empty } from "antd";
 import axios from '../../axios'
 import Utils from "../../utils/utils";
-import './index.less'
+import './index.less';
+import icon from "../../style/ztt/imgs/icon.png";
 const { Title,Paragraph } = Typography;
 const confirm = Modal.confirm;
 const Option = Select.Option;
@@ -138,7 +139,7 @@ class Recommend extends Component {
                               {/*<Link className="" to={'/main/lookplan'}  style={{color:'rgba(0, 0, 0, 0.65)'}}>*/}
                           <div className="dettitle">
                             <div className="detlogo">
-                              {/*<img src={v.Logo} />*/}
+                              <img src={icon} />
                             </div>
                             <div className="detname">
                                 <div className="plan-title">{v.title}</div>
