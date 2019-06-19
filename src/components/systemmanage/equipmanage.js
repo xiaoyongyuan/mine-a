@@ -3,6 +3,7 @@ import BaseForm from "../common/BaseForm";
 import {Button,message} from "antd";
 import Etable from "../common/Etable";
 import axios from "../../axios";
+import Utils from "../../utils/utils";
 
 class Equipmanage extends Component {
     constructor(props){
@@ -48,6 +49,9 @@ class Equipmanage extends Component {
             ]
         }
     };
+    params={
+        pageindex:1
+    };
     componentDidMount(){
         this.requestList();
     };
@@ -63,7 +67,7 @@ class Equipmanage extends Component {
         console.log("this.params",this.params);
         const quparams = {
             pagesize: 10,
-            pageindex: this.state.page,
+            pageindex: this.params.pageindex,
             devicename:this.state.devicename,
             sccj:this.state.sccj,
             devicecode:this.state.devicecode,
@@ -79,6 +83,11 @@ class Equipmanage extends Component {
                 this.setState({
                     list:res.data,
                     total: res.totalcount,
+                    pagination:Utils.pagination(res,(current)=>{
+                        console.log("current",current);
+                        this.params.pageindex=current;
+                        this.requestList();
+                    })
                 })
             }
         });
@@ -159,12 +168,13 @@ class Equipmanage extends Component {
                         bordered
                         columns={columns}
                         dataSource={this.state.list}
-                        pagination={{
-                            defaultPageSize: 10,
-                            current: this.state.page,
-                            total: this.state.total,
-                            onChange: this.changePage,
-                        }}
+                        // pagination={{
+                        //     defaultPageSize: 10,
+                        //     current: this.state.page,
+                        //     total: this.state.total,
+                        //     onChange: this.changePage,
+                        // }}
+                        pagination={this.state.pagination}
                     />
                 </div>
             </div>
