@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import {Row, Col, Select, Pagination, Typography, Button, Empty} from "antd";
 import axios from '../../axios'
 import ofteraxios from '../../axios/ofter'
-
+import icon from "../../style/ztt/imgs/icon.png";
 import Utils from "../../utils/utils";
 import './index.less'
 
@@ -120,7 +120,7 @@ class MyPlan extends Component {
                                 <Link className="detmain" to={'/main/lookplan?id='+v.code}>
                                 <div className="dettitle">
                                   <div className="detlogo">
-                                    {/*<img src={v.Logo} />*/}
+                                    <img src={icon} />
                                   </div>
                                   <div className="detname">
                                       <div className="plan-title">{v.title}</div>
@@ -135,7 +135,7 @@ class MyPlan extends Component {
                               <Link className="detmain" to={'/main/edit?id='+v.code}>
                                 <div className="dettitle">
                                   <div className="detlogo">
-                                    {/*<img src={v.Logo} />*/}
+                                      <img src={icon} />
                                   </div>
                                   <div className="detname">
                                       <div className="plan-title">{v.title}</div>
