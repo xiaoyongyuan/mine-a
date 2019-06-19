@@ -69,7 +69,7 @@ class ProspectRepro extends Component {
             });
     };
     preview=(filepath)=>{ //预览文件
-        window.open('http://192.168.10.20:8004/sys/UploadFile/OfficeFile/1136541326366367744.docx')
+        window.open('http://192.168.10.29:8002/sys'+filepath)
     };
     handleFilterSubmit=(params)=>{ //查询
         if(params.doubledata){

@@ -29,7 +29,7 @@ class Login extends Component {
         }).then((res)=>{
           if(res.access_token){
             localStorage.setItem("token", res.access_token);
-            this.props.history.push("/pandect/mapshow")
+            this.props.history.push("/pandect/mapshow");
           }else{
             message.warn('用户名或密码错误！')
           }

@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { Layout } from 'antd';
 import LayerSider from './../layout/LayerSider';
 import LayerHeader from './../layout/LayerHeader';
-
 import MenuRoutes from '../../routes/MenuRoutes';
 
 import './index.less';

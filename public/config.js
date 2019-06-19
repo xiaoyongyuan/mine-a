@@ -5,6 +5,7 @@ window.g = {
     cui29URL:'http://192.168.10.29:8003/bizservice',
     bizserviceURL:'http://192.168.10.29:8001/bizservice',
     sysURL:'http://192.168.10.29:8001/sys',
-    deviceURL:'http://192.168.10.29:8001/device'
+    deviceURL:'http://192.168.10.29:8001/device',
+    wangURL:'http://192.168.10.12:8009',
 
 };

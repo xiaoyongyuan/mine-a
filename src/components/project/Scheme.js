@@ -56,7 +56,7 @@ class Scheme extends Component {
     };
     requestList=()=>{
       axios.ajax({
-        baseURL:window.g.cuiURL,
+        baseURL:window.g.wangURL,
         method: 'get',
         // url:'/getproject',
         url: '/api/getProjectList',

@@ -19,6 +19,8 @@ class LayerHeader extends Component {
             onOk() {
               axios.logout({}).then((res)=>{
                 if(res.success){
+                  console.log(_this.props,'ddddd')
+                  return;
                   localStorage.removeItem('token');
                   _this.props.history.push("/login")
                 }else message.error(res.msg)
@@ -46,21 +48,6 @@ class LayerHeader extends Component {
           <i className="actionfont action-changjianwenti iconclearance"/>
           <i className="actionfont action-guanji iconclearance" onClick={this.hanleClose}/>
         </div>
-        {/* <div className="HeaderTitle">
-        	<Icon type="check-circle" />
-        	<span>矿山地质环境动态监测预警系统</span>
-        </div>
-        <div className="HeaderRight">
-        	<div className="SelectMode">
-				      <Select defaultValue="数据管理">
-					      <Option value="数据管理">数据管理</Option>
-					      <Option value="项目管理">项目管理</Option>
-					    </Select>
-        	</div>
-        	<div className="messages">
-        			<Icon type="message" />
-        	</div>
-        </div>*/}
       </div>
     );
   }

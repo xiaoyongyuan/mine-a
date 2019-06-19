@@ -6,6 +6,11 @@ import ofteraxios from '../../axios/ofter'
 
 const FormItem = Form.Item;
 const Option = Select.Option;
+const cadformat="image/vnd.dwg,image/vnd.dxf";
+const excelformat="application/vnd.ms-excel application/x-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+const wordformat="application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document";
+
+
 class UploadModel extends Component {
   constructor(props){
     super(props);
@@ -15,7 +20,6 @@ class UploadModel extends Component {
     };
 
     this.property={
-      accept:"application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document",
       showUploadList:true,
       multiple:false,
       name:"file" , 
@@ -201,12 +205,12 @@ class UploadModel extends Component {
                   {getFieldDecorator('filepath', {
                       rules: [{
                             required: true,
-                            message: '请上传文件',
+                            message: '请上传word或pdf文件',
                           }],
                     })(
-                      <Upload {...this.property} onChange={(info)=>this.uploadchange(info,'filepath')} onRemove={(info)=>this.removefile(info,'filepath')}>
+                      <Upload accept='application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document' {...this.property}  onChange={(info)=>this.uploadchange(info,'filepath')} onRemove={(info)=>this.removefile(info,'filepath')}>
                         <Button>
-                          <Icon type="upload" /> 选择文件
+                          <Icon type="upload" /> 选择word或pdf文件
                         </Button>
                       </Upload>,
                   )}
@@ -215,12 +219,12 @@ class UploadModel extends Component {
                   {getFieldDecorator('cad', {
                       rules: [{
                             required: true,
-                            message: '请上传文件',
+                            message: '请上传CAD文件',
                           }],
                     })(
-                      <Upload {...this.property} onChange={(info)=>this.uploadchange(info,'cad')} onRemove={(info)=>this.removefile(info,'cad')}>
+                      <Upload  {...this.property} accept='application/acad,application/dxf' onChange={(info)=>this.uploadchange(info,'excel')} onRemove={(info)=>this.removefile(info,'cad')}>
                         <Button>
-                          <Icon type="upload" /> 选择文件
+                          <Icon type="upload" /> 选择CAD文件
                         </Button>
                       </Upload>,
                   )}
@@ -229,12 +233,12 @@ class UploadModel extends Component {
                   {getFieldDecorator('excel', {
                       rules: [{
                             required: true,
-                            message: '请上传文件',
+                            message: '请上传Excel文件',
                           }],
                     })(
-                      <Upload {...this.property} onChange={(info)=>this.uploadchange(info,'excel')} onRemove={(info)=>this.removefile(info,'excel')}>
+                      <Upload  {...this.property} accept='application/vnd.ms-excel application/x-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' onChange={(info)=>this.uploadchange(info,'excel')} onRemove={(info)=>this.removefile(info,'excel')}>
                         <Button>
-                          <Icon type="upload" /> 选择文件
+                          <Icon type="upload" /> 选择Excel文件
                         </Button>
                       </Upload>,
                   )}

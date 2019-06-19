@@ -8,11 +8,13 @@ import Notfound from './components/pages/notfound'
 import Common from './components/cs/common'
 
 
+
 //页面样式：登录，总览（大数据），main
 class Routes extends Component {
   render() {
     return (
       <HashRouter>
+      <App>
       	<Switch>
           <Route exact path="/" render={()=> <Redirect to="/main/scheme" push />}/>
       		<Route path="/login" component={Login}/>
@@ -21,6 +23,7 @@ class Routes extends Component {
           <Route path="/404" component={Notfound} />
           <Route component={Notfound} />
       	</Switch>
+      </App>
       </HashRouter>
     );
   }

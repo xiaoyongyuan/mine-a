@@ -4,8 +4,7 @@ import axios from '../../axios'
 import Utils from "../../utils/utils";
 import BaseForm from "../common/BaseForm"
 import Etable from "../common/Etable"
-import ItemModel from "./itemModel"
-
+import MonitModel from "./MonitModel"
 
 
 class monitorpro extends Component {
@@ -51,9 +50,9 @@ class monitorpro extends Component {
 
     requestList=()=>{
         axios.ajax({
-            baseURL:window.g.cuiURL,
+            baseURL:window.g.wangURL,
             method: 'get',
-            url: '/api/getItemByItemtype',
+            url: '/api/getItemfileList',
             data: this.params
         })
             .then((res)=>{
@@ -110,7 +109,7 @@ class monitorpro extends Component {
             dataIndex: 'itemtitle',
         },{
             title: '所属项目',
-            dataIndex: 'projectid',
+            dataIndex: 'title',
         },{
             title: '上传人',
             dataIndex: 'uploader',
@@ -124,10 +123,7 @@ class monitorpro extends Component {
             render: (text,record) =>{
                 return(<div className="tableoption">
                     <a className="greencolor" onClick={()=>this.preview(record.filepath)}>预览</a>
-                    <form method='GET' action='https://view.officeapps.live.com/op/view.aspx?src=api.aokecloud.cn/upload/椒图数据字典20190417.docx'>
-                        <a type='submit' className="bluecolor">
-                            下载</a>
-                    </form>
+                    
                 </div>)
             }
         }];
@@ -138,7 +134,7 @@ class monitorpro extends Component {
                         <BaseForm formList={this.formList} filterSubmit={this.handleFilterSubmit}/>
                     </div>
                     <div className="rightOpt">
-                        <Button type="primary" onClick={()=>this.changeState('newShow',true)}><span className="actionfont action-xinzeng"/>&nbsp;&nbsp;新增</Button>
+                        <Button type="primary" onClick={()=>this.changeState('newShow',true)}>新增</Button>
                     </div>
                 </div>
                 <Etable
@@ -148,7 +144,7 @@ class monitorpro extends Component {
                     dataSource={this.state.list}
                     pagination={this.state.pagination}
                 />
-                <ItemModel newShow={this.state.newShow} filterSubmit={this.uploadOk} uploadreset={()=>this.changeState('newShow',false)} />
+                <MonitModel newShow={this.state.newShow} filterSubmit={this.uploadOk} uploadreset={()=>this.changeState('newShow',false)} />
             </div>
         );
     }
