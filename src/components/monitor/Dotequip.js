@@ -1,78 +1,122 @@
 import React, { Component } from "react";
-import { Row, Col, Radio, Button, Modal, DatePicker, message } from "antd";
+import {
+  Row,
+  Col,
+  Radio,
+  Button,
+  Modal,
+  DatePicker,
+  message,
+  Input
+} from "antd";
 import axios from "../../axios";
 import moment from "moment";
 import Table from "../common/Etable";
 import Form from "../common/BaseForm";
 import "../../style/jhy/css/dotequip.less";
 const confirm = Modal.confirm;
-const easyURL = window.g.easyURL;
+const bizserviceURL = window.g.bizserviceURL;
+const sysURL = window.g.sysURL;
 class Dotequip extends Component {
   constructor(props) {
     super(props);
     this.state = {
       projectList: [],
       typeList: [],
-      projSelected: 1,
-      monintSelected: 1,
+      projSelected: "",
+      monintSelected: "",
       tableData: [],
       bindmodalshow: false,
-      setTime: "",
-      bindDevId: ""
+      bindDevId: "",
+      bindCodeId: ""
     };
     this.columns = [
       {
+        title: "序号",
+        align: "center",
+        render: (text, record, index) => {
+          return index + 1;
+        }
+      },
+      {
         title: "点位名称",
-        dataIndex: "name",
+        dataIndex: "pointname",
         align: "center"
       },
       {
         title: "设备id",
-        dataIndex: "cid",
+        dataIndex: "devicecode",
         align: "center"
       },
       {
         title: "安装时间",
-        dataIndex: "data",
+        dataIndex: "installdate",
+        render: text => {
+          moment(text).format("YYYY-MM-DD HH:mm:ss");
+        },
         align: "center"
       },
       {
         title: "创建时间",
         dataIndex: "createon",
+        render: text => {
+          moment(text).format("YYYY-MM-DD HH:mm:ss");
+        },
         align: "center"
       },
       {
         title: "设备类型",
-        dataIndex: "type",
+        dataIndex: "devicetype",
         align: "center"
       },
       {
         title: "坐标X",
-        dataIndex: "x",
+        dataIndex: "lnglat",
+        key: "x",
+        render: text => {
+          if (text) {
+            var arr = text.split(",");
+            return arr[0];
+          }
+        },
         align: "center"
       },
       {
         title: "坐标Y",
-        dataIndex: "y",
+        dataIndex: "lnglat",
+        key: "y",
+        render: text => {
+          if (text) {
+            var arr = text.split(",");
+            return arr[1];
+          }
+        },
         align: "center"
       },
       {
         title: "坐标Z",
-        dataIndex: "z",
+        dataIndex: "lnglat",
+        key: "z",
+        render: text => {
+          if (text) {
+            var arr = text.split(",");
+            return arr[2];
+          }
+        },
         align: "center"
       },
       {
         title: "状态",
-        dataIndex: "state",
+        dataIndex: "states",
         render: text => {
           switch (text) {
-            case 0: {
+            case "0": {
               return <div>未绑定</div>;
             }
-            case 1: {
+            case "1": {
               return <div>启用</div>;
             }
-            case 2: {
+            case "2": {
               return <div>弃用</div>;
             }
           }
@@ -82,16 +126,16 @@ class Dotequip extends Component {
       {
         title: "操作",
         key: "option",
-        dataIndex: "state",
+        dataIndex: "states",
         render: (text, record, index) => {
           switch (text) {
-            case 0:
+            case "0":
               {
                 return (
                   <Button
                     type="primary"
                     onClick={() => {
-                      this.handBind(record.cid);
+                      this.handBind(record.code, record.devicecode);
                     }}
                   >
                     绑定
@@ -99,7 +143,7 @@ class Dotequip extends Component {
                 );
               }
               break;
-            case 1:
+            case "1":
               {
                 return (
                   <div>
@@ -115,7 +159,7 @@ class Dotequip extends Component {
                       type="primary"
                       style={{ marginLeft: "5px" }}
                       onClick={() => {
-                        this.handAbandon(record.cid, record.state);
+                        this.handAbandon(record.code);
                       }}
                     >
                       弃用
@@ -124,7 +168,7 @@ class Dotequip extends Component {
                 );
               }
               break;
-            case 2:
+            case "2":
               {
                 return (
                   <div>
@@ -140,7 +184,7 @@ class Dotequip extends Component {
                       type="primary"
                       style={{ marginLeft: "5px" }}
                       onClick={() => {
-                        this.handUnseal(record.cid, record.state);
+                        this.handUnseal(record.code);
                       }}
                     >
                       启用
@@ -169,14 +213,15 @@ class Dotequip extends Component {
     axios
       .ajax({
         method: "get",
-        url: easyURL + "/getproject"
+        url: bizserviceURL + "	/api/getProjectListAll"
       })
       .then(res => {
+        console.log(res, "项目");
         if (res.success) {
           var plist = [];
           res.data.map(v => {
             plist.push({
-              label: v.projectname,
+              label: v.title,
               value: v.code
             });
           });
@@ -193,15 +238,20 @@ class Dotequip extends Component {
     axios
       .ajax({
         method: "get",
-        url: easyURL + "/montinet"
+        url: sysURL + "/api/findDictionaryByType",
+        data: {
+          dtype: "MONITORNET"
+        }
       })
       .then(res => {
+        console.log(res, "类型");
+
         if (res.success) {
           var tlist = [];
           res.data.map(v => {
             tlist.push({
-              label: v.name,
-              value: v.code
+              label: v.dname,
+              value: v.dvalue
             });
           });
           this.setState(
@@ -218,13 +268,14 @@ class Dotequip extends Component {
     axios
       .ajax({
         method: "get",
-        url: easyURL + "/monitordot",
+        url: bizserviceURL + "/api/getMonitordeviceList",
         data: {
-          projected: this.state.projSelected,
+          itemid: this.state.projSelected,
           netid: this.state.monintSelected
         }
       })
       .then(res => {
+        console.log(res, "设备");
         if (res.success) {
           this.setState({
             tableData: res.data
@@ -252,20 +303,32 @@ class Dotequip extends Component {
       }
     );
   };
-  handSetTime = v => {
+
+  cancleTMod = () => {
     this.setState({
-      setTime: moment(v).format("YYYY-MM-DD HH:mm:ss")
+      bindmodalshow: false
     });
   };
-  submitTime = () => {
+  handBind = (id, devid) => {
+    this.setState(
+      {
+        bindmodalshow: true,
+        bindCodeId: id,
+        bindDevId: devid
+      },
+      () => {}
+    );
+  };
+  submitBind = () => {
     const _this = this;
+    console.log(this.input);
     axios
       .ajax({
         method: "put",
-        url: easyURL + "/monitordot",
+        url: bizserviceURL + "/api/bindMonitorDevice",
         data: {
-          id: this.state.bindDevId,
-          time: this.state.setTime
+          code: this.state.bindCodeId,
+          devicecode: this.input.state.value
         }
       })
       .then(res => {
@@ -277,32 +340,18 @@ class Dotequip extends Component {
           _this.getDeviceList();
         } else {
           message.error("绑定失败");
+          this.setState({
+            bindmodalshow: false
+          });
         }
       });
   };
-  cancleTMod = () => {
-    this.setState({
-      bindmodalshow: false
-    });
-  };
-  handBind = id => {
-    this.setState(
-      {
-        bindmodalshow: true,
-        bindDevId: id
-      },
-      () => {}
-    );
-  };
   handDetail = record => {
-    window.location.href = `/#/main/dotdetails?netid=${
-      this.state.monintSelected
-    }&cid=${record.cid}&code=${record.code}`;
+    window.location.href = `/#/main/dotdetails?code=${record.code}`;
   };
 
-  handAbandon = (id, state) => {
+  handAbandon = id => {
     const _this = this;
-
     confirm({
       title: "确认弃用吗？",
       okText: "确认",
@@ -312,10 +361,13 @@ class Dotequip extends Component {
         axios
           .ajax({
             method: "put",
-            url: easyURL + "/monitordot",
+            url:
+              "http://192.168.10.11:9001/bizservice" +
+              "/api/disabledMonitorDevice",
             data: {
-              id: id,
-              status: state
+              code: id,
+              dataType: "json",
+              contentType: "application/json"
             }
           })
           .then(res => {
@@ -327,9 +379,9 @@ class Dotequip extends Component {
       }
     });
   };
-  handUnseal = (id, state) => {
+  handUnseal = id => {
     const _this = this;
-
+    console.log(id, "382");
     confirm({
       title: "确认启用吗？",
       okText: "确认",
@@ -339,10 +391,9 @@ class Dotequip extends Component {
         axios
           .ajax({
             method: "put",
-            url: easyURL + "/monitordot",
+            url: bizserviceURL + "/api/enabledMonitorDevice",
             data: {
-              id: id,
-              status: state
+              code: id
             }
           })
           .then(res => {
@@ -406,12 +457,12 @@ class Dotequip extends Component {
           centered={true}
           destroyOnClose={true}
           visible={this.state.bindmodalshow}
-          title="绑定设备"
+          title="确认绑定设备吗？"
           onCancel={() => {
             this.cancleTMod();
           }}
           onOk={() => {
-            this.submitTime();
+            this.submitBind();
           }}
           cancelText="取消"
           okText="提交"
@@ -419,16 +470,17 @@ class Dotequip extends Component {
           bodyStyle={{
             display: "flex",
             flexDirection: "row",
-            justifyContent: "center"
+            justifyContent: "center",
+            alignItems: "center"
           }}
         >
-          <span>安装时间：</span>{" "}
-          <DatePicker
-            showTime
-            placeholder="请选取安装时间"
-            onChange={date => {
-              this.handSetTime(date);
+          <label for="idnum">设备ID:</label>
+          <Input
+            ref={input => {
+              this.input = input;
             }}
+            id="idnum"
+            style={{ width: "70%", marginLeft: "5px" }}
           />
         </Modal>
       </div>
