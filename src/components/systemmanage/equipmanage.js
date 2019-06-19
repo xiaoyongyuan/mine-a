@@ -16,7 +16,7 @@ class Equipmanage extends Component {
             item:[
                 {
                     type: 'INPUT',
-                    label: '设备id',
+                    label: '设备编码',
                     field:'cid',
                     placeholder:'',
                 },
@@ -64,12 +64,14 @@ class Equipmanage extends Component {
         const quparams = {
             pagesize: 10,
             pageindex: this.state.page,
-            account:this.state.account,
+            devicename:this.state.devicename,
+            sccj:this.state.sccj,
+            devicecode:this.state.devicecode,
         };
         axios.ajax({
-            baseURL:window.g.easyURL,
+            baseURL:window.g.deviceURL,
             method: 'get',
-            url: '/equipmentsys',
+            url: '/api/equipment',
             data: quparams
         }).then((res)=>{
             console.log("res",res);
@@ -84,12 +86,30 @@ class Equipmanage extends Component {
     handleFilterSubmit=(params)=>{ //查询
         console.log("params",params);
         this.setState({
-            cid:params.cid,
-            name:params.name,
-            manufacturers:params.manufacturers,
+            devicename:params.name,
+            sccj:params.manufacturers,
+            devicecode:params.cid,
             page:1
         }, () => {
             this.requestList();
+        });
+    };
+    test =()=>{
+        axios.ajax({
+            baseURL:'http://192.168.10.11:9001/bizservice',
+            method: 'put',
+            url: '/api/disabledMonitorDevice',
+            data: {
+                code:'1140880116052418560'
+            }
+        }).then((res)=>{
+            console.log("res122222",res);
+            if(res.success){
+                // this.setState({
+                //     list:res.data,
+                //     total: res.totalcount,
+                // })
+            }
         });
     };
     render() {
@@ -99,7 +119,7 @@ class Equipmanage extends Component {
             render: (text, record,index) => (index+1),
         },{
             title: '设备图片',
-            dataIndex: 'img',
+            dataIndex: 'picpath',
             render: (text,record,index) =>{
                 return(
                     <div>
@@ -109,22 +129,22 @@ class Equipmanage extends Component {
             }
         },{
             title: '设备名称',
-            dataIndex: 'name',
+            dataIndex: 'devicename',
         },{
             title: '设备类型',
-            dataIndex: 'type',
+            dataIndex: 'devicetype',
         },{
-            title: '设备IMEI',
-            dataIndex: 'cid',
+            title: '设备编码',
+            dataIndex: 'devicecode',
         },{
             title: '入库时间',
             dataIndex: 'createon',
         },{
             title: '生产厂家',
-            dataIndex: 'manufacturers',
+            dataIndex: 'sccj',
         },{
             title: '单位',
-            dataIndex: 'unit',
+            dataIndex: 'units',
         },{
             title: '状态',
             dataIndex: 'ware',
@@ -148,7 +168,7 @@ class Equipmanage extends Component {
                             <BaseForm formList={this.formList} filterSubmit={this.handleFilterSubmit}/>
                         </div>
                         <div className="rightOpt">
-                            <Button type="primary">导入</Button>
+                            <Button type="primary" onClick={this.test}>导入11</Button>
                         </div>
                     </div>
 

@@ -28,6 +28,7 @@ class Etable extends Component {
         dataSource={[]}
         rowKey={record => record.code}
         pagination={pagination}
+        size="middle"
         {...this.props}
       />
     );

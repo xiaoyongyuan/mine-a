@@ -134,6 +134,7 @@ class Dotequip extends Component {
                 return (
                   <Button
                     type="primary"
+                    className="btn-binding"
                     onClick={() => {
                       this.handBind(record.code, record.devicecode);
                     }}
@@ -156,8 +157,9 @@ class Dotequip extends Component {
                       查看
                     </Button>
                     <Button
-                      type="primary"
+                      type="danger"
                       style={{ marginLeft: "5px" }}
+                      className="btn-abandoning"
                       onClick={() => {
                         this.handAbandon(record.code);
                       }}
@@ -174,6 +176,7 @@ class Dotequip extends Component {
                   <div>
                     <Button
                       type="primary"
+                      className="btn-look"
                       onClick={() => {
                         this.handDetail(record);
                       }}
@@ -182,6 +185,7 @@ class Dotequip extends Component {
                     </Button>
                     <Button
                       type="primary"
+                      className="btn-use"
                       style={{ marginLeft: "5px" }}
                       onClick={() => {
                         this.handUnseal(record.code);
