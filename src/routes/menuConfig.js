@@ -1,11 +1,11 @@
 export default {
   menuList: [
     {
-      title: "总览",
+      title: "系统总览",
       key: "/pandect/mapshow",
       type: "pandect",
-      component: "MapShow"
-
+      component: "MapShow",
+      icon: "action-shujuzonglan",
     },
     // {
     //   title: "总览",
@@ -126,6 +126,7 @@ export default {
     {
       title: "项目管理",
       key: "/project",
+      icon: "action-guanli1",
       children: [
         {
           title: "项目方案",
@@ -208,6 +209,7 @@ export default {
     {
       title: "监测数据",
       key: "/monitor",
+      icon: "action-101",
       children: [
         {
           title: "点位设备",
@@ -229,6 +231,7 @@ export default {
     {
       title: "系统管理",
       key: "/systemmanage",
+      icon: "action-shezhi",
       children: [
         {
           title: "企业信息",

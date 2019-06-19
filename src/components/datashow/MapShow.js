@@ -19,6 +19,7 @@ class MapShow extends Component {
         this.state={ 
             leftLayer:true,
             showitem:'pandect', 
+            activepointer:'activepandect',
         };
     }
     componentWillMount(){
@@ -34,7 +35,7 @@ class MapShow extends Component {
 
     }
     clickbtn=(val)=>{
-        this.setState({showitem:val})
+        this.setState({showitem:val,activepointer:'active'+val})
     }
     trigger=()=>{
         const tigclose=this.state.tigclose;
@@ -45,7 +46,7 @@ class MapShow extends Component {
         return (
             <div className="MapShow">
                 <div className="arcgis">
-                    {/*<ArcGISMap />*/}
+                    <ArcGISMap />
                 </div>
                 <div className="leftmove" style={this.state.tigclose?{transform:'translateX(-100%)'}:null} >
                 <div className="leftLayer" style={this.state.tigclose?{transform:'translateX(-100%)'}:null}>
@@ -82,7 +83,7 @@ class MapShow extends Component {
                         <div className="roundBtn">
                             <div className="roundline">
                                 <div className='centericon'><img src={globa}  /></div>
-                                <div className='pointer'><img src={pointer}  /></div>
+                                <div className={'pointer '+this.state.activepointer }><img src={pointer}  /></div>
                                 <div className={this.state.showitem=='pandect'?'showitem rounditem pandect':'rounditem pandect'} onClick={()=>this.clickbtn('pandect')}>系统总览</div>
                                 <div className={this.state.showitem=='monitor'?'showitem rounditem monitor':'rounditem monitor'} onClick={()=>this.clickbtn('monitor')}>监测数据</div>
                                 <div className={this.state.showitem=='gis'?'showitem rounditem gis':'rounditem gis'} onClick={()=>this.clickbtn('gis')}>遥感监测</div>

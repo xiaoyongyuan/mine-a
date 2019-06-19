@@ -10,8 +10,7 @@ const FormItem = Form.Item;
 class Login extends Component {
 
   componentDidMount() {
-    axios.logout({
-        })
+
   }
 
 
@@ -34,9 +33,7 @@ class Login extends Component {
           }else{
             message.warn('用户名或密码错误！')
           }
-        })
-
-        
+        })        
       }
     });
   };

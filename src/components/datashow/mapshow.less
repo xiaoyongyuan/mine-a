@@ -22,7 +22,6 @@
     display: flex;
     overflow-y: auto;
     overflow-x: hidden;
-    background: #015ad3;
     width: 280px;
     min-height: 100%;
     // overflow-y: auto;
@@ -31,6 +30,7 @@
     .leftmeun{
       width:40px;
       padding-right:10px; 
+      position:fixed;
       .clickmeun{
         padding-top:230px;
       }
@@ -58,6 +58,7 @@
     }
     .rightshow{
       width:220px;
+      margin-left:40px;
       .headlogo{
         margin-top:30px;
         margin-bottom: 12px;
@@ -122,10 +123,29 @@
       }
       .pointer{
         position:absolute;
-        top:54px;
-        left:97px;
+        
         width: 16px;
         height: 20px;
+      }
+      .activepandect{
+        top:54px;
+        left:97px;
+        transform: rotate(0deg);
+      }
+      .activemonitor{
+        top: 96px;
+        left: 141px;
+        transform: rotate(90deg);
+      }
+      .activegis{
+        top: 137px;
+        left: 98px;
+        transform: rotate(180deg);
+      }
+      .activeprodect{
+        top: 96px;
+        left: 58px;
+        transform: rotate(-90deg);
       }
       .rounditem{
         position:absolute;
