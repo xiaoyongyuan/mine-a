@@ -3,6 +3,7 @@ import BaseForm from "../common/BaseForm";
 import {Button} from "antd";
 import Etable from "../common/Etable";
 import axios from "../../axios";
+import Utils from "../../utils/utils";
 
 class Basicdata extends Component {
     constructor(props){
@@ -43,6 +44,9 @@ class Basicdata extends Component {
             ]
         }
     };
+    params={
+        pageindex:1
+    };
     componentDidMount(){
         this.requestList();
     };
@@ -58,7 +62,7 @@ class Basicdata extends Component {
         console.log("this.params",this.params);
         const quparams = {
             pagesize: 10,
-            pageindex: this.state.page,
+            pageindex: this.params.pageindex,
             account:this.state.account,
         };
         axios.ajax({
@@ -72,6 +76,11 @@ class Basicdata extends Component {
                 this.setState({
                     list:res.data,
                     total: res.totalcount,
+                    pagination:Utils.pagination(res,(current)=>{
+                        console.log("current",current);
+                        this.params.pageindex=current;
+                        this.requestList();
+                    })
                 })
             }
         });
@@ -81,7 +90,7 @@ class Basicdata extends Component {
         this.setState({
             cid:params.cid,
             name:params.name,
-            page:1
+            pageindex:1
         }, () => {
             this.requestList();
         });
@@ -137,12 +146,7 @@ class Basicdata extends Component {
                         bordered
                         columns={columns}
                         dataSource={this.state.list}
-                        pagination={{
-                            defaultPageSize: 10,
-                            current: this.state.page,
-                            total: this.state.total,
-                            onChange: this.changePage,
-                        }}
+                        pagination={this.state.pagination}
                     />
                 </div>
             </div>

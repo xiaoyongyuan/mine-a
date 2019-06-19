@@ -98,7 +98,7 @@ class Equipmanage extends Component {
             devicename:params.name,
             sccj:params.manufacturers,
             devicecode:params.cid,
-            page:1
+            pageindex:1
         }, () => {
             this.requestList();
         });
@@ -168,12 +168,6 @@ class Equipmanage extends Component {
                         bordered
                         columns={columns}
                         dataSource={this.state.list}
-                        // pagination={{
-                        //     defaultPageSize: 10,
-                        //     current: this.state.page,
-                        //     total: this.state.total,
-                        //     onChange: this.changePage,
-                        // }}
                         pagination={this.state.pagination}
                     />
                 </div>

@@ -284,12 +284,6 @@ class Userinfo extends Component {
                   bordered
                   columns={columns}
                   dataSource={this.state.list}
-                  // pagination={{
-                  //     defaultPageSize: 10,
-                  //     current: this.state.page,
-                  //     total: this.state.total,
-                  //     onChange: this.changePage,
-                  // }}
                   pagination={this.state.pagination}
               />
               <Modal title={ this.state.modeltitle }
