@@ -13,18 +13,17 @@ class Scheme extends Component {
       newShow:false
     };
     params={
-      pageindex:1
+      pageindex:1,
+      pagesize:3
     };
     formList={
       type:'inline',
       item:[   
         {
-          type: 'RANGPICKER',
-          label: '时间',
-          field:'doubledata',
-          placeholder:'请选择时间',
-          showTime:true,
-          format:'YYYY-MM-DD HH:mm:ss'
+          type: 'INPUT',
+          label: '项目名称',
+          field:'projectname',
+          placeholder:'',
         },{
           type:'button',
           button:[
@@ -46,20 +45,15 @@ class Scheme extends Component {
       this.requestList()
     }
     handleFilterSubmit=(params)=>{ //查询
-      params.pageindex=1;
-      console.log(params,'params');
-      if(params.doubledata){
-        this.params.bdate=params.doubledata[0].format('YYYY-MM-DD HH:mm:ss');
-        this.params.edate=params.doubledata[1].format('YYYY-MM-DD HH:mm:ss');
-      }
+      this.params.projectname=params.projectname;
+      this.params.pageindex=1;
       this.requestList();
     };
     requestList=()=>{
       axios.ajax({
         baseURL:window.g.wangURL,
         method: 'get',
-        // url:'/getproject',
-        url: '/api/getProjectList',
+        url: '/api/getProjectAll',
         data: this.params
       })
       .then((res)=>{
@@ -78,22 +72,23 @@ class Scheme extends Component {
       window.open(window.g.baseURL+filepath);
     }
     uploadOk=(params)=>{ //上传提交
-      console.log('paramsparams',params)
       const _this=this;
+
       this.changeState('newShow',false);
       axios.ajax({
-        baseURL:window.g.cuiURL,
+        baseURL:window.g.wangURL,
         method: 'post',
         url: '/api/project',
         data: params
       }).then((res)=>{
         if(res.success){
+          _this.params.projectname='';
+          _this.params.pageindex=1;
           message.success('操作成功！')
           _this.requestList()
         }
       });
       //新增提交
-      console.log(params)
     };
     changeState=(key,val)=>{
       this.setState({[key]:val})
@@ -104,13 +99,21 @@ class Scheme extends Component {
         dataIndex: 'index',
         render: (text, record,index) => (index+1),
       },{
-        title: '文件名',
-        dataIndex: 'title',
+        title: '项目名称',
+        dataIndex: 'projectname',
       },{
         title: '适用年限',
         dataIndex: 'begindate',
         render: (text,record) =>{
-          return(<div>{text+'--'+record.enddate}</div>)
+          return(<div>{text+' ~~ '+record.enddate}</div>)
+        }
+      },{
+        title: '状态',
+        dataIndex: 'states',
+        render: (text) =>{
+          if(text==0) return(<div className='graycolor'>编制中</div>)
+          else if(text==1) return(<div className='bluecolor'>执行中</div>)
+          else return(<div className='greencolor'>已完成</div>)
         }
       },{
         title: '上传人',
@@ -118,6 +121,9 @@ class Scheme extends Component {
       },{
         title: '上传时间',
         dataIndex: 'createon',
+      },{
+        title: '备注',
+        dataIndex: 'memo',
       },{
         title: '操作',
         key:'option',

@@ -44,7 +44,15 @@ class SurveyRepro extends Component {
         }
       ]
     };
-    
+    componentWillMount(){
+      axios.ajax({
+        baseURL:window.g.wangURL,
+        method: 'get',
+        url: '/api/getProjectAllItem',
+      }).then((res)=>{
+
+      })
+    }
     componentDidMount(){
       this.requestList()
     }

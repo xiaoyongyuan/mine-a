@@ -21,7 +21,7 @@ class UploadModel extends Component {
         {
           type: 'INPUT',
           label: '项目名称',
-          field: 'titles',
+          field: 'projectname',
           placeholder: '',
           rules: [
               {
@@ -97,12 +97,12 @@ class UploadModel extends Component {
 
   handleFilterSubmit = (params)=>{ //提交表单
     var data={}
-    data.title=params.titles
+    data.projectname=params.projectname
     data.filepath=params.fileurl
     data.begindate=params.doubledata[0].format('YYYY-MM-DD')
     data.enddate=params.doubledata[1].format('YYYY-MM-DD')
-    // data.title=params.upload.file.name
-      this.props.filterSubmit(data)
+    data.memo=params.memo
+    this.props.filterSubmit(data)
   }
 
   render() {
