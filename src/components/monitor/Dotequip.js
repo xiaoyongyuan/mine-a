@@ -7,6 +7,7 @@ import {
   Modal,
   DatePicker,
   message,
+  Select,
   Input
 } from "antd";
 import axios from "../../axios";
@@ -17,6 +18,7 @@ import "../../style/jhy/css/dotequip.less";
 const confirm = Modal.confirm;
 const bizserviceURL = window.g.bizserviceURL;
 const sysURL = window.g.sysURL;
+const deviceURL = window.g.deviceURL;
 class Dotequip extends Component {
   constructor(props) {
     super(props);
@@ -151,7 +153,7 @@ class Dotequip extends Component {
                 return (
                   <div>
                     <Button
-                      type="primary"
+                      type="link"
                       onClick={() => {
                         this.handDetail(record);
                       }}
@@ -177,7 +179,7 @@ class Dotequip extends Component {
                 return (
                   <div>
                     <Button
-                      type="primary"
+                      type="link"
                       className="btn-look"
                       onClick={() => {
                         this.handDetail(record);
@@ -186,7 +188,7 @@ class Dotequip extends Component {
                       查看
                     </Button>
                     <Button
-                      type="primary"
+                      type="dashed"
                       className="btn-use"
                       style={{ marginLeft: "5px" }}
                       onClick={() => {
@@ -212,8 +214,6 @@ class Dotequip extends Component {
   componentWillMount() {}
   componentDidMount() {
     this.getProjectList();
-    this.getTypeList();
-    this.getDeviceList();
   }
   getProjectList = () => {
     axios
@@ -224,26 +224,24 @@ class Dotequip extends Component {
       .then(res => {
         console.log(res, "项目");
         if (res.success) {
-          var plist = [];
-          res.data.map(v => {
-            plist.push({
-              label: v.title,
-              value: v.code
+          if (res.data.length > 0) {
+            var plist = [];
+            res.data.map(v => {
+              plist.push({
+                label: v.title,
+                value: v.code
+              });
             });
-          });
-          this.setState(
-            {
-              projectList: plist,
-              projdefsel: res.data[0].code
-            },
-            () => {
-              console.log(
-                this.state.projdefsel,
-                this.state.projectList,
-                "jiekoumorenzhi"
-              );
-            }
-          );
+            this.setState(
+              {
+                projectList: plist,
+                projdefsel: res.data[0].code
+              },
+              () => {
+                this.getTypeList();
+              }
+            );
+          }
         }
       });
   };
@@ -251,29 +249,35 @@ class Dotequip extends Component {
     axios
       .ajax({
         method: "get",
-        url: sysURL + "/api/findDictionaryByType",
+        url: deviceURL + "/api/monitorNetAll",
         data: {
-          dtype: "MONITORNET"
+          itemid: this.state.projSelected
+            ? this.state.projSelected
+            : this.state.projdefsel
         }
       })
       .then(res => {
         console.log(res, "类型");
 
         if (res.success) {
-          var tlist = [];
-          res.data.map(v => {
-            tlist.push({
-              label: v.dname,
-              value: v.dvalue
+          if (res.data.length > 0) {
+            var tlist = [];
+            res.data.map(v => {
+              tlist.push({
+                label: v.netname, //或nettype
+                value: v.code
+              });
             });
-          });
-          this.setState(
-            {
-              typeList: tlist,
-              monintdefsel: tlist[0].code
-            },
-            () => {}
-          );
+            this.setState(
+              {
+                typeList: tlist,
+                monintdefsel: res.data[0].code
+              },
+              () => {
+                this.getDeviceList();
+              }
+            );
+          }
         }
       });
   };
@@ -284,8 +288,12 @@ class Dotequip extends Component {
         method: "get",
         url: bizserviceURL + "/api/getMonitordeviceList",
         data: {
-          itemid: this.state.projSelected,
+          itemid: this.state.projSelected
+            ? this.state.projSelected
+            : this.state.projdefsel,
           netid: this.state.monintSelected
+            ? this.state.monintSelected
+            : this.state.monintdefsel
         }
       })
       .then(res => {
@@ -297,20 +305,21 @@ class Dotequip extends Component {
         }
       });
   };
-  handSelectP = e => {
+  handSelectP = val => {
     this.setState(
       {
-        projSelected: e.target.value
+        projSelected: val
       },
       () => {
+        this.getTypeList();
         this.getDeviceList();
       }
     );
   };
-  handSelectM = e => {
+  handSelectM = val => {
     this.setState(
       {
-        monintSelected: e.target.value
+        monintSelected: val
       },
       () => {
         this.getDeviceList();
@@ -335,7 +344,6 @@ class Dotequip extends Component {
   };
   submitBind = () => {
     const _this = this;
-    console.log(this.input);
     axios
       .ajax({
         method: "put",
@@ -363,7 +371,7 @@ class Dotequip extends Component {
   handDetail = record => {
     window.location.href = `/#/main/dotdetails?deviceId=${
       record.code
-    }&&companyCode=${record.companycode}&&dataType=${record.devicetype}`;
+    }&&companyCode=${record.companycode}&&deviceType=${record.devicetype}`;
   };
 
   handAbandon = id => {
@@ -377,9 +385,7 @@ class Dotequip extends Component {
         axios
           .ajax({
             method: "put",
-            url:
-              "http://192.168.10.11:9001/bizservice" +
-              "/api/disabledMonitorDevice",
+            url: bizserviceURL + "/api/disabledMonitorDevice",
             data: {
               code: id
             }
@@ -395,7 +401,6 @@ class Dotequip extends Component {
   };
   handUnseal = id => {
     const _this = this;
-    console.log(id, "382");
     confirm({
       title: "确认启用吗？",
       okText: "确认",
@@ -419,54 +424,69 @@ class Dotequip extends Component {
       }
     });
   };
-  render() {
+  selprorender = () => {
+    if (this.state.projectList.length > 0) {
+      const option = this.state.projectList.map((item, key) => (
+        <Select.Option key={key} value={item.value} title={item.label}>
+          {item.label}
+        </Select.Option>
+      ));
 
+      return (
+        <Select
+          defaultValue={this.state.projectList[0].value}
+          placeholder="请选择规划"
+          onChange={val => {
+            this.handSelectP(val);
+          }}
+        >
+          {option}
+        </Select>
+      );
+    }
+  };
+  seltyperender = () => {
+    if (this.state.typeList.length > 0) {
+      const option = this.state.typeList.map((item, key) => (
+        <Select.Option key={key} value={item.value} title={item.label}>
+          {item.label}
+        </Select.Option>
+      ));
+      return (
+        <Select
+          defaultValue={this.state.typeList[0].value}
+          placeholder="请选择监测网"
+          onChange={val => {
+            this.handSelectM(val);
+          }}
+        >
+          {option}
+        </Select>
+      );
+    }
+  };
+  render() {
     return (
       <div className="dotequip">
         <div className="optbox">
-          <Row
-            className="moniproj"
-            style={{
-              display: "flex",
-              flexDirection: "row",
-              alignItems: "center"
-            }}
-          >
-            <Col span={4} className="capt">
-              监测网规划
-            </Col>
-            <Col span={19}>
-              {
-                this.state.projectList&&this.state.projdefsel?(<Radio.Group
-                  options={this.state.projectList}
-                  onChange={this.handSelectP}
-                  value={this.state.projSelected}
-                  defaultValue={this.state.projdefsel}
-                />):null
-              }
-              
-            </Col>
-          </Row>
-          <Row
-            className="monitype"
-            style={{
-              display: "flex",
-              flexDirection: "row",
-              alignItems: "center"
-            }}
-          >
-            <Col span={4} className="capt">
-              监测网类型
-            </Col>
-            <Col span={19}>
-              <Radio.Group
-                options={this.state.typeList}
-                onChange={this.handSelectM}
-                defaultValue={1}
-                value={this.state.monintSelected}
-              />
-            </Col>
-          </Row>
+          <table>
+            <thead>
+              <tr>
+                <th>监测规划</th>
+                <th>监测网</th>
+                <th>监测设备个数</th>
+                <th>文档查看</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>{this.selprorender()}</td>
+                <td>{this.seltyperender()}</td>
+                <td />
+                <td />
+              </tr>
+            </tbody>
+          </table>
         </div>
         <div className="devicelist" style={{ marginTop: "10px" }}>
           <Table columns={this.columns} dataSource={this.state.tableData} />
@@ -492,7 +512,7 @@ class Dotequip extends Component {
             alignItems: "center"
           }}
         >
-          <label for="idnum">设备ID:</label>
+          <label htmlFor="idnum">设备ID:</label>
           <Input
             ref={input => {
               this.input = input;

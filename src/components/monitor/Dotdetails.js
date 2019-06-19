@@ -62,7 +62,7 @@ class Dotdetails extends Component {
         data: {
           deviceId: this.props.query.deviceId,
           companyCode: this.props.query.companyCode,
-          dataType: this.props.query.dataType
+          deviceType: this.props.query.deviceType
         }
       })
       .then(res => {
