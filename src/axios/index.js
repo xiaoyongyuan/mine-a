@@ -25,6 +25,8 @@ export default class Axios {
             loading = document.getElementById('ajaxLoading');
             loading.style.display = 'block';
         }
+        const token=localStorage.getItem("token")
+        if(!token) return window.location.href='#/login'
         return new Promise((resolve,reject)=>{
             axios({
                 method: options.method || 'get',
@@ -47,7 +49,6 @@ export default class Axios {
                     if(res.success===1){
                         resolve(res)
                     }else if(res.success=='401' || res.success=='402'){
-                        console.log(11)
                         message.error(res.msg)
                         window.location.href='#/login'
                     }else message.error(res.msg)
@@ -87,6 +88,33 @@ export default class Axios {
             loading.style.display = 'block';
         }
         return new Promise((resolve,reject)=>{
+            axios({
+                method:'get',
+                url: 'http://192.168.10.12:8001/login/exit',
+                params:{
+                    access_token:localStorage.getItem("token")
+                },
+                headers: {
+                    ContentType:'application/json;charset=UTF-8',
+                    AUTHORIZATION: 'Bearer '+localStorage.getItem("token")
+                }
+            })
+            .then((response)=>{
+                if (options.isShowLoading !== false) {
+                    loading = document.getElementById('ajaxLoading');
+                    loading.style.display = 'none';
+                }
+                if(response&&response.status=='200'){
+                    const res=response.data;
+                    resolve(res)
+                }else reject(response.msg);
+            });
+            return;
+
+
+
+
+
             axios.get('http://192.168.10.12:8001/login/exit',null,{headers: {
                   AUTHORIZATION: 'Bearer '+localStorage.getItem("token")
                 }})

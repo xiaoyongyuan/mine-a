@@ -40,12 +40,22 @@ class LayerSider extends Component {
     return data.map((el,i)=>{
       if(el.children&&el.children.length){
         return (
-          <SubMenu key={el.key} title={el.title} onTitleClick={this.onTitleClick}>
+          <SubMenu key={el.key} 
+            title={
+              <span>
+                {el.icon && <i className={'actionfont '+el.icon} />}
+                <span className="nav-text">{el.title}</span>
+              </span>
+            } 
+            onTitleClick={this.onTitleClick}>
             {_this.renderMenu(el.children)}
           </SubMenu>
         )
       }
-      return (<Menu.Item key={el.key}><NavLink to={el.key}>{el.title}</NavLink></Menu.Item>)
+      return (<Menu.Item key={el.key}><NavLink to={el.key}>
+          {el.icon && <i className={'actionfont '+el.icon} />}
+          <span className="nav-text">{el.title}</span>
+        </NavLink></Menu.Item>)
     })
   }
   render() {

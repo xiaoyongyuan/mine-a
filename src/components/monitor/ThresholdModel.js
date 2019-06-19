@@ -119,12 +119,16 @@ class ThresholdModel extends Component {
       this.props.form.validateFields((err, values) => {
           console.log("values33",values);
           if (!err) {
-              var data=values;
+              var data={
+                  itemid:values.projectid,
+                  netname:values.netname,
+                  nettype:values.netname,
+              };
               axios.ajax({
                   baseURL:window.g.deviceURL,
                   method: 'post',
                   url: '/api/monitorNet',
-                  data: values
+                  data: data
               }).then((res)=>{
                   const list=this.state.list;
                   // list.unshift(values);
@@ -133,8 +137,9 @@ class ThresholdModel extends Component {
                       this.setState({
                           list:list
                       });
-                      this.requestList();
                   }
+              }).catch((error)=>{
+                  console.log("error",error);
               });
               // data.filename_cad=_this.state.cad;
               // data.filepath=_this.state.filepath;

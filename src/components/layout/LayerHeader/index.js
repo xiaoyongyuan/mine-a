@@ -1,15 +1,29 @@
 import React, { Component } from 'react';
-import {Select, Badge, Modal} from 'antd';
+import {Select, Badge, Modal,message} from 'antd';
 import './index.less';
 import axios from "../../../axios";
 const Option = Select.Option;
 const confirm = Modal.confirm;
 class LayerHeader extends Component {
+    constructor(props) {
+      super(props);
+      this.state = {
+
+      };
+    }
     hanleClose=()=>{
+      const _this=this;
         confirm({
             title: '退出',
             content: '确认退出吗？',
-            onOk() {},
+            onOk() {
+              axios.logout({}).then((res)=>{
+                if(res.success){
+                  localStorage.removeItem('token');
+                  _this.props.history.push("/login")
+                }else message.error(res.msg)
+              })
+            },
         });
     };
   render() {

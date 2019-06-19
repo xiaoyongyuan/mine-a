@@ -94,24 +94,6 @@ class Equipmanage extends Component {
             this.requestList();
         });
     };
-    test =()=>{
-        axios.ajax({
-            baseURL:'http://192.168.10.11:9001/bizservice',
-            method: 'put',
-            url: '/api/disabledMonitorDevice',
-            data: {
-                code:'1140880116052418560'
-            }
-        }).then((res)=>{
-            console.log("res122222",res);
-            if(res.success){
-                // this.setState({
-                //     list:res.data,
-                //     total: res.totalcount,
-                // })
-            }
-        });
-    };
     render() {
         const columns=[{
             title: '序号',
@@ -168,7 +150,7 @@ class Equipmanage extends Component {
                             <BaseForm formList={this.formList} filterSubmit={this.handleFilterSubmit}/>
                         </div>
                         <div className="rightOpt">
-                            <Button type="primary" onClick={this.test}>导入11</Button>
+                            <Button type="primary">导入</Button>
                         </div>
                     </div>
 

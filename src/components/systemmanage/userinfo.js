@@ -38,6 +38,9 @@ class Userinfo extends Component {
           ]
       }
   };
+    params={
+        pageindex:1
+    };
     showModal = (e) => { //新增弹窗
         e.preventDefault();
         this.setState({
@@ -77,6 +80,7 @@ class Userinfo extends Component {
                         list.unshift(data);
                         if(res.success){
                             message.success('新增成功！', 3);
+                            this.requestList();
                             this.setState({
                                list:list
                             });
@@ -129,7 +133,7 @@ class Userinfo extends Component {
         console.log("this.params",this.params);
         const quparams = {
             pagesize: 10,
-            pageindex: this.state.page,
+            pageindex: this.params.pageindex,
             account:this.state.account,
         };
         axios.ajax({
@@ -143,11 +147,11 @@ class Userinfo extends Component {
                 this.setState({
                     list:res.data,
                     total: res.totalcount,
-                    // pagination:Utils.pagination(res,(current)=>{
-                    //     console.log("current",current);
-                    //     this.params.page=current;
-                    //     this.requestList();
-                    // })
+                    pagination:Utils.pagination(res,(current)=>{
+                        console.log("current",current);
+                        this.params.pageindex=current;
+                        this.requestList();
+                    })
                 })
             }
         });
@@ -156,7 +160,7 @@ class Userinfo extends Component {
         console.log("params",params);
         this.setState({
             account:params.account,
-            page:1
+            pageindex:1
         }, () => {
             this.requestList();
         });
@@ -280,13 +284,13 @@ class Userinfo extends Component {
                   bordered
                   columns={columns}
                   dataSource={this.state.list}
-                  pagination={{
-                      defaultPageSize: 10,
-                      current: this.state.page,
-                      total: this.state.total,
-                      onChange: this.changePage,
-                  }}
-                  // pagination={this.state.pagination}
+                  // pagination={{
+                  //     defaultPageSize: 10,
+                  //     current: this.state.page,
+                  //     total: this.state.total,
+                  //     onChange: this.changePage,
+                  // }}
+                  pagination={this.state.pagination}
               />
               <Modal title={ this.state.modeltitle }
                      okText="确认"
