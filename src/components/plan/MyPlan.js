@@ -105,7 +105,7 @@ class MyPlan extends Component {
                       }
                   </Select>
                   <Link className="detmain" to={'/main/edit'}>
-                      <Button type="primary" className="addplan">新增</Button>
+                      <Button type="primary" className="addplan"><span className="actionfont action-xinzeng"/>&nbsp;&nbsp;新增</Button>
                   </Link>
               </Col>
           </Row>
@@ -127,6 +127,7 @@ class MyPlan extends Component {
                                     {/*<div><span className="greencolor">{v.cname}</span> {v.khdate}</div>*/}
                                       <div><span className="greencolor">测试写死</span> 2019-10-12</div>
                                       <div className="intro">{v.summary}</div>
+                                      <div className="planMore">更多&gt;&gt;&gt;</div>
                                   </div>
                                 </div>
                                 </Link>
@@ -141,6 +142,7 @@ class MyPlan extends Component {
                                     {/*<div><span className="greencolor">{v.cname}</span> {v.khdate}</div>*/}
                                       <div><span className="greencolor">测试写死</span> <span className="time-plan">2019-10-12</span></div>
                                       <div className="intro">{v.summary}</div>
+                                      <div className="planMore">更多&gt;&gt;&gt;</div>
                                   </div>
                                 </div>
                                 <div className="editbtn">

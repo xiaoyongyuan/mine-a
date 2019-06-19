@@ -141,13 +141,13 @@ class Recommend extends Component {
                               {/*<img src={v.Logo} />*/}
                             </div>
                             <div className="detname">
-                              <Title level={4}>
-                              <Paragraph ellipsis={{ rows: 1}}>
-                                  {v.title}
-                              </Paragraph>
-                              </Title>
+                                <div className="plan-title">{v.title}</div>
                               {/*<div><span className="greencolor">{v.cname}</span> {v.khdate}</div>*/}
                                 <div><span className="greencolor">测试写死</span> 2019-10-12</div>
+                                <div className="intro">
+                                    {v.summary}
+                                </div>
+                                <div className="planMore">更多&gt;&gt;&gt;</div>
                             </div>
                           </div>
                           </Link>
@@ -156,15 +156,15 @@ class Recommend extends Component {
                               //if
                             v.states?
                                 <div className="editbtn addmy">
-                            <span onClick={(v)=>this.add(v.code)}  style={{color:'#fff'}}>添加</span>
+                            <span onClick={(v)=>this.add(v.code)}  style={{color:'#fff',cursor:"pointer"}}>添加</span>
                             </div>
                             :null
                           }
-                              <Link className="intro" to={'/main/lookplan?id='+v.code}  style={{color:'rgba(0, 0, 0, 0.65)'}}>
+                              {/*<Link className="intro" to={'/main/lookplan?id='+v.code}  style={{color:'rgba(0, 0, 0, 0.65)'}}>
                                   <div className="intro">
                                       {v.summary}
                                   </div>
-                              </Link>
+                              </Link>*/}
                               {/*<Link  to={'/main/lookplan'}  style={{color:'rgba(0, 0, 0, 0.65)'}}>*/}
                                   {/*<div className="intro">*/}
                                       {/*{v.summary}*/}

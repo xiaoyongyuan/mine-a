@@ -128,7 +128,7 @@ class Basicdata extends Component {
                             <BaseForm formList={this.formList} filterSubmit={this.handleFilterSubmit}/>
                         </div>
                         <div className="rightOpt">
-                            <Button type="primary">导出</Button>
+                            <Button type="primary"><span className="actionfont action-daochu1"/>&nbsp;&nbsp;导出</Button>
                         </div>
                     </div>
 
