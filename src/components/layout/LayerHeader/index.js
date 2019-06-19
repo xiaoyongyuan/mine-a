@@ -1,8 +1,17 @@
 import React, { Component } from 'react';
-import {Select,Badge} from 'antd';
+import {Select, Badge, Modal} from 'antd';
 import './index.less';
+import axios from "../../../axios";
 const Option = Select.Option;
+const confirm = Modal.confirm;
 class LayerHeader extends Component {
+    hanleClose=()=>{
+        confirm({
+            title: '退出',
+            content: '确认退出吗？',
+            onOk() {},
+        });
+    };
   render() {
     return (
       <div className="LayerHeader">
@@ -21,7 +30,7 @@ class LayerHeader extends Component {
               <i className="actionfont action-lingsheng iconclearance"/>
             </Badge>
           <i className="actionfont action-changjianwenti iconclearance"/>
-          <i className="actionfont action-guanji iconclearance"/>
+          <i className="actionfont action-guanji iconclearance" onClick={this.hanleClose}/>
         </div>
         {/* <div className="HeaderTitle">
         	<Icon type="check-circle" />
