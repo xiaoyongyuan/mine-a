@@ -142,7 +142,7 @@ class Monitorpro extends Component {
             <BaseForm formList={this.formList} filterSubmit={this.handleFilterSubmit}/>
           </div>
           <div className="rightOpt">
-            <Button type="primary" onClick={()=>this.changeState('newShow',true)}>新增</Button>
+            <Button type="primary" onClick={()=>this.changeState('newShow',true)}><span className="actionfont action-xinzeng"/>&nbsp;&nbsp;新增</Button>
           </div>
         </div>
         <Etable

@@ -123,10 +123,9 @@ class SurveyRepro extends Component {
         dataIndex: 'register',
         render: (text,record) =>{
           return(<div className="tableoption">
-          <a className="greencolor" onClick={()=>this.preview(record.filepath)}>预览</a>
+              <a className="greencolor" onClick={()=>this.preview(record.filepath)}><Button type="primary">预览</Button></a>
           <form method='GET' action='https://view.officeapps.live.com/op/view.aspx?src=api.aokecloud.cn/upload/椒图数据字典20190417.docx'>
-            <a type='submit' className="bluecolor">
-          下载</a>
+              <a type='submit' className="bluecolor"><Button type="primary">下载</Button></a>
           </form>
           </div>)
         }
@@ -138,7 +137,7 @@ class SurveyRepro extends Component {
             <BaseForm formList={this.formList} filterSubmit={this.handleFilterSubmit}/>
           </div>
           <div className="rightOpt">
-            <Button type="primary" onClick={()=>this.changeState('newShow',true)}>新增</Button>
+            <Button type="primary" onClick={()=>this.changeState('newShow',true)}><span className="actionfont action-xinzeng"/>&nbsp;&nbsp;新增</Button>
           </div>
         </div>
         <Etable

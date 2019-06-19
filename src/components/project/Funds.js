@@ -152,7 +152,7 @@ class Funds extends Component {
         <div className="selectForm">
           <div className="leftForm" />
           <div className="rightOpt" style={{marginBottom:'10px'}}>
-            <Button type="primary" onClick={()=>this.changeState('newShow',true)}>新增</Button>
+            <Button type="primary" onClick={()=>this.changeState('newShow',true)}><span className="actionfont action-xinzeng"/>&nbsp;&nbsp;新增</Button>
           </div>
         </div>
         <Etable
