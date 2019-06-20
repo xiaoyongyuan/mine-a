@@ -1,9 +1,12 @@
 import React, { Component } from 'react';
+import { withRouter } from 'react-router-dom';
 import {Select, Badge, Modal,message} from 'antd';
-import './index.less';
 import axios from "../../../axios";
+import './index.less';
 const Option = Select.Option;
 const confirm = Modal.confirm;
+
+
 class LayerHeader extends Component {
     constructor(props) {
       super(props);
@@ -13,14 +16,13 @@ class LayerHeader extends Component {
     }
     hanleClose=()=>{
       const _this=this;
+      return;
         confirm({
             title: '退出',
             content: '确认退出吗？',
             onOk() {
               axios.logout({}).then((res)=>{
                 if(res.success){
-                  console.log(_this.props,'ddddd')
-                  return;
                   localStorage.removeItem('token');
                   _this.props.history.push("/login")
                 }else message.error(res.msg)
@@ -53,4 +55,4 @@ class LayerHeader extends Component {
   }
 }
 
-export default LayerHeader;
+export default withRouter(LayerHeader);

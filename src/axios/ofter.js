@@ -41,9 +41,9 @@ export default class ofterajax {
            axios.ajax({
               // baseURL:window.g.cuiURL,
                baseURL:window.g.hongURL,
+              // baseURL:window.g.wangURL,
               method: 'get',
-              url: '/api/getProjectList',
-              data: {pagesize:200}
+              url: '/api/getProjectAllItem',
             }).then((res)=>{
                 resolve(res) 
             })  

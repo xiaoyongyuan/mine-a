@@ -13,7 +13,7 @@ class Main extends Component {
         <Layout>
           <Header className="Header"><LayerHeader /></Header>
           <Layout>
-            <Sider className="Sider" width='240px'><LayerSider /></Sider>
+            <Sider className="Sider" width='220px'><LayerSider /></Sider>
             <Content className="Content"><MenuRoutes/></Content>
           </Layout>
           <Footer className="Footer">Footer</Footer>

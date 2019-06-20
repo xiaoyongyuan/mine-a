@@ -30,7 +30,7 @@ class ItemModel extends Component {
     ofteraxios.projectlist().then(res=>{ //项目列表
       if(res.success){
         var project=[]
-        res.data.map(item=>project.push({code:item.code,name:item.title}) )
+        res.data.map(item=>project.push({code:item.code,name:item.projectname}) )
         this.setState({project,selectp:project.length?project[0].code:''})
       }
     })

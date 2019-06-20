@@ -46,6 +46,7 @@ export default class Axios {
                 }
                 if(response&&response.status=='200'){
                     const res=response.data;
+                    if(res.success===0){resolve(res)}
                     if(res.success===1){
                         resolve(res)
                     }else if(res.success=='401' || res.success=='402'){

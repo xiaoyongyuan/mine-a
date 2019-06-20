@@ -5,55 +5,66 @@ import Utils from "../../utils/utils";
 import BaseForm from "../common/BaseForm"
 import Etable from "../common/Etable"
 import ItemModel from "./itemModel"
+import ofteraxios from '../../axios/ofter'
 
 
-
+var projectlistall=[{code: '', name: '全部'}]
 class SurveyRepro extends Component {
     state  ={
-      newShow:false
-    };
-    params={
-      pageindex:1,
-      itemtype:5,
-        createonbegin:'',
-        createonend:''
+      newShow:false,
+      okupdate:1,
     };
     formList={
       type:'inline',
-      item:[   
-        {
-          type: 'RANGPICKER',
-          label: '时间',
-          field:'doubledata',
-          placeholder:'请选择时间',
-          showTime:true,
-          format:'YYYY-MM-DD HH:mm:ss'
-        },{
-          type:'button',
-          button:[
-            {
-              label:'查询',
-              type:"primary",
-              click:'handleFilterSubmit',
-            },
-            {
-              label:'重置',
-              click:'reset',
-            },
-          ]
-        }
-      ]
+        item:[   
+          {
+            type: 'SELECT',
+            label: '所属项目',
+            field: 'projectid',
+            placeholder: '全部',
+            initialValue: '',
+            list: [{code:'',name:'所有项目'}],
+            width:'250px'
+          },{
+            type:'button',
+            button:[
+              {
+                label:'查询',
+                type:"primary",
+                click:'handleFilterSubmit',
+              },
+              {
+                label:'重置',
+                click:'reset',
+              },
+            ]
+          }
+        ]
+      };
+    params={
+      pageindex:1,
+      itemtype:5,
     };
     
+    componentWillMount(){
+      ofteraxios.projectlist().then(res=>{ //项目列表
+        if(res.success){
+          var project=[{code:'',name:'所有项目'}]
+          res.data.map(item=>project.push({code:item.code,name:item.projectname}) )
+          this.formList.item[0].list=project;
+        }
+      })
+    }
+
     componentDidMount(){
       this.requestList()
     }
     
     requestList=()=>{
       axios.ajax({
-        baseURL:window.g.cuiURL,
+        baseURL:window.g.wangURL,
         method: 'get',
-        url: '/api/getItemByItemtype',
+        url: '/api/getItemfileList',
         data: this.params
       })
       .then((res)=>{
@@ -72,13 +83,15 @@ class SurveyRepro extends Component {
       window.open('http://192.168.10.20:8004/sys/UploadFile/OfficeFile/1136541326366367744.docx')
     };
     handleFilterSubmit=(params)=>{ //查询
-      if(params.doubledata){
-        this.params.createonbegin=params.doubledata[0].format('YYYY-MM-DD HH:mm:ss');
-        this.params.createonend=params.doubledata[1].format('YYYY-MM-DD HH:mm:ss');
-      }else {
-          this.params.createonbegin = '';
-          this.params.createonend = ''
-      }
+      console.log(params,'paramsparamsparams')
+      this.params.projectid=params.projectid;
+      // if(params.doubledata){
+      //   this.params.createonbegin=params.doubledata[0].format('YYYY-MM-DD HH:mm:ss');
+      //   this.params.createonend=params.doubledata[1].format('YYYY-MM-DD HH:mm:ss');
+      // }else {
+      //     this.params.createonbegin = '';
+      //     this.params.createonend = ''
+      // }
       this.requestList();
     };
     uploadOk=(params)=>{ //上传提交
@@ -110,13 +123,16 @@ class SurveyRepro extends Component {
         dataIndex: 'itemtitle',
       },{
         title: '所属项目',
-        dataIndex: 'projectid',
+        dataIndex: 'projectname',
       },{
         title: '上传人',
         dataIndex: 'uploader',
       },{
         title: '上传时间',
         dataIndex: 'createon',
+      },{
+        title: '备注',
+        dataIndex: 'memo',
       },{
         title: '操作',
         key:'option',
@@ -147,7 +163,7 @@ class SurveyRepro extends Component {
               dataSource={this.state.list}
               pagination={this.state.pagination}
           />
-        <ItemModel newShow={this.state.newShow} filterSubmit={this.uploadOk} uploadreset={()=>this.changeState('newShow',false)} />
+        <ItemModel  newShow={this.state.newShow} filterSubmit={this.uploadOk} uploadreset={()=>this.changeState('newShow',false)} />
       </div>
     );
   }
