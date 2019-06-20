@@ -68,6 +68,7 @@ import Companyinfo from './systemmanage/companyinfo'
 import Userinfo from './systemmanage/userinfo'
 import Equipmanage from './systemmanage/equipmanage'
 import Basicdata from './systemmanage/basicdata'
+import companyinfoEdit from "./systemmanage/companyinfoEdit";
 
 export default {
   Datamanage,Projectmanage,MapShow,
@@ -78,5 +79,5 @@ export default {
   MyPlan,Recommend,Edit,Detailplan,Lookplan,
   Scheme,Funds,Addproject,Monitorpro,AssessRepro,SurveyRepro,ProspectRepro,Supervisor,MonitorRepro,Monitorprolook,Treatment,CheckAccept,
   Dotequip,Threshold,ThresholdDot,Warning,Dotdetails,
-  Companyinfo,Userinfo,DesignRepro,Construction,Equipmanage,Basicdata,
+  Companyinfo,Userinfo,DesignRepro,Construction,Equipmanage,Basicdata,companyinfoEdit
 };

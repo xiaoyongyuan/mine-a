@@ -26,6 +26,7 @@ class Dotequip extends Component {
     super(props);
     this.state = {
       projectList: [], //项目列表
+      originPro: [],
       typeList: [], //类型列表
       projSelected: "", //项目选中
       projdefsel: "", //项目默认选中
@@ -35,7 +36,10 @@ class Dotequip extends Component {
       bindmodalshow: false, //
       bindDevId: "", //绑定设备id
       bindCodeId: "", //绑定code
-      pagination: []
+      pagination: [],
+      deviceCount: "",
+      detcode: "",
+      filepath: ""
     };
     this.params = {
       pageindex: 1,
@@ -232,6 +236,7 @@ class Dotequip extends Component {
         console.log(res, "项目");
         if (res.success) {
           if (res.data.length > 0) {
+            localStorage.setItem("prolist", res.data);
             var plist = [];
             res.data.map(v => {
               plist.push({
@@ -241,8 +246,11 @@ class Dotequip extends Component {
             });
             this.setState(
               {
+                originPro: res.data,
                 projectList: plist,
-                projdefsel: res.data[0].code
+                projdefsel: res.data[0].code,
+                filepath: res.data[0].filepath,
+                detcode: res.data[0].code
               },
               () => {
                 this.getTypeList();
@@ -311,7 +319,8 @@ class Dotequip extends Component {
             pagination: Utils.pagination(res, current => {
               this.params.pageindex = current;
               this.getDeviceList();
-            })
+            }),
+            deviceCount: res.totalcount
           });
         }
       });
@@ -326,6 +335,14 @@ class Dotequip extends Component {
         this.getDeviceList();
       }
     );
+    this.state.originPro.find(item => {
+      console.log(item, val);
+      if (item.code == val) {
+        this.setState({
+          filepath: item.filepath
+        });
+      }
+    });
   };
   handSelectM = val => {
     this.setState(
@@ -358,10 +375,11 @@ class Dotequip extends Component {
     axios
       .ajax({
         method: "put",
-        url: bizserviceURL + "/api/bindMonitorDevice",
+        url: "http://192.168.10.11:8001/bizservice/api/bindMonitorDevice",
         data: {
           code: this.state.bindCodeId,
-          devicecode: this.input.state.value
+          devicecode: this.input.state.value,
+          states: 1
         }
       })
       .then(res => {
@@ -493,8 +511,16 @@ class Dotequip extends Component {
               <tr>
                 <td>{this.selprorender()}</td>
                 <td>{this.seltyperender()}</td>
-                <td />
-                <td />
+                <td>{this.state.deviceCount}</td>
+                <td>
+                  <a
+                    href={`https://view.officeapps.live.com/op/view.aspx?src=${
+                      this.state.filepath
+                    }`}
+                  >
+                    查看
+                  </a>
+                </td>
               </tr>
             </tbody>
           </table>
