@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import moment from 'moment';
 import {Row, Col, Select, Pagination, Typography, Button, Empty} from "antd";
 import axios from '../../axios'
 import ofteraxios from '../../axios/ofter'
@@ -15,7 +16,7 @@ class MyPlan extends Component {
     super(props);
     this.state={
       list:[],
-      page:1,
+      pageindex:1,
       pagination:{},
       plantype:[], //类别
       selecttype:'' //选择的类别
@@ -30,7 +31,6 @@ class MyPlan extends Component {
       this.getPlanByPlantype();
   }
   selectopt=(selecttype)=>{ //选择类别
-      console.log("selecttype",selecttype);
     this.setState({selecttype,page:1},()=>this.getPlanByPlantype())
   };
   requersPlantType = () =>{
@@ -53,7 +53,7 @@ class MyPlan extends Component {
       this.params.plantype=this.state.selecttype || 0;
       // this.params.pageindex = this.state.pageindex;
       axios.ajax({
-          baseURL:'http://192.168.10.29:8002/bizservice',
+          baseURL:window.g.wangURL,
           method: 'get',
           url: '/api/getPlanByPlantype',
           data: this.params
@@ -116,16 +116,16 @@ class MyPlan extends Component {
                       this.state.list.map((v,i)=>(
                               <Col className="gridcol" key={v.code} md={24} xl={12} xxl={8}>
                               {
-                                v.states?
+                                v.states=='1'?
                                 <Link className="detmain" to={'/main/lookplan?id='+v.code}>
                                 <div className="dettitle">
                                   <div className="detlogo">
                                     <img src={icon} />
                                   </div>
                                   <div className="detname">
-                                      <div className="plan-title">{v.title}</div>
+                                      <div className="plan-title">{v.plantitle}</div>
                                     {/*<div><span className="greencolor">{v.cname}</span> {v.khdate}</div>*/}
-                                      <div><span className="greencolor">测试写死</span> 2019-10-12</div>
+                                      <div><span className="greencolor">企业名称</span> {moment(v.createon).format('YYYY-MM-DD')}</div>
                                       <div className="intro">{v.summary}</div>
                                       <div className="planMore">更多&gt;&gt;&gt;</div>
                                   </div>
@@ -138,9 +138,9 @@ class MyPlan extends Component {
                                       <img src={icon} />
                                   </div>
                                   <div className="detname">
-                                      <div className="plan-title">{v.title}</div>
+                                      <div className="plan-title">{v.plantitle}</div>
                                     {/*<div><span className="greencolor">{v.cname}</span> {v.khdate}</div>*/}
-                                      <div><span className="greencolor">测试写死</span> <span className="time-plan">2019-10-12</span></div>
+                                      <div><span className="greencolor">企业名称</span> <span className="time-plan">{moment(v.createon).format('YYYY-MM-DD')}</span></div>
                                       <div className="intro">{v.summary}</div>
                                       <div className="planMore">更多&gt;&gt;&gt;</div>
                                   </div>
@@ -156,7 +156,7 @@ class MyPlan extends Component {
                 }
           </Row>
           </div>
-          <Pagination className="PaginationRight" {...this.state.pagination}/>
+          <Pagination className="PaginationRight" hideOnSinglePage {...this.state.pagination}/>
       </div>
     );
   }
