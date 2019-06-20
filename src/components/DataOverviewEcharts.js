@@ -389,7 +389,7 @@ class DataOverviewEcharts extends Component {
           title: {
               text: 'GNSS监测点1#',
               left:'center',
-              subtext: '2019年03月'
+              subtext: '2019年05月'
           },
           tooltip: {
               trigger: 'axis'
@@ -411,7 +411,8 @@ class DataOverviewEcharts extends Component {
           xAxis:  {//直角坐标系 grid 中的 x 轴，一般情况下单个 grid 组件最多只能放上下两个 x 轴，多于两个 x 轴需要通过配置 offset 属性防止同个位置多个 x 轴的重叠。
               type: 'category',//坐标轴类型。'value' 数值轴，适用于连续数据。'category' 类目轴，适用于离散的类目数据，'time' 时间轴，
               boundaryGap: false ,//坐标轴两边留白策略，类目轴和非类目轴的设置和表现不一样。
-              data:this.props.xdata
+              // data:this.props.xdata
+              data:["2019-05-15", "2019-05-16", "2019-05-17", "2019-05-18", "2019-05-19", "2019-05-20", "2019-05-21", "2019-05-22", "2019-05-23", "2019-05-24", "2019-05-25", "2019-05-26", "2019-05-27", "2019-05-28"]
           },
           yAxis: {
               type: 'value',
@@ -429,7 +430,7 @@ class DataOverviewEcharts extends Component {
               {
                   name:'水平位移',
                   type:'line',
-                  data:[11, 7, 15, 13, 12, 13, 10],
+                  data:[11, 7, 15, 13, 12, 13, 10,56,12,54,76,45,12,56],
                   // data:this.props.levelvalue,
                   // markPoint: {
                   //     data: [
@@ -446,7 +447,7 @@ class DataOverviewEcharts extends Component {
               {
                   name:'垂直位移',
                   type:'line',
-                  data:[-1, -12, -2, -5, -3, -2, -10],
+                  data:[-1, -12, -2, -5, -3, -2, -10,-12,-23,-9,-10,-18,-22,10],
                   // data:this.props.vertical,
                   // markPoint: {
                   //     data: [
