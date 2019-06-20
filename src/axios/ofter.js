@@ -82,16 +82,14 @@ export default class ofterajax {
         })
     }
 
-    static thresholdDotlist(projectid,cid) { //监测点列表
+    static thresholdDotlist(netid) { //监测点列表
         return new Promise((resolve, reject) => {
             axios.ajax({
-                baseURL:window.g.cuiURL,
+                baseURL:window.g.hongURL,
                 method: 'get',
-                url: '/api/getProjectList',
+                url: '/api/findMonitorNetDeviceList',
                 data: {
-                    pagesize:200,
-                    projectid,
-                    cid
+                    netid,
                 }
             }).then((res)=>{
                 resolve(res)

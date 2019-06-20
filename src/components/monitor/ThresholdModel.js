@@ -80,12 +80,12 @@ class ThresholdModel extends Component {
             }).then((res)=>{
                 console.log("res111",res);
                 if(res.success){
-                    this.props.form.setFieldsValue({
-                        lowvalue: res.data.minumum,//低阈值
-                        heightvalue:res.data.maximum,//高阈值itemid
-                        netname:res.data.netid,//
-                        equiptypeid:res.data.devicetype
-                    });
+                    // this.props.form.setFieldsValue({
+                    //     lowvalue: res.data.minumum,//低阈值
+                    //     heightvalue:res.data.maximum,//高阈值itemid
+                    //     netname:res.data.netid,//
+                    //     equiptypeid:res.data.devicetype
+                    // });
                 }
             });
         }
@@ -117,7 +117,8 @@ class ThresholdModel extends Component {
                   netid:values.netname,
                   maximum:values.heightvalue,
                   minumum:values.lowvalue,
-                  devicetype:values.equiptypeid
+                  devicetype:values.equiptypeid,
+                  memo:values.memo
               };
               if(this.state.type === 0){
                   axios.ajax({
@@ -228,7 +229,7 @@ class ThresholdModel extends Component {
     return (
       <div className="ThresholdModel">
         <Modal
-          title={this.props.title}
+            title="监测网阈值新增"
           visible={this.props.newShow}
           onCancel={this.reset}
           footer={null}
@@ -312,6 +313,20 @@ class ThresholdModel extends Component {
                       {/*getFieldDecorator('lowvalue')(*/}
                           {/*<InputNumber  key='memoInput' />*/}
                       {/*)*/}
+                  {/*}*/}
+              </FormItem>
+              <FormItem label='备注' key='memo'>
+                  {getFieldDecorator('memo', {
+                      // rules: [{
+                      //     required: true, message: '请输低阈值!',
+                      // }],
+                  })(
+                      <InputNumber  key='memoInput' />
+                  )}
+                  {/*{*/}
+                  {/*getFieldDecorator('lowvalue')(*/}
+                  {/*<InputNumber  key='memoInput' />*/}
+                  {/*)*/}
                   {/*}*/}
               </FormItem>
               <FormItem key="buts">
