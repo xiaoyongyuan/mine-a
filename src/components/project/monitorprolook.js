@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component,Fragment } from 'react';
 import {Button,message} from 'antd'
 import axios from '../../axios'
 import Utils from "../../utils/utils";
@@ -85,19 +85,23 @@ class Monitorprolook extends Component {
         title: '上传时间',
         dataIndex: 'createon',
       },{
-        title: '备注',
-        dataIndex: 'memo',
-      },{
         title: '操作',
         key:'option',
         dataIndex: 'register',
         render: (text,record) =>{
-          return(<div className="tableoption">
-              <a className="greencolor" onClick={()=>this.preview(record.filepath)}><Button type="primary">预览</Button></a>
-          <form method='GET' action='https://view.officeapps.live.com/op/view.aspx?src=api.aokecloud.cn/upload/椒图数据字典20190417.docx'>
-              <a type='submit' className="bluecolor"><Button type="primary">下载</Button></a>
-          </form>
-          </div>)
+          return(
+            <div className='tableoption'>
+              {
+                record.filepath?<Fragment><span className='greencolor'>预览预览</span>
+                <span className='bluecolor'>文档下载</span></Fragment>
+                :null
+              }
+              {
+                record.filepathcad?<span className='bluecolor'>CAD下载</span>
+                :null
+              }                
+            </div>
+          )
         }
       }];
     return (

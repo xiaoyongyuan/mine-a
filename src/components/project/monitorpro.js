@@ -11,13 +11,12 @@ import MonitEdit from "./MonitEdit"
 class monitorpro extends Component {
     state  ={
         newShow:false,
-        EditShow:false
+        EditShow:false,
+        toparams:{}
     };
     params={
         pageindex:1,
         itemtype:11,
-        createonbegin:'',
-        createonend:''
     };
 
     componentDidMount(){
@@ -49,7 +48,7 @@ class monitorpro extends Component {
     uploadOk=(params,id)=>{ //上传提交
         const _this=this;
         params.itemtype=11;
-
+        
         if(id && !this.state.idstates){
             this.setState({newShow:false});
             params.oldcode=id;
@@ -66,7 +65,13 @@ class monitorpro extends Component {
         }else{
             this.setState({newShow:false});
             this.setState({EditShow:false});
-            if(id)params.oldcode=id;
+            if(id){
+                const toparams=this.state.toparams;
+                params.oldcode=id;
+                params.itemtitle=toparams.itemtitle;
+                params.projectid=toparams.projectid;
+                params.projectname=toparams.projectname;
+            }
             axios.ajax({
                 baseURL:window.g.wangURL,
                 method: 'post',
@@ -79,13 +84,13 @@ class monitorpro extends Component {
                 });
 
         }
-
+        
     };
     changeState=(key,val)=>{
         this.setState({[key]:val})
     };
-    changeguih=(code,states)=>{ //变更
-        this.setState({id:code,EditShow:true,idstates:states})
+    changeguih=(record)=>{ //变更
+        this.setState({id:record.code,EditShow:true,idstates:record.states,toparams:record})
 
     }
     changestatus=(code)=>{
@@ -139,16 +144,16 @@ class monitorpro extends Component {
             render: (text,record) =>{
                 if(text==0) return(
                     <div className='tableoption'>
-                        <span className='yellowcolor'>修改</span>
-                        <a className='bluecolor' target="_blank"  href={"https://view.officeapps.live.com/op/view.aspx?src="+window.g.filelook+record.filepath}>预览</a>
+                        <span className='yellowcolor' onClick={()=>this.changeguih(record)}>修改</span>
+                        <span className='bluecolor'>预览</span>
                         <span className='bluecolor'>文档下载</span>
                         <span className='bluecolor'>CAD下载</span>
-                        <span className='greencolor'>执行</span>
+                        <span className='greencolor'  onClick={()=>this.changestatus(record.code)}>执行</span>
                     </div>)
                 else if(text==1) return(
                     <div className='tableoption'>
-                        <span className='yellowcolor'>变更</span>
-                        <a className='bluecolor' target="_blank"  href={"https://view.officeapps.live.com/op/view.aspx?src="+window.g.filelook+record.filepath}>预览</a>
+                        <span className='yellowcolor' onClick={()=>this.changeguih(record)}>变更</span>
+                        <span className='bluecolor'>预览</span>
                         <span className='bluecolor'>文档下载</span>
                         <span className='bluecolor'>CAD下载</span>
                         <a className='greencolor' href={'#/main/monitorprolook?id='+record.code}>查看</a>
