@@ -40,10 +40,11 @@ export default class ofterajax {
         return new Promise((resolve, reject) => {
            axios.ajax({
               // baseURL:window.g.cuiURL,
-               baseURL:window.g.bizserviceURL,
-              // baseURL:window.g.wangURL,
+              //  baseURL:window.g.bizserviceURL,
+              baseURL:window.g.wangURL,
               method: 'get',
-              url: '/api/getProjectAllItem',
+              // url: '/api/getProjectAllItem',
+               url: '/api/getProjectAll',
             }).then((res)=>{
                 resolve(res) 
             })  
