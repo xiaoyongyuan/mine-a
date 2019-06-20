@@ -165,7 +165,8 @@ class companyinfoEdit extends Component {
     };
     //取消
     handleCancleClick = () =>{
-        this.setState({
+        window.location.href="#/main/companyinfo";
+        /*this.setState({
             cname:this.state.oldcname,
             addrs:this.state.oldaddrs,
             logo:this.state.oldlogo,
@@ -181,7 +182,7 @@ class companyinfoEdit extends Component {
             projectemail:this.state.oldprojectemail,
             projectaddrs:this.state.oldprojectaddrs,
             zcaddrs:this.state.oldzcaddrs,
-        })
+        })*/
     };
     //输入企业名称
     InputonChange = (e) =>{
