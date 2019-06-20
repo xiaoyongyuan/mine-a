@@ -9,5 +9,5 @@ window.g = {
     wangURL:'http://192.168.10.29:8001/bizservice', //预案(确定)
     hongURL:'http://192.168.10.11:8001/bizservice',
     syshongURL:'http://192.168.10.11:8001/device',
-
+    filelook:'http://192.168.10.29:8001/sys', //查看文件
 };
