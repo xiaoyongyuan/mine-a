@@ -18,9 +18,10 @@ class Threshold extends Component {
   componentDidMount() {
       this.requestList();
   }
-    // params={
-    //   companycode:'1'
-    // };
+    params={
+      // companycode:'1'
+        pageindex:1
+    };
     uploadOk=(params)=>{ //上传提交
         this.setState({newShow:false});
         const _this=this;
