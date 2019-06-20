@@ -65,8 +65,8 @@ class CheckReport extends Component {
     changeState=(key,val)=>{
         this.setState({[key]:val})
     };
-   /* preview=(filepath)=>{ //预览文件
-        window.open('http://192.168.10.20:8004/sys/UploadFile/OfficeFile/1136541326366367744.docx')
+    /*preview=(filepath)=>{ //预览文件
+       window.open('http://192.168.10.20:8004/sys/UploadFile/OfficeFile/1136541326366367744.docx')
     };*/
     handleFilterSubmit=(params)=>{ //查询
         if(params.doubledata){
@@ -111,9 +111,9 @@ class CheckReport extends Component {
           dataIndex: 'register',
           render: (text,record) =>{
               return(<div className="tableoption">
-                  <a className="greencolor"  target="_blank" href={"https://view.officeapps.live.com/op/view.aspx?src="+window.g.filelook+record.filepath}  onClick={()=>this.preview(record.filepath)}><Button type="primary">预览</Button></a>
+                  <a className="greencolor" target="_blank"  href={"https://view.officeapps.live.com/op/view.aspx?src="+window.g.filelook+record.filepath}  onClick={()=>this.preview(record.filepath)}><Button type="primary">预览</Button></a>
                   <form method='GET' action='https://view.officeapps.live.com/op/view.aspx?src=api.aokecloud.cn/upload/椒图数据字典20190417.docx'>
-                     <a type='submit'  href={window.g.filelook+record.filepath} className="bluecolor"> <Button type="primary">下载</Button></a>
+                      <a type='submit' href={window.g.filelook+record.filepath} className="bluecolor"><Button type="primary">下载</Button></a>
                   </form>
               </div>)
           }
