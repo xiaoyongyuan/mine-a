@@ -5,43 +5,19 @@ import Utils from "../../utils/utils";
 import BaseForm from "../common/BaseForm"
 import Etable from "../common/Etable"
 import MonitModel from "./MonitModel"
+import MonitEdit from "./MonitEdit"
 
 
 class monitorpro extends Component {
     state  ={
-        newShow:false
+        newShow:false,
+        EditShow:false
     };
     params={
         pageindex:1,
         itemtype:11,
         createonbegin:'',
         createonend:''
-    };
-    formList={
-        type:'inline',
-        item:[
-            {
-                type: 'RANGPICKER',
-                label: '时间',
-                field:'doubledata',
-                placeholder:'请选择时间',
-                showTime:true,
-                format:'YYYY-MM-DD HH:mm:ss'
-            },{
-                type:'button',
-                button:[
-                    {
-                        label:'查询',
-                        type:"primary",
-                        click:'handleFilterSubmit',
-                    },
-                    {
-                        label:'重置',
-                        click:'reset',
-                    },
-                ]
-            }
-        ]
     };
 
     componentDidMount(){
@@ -70,35 +46,64 @@ class monitorpro extends Component {
     preview=(filepath)=>{ //预览文件
         window.open('http://192.168.10.20:8004/sys/UploadFile/OfficeFile/1136541326366367744.docx')
     };
-    handleFilterSubmit=(params)=>{ //查询
-        if(params.doubledata){
-            this.params.createonbegin=params.doubledata[0].format('YYYY-MM-DD HH:mm:ss');
-            this.params.createonend=params.doubledata[1].format('YYYY-MM-DD HH:mm:ss');
-        }else {
-            this.params.createonbegin = '';
-            this.params.createonend = ''
-        }
-        this.requestList();
-    };
-    uploadOk=(params)=>{ //上传提交
-        this.setState({newShow:false});
-        params.itemtype=11;
+    uploadOk=(params,id)=>{ //上传提交
         const _this=this;
-        axios.ajax({
-            baseURL:window.g.cuiURL,
-            method: 'post',
+        params.itemtype=11;
+
+        if(id && !this.state.idstates){
+            this.setState({newShow:false});
+            params.oldcode=id;
+            axios.ajax({
+            baseURL:window.g.wangURL,
+            method: 'put',
             url: '/api/itemfile',
             data: params
-        })
-            .then((res)=>{
+        }).then((res)=>{
                 if(res.success){
                     _this.requestList();
                 }else{message.warn(res.msg)}
             });
+        }else{
+            this.setState({newShow:false});
+            this.setState({EditShow:false});
+            if(id)params.oldcode=id;
+            axios.ajax({
+                baseURL:window.g.wangURL,
+                method: 'post',
+                url: '/api/itemfile',
+                data: params
+            }).then((res)=>{
+                    if(res.success){
+                        _this.requestList();
+                    }else{message.warn(res.msg)}
+                });
+
+        }
+
     };
     changeState=(key,val)=>{
         this.setState({[key]:val})
     };
+    changeguih=(code,states)=>{ //变更
+        this.setState({id:code,EditShow:true,idstates:states})
+
+    }
+    changestatus=(code)=>{
+        const _this=this;
+        axios.ajax({
+            baseURL:window.g.wangURL,
+            method: 'put',
+            url: '/api/itemfile',
+            data: {
+                states:'1',
+                code:code,
+            }
+        }).then((res)=>{
+            if(res.success){
+                _this.requestList();
+            }else{message.warn(res.msg)}
+        });
+    }
     render() {
         const columns=[{
             title: '序号',
@@ -161,7 +166,6 @@ class monitorpro extends Component {
             <div className="monitorpro">
                 <div className="selectForm">
                     <div className="leftForm">
-                        <BaseForm formList={this.formList} filterSubmit={this.handleFilterSubmit}/>
                     </div>
                     <div className="rightOpt">
                         <Button type="primary" onClick={()=>this.changeState('newShow',true)}>新增</Button>
@@ -174,7 +178,8 @@ class monitorpro extends Component {
                     dataSource={this.state.list}
                     pagination={this.state.pagination}
                 />
-                <MonitModel newShow={this.state.newShow} filterSubmit={this.uploadOk} uploadreset={()=>this.changeState('newShow',false)} />
+                <MonitModel newShow={this.state.newShow} filterSubmit={(params)=>this.uploadOk(params)} uploadreset={()=>this.changeState('newShow',false)} />
+                <MonitEdit newShow={this.state.EditShow} changeSubmit={(params)=>this.uploadOk(params,this.state.id)} uploadreset={()=>this.changeState('EditShow',false)} />
             </div>
         );
     }
