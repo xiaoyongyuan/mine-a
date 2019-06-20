@@ -321,13 +321,8 @@ class ThresholdModel extends Component {
                       //     required: true, message: '请输低阈值!',
                       // }],
                   })(
-                      <InputNumber  key='memoInput' />
+                      <Input  key='memoInput' />
                   )}
-                  {/*{*/}
-                  {/*getFieldDecorator('lowvalue')(*/}
-                  {/*<InputNumber  key='memoInput' />*/}
-                  {/*)*/}
-                  {/*}*/}
               </FormItem>
               <FormItem key="buts">
                 <Button type='primary' onClick={this.handleFilterSubmit}>确定</Button>

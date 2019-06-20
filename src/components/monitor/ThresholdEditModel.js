@@ -210,7 +210,7 @@ class ThresholdEditModel extends Component {
                       //     required: true, message: '请输低阈值!',
                       // }],
                   })(
-                      <InputNumber  key='memoInput' />
+                      <Input  key='memoInput' />
                   )}
               </FormItem>
               <FormItem key="buts">

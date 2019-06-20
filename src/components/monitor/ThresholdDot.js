@@ -12,6 +12,9 @@ class Threshold extends Component {
             newShow:false
         };
     }
+    params={
+        pageindex:1
+    };
 
     componentDidMount() {
         const ids=this.props.query.id;
@@ -61,9 +64,10 @@ class Threshold extends Component {
             });
     };
 
-    isstart = (code) =>{
+    isstart = (ifsys,code) =>{
         console.log("code",code);
-        if(code){
+        var that = this;
+        if(ifsys){
             this.setState({
                 title:"确认应用吗？"
             },()=>{
@@ -74,13 +78,17 @@ class Threshold extends Component {
                     cancelText: "取消",
                     onOk() {
                         axios.ajax({
-                            baseURL:window.g.easyURL,
+                            baseURL:window.g.hongURL,
                             method: 'put',
-                            url: '/threshold_net',
-                            data: code
+                            url: '/api/setUpMonitorDeviceIfsys',
+                            data: {
+                                code:code,
+                                ifsys:ifsys
+                            }
                         }).then((res)=>{
                             if(res.success){
                                 message.success('设置成功！');
+                                that.requestList();
                             }
                         });
                     }
@@ -97,13 +105,17 @@ class Threshold extends Component {
                     cancelText: "取消",
                     onOk() {
                         axios.ajax({
-                            baseURL:window.g.easyURL,
+                            baseURL:window.g.hongURL,
                             method: 'put',
-                            url: '/threshold_net',
-                            data: code
+                            url: '/api/setUpMonitorDeviceIfsys',
+                            data: {
+                                code:code,
+                                ifsys:ifsys
+                            }
                         }).then((res)=>{
                             if(res.success){
                                 message.success('设置成功！');
+                                that.requestList();
                             }
                         });
                     }
@@ -132,7 +144,7 @@ class Threshold extends Component {
             dataIndex: 'createon',
         },{
             title: '低阈值',
-            dataIndex: 'minimum',
+            dataIndex: 'minumum',
         },{
             title: '高阈值',
             dataIndex: 'maximum',
@@ -143,7 +155,7 @@ class Threshold extends Component {
                 return(
                     <div>
                     {
-                        record.states === 0?<span className="state-bg-not">未生效</span>:<span className="state-bg-normal">已生效</span>
+                        record.ifsys === '0'?<span className="state-bg-normal greencolor">已生效</span>:<span className="redcolor state-bg-not">未生效</span>
                     }
                     </div>
                 )
@@ -153,15 +165,19 @@ class Threshold extends Component {
             dataIndex: 'remark',
         },{
             title: '操作',
-            dataIndex: 'status',
+            dataIndex: 'ifsys',
             render:(text, record,index) =>{
                 return(
                     <div className="tableoption">
-                        {/*<a className="greencolor" onClick={()=>this.preview(record.filepath)}>预览</a>*/}
                         {
-                            text?
-                                <span className="redcolor" onClick={()=>this.isstart(0)}>解除</span>:
-                                <span className="greencolor" onClick={()=>this.isstart(1)}>应用</span>
+                            text === '0'?
+                                <span className="greencolor" onClick={()=>this.changeState('newShow',true,record.code)} >编辑</span>:
+                                ''
+                        }
+                        {
+                            text === '0'?
+                                <span className="redcolor" onClick={()=>this.isstart(1,record.code,)}>禁用</span>:
+                                <span className="greencolor" onClick={()=>this.isstart(0,record.code,)}>应用</span>
                         }
                     </div>
                 )
@@ -174,7 +190,7 @@ class Threshold extends Component {
                         {/*<BaseForm formList={this.formList} filterSubmit={this.handleFilterSubmit}/>*/}
                     </div>
                     <div className="rightOpt">
-                        <Button type="primary" onClick={()=>this.changeState('newShow',true)}><span className="actionfont action-xinzeng"/>&nbsp;&nbsp;新增</Button>
+                        {/*<Button type="primary" onClick={()=>this.changeState('newShow',true)}><span className="actionfont action-xinzeng"/>&nbsp;&nbsp;新增</Button>*/}
                     </div>
                 </div>
                 <Etable
@@ -182,7 +198,7 @@ class Threshold extends Component {
                     bordered
                     columns={columns}
                     dataSource={this.state.list}
-                    // pagination={this.state.pagination}
+                    pagination={this.state.pagination}
                 />
                 <ItemModel netid={this.state.code} code={this.state.code} newShow={this.state.newShow} filterSubmit={this.uploadOk} uploadreset={()=>this.changeState('newShow',false)} />
             </div>
