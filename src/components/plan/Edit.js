@@ -55,7 +55,7 @@ class Edit extends Component {
     };
   requestList=()=>{
     axios.ajax({
-        baseURL:'http://192.168.10.29:8002/bizservice',
+        baseURL:window.g.wangURL,
       method: 'get',
       url: '/api/getPlanById',
       data: {planId:this.state.code}
@@ -70,7 +70,7 @@ class Edit extends Component {
         const editorState = EditorState.createWithContent(contentState);
         this.setState({
           editorState:editorState, //内容
-          inputval:res.data.title, //标题
+          inputval:res.data.plantitle, //标题
             abstract:res.data.summary,//摘要
           selecttype:res.data.plantype //类别
         },()=>{
@@ -109,45 +109,38 @@ class Edit extends Component {
       });
   };
   getContent=(states)=>{ //获取内容
+
     const params={
         states, //是否为草稿
         planinfo:draftjstoh(convertToRaw(this.state.editorState.getCurrentContent())), //内容
-        title:this.state.inputval, //标题
+        plantitle:this.state.inputval, //标题
         plantype:this.state.selecttype, //类别
         summary:this.state.abstract,//摘要
     };
-    console.log("params",params);
-    // if(!params.content || !params.title || !params.selecttype) message.warn('请填写完整！');
-    // return;
+    console.log(params,'console.log(params)')
+    if(!params.planinfo || !params.plantitle || !params.plantype || !params.summary) message.warn('请填写完整！');
       const ids=this.props.query.id;
-     console.log("ids",ids);
      if(ids === undefined){
-         console.log("新增");
          axios.ajax({
-             baseURL:'http://192.168.10.29:8002/bizservice',
+             baseURL:window.g.wangURL,
              method: 'post',
              url: '/api/plan',
              data: params
          }).then((res)=>{
              if(res.success){
-                 message.success('新增成功！', 3);
-                 //返回上一页
-                 window.history.go(-1);
+                 message.success('新增成功！', 2).then(()=>window.history.go(-1));
              }
          });
      }else {
-         console.log("编辑");
          params.code=ids;
          axios.ajax({
-             baseURL:'http://192.168.10.29:8002/bizservice',
+           baseURL:window.g.wangURL,
              method: 'put',
              url: '/api/plan',
              data: params
          }).then((res)=>{
              if(res.success){
-                 message.success('编辑成功！', 3);
-                 //返回上一页
-                 window.history.go(-1);
+                 message.success('编辑成功！', 2).then(()=>window.history.go(-1));
              }
          });
      }

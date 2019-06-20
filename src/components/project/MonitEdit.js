@@ -34,9 +34,9 @@ class UploadModel extends Component {
     }
   reset = ()=>{ //取消表单
     this.setState({
-      excel:'',
+      filepathexcel:'',
       filepath:'',
-      filename_cad:''
+      filepathcad:''
     })
       this.props.form.resetFields();
       this.props.uploadreset()
@@ -46,6 +46,9 @@ class UploadModel extends Component {
       this.props.form.validateFields((err, values) => {
           if (!err) {
               var data=values;
+              if(!_this.state.filepath && !_this.state.filepathexcel && !_this.state.filepathcad){
+                return message.warn('请上传文件！')
+              } 
               data.filepath=_this.state.filepath
               data.filepathexcel=_this.state.filepathexcel
               data.filepathcad=_this.state.filepathcad
@@ -57,7 +60,6 @@ class UploadModel extends Component {
   };
 
   uploadchange=(info,fileurl)=>{ //上传文件
-    console.log('fileurlfileurl',info,fileurl)
         if (info.file.status === 'uploading') {
             this.setState({ loading: true });
             return;
@@ -77,7 +79,6 @@ class UploadModel extends Component {
     }
   removefile=(file,fileurl)=>{ //删除文件
     this.setState({[fileurl]:''})
-
   } 
 
   render() {
@@ -118,7 +119,7 @@ class UploadModel extends Component {
               <FormItem label='监测规划' key='modoc'>
                   {getFieldDecorator('filepath', {
                       rules: [{
-                            required: true,
+                            required: false,
                             message: '请上传word或pdf文件',
                           }],
                     })(
@@ -132,7 +133,7 @@ class UploadModel extends Component {
               <FormItem label='CAD' key='mocad'>
                   {getFieldDecorator('filepathcad', {
                       rules: [{
-                            required: true,
+                            required: false,
                             message: '请上传CAD文件',
                           }],
                     })(
@@ -146,7 +147,7 @@ class UploadModel extends Component {
               <FormItem label='Excel' key='moExcel'>
                   {getFieldDecorator('filepathexcel', {
                       rules: [{
-                            required: true,
+                            required: false,
                             message: '请上传Excel文件',
                           }],
                     })(

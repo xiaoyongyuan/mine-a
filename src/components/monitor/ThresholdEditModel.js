@@ -5,7 +5,7 @@ import axios from "../../axios";
 const FormItem = Form.Item;
 const Option = Select.Option;
 let vis=false;
-class ThresholdModel extends Component {
+class ThresholdEditModel extends Component {
   constructor(props){
     super(props);
     this.state={
@@ -80,12 +80,13 @@ class ThresholdModel extends Component {
             }).then((res)=>{
                 console.log("res111",res);
                 if(res.success){
-                    // this.props.form.setFieldsValue({
-                    //     lowvalue: res.data.minumum,//低阈值
-                    //     heightvalue:res.data.maximum,//高阈值itemid
-                    //     netname:res.data.netid,//
-                    //     equiptypeid:res.data.devicetype
-                    // });
+                    this.props.form.setFieldsValue({
+                        lowvalue: res.data.minumum,//低阈值
+                        heightvalue:res.data.maximum,//高阈值itemid
+                        netname:res.data.netid,//
+                        equiptypeid:res.data.devicetype,
+                        memo:res.data.memo
+                    });
                 }
             });
         }
@@ -103,6 +104,12 @@ class ThresholdModel extends Component {
         montinet:[],
         equiptype:[],
     });
+      this.props.form.setFieldsValue({
+          lowvalue: '',//低阈值
+          heightvalue:'',//高阈值itemid
+          netname:'',//
+          equiptypeid:''
+      });
       this.props.form.resetFields();
       this.props.uploadreset()
   };
@@ -120,100 +127,34 @@ class ThresholdModel extends Component {
                   devicetype:values.equiptypeid,
                   memo:values.memo
               };
-              if(this.state.type === 0){
-                  axios.ajax({
-                      baseURL:window.g.deviceURL,
-                      method: 'post',
-                      url: '/api/monitorDeviceType',
-                      data: data
-                  }).then((res)=>{
-                      const list=this.state.list;
-                      if(res.success){
-                          message.success('新增成功！', 3);
-                          this.setState({
-                              list:list
-                          });
-                      }
-                  }).catch((error)=>{
-                      console.log("error",error);
-                  });
-              }else {
-                  data.code=this.state.code;
-                  axios.ajax({
-                      baseURL:window.g.deviceURL,
-                      method: 'put',
-                      url: '/api/monitorDeviceType',
-                      data: data
-                  }).then((res)=>{
-                      const list=this.state.list;
-                      if(res.success){
-                          message.success('编辑成功！', 3);
-                          this.setState({
-                              list:list
-                          });
-                      }
-                  }).catch((error)=>{
-                      console.log("error",error);
-                  });
-              }
+              data.code=this.state.code;
+              axios.ajax({
+                  baseURL:window.g.deviceURL,
+                  method: 'put',
+                  url: '/api/monitorDeviceType',
+                  data: data
+              }).then((res)=>{
+                  const list=this.state.list;
+                  if(res.success){
+                      message.success('编辑成功！', 3);
+                      this.setState({
+                          list:list
+                      });
+                  }
+              }).catch((error)=>{
+                  console.log("error",error);
+              });
 
               // data.filename_cad=_this.state.cad;
               // data.filepath=_this.state.filepath;
               // data.excel=_this.state.excel;
+              this.props.uploadreset();
               _this.props.filterSubmit(data);
               _this.props.form.resetFields();
           }
       });
         
   };
-  //改变规划方案
-    projectidChange = (value) =>{
-        console.log("value",value);
-        ofteraxios.montinetlist(value).then(res=>{ //监测网列表
-            if(res.success){
-                console.log("res",res);
-                var montinet=[];
-                res.data.map(
-                    item=>montinet.push(
-                        {
-                            code:item.code,
-                            name:item.netname
-                        }
-                    )
-                );
-                this.setState(
-                    {
-                        montinet,
-                        selectmontinet:montinet.length?montinet[0].code:''
-                    }
-                )
-            }
-        });
-
-    };
-    //改变监测网
-    montinetidChange =(value)=>{
-        console.log("value",value);
-        ofteraxios.equiptypelist(value).then(res=>{ //设备类型列表
-            if(res.success){
-                var equiptype=[];
-                res.data.map(
-                    item=>equiptype.push(
-                        {
-                            code:item.devicetype,
-                            name:item.dname
-                        }
-                    )
-                );
-                this.setState(
-                    {
-                        equiptype,
-                        selectequiptype:equiptype.length?equiptype[0].code:''
-                    }
-                )
-            }
-        });
-    };
   render() {
     const { getFieldDecorator } = this.props.form;
     const formItemLayout = {
@@ -227,66 +168,14 @@ class ThresholdModel extends Component {
       },
     };
     return (
-      <div className="ThresholdModel">
+      <div className="ThresholdEditModel">
         <Modal
-            title="监测网阈值新增"
+          title="监测网阈值编辑"
           visible={this.props.newShow}
           onCancel={this.reset}
           footer={null}
         >
           <Form className='baseform' {...formItemLayout} >
-              <FormItem label='规划方案' key='projectid'>
-                  {
-                      getFieldDecorator('projectid', {
-                          rules:[{
-                              required: true,
-                              message: '请选择规划方案',
-                          }],
-                          initialValue: ' '
-                      })(
-                          <Select onChange={this.projectidChange}>
-                              {this.state.project.map(city => (
-                                  <Option key={city.code} value={city.code}>{city.name}</Option>
-                              ))}
-                          </Select>
-                      )
-                  }
-              </FormItem>
-              <FormItem label='监测网' key='netname'>
-                  {
-                      getFieldDecorator('netname', {
-                          rules:[{
-                              required: true,
-                              message: '请选择监测网',
-                          }],
-                          initialValue: ' '
-                      })(
-                          <Select onChange={this.montinetidChange}>
-                              {this.state.montinet.map(city => (
-                                  <Option key={city.code} value={city.code}>{city.name}</Option>
-                              ))}
-                          </Select>
-                      )
-                  }
-              </FormItem>
-              <FormItem label='设备类型' key='equiptypeid'>
-                {
-                    getFieldDecorator('equiptypeid', {
-                        rules:[{
-                          required: true,
-                          message: '请选设备类型',
-                        }],
-                        initialValue: ' '
-                    })(
-                        <Select>
-                          {this.state.equiptype.map(city => (
-                              <Option key={city.code} value={city.code}>{city.name}</Option>
-                          ))}     
-                        </Select>
-                      )
-                  }
-              </FormItem>
-
               <FormItem label='高阈值' key='heightvalue'>
                   {getFieldDecorator('heightvalue', {
                       rules: [{
@@ -323,11 +212,6 @@ class ThresholdModel extends Component {
                   })(
                       <InputNumber  key='memoInput' />
                   )}
-                  {/*{*/}
-                  {/*getFieldDecorator('lowvalue')(*/}
-                  {/*<InputNumber  key='memoInput' />*/}
-                  {/*)*/}
-                  {/*}*/}
               </FormItem>
               <FormItem key="buts">
                 <Button type='primary' onClick={this.handleFilterSubmit}>确定</Button>
@@ -340,5 +224,5 @@ class ThresholdModel extends Component {
   }
 }
 
-export default ThresholdModel=Form.create({})(ThresholdModel);
+export default ThresholdEditModel=Form.create({})(ThresholdEditModel);
 

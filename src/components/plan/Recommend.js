@@ -25,7 +25,6 @@ class Recommend extends Component {
     }
   }
     handleSizeChange = e => {
-      console.log("e",e);
         this.setState({
             recommendtype: e.target.value,
             pageindex:1,
@@ -39,7 +38,7 @@ class Recommend extends Component {
       this.params.recommendtype=this.state.recommendtype;
       this.params.plantype=this.state.selecttype || 0;
       axios.ajax({
-          baseURL:'http://192.168.10.29:8002/bizservice',
+        baseURL:window.g.wangURL,
         method: 'get',
         url: '/api/getPlanByRecommendtype',
           data:this.params,
@@ -51,7 +50,6 @@ class Recommend extends Component {
         // }
       }).then((res)=>{
         if(res.success){
-            console.log("res.data.length",res.data.length);
           this.setState({
               list:res.data,
               isempty:res.data.length,
@@ -82,24 +80,23 @@ class Recommend extends Component {
     };
   add(code) {
     const _this=this;
-        confirm({
-            title: '添加',
-            content: '确认添加至我的预案？',
-            onOk() {
-                axios.ajax({
-                  method: 'get',
-                  url: 'plan',
-                  data: {ids:code}
-                }).then((res)=>{
-                  if(res.success){
-                    _this.requestList()
-                  }
-                });
-            },
-        });
+      confirm({
+          title: '添加',
+          content: '确认添加至我的预案？',
+          onOk() {
+              axios.ajax({
+                method: 'get',
+                url: 'plan',
+                data: {ids:code}
+              }).then((res)=>{
+                if(res.success){
+                  _this.requestList()
+                }
+              });
+          },
+      });
     };
     handleChange=(selecttype)=>{ //选择类别
-        // console.log(`selected ${value}`);
         console.log("selecttype",selecttype);
         this.setState({selecttype,page:1,},()=>this.requestList())
     };
@@ -142,7 +139,7 @@ class Recommend extends Component {
                               <img src={icon} />
                             </div>
                             <div className="detname">
-                                <div className="plan-title">{v.title}</div>
+                                <div className="plan-title">{v.plantitle}</div>
                               {/*<div><span className="greencolor">{v.cname}</span> {v.khdate}</div>*/}
                                 <div><span className="greencolor">测试写死</span> 2019-10-12</div>
                                 <div className="intro">
@@ -179,7 +176,7 @@ class Recommend extends Component {
                   }
             </Row>
             </div>
-            <Pagination className="PaginationRight" {...this.state.pagination}/>
+            <Pagination className="PaginationRight" hideOnSinglePage {...this.state.pagination}/>
         </div>
       );
   }

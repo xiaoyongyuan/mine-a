@@ -40,10 +40,11 @@ export default class ofterajax {
         return new Promise((resolve, reject) => {
            axios.ajax({
               // baseURL:window.g.cuiURL,
-               baseURL:window.g.hongURL,
-              // baseURL:window.g.wangURL,
+              //  baseURL:window.g.bizserviceURL,
+              baseURL:window.g.wangURL,
               method: 'get',
-              url: '/api/getProjectAllItem',
+              // url: '/api/getProjectAllItem',
+               url: '/api/getProjectAll',
             }).then((res)=>{
                 resolve(res) 
             })  
@@ -81,16 +82,14 @@ export default class ofterajax {
         })
     }
 
-    static thresholdDotlist(projectid,cid) { //监测点列表
+    static thresholdDotlist(netid) { //监测点列表
         return new Promise((resolve, reject) => {
             axios.ajax({
-                baseURL:window.g.cuiURL,
+                baseURL:window.g.hongURL,
                 method: 'get',
-                url: '/api/getProjectList',
+                url: '/api/findMonitorNetDeviceList',
                 data: {
-                    pagesize:200,
-                    projectid,
-                    cid
+                    netid,
                 }
             }).then((res)=>{
                 resolve(res)

@@ -6,6 +6,7 @@ import axios from "../../axios";
 import Utils from "../../utils/utils";
 import {Link} from "react-router-dom";
 import ThresholdModel from "./ThresholdModel.js"
+import ThresholdEditModelModel from "./ThresholdEditModel.js"
 const confirm = Modal.confirm;
 class Threshold extends Component {
   constructor(props){
@@ -18,9 +19,10 @@ class Threshold extends Component {
   componentDidMount() {
       this.requestList();
   }
-    // params={
-    //   companycode:'1'
-    // };
+    params={
+      // companycode:'1'
+        pageindex:1
+    };
     uploadOk=(params)=>{ //上传提交
         this.setState({newShow:false});
         const _this=this;
@@ -39,21 +41,21 @@ class Threshold extends Component {
     changeState=(key,val)=>{
         this.setState({
             [key]:val,
-            title:'监测网阈值新增',
             type:0,
-        })
+            newEditShow:false,
+        });
     };
     showModelEdit = (key,val,code) =>{//编辑
         this.setState({
             [key]:val,
-            title:'监测网阈值编辑',
             code:code,
             type:1,
+            newShow:false
         })
     };
     requestList=()=>{
         axios.ajax({
-            baseURL:window.g.syshongURL,
+            baseURL:window.g.deviceURL,
             method: 'get',
             url: '/api/monitorDeviceType',
             data: this.params
@@ -69,7 +71,7 @@ class Threshold extends Component {
                 }
             });
     };
-    isstart = (states,code) =>{
+    isstart = (states,code,netid,devicetype) =>{
         var that = this;
         console.log("states",states);
         if(states === 0){
@@ -88,7 +90,9 @@ class Threshold extends Component {
                             url: 'api/updateMonitorDeviceTypeStatus',
                             data: {
                                 states:states,
-                                code:code
+                                code:code,
+                                netid:netid,
+                                devicetype:devicetype
                             }
                         }).then((res)=>{
                             if(res.success){
@@ -115,7 +119,9 @@ class Threshold extends Component {
                             url: 'api/updateMonitorDeviceTypeStatus',
                             data: {
                                 states:states,
-                                code:code
+                                code:code,
+                                netid:netid,
+                                devicetype:devicetype
                             }
                         }).then((res)=>{
                             if(res.success){
@@ -133,6 +139,9 @@ class Threshold extends Component {
             title: '序号',
             dataIndex: 'index',
             render: (text, record,index) => (index+1),
+        },{
+            title: '监测网id',
+            dataIndex: 'netid',
         },{
             title: '监测网',
             dataIndex: 'netname',
@@ -171,13 +180,13 @@ class Threshold extends Component {
             render: (text,record) =>{
                 return(
                     <div className="tableoption">
-                        <span className="greencolor" onClick={()=>this.showModelEdit('newShow',true,record.code)} >编辑</span>
+                        <span className="greencolor" onClick={()=>this.showModelEdit('newEditShow',true,record.code)} >编辑</span>
                         {
                             text === '0'?
-                                <span className="redcolor" onClick={()=>this.isstart(1,record.code)}>禁用</span>:
-                                <span className="greencolor" onClick={()=>this.isstart(0,record.code)}>应用</span>
+                                <span className="redcolor" onClick={()=>this.isstart(1,record.code,record.netid,record.devicetype)}>禁用</span>:
+                                <span className="greencolor" onClick={()=>this.isstart(0,record.code,record.netid,record.devicetype)}>应用</span>
                         }
-                        <Link className="detmain" to={'/main/thresholddot?id='+record.code}>
+                        <Link className="detmain" to={'/main/thresholddot?id='+record.netid}>
                             <span>查看点位阈值</span>
                         </Link>
                     </div>
@@ -201,7 +210,8 @@ class Threshold extends Component {
               dataSource={this.state.list}
               pagination={this.state.pagination}
           />
-          <ThresholdModel type={this.state.type} code={this.state.code} title={this.state.title} newShow={this.state.newShow} filterSubmit={this.uploadOk} uploadreset={()=>this.changeState('newShow',false)} />
+          <ThresholdModel type={this.state.type} code={this.state.code} newShow={this.state.newShow} filterSubmit={this.uploadOk} uploadreset={()=>this.changeState('newShow',false)} />
+          <ThresholdEditModelModel type={this.state.type} code={this.state.code} newShow={this.state.newEditShow} filterSubmit={this.uploadOk} uploadreset={()=>this.changeState('newShow',false)}/>
       </div>
     );
   }

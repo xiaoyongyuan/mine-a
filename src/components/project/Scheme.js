@@ -84,7 +84,7 @@ class Scheme extends Component {
         if(res.success){
           _this.params.projectname='';
           _this.params.pageindex=1;
-          message.success('操作成功！')
+          message.success('操作成功！');
           _this.requestList()
         }
       });

@@ -21,9 +21,9 @@ class Threshold extends Component {
     }
     requestList=()=>{
         axios.ajax({
-            baseURL:window.g.syshongURL,
+            baseURL:window.g.hongURL,
             method: 'get',
-            url: '/api/monitorThreshold',
+            url: '/api/findMonitordeviceThresholdList',
             data: {netid:this.state.code}
         })
             .then((res)=>{
@@ -122,8 +122,11 @@ class Threshold extends Component {
             dataIndex: 'index',
             render: (text, record,index) => (index+1),
         },{
-            title: '名称',
-            dataIndex: 'name',
+            title: '监测点code',
+            dataIndex: 'code',
+        },{
+            title: '监测点名称',
+            dataIndex: 'pointname',
         },{
             title: '生成时间',
             dataIndex: 'createon',
@@ -181,7 +184,7 @@ class Threshold extends Component {
                     dataSource={this.state.list}
                     // pagination={this.state.pagination}
                 />
-                <ItemModel cid={this.state.cid} code={this.state.code} newShow={this.state.newShow} filterSubmit={this.uploadOk} uploadreset={()=>this.changeState('newShow',false)} />
+                <ItemModel netid={this.state.code} code={this.state.code} newShow={this.state.newShow} filterSubmit={this.uploadOk} uploadreset={()=>this.changeState('newShow',false)} />
             </div>
         );
     }
