@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {Button,message} from 'antd'
+import {Button,message,Modal} from 'antd'
 import axios from '../../axios'
 import Utils from "../../utils/utils";
 import BaseForm from "../common/BaseForm"
@@ -7,7 +7,7 @@ import Etable from "../common/Etable"
 import MonitModel from "./MonitModel"
 import MonitEdit from "./MonitEdit"
 
-
+const confirm = Modal.confirm;
 class monitorpro extends Component {
     state  ={
         newShow:false,
@@ -95,19 +95,27 @@ class monitorpro extends Component {
     }
     changestatus=(code)=>{
         const _this=this;
-        axios.ajax({
-            baseURL:window.g.wangURL,
-            method: 'put',
-            url: '/api/itemfile',
-            data: {
-                states:'1',
-                code:code,
-            }
-        }).then((res)=>{
-            if(res.success){
-                _this.requestList();
-            }else{message.warn(res.msg)}
-        });
+
+      confirm({
+          title: '添加',
+          content: '确认添加至我的预案？',
+          onOk() {
+            axios.ajax({
+                baseURL:window.g.wangURL,
+                method: 'put',
+                url: '/api/itemfile',
+                data: {
+                    states:'1',
+                    code:code,
+                }
+            }).then((res)=>{
+                if(res.success){
+                    _this.requestList();
+                }else{message.warn(res.msg)}
+            });
+          }
+      });
+        
     }
     render() {
         const columns=[{

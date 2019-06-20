@@ -64,7 +64,7 @@ class Recommend extends Component {
   //查询下拉框内容
     requersPlantType = () =>{
         axios.ajax({
-            baseURL:window.g.wangURL,
+            baseURL:'http://192.168.10.29:8001/sys',
             method: 'get',
             url: '/api/findDictionaryByType',
             data: {
@@ -80,21 +80,21 @@ class Recommend extends Component {
     };
   add(code) {
     const _this=this;
-        confirm({
-            title: '添加',
-            content: '确认添加至我的预案？',
-            onOk() {
-                axios.ajax({
-                  method: 'get',
-                  url: 'plan',
-                  data: {ids:code}
-                }).then((res)=>{
-                  if(res.success){
-                    _this.requestList()
-                  }
-                });
-            },
-        });
+      confirm({
+          title: '添加',
+          content: '确认添加至我的预案？',
+          onOk() {
+              axios.ajax({
+                method: 'get',
+                url: 'plan',
+                data: {ids:code}
+              }).then((res)=>{
+                if(res.success){
+                  _this.requestList()
+                }
+              });
+          },
+      });
     };
     handleChange=(selecttype)=>{ //选择类别
         console.log("selecttype",selecttype);
@@ -176,7 +176,7 @@ class Recommend extends Component {
                   }
             </Row>
             </div>
-            <Pagination className="PaginationRight" {...this.state.pagination}/>
+            <Pagination className="PaginationRight" hideOnSinglePage {...this.state.pagination}/>
         </div>
       );
   }

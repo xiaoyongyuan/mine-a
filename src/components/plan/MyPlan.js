@@ -31,7 +31,6 @@ class MyPlan extends Component {
       this.getPlanByPlantype();
   }
   selectopt=(selecttype)=>{ //选择类别
-      console.log("selecttype",selecttype);
     this.setState({selecttype,page:1},()=>this.getPlanByPlantype())
   };
   requersPlantType = () =>{
@@ -157,7 +156,7 @@ class MyPlan extends Component {
                 }
           </Row>
           </div>
-          <Pagination className="PaginationRight" {...this.state.pagination}/>
+          <Pagination className="PaginationRight" hideOnSinglePage {...this.state.pagination}/>
       </div>
     );
   }
