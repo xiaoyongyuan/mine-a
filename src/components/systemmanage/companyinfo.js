@@ -63,7 +63,7 @@ class Companyinfo extends Component {
                       <Row>
                           <Col span={6} className="com-enterprise">企业LOGO</Col>
                           <Col span={18} className="enterprise-context">
-                              <img className="img-logo" src={"http://192.168.10.29:8001/sys/"+this.state.logo}/>
+                              <img className="img-logo" src={window.g.filelook+this.state.logo}/>
                           </Col>
                       </Row>
                   </Col>
