@@ -11,6 +11,7 @@ import Utils from "../../utils/utils";
 
 import "../../style/jhy/css/dotdetails.less";
 const bizserviceURL = window.g.bizserviceURL;
+const easyURL = window.g.easyURL;
 
 const { TabPane } = Tabs;
 class Dotdetails extends Component {
@@ -66,11 +67,14 @@ class Dotdetails extends Component {
     axios
       .ajax({
         method: "get",
-        url: bizserviceURL + "/api/monitorDataTransfer",
+        // url: "http://192.168.10.11:8001/bizservice/api/monitorDataTransfer",
+        url: easyURL + "/monitordotdata",
         data: {
-          deviceId: this.props.query.deviceId,
-          companyCode: this.props.query.companyCode,
-          deviceType: this.props.query.deviceType
+          // deviceId: this.props.query.deviceId,
+          // companyCode: this.props.query.companyCode,
+          // deviceType: this.props.query.deviceType
+          id: this.props.query.deviceId,
+          type: this.props.query.deviceType
         }
       })
       .then(res => {
@@ -82,25 +86,25 @@ class Dotdetails extends Component {
               pagination: Utils.pagination(res, current => {
                 this.params.pageindex = current;
                 this.getList();
-              })
-              // xdata: res.data.createon
+              }),
+              xdata: res.data.createon
             },
             () => {
               console.log(this.state.datalist);
-              // console.log("xdata", this.state.xdata);
-              // var xdata = [];
-              // var levelvalue = [];
-              // var vertical = [];
-              // res.data.map(item => xdata.push(item.createon.substring(0, 10)));
-              // res.data.map(item => levelvalue.push(item.x));
-              // res.data.map(item => vertical.push(item.y));
-              // console.log("xdata", xdata);
-              // console.log("levelvalue", levelvalue);
-              // this.setState({
-              //   xdata: xdata,
-              //   levelvalue: levelvalue,
-              //   vertical
-              // });
+              console.log("xdata", this.state.xdata);
+              var xdata = [];
+              var levelvalue = [];
+              var vertical = [];
+              res.data.map(item => xdata.push(item.createon.substring(0, 10)));
+              res.data.map(item => levelvalue.push(item.x));
+              res.data.map(item => vertical.push(item.y));
+              console.log("xdata", xdata);
+              console.log("levelvalue", levelvalue);
+              this.setState({
+                xdata: xdata,
+                levelvalue: levelvalue,
+                vertical
+              });
             }
           );
         }
@@ -110,7 +114,7 @@ class Dotdetails extends Component {
     // var that = this;
     const type = this.props.query.deviceType;
     // that.setState({
-    //     typeid:type
+    //   typeid: type
     // });
     var columns;
     switch (type) {
@@ -133,24 +137,27 @@ class Dotdetails extends Component {
               align: "center"
             },
             {
-              title: "垂直位移",
-              dataIndex: "y",
-              align: "center"
-            },
-            {
-              title: "统计时长",
-              dataIndex: "",
-              align: "center"
-            },
-            {
               title: "水平差值",
               dataIndex: "xdiff",
+              align: "center"
+            },
+            {
+              title: "垂直位移",
+              dataIndex: "y",
               align: "center"
             },
             {
               title: "垂直差值",
               dataIndex: "ydiff",
               align: "center"
+            },
+            {
+              title: "统计时长",
+              dataIndex: "",
+              align: "center",
+              render: () => {
+                return 1;
+              }
             }
           ];
         }
@@ -174,14 +181,17 @@ class Dotdetails extends Component {
               align: "center"
             },
             {
-              title: "统计时长",
-              dataIndex: "",
-              align: "center"
-            },
-            {
               title: "裂缝差值",
               dataIndex: "xdiff",
               align: "center"
+            },
+            {
+              title: "统计时长",
+              dataIndex: "",
+              align: "center",
+              render: () => {
+                return 1;
+              }
             }
           ];
         }
@@ -206,14 +216,17 @@ class Dotdetails extends Component {
               align: "center"
             },
             {
-              title: "统计时长",
-              dataIndex: "",
-              align: "center"
-            },
-            {
               title: "沉降差值",
               dataIndex: "xdiff",
               align: "center"
+            },
+            {
+              title: "统计时长",
+              dataIndex: "",
+              align: "center",
+              render: () => {
+                return 1;
+              }
             }
           ];
         }
@@ -245,7 +258,10 @@ class Dotdetails extends Component {
             {
               title: "统计时长",
               dataIndex: "",
-              align: "center"
+              align: "center",
+              render: () => {
+                return 1;
+              }
             }
           ];
         }
@@ -270,14 +286,17 @@ class Dotdetails extends Component {
               align: "center"
             },
             {
-              title: "统计时长",
-              dataIndex: "",
-              align: "center"
-            },
-            {
               title: "水压差值",
               dataIndex: "xdiff",
               align: "center"
+            },
+            {
+              title: "统计时长",
+              dataIndex: "",
+              align: "center",
+              render: () => {
+                return 1;
+              }
             }
           ];
         }
@@ -297,6 +316,11 @@ class Dotdetails extends Component {
               align: "center"
             },
             {
+              title: "水位差值",
+              dataIndex: "ydiff",
+              align: "center"
+            },
+            {
               title: "水位值",
               dataIndex: "x",
               align: "center"
@@ -304,12 +328,10 @@ class Dotdetails extends Component {
             {
               title: "统计时长",
               dataIndex: "",
-              align: "center"
-            },
-            {
-              title: "水位差值",
-              dataIndex: "ydiff",
-              align: "center"
+              align: "center",
+              render: () => {
+                return 1;
+              }
             }
           ];
         }
@@ -334,19 +356,23 @@ class Dotdetails extends Component {
               align: "center"
             },
             {
-              title: "统计时长",
-              dataIndex: "",
-              align: "center"
-            },
-            {
               title: "水平差值",
               dataIndex: "xdiff",
               align: "center"
             },
+
             {
               title: "水分率差值",
               dataIndex: "ydiff",
               align: "center"
+            },
+            {
+              title: "统计时长",
+              dataIndex: "",
+              align: "center",
+              render: () => {
+                return 1;
+              }
             }
           ];
         }
@@ -371,14 +397,17 @@ class Dotdetails extends Component {
               align: "center"
             },
             {
-              title: "统计时长",
-              dataIndex: "",
-              align: "center"
-            },
-            {
               title: "雨量差值",
               dataIndex: "ydiff",
               align: "center"
+            },
+            {
+              title: "统计时长",
+              dataIndex: "",
+              align: "center",
+              render: () => {
+                return 1;
+              }
             }
           ];
         }
@@ -416,12 +445,12 @@ class Dotdetails extends Component {
             />
           </TabPane>
           <TabPane tab="曲线图" key="2">
-            {/* <CurveChart
+            <CurveChart
               typeid={this.props.query.code}
               xdata={this.state.xdata}
               levelvalue={this.state.levelvalue}
               vertical={this.state.vertical}
-            /> */}
+            />
           </TabPane>
           <TabPane tab="报警信息" key="3">
             <AlarmInfo netid={this.state.netid} cid={this.state.cid} />
