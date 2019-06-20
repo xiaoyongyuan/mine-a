@@ -43,7 +43,6 @@ import Detailplan from './plan/detailplan'
 //项目管理
 import Scheme from './project/Scheme'
 import Funds from './project/Funds'
-import Addproject from './project/addproject'
 import Monitorpro from './project/monitorpro'
 import AssessRepro from './project/AssessRepro'
 import SurveyRepro from './project/SurveyRepro'
@@ -77,7 +76,7 @@ export default {
   Insarmanage,Aquifermanage,Landformmanage,Pollutionmanage,Soilmanage,
   Monitor,ClaaMonitor,Evideo,
   MyPlan,Recommend,Edit,Detailplan,Lookplan,
-  Scheme,Funds,Addproject,Monitorpro,AssessRepro,SurveyRepro,ProspectRepro,Supervisor,MonitorRepro,Monitorprolook,Treatment,CheckAccept,
+  Scheme,Funds,Monitorpro,AssessRepro,SurveyRepro,ProspectRepro,Supervisor,MonitorRepro,Monitorprolook,Treatment,CheckAccept,
   Dotequip,Threshold,ThresholdDot,Warning,Dotdetails,
   Companyinfo,Userinfo,DesignRepro,Construction,Equipmanage,Basicdata,companyinfoEdit
 };

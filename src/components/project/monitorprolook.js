@@ -92,7 +92,7 @@ class Monitorprolook extends Component {
           return(
             <div className='tableoption'>
               {
-                record.filepath?<Fragment><span className='greencolor'>预览预览</span>
+                record.filepath?<Fragment><span className='greencolor'>预览</span>
                 <span className='bluecolor'>文档下载</span></Fragment>
                 :null
               }

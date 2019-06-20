@@ -85,13 +85,6 @@ class SurveyRepro extends Component {
     handleFilterSubmit=(params)=>{ //查询
       console.log(params,'paramsparamsparams')
       this.params.projectid=params.projectid;
-      // if(params.doubledata){
-      //   this.params.createonbegin=params.doubledata[0].format('YYYY-MM-DD HH:mm:ss');
-      //   this.params.createonend=params.doubledata[1].format('YYYY-MM-DD HH:mm:ss');
-      // }else {
-      //     this.params.createonbegin = '';
-      //     this.params.createonend = ''
-      // }
       this.requestList();
     };
     uploadOk=(params)=>{ //上传提交
