@@ -67,6 +67,8 @@ class Userinfo extends Component {
             if (!err) {
                 const data={
                     account:values.account,
+                    linktel:values.linktel,
+                    realanme:values.realanme,
                 };
                 if(this.state.type === 0){
                     //新增');
@@ -142,7 +144,6 @@ class Userinfo extends Component {
             url: '/api/companyUser',
             data: quparams
         }).then((res)=>{
-            console.log("res",res);
             if(res.success){
                 this.setState({
                     list:res.data,
@@ -242,10 +243,10 @@ class Userinfo extends Component {
             render: (text, record,index) => (index+1),
         },{
             title: '姓名',
-            dataIndex: 'username',
+            dataIndex: 'realanme',
         },{
             title: '电话',
-            dataIndex: 'tel',
+            dataIndex: 'linktel',
         },{
             title: '工号',
             dataIndex: 'account',

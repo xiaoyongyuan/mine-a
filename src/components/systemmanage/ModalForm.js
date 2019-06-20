@@ -40,16 +40,15 @@ class ModalForm extends Component{
             const data={
                 code:this.state.code,
             };
-            console.log("hhhcode出阿里",data);
             axios.ajax({
                 method: 'get',
                 url: '/api/companyUserById',
                 data: data
             }).then((res)=>{
-                console.log("res111",res);
                 if(res.success){
                     this.props.form.setFieldsValue({
-                        // tel: res.data.code,//手机号
+                        linktel:res.data.linktel,//电话
+                        realanme:res.data.realanme,//姓名
                         account:res.data.account,//工号
                     });
                 }
@@ -75,19 +74,19 @@ class ModalForm extends Component{
             <div className="tc-label">
                 <Form {...formItemLayout}  layout="vertical">
                     <FormItem label="姓名：">
-                        {getFieldDecorator('name', {
+                        {getFieldDecorator('realanme', {
                             rules: [{
-                                // required: true, message: '请输入姓名!',
+                                 required: true, message: '请输入姓名!',
                             }],
                         })(
                             <Input className="ModelFormInput" />
                         )}
                     </FormItem>
                     <FormItem label="电话：">
-                        {getFieldDecorator('tel', {
+                        {getFieldDecorator('linktel', {
                             rules: [{
-                                // required: true, message: '请输入手机号!',
-                                // pattern: new RegExp(/^1(3|4|5|6|7|8|9)\d{9}$/, "g")
+                                required: true, message: '请输入手机号!',
+                                pattern: new RegExp(/^1(3|4|5|6|7|8|9)\d{9}$/, "g")
                             }],
                         })(
                             <Input className="ModelFormInput" />
@@ -105,7 +104,7 @@ class ModalForm extends Component{
                     <FormItem label="职位：">
                         {getFieldDecorator('position', {
                             rules: [{
-                                required: false,
+                                required: false
                             }],
                         })(
                             <Input className="ModelFormInput" />
