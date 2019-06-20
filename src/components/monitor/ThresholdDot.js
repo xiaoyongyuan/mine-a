@@ -17,14 +17,14 @@ class Threshold extends Component {
         const ids=this.props.query.id;
         const cid=this.props.query.cid;
         console.log("cid",cid);
-        if(ids) this.setState({code:ids,cid:cid},()=>this.requestList());
+        if(ids) this.setState({code:ids},()=>this.requestList());
     }
     requestList=()=>{
         axios.ajax({
-            baseURL:window.g.easyURL,
+            baseURL:window.g.syshongURL,
             method: 'get',
-            url: '/thresholddotlist',
-            data: {planId:this.state.code}
+            url: '/api/monitorThreshold',
+            data: {netid:this.state.code}
         })
             .then((res)=>{
                 if(res.success){
@@ -129,10 +129,10 @@ class Threshold extends Component {
             dataIndex: 'createon',
         },{
             title: '低阈值',
-            dataIndex: 'lower',
+            dataIndex: 'minimum',
         },{
             title: '高阈值',
-            dataIndex: 'high',
+            dataIndex: 'maximum',
         },{
             title: '状态',
             // dataIndex: 'status',
@@ -140,13 +140,16 @@ class Threshold extends Component {
                 return(
                     <div>
                     {
-                        record.status === 0?<span className="state-bg-not">未生效</span>:<span className="state-bg-normal">已生效</span>
+                        record.states === 0?<span className="state-bg-not">未生效</span>:<span className="state-bg-normal">已生效</span>
                     }
                     </div>
                 )
             }
         },{
-            title: '监测网阈值',
+            title: '备注',
+            dataIndex: 'remark',
+        },{
+            title: '操作',
             dataIndex: 'status',
             render:(text, record,index) =>{
                 return(
@@ -160,9 +163,6 @@ class Threshold extends Component {
                     </div>
                 )
             }
-        },{
-            title: '备注',
-            dataIndex: 'remark',
         },];
         return (
             <div className="Threshold">

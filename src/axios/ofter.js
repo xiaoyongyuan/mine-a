@@ -39,7 +39,9 @@ export default class ofterajax {
     static projectlist() { //项目方案列表
         return new Promise((resolve, reject) => {
            axios.ajax({
-              baseURL:window.g.wangURL,
+              // baseURL:window.g.cuiURL,
+               baseURL:window.g.hongURL,
+              // baseURL:window.g.wangURL,
               method: 'get',
               url: '/api/getProjectAllItem',
             }).then((res)=>{
@@ -47,30 +49,31 @@ export default class ofterajax {
             })  
         })
     }
-    static montinetlist() { //监测网列表
+    static montinetlist(value) { //监测网列表
+        console.log("hhhwww",value);
         return new Promise((resolve, reject) => {
             axios.ajax({
-                baseURL:window.g.sysURL,
+                baseURL:window.g.deviceURL,
                 method: 'get',
-                url: '/api/findDictionaryByType',
+                url: '/api/monitorNetAll',
                 data: {
                     pagesize:200,
-                    dtype:'MONITORNET'
+                    itemid:value
                 }
             }).then((res)=>{
                 resolve(res)
             })
         })
     }
-    static equiptypelist() { //设备类型列表
+    static equiptypelist(value) { //设备类型列表
         return new Promise((resolve, reject) => {
             axios.ajax({
-                baseURL:window.g.sysURL,
+                baseURL:window.g.syshongURL,
                 method: 'get',
-                url: '/api/findDictionaryByType',
+                url: '/api/monitorDeviceTypeAll',
                 data: {
-                    pagesize:200,
-                    dtype:'DEVICETYPE'
+                    // pagesize:200,
+                    netid:value,
                 }
             }).then((res)=>{
                 resolve(res)

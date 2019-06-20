@@ -99,6 +99,7 @@ class Scheme extends Component {
         dataIndex: 'index',
         render: (text, record,index) => (index+1),
       },{
+        // title: '文件名',
         title: '项目名称',
         dataIndex: 'projectname',
       },{
