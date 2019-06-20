@@ -111,11 +111,8 @@ class Dotdetails extends Component {
       });
   };
   getColumns = () => {
-    // var that = this;
     const type = this.props.query.deviceType;
-    // that.setState({
-    //   typeid: type
-    // });
+
     var columns;
     switch (type) {
       case "1":
@@ -446,7 +443,7 @@ class Dotdetails extends Component {
           </TabPane>
           <TabPane tab="曲线图" key="2">
             <CurveChart
-              typeid={this.props.query.code}
+              typeid={this.props.query.deviceId}
               xdata={this.state.xdata}
               levelvalue={this.state.levelvalue}
               vertical={this.state.vertical}
