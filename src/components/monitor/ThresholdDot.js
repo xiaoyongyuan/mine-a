@@ -74,6 +74,33 @@ class Threshold extends Component {
         var that = this;
         if(ifsys){
             this.setState({
+                title:"确认禁用吗？"
+            },()=>{
+                confirm({
+                    title: this.state.title,
+                    okText: "确认",
+                    okType: "danger",
+                    cancelText: "取消",
+                    onOk() {
+                        axios.ajax({
+                            baseURL:window.g.hongURL,
+                            method: 'put',
+                            url: '/api/setUpMonitorDeviceIfsys',
+                            data: {
+                                code:code,
+                                ifsys:ifsys
+                            }
+                        }).then((res)=>{
+                            if(res.success){
+                                message.success('禁用成功！');
+                                that.requestList();
+                            }
+                        });
+                    }
+                });
+            })
+        }else{
+            this.setState({
                 title:"确认应用吗？"
             },()=>{
                 confirm({
@@ -92,34 +119,7 @@ class Threshold extends Component {
                             }
                         }).then((res)=>{
                             if(res.success){
-                                message.success('设置成功！');
-                                that.requestList();
-                            }
-                        });
-                    }
-                });
-            })
-        }else{
-            this.setState({
-                title:"确认解除吗？"
-            },()=>{
-                confirm({
-                    title: this.state.title,
-                    okText: "确认",
-                    okType: "danger",
-                    cancelText: "取消",
-                    onOk() {
-                        axios.ajax({
-                            baseURL:window.g.hongURL,
-                            method: 'put',
-                            url: '/api/setUpMonitorDeviceIfsys',
-                            data: {
-                                code:code,
-                                ifsys:ifsys
-                            }
-                        }).then((res)=>{
-                            if(res.success){
-                                message.success('设置成功！');
+                                message.success('应用成功！');
                                 that.requestList();
                             }
                         });
@@ -138,9 +138,6 @@ class Threshold extends Component {
             title: '序号',
             dataIndex: 'index',
             render: (text, record,index) => (index+1),
-        },{
-            title: '监测点code',
-            dataIndex: 'code',
         },{
             title: '监测点名称',
             dataIndex: 'pointname',
