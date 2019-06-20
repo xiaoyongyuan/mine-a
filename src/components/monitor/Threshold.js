@@ -140,9 +140,6 @@ class Threshold extends Component {
             dataIndex: 'index',
             render: (text, record,index) => (index+1),
         },{
-            title: '监测网id',
-            dataIndex: 'netid',
-        },{
             title: '监测网',
             dataIndex: 'netname',
         },{
