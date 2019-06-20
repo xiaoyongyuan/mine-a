@@ -66,7 +66,7 @@ export default class Axios {
             loading.style.display = 'block';
         }
         return new Promise((resolve,reject)=>{
-            axios.post('http://192.168.10.12:8006/oauth/login/login',options.data)
+            axios.post(window.g.loginurl+'/oauth/login/login',options.data)
                 .then((response)=>{
                     if (options.isShowLoading !== false) {
                         loading = document.getElementById('ajaxLoading');
@@ -91,7 +91,7 @@ export default class Axios {
         return new Promise((resolve,reject)=>{
             axios({
                 method:'get',
-                url: 'http://192.168.10.12:8001/login/exit',
+                url: window.g.exiturl+'/login/exit',
                 params:{
                     token:localStorage.getItem("token")
                 },
