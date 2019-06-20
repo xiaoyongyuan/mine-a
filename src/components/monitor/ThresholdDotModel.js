@@ -3,6 +3,7 @@ import {Modal,InputNumber, Select, Form, Button} from 'antd'
 import ofteraxios from '../../axios/ofter'
 const FormItem = Form.Item;
 const Option = Select.Option;
+let vis=false;
 class ItemModel extends Component {
   constructor(props){
     super(props);
@@ -19,14 +20,25 @@ class ItemModel extends Component {
 
   }
   componentWillReceiveProps(nextProps){
-      if(nextProps.newShow){
-          ofteraxios.thresholdDotlist(this.props.code,this.props.cid).then(res=>{ //监测点列表
-              if(res.success){
-                  var project=[];
-                  res.data.map(item=>project.push({code:item.code,name:item.title}));
-                  this.setState({project,selectp:project.length?project[0].code:''})
-              }
-          })
+      if( nextProps.newShow !== vis){
+          vis=nextProps.newShow;
+          if(nextProps.newShow){
+              ofteraxios.thresholdDotlist(this.props.netid).then(res=>{ //监测点列表
+                  if(res.success){
+                      var project=[];
+                      res.data.map(item=>project.push({code:item.code,name:item.pointname}));
+                      this.setState({project,selectp:project.length?project[0].code:''})
+                  }
+              })
+
+              // this.setState({
+              //     code:nextProps.code,
+              //     type:nextProps.type
+              // }, () => {
+              //     this.requestdata();
+              // });
+
+          }
       }
   }
   componentDidMount(){
@@ -44,6 +56,7 @@ class ItemModel extends Component {
   handleFilterSubmit = ()=>{//查询提交
     const _this=this;
       this.props.form.validateFields((err, values) => {
+          console.log("values234",values);
           if (!err) {
               var data=values;
               // data.filename_cad=_this.state.cad;

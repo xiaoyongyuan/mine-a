@@ -24,7 +24,7 @@ class UploadModel extends Component {
       showUploadList:true,
       multiple:false,
       name:"file" , 
-      action:"http://192.168.10.20:8004/sys/api/uploadFile", //上传地址
+      action:"http://192.168.10.29:8001/sys/api/uploadFile", //上传地址
     }
   }
   changeState=(key,val)=>{
@@ -56,10 +56,10 @@ class UploadModel extends Component {
       this.props.form.validateFields((err, values) => {
           if (!err) {
               var data=values;
-              data.filename_cad=_this.state.cad
               data.itemtype=2
               data.filepath=_this.state.filepath
-              data.excel=_this.state.excel
+              data.filepathexcel=_this.state.filepathexcel
+              data.filepathcad=_this.state.filepathcad
               _this.props.filterSubmit(data);
               _this.props.form.resetFields();
           }
@@ -97,7 +97,7 @@ class UploadModel extends Component {
         method: 'get',
         url: '/api/checkitemFile',
         data: {
-          itemType:11,
+          itemtype:11,
           projectid:value
         }
     }).then((res)=>{
