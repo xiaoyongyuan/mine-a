@@ -89,7 +89,7 @@ class SurveyRepro extends Component {
     };
     uploadOk=(params)=>{ //上传提交
       this.setState({newShow:false});
-      params.itemtype=5;
+      params.itemtype=10;
       const _this=this;
       axios.ajax({
         baseURL:window.g.cuiURL,
