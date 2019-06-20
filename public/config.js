@@ -10,4 +10,6 @@ window.g = {
     hongURL:'http://192.168.10.11:8001/bizservice',
     syshongURL:'http://192.168.10.11:8001/device',
     filelook:'http://192.168.10.29:8001/sys', //查看文件
+    loginurl:'http://192.168.10.29:8001', //登录退出
+    exiturl:'http://192.168.10.29:8006', //登录退出
 };

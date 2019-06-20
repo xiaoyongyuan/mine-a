@@ -258,12 +258,12 @@ export default {
   ],
   other: [
     {
-      title: "富文本编辑",
+      title: "预案编辑",
       key: "/main/edit",
       component: "Edit"
     },
     {
-      title: "富文本编辑",
+      title: "查看详情",
       key: "/main/lookplan",
       component: "Lookplan"
     },
@@ -278,7 +278,7 @@ export default {
       component: "ThresholdDot"
     },
     {
-      title: "监测规划变更",
+      title: "监测规划变更记录",
       key: "/main/monitorprolook",
       component: "Monitorprolook"
     },

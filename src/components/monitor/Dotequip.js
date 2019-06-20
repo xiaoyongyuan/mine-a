@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import {
   Row,
   Col,
+  Icon,
   Radio,
   Button,
   Modal,
@@ -81,7 +82,7 @@ class Dotequip extends Component {
       },
       {
         title: "设备类型",
-        dataIndex: "devicetype",
+        dataIndex: "dname",
         align: "center"
       },
       {
@@ -301,7 +302,7 @@ class Dotequip extends Component {
     axios
       .ajax({
         method: "get",
-        url: bizserviceURL + "/api/getMonitordeviceList",
+        url: bizserviceURL + "/api/findMonitordeviceThresholdList",
         data: {
           itemid: this.state.projSelected
             ? this.state.projSelected
@@ -465,6 +466,7 @@ class Dotequip extends Component {
         <Select
           defaultValue={this.state.projectList[0].value}
           placeholder="请选择规划"
+          dropdownClassName="dotselect"
           onChange={val => {
             this.handSelectP(val);
           }}
@@ -485,6 +487,7 @@ class Dotequip extends Component {
         <Select
           defaultValue={this.state.typeList[0].value}
           placeholder="请选择监测网"
+          dropdownClassName="dotselect"
           onChange={val => {
             this.handSelectM(val);
           }}
@@ -498,32 +501,55 @@ class Dotequip extends Component {
     return (
       <div className="dotequip">
         <div className="optbox">
-          <table>
-            <thead>
-              <tr>
-                <th>监测规划</th>
-                <th>监测网</th>
-                <th>监测设备个数</th>
-                <th>文档查看</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>{this.selprorender()}</td>
-                <td>{this.seltyperender()}</td>
-                <td>{this.state.deviceCount}</td>
-                <td>
-                  <a
-                    href={`https://view.officeapps.live.com/op/view.aspx?src=${
-                      this.state.filepath
-                    }`}
-                  >
-                    查看
-                  </a>
-                </td>
-              </tr>
-            </tbody>
-          </table>
+          <Row type="flex" justify="arrangement" gutter={16} align="middle">
+            <Col span={2}>
+              <span className="label block">监测规划</span>
+            </Col>
+            <Col span={4}> {this.selprorender()}</Col>
+            <Col span={3}>
+              <span className="cont block">
+                <span className="tit block">
+                  <Icon
+                    type="file-text"
+                    style={{ display: "inline-block", marginRight: "2px" }}
+                  />
+                  监测设备
+                </span>
+                <span className="cotrg block">{this.state.deviceCount}/个</span>
+              </span>
+            </Col>
+          </Row>
+          <Row
+            type="flex"
+            justify="arrangement"
+            gutter={16}
+            align="middle"
+            style={{ marginTop: "10px" }}
+          >
+            <Col span={2}>
+              <span className="label block">监测网</span>
+            </Col>
+            <Col span={4}> {this.seltyperender()}</Col>
+            <Col span={3}>
+              <span className="cont block">
+                <span className="tit block">
+                  <Icon
+                    type="cluster"
+                    style={{ display: "inline-block", marginRight: "2px" }}
+                  />
+                  文档查看
+                </span>
+                <a
+                  className="cotrg block"
+                  href={`https://view.officeapps.live.com/op/view.aspx?src=${
+                    this.state.filepath
+                  }`}
+                >
+                  查看
+                </a>
+              </span>
+            </Col>
+          </Row>
         </div>
         <div className="devicelist" style={{ marginTop: "10px" }}>
           <Table
