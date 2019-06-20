@@ -3,6 +3,8 @@ import BaseForm from "../common/BaseForm";
 import axios from "../../axios";
 import moment from "moment";
 import Table from "../common/Etable";
+import Utils from "../../utils/utils";
+
 const easyURL = window.g.easyURL;
 
 class AlarmInfo extends Component {
@@ -12,7 +14,8 @@ class AlarmInfo extends Component {
       datalist: [],
       alarmtype: "",
       begintime: "",
-      endtime: ""
+      endtime: "",
+      pagination: []
     };
   }
   formList = {
@@ -112,7 +115,10 @@ class AlarmInfo extends Component {
         if (res.success) {
           this.setState(
             {
-              datalist: res.data
+              datalist: res.data,
+              pagination: Utils.pagination(res, current => {
+                this.getList();
+              })
             },
             () => {}
           );
@@ -145,7 +151,11 @@ class AlarmInfo extends Component {
           filterSubmit={this.handleFilterSubmit}
         />
 
-        <Table columns={this.columns} dataSource={this.state.datalist} />
+        <Table
+          columns={this.columns}
+          dataSource={this.state.datalist}
+          pagination={this.state.pagination}
+        />
       </div>
     );
   }

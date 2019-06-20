@@ -14,6 +14,8 @@ import axios from "../../axios";
 import moment from "moment";
 import Table from "../common/Etable";
 import Form from "../common/BaseForm";
+import Utils from "../../utils/utils";
+
 import "../../style/jhy/css/dotequip.less";
 const confirm = Modal.confirm;
 const bizserviceURL = window.g.bizserviceURL;
@@ -32,7 +34,12 @@ class Dotequip extends Component {
       tableData: [], //
       bindmodalshow: false, //
       bindDevId: "", //绑定设备id
-      bindCodeId: "" //绑定code
+      bindCodeId: "", //绑定code
+      pagination: []
+    };
+    this.params = {
+      pageindex: 1,
+      pagesize: 10
     };
     this.columns = [
       {
@@ -228,7 +235,7 @@ class Dotequip extends Component {
             var plist = [];
             res.data.map(v => {
               plist.push({
-                label: v.title,
+                label: v.projectname,
                 value: v.code
               });
             });
@@ -300,7 +307,11 @@ class Dotequip extends Component {
         console.log(res, "设备");
         if (res.success) {
           this.setState({
-            tableData: res.data
+            tableData: res.data,
+            pagination: Utils.pagination(res, current => {
+              this.params.pageindex = current;
+              this.getDeviceList();
+            })
           });
         }
       });
@@ -489,7 +500,11 @@ class Dotequip extends Component {
           </table>
         </div>
         <div className="devicelist" style={{ marginTop: "10px" }}>
-          <Table columns={this.columns} dataSource={this.state.tableData} />
+          <Table
+            columns={this.columns}
+            dataSource={this.state.tableData}
+            pagination={this.state.pagination}
+          />
         </div>
         <Modal
           centered={true}

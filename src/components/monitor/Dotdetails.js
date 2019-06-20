@@ -7,8 +7,9 @@ import Table from "../common/Etable";
 import CurveChart from "./CurveChart";
 import AlarmInfo from "./AlarmInfo";
 import CheckReport from "./CheckReport.js";
+import Utils from "../../utils/utils";
+
 import "../../style/jhy/css/dotdetails.less";
-const easyURL = window.g.easyURL;
 const bizserviceURL = window.g.bizserviceURL;
 
 const { TabPane } = Tabs;
@@ -20,9 +21,17 @@ class Dotdetails extends Component {
       begintime: "",
       endtime: "",
       netid: "",
-      cid: ""
+      cid: "",
+      deviceId: "",
+      deviceType: "",
+      pagination: []
+    };
+    this.params = {
+      pageindex: 1,
+      pagesize: 10
     };
   }
+
   formList = {
     type: "inline",
     item: [
@@ -31,7 +40,6 @@ class Dotdetails extends Component {
         label: "筛选日期",
         field: "doubledata",
         placeholder: "请选择日期",
-        initialValue: ["2019-03-09 12:09:09", "2019-03-09 12:09:09"],
         showTime: true,
         format: "YYYY-MM-DD HH:mm:ss"
       },
@@ -49,8 +57,8 @@ class Dotdetails extends Component {
   };
   componentDidMount() {
     this.setState({
-      netid: this.props.query.netid,
-      cid: this.props.query.cid
+      deviceType: this.props.query.deviceType,
+      deviceId: this.props.query.deviceId
     });
     this.getList();
   }
@@ -70,7 +78,11 @@ class Dotdetails extends Component {
         if (res.success) {
           this.setState(
             {
-              datalist: res.data
+              datalist: res.data,
+              pagination: Utils.pagination(res, current => {
+                this.params.pageindex = current;
+                this.getList();
+              })
               // xdata: res.data.createon
             },
             () => {
@@ -96,7 +108,7 @@ class Dotdetails extends Component {
   };
   getColumns = () => {
     // var that = this;
-    const type = this.props.query.netid;
+    const type = this.props.query.deviceType;
     // that.setState({
     //     typeid:type
     // });
@@ -400,6 +412,7 @@ class Dotdetails extends Component {
             <Table
               columns={this.getColumns()}
               dataSource={this.state.datalist}
+              pagination={this.state.pagination}
             />
           </TabPane>
           <TabPane tab="曲线图" key="2">
