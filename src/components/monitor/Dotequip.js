@@ -230,8 +230,9 @@ class Dotequip extends Component {
   getProjectList = () => {
     axios
       .ajax({
+        baseURL: window.g.wangURL,
         method: "get",
-        url: bizserviceURL + "	/api/getProjectListAll"
+        url: "/api/getProjectListAll"
       })
       .then(res => {
         console.log(res, "项目");
@@ -264,8 +265,9 @@ class Dotequip extends Component {
   getTypeList = () => {
     axios
       .ajax({
+        baseURL: window.g.deviceURL,
         method: "get",
-        url: deviceURL + "/api/monitorNetAll",
+        url: "/api/monitorNetAll",
         data: {
           itemid: this.state.projSelected
             ? this.state.projSelected
@@ -301,8 +303,9 @@ class Dotequip extends Component {
   getDeviceList = () => {
     axios
       .ajax({
+        baseURL: window.g.wangURL,
         method: "get",
-        url: bizserviceURL + "/api/findMonitordeviceThresholdList",
+        url: "/api/findMonitordeviceThresholdList",
         data: {
           itemid: this.state.projSelected
             ? this.state.projSelected
@@ -375,8 +378,9 @@ class Dotequip extends Component {
     const _this = this;
     axios
       .ajax({
+        baseURL: window.g.wangURL,
         method: "put",
-        url: "http://192.168.10.11:8001/bizservice/api/bindMonitorDevice",
+        url: "/api/bindMonitorDevice",
         data: {
           code: this.state.bindCodeId,
           devicecode: this.input.state.value,
@@ -414,8 +418,9 @@ class Dotequip extends Component {
       onOk() {
         axios
           .ajax({
+            baseURL: window.g.wangURL,
             method: "put",
-            url: bizserviceURL + "/api/disabledMonitorDevice",
+            url: "/api/disabledMonitorDevice",
             data: {
               code: id
             }
@@ -439,8 +444,9 @@ class Dotequip extends Component {
       onOk() {
         axios
           .ajax({
+            baseURL: window.g.wangURL,
             method: "put",
-            url: bizserviceURL + "/api/enabledMonitorDevice",
+            url: "/api/enabledMonitorDevice",
             data: {
               code: id
             }
@@ -501,7 +507,7 @@ class Dotequip extends Component {
     return (
       <div className="dotequip">
         <div className="optbox">
-          <Row type="flex" justify="arrangement" gutter={16} align="middle">
+          <Row type="flex" gutter={16} align="middle">
             <Col span={2}>
               <span className="label block">监测规划</span>
             </Col>
@@ -521,7 +527,6 @@ class Dotequip extends Component {
           </Row>
           <Row
             type="flex"
-            justify="arrangement"
             gutter={16}
             align="middle"
             style={{ marginTop: "10px" }}
