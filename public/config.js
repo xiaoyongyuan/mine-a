@@ -7,5 +7,7 @@ window.g = {
     sysURL:'http://192.168.10.29:8001/sys',
     deviceURL:'http://192.168.10.29:8001/device',
     wangURL:'http://192.168.10.12:8009',
+    hongURL:'http://192.168.10.11:8001/bizservice',
+    syshongURL:'http://192.168.10.11:8001/device',
 
 };
