@@ -44,9 +44,9 @@ class Monitorprolook extends Component {
         }
       });
     };
-    preview=(filepath)=>{ //预览文件
+   /* preview=(filepath)=>{ //预览文件
       window.open('http://192.168.10.20:8004/sys/UploadFile/OfficeFile/1136541326366367744.docx')
-    };
+    };*/
 
     uploadOk=(params)=>{ //上传提交
       this.setState({newShow:false});
@@ -92,12 +92,12 @@ class Monitorprolook extends Component {
           return(
             <div className='tableoption'>
               {
-                record.filepath?<Fragment><span className='greencolor'>预览</span>
-                <span className='bluecolor'>文档下载</span></Fragment>
+                record.filepath?<Fragment><a className='greencolor' target="_blank"  href={"https://view.officeapps.live.com/op/view.aspx?src="+window.g.filelook+record.filepath}>预览</a>
+                <a className='bluecolor' href={window.g.filelook+record.filepath}>文档下载</a></Fragment>
                 :null
               }
               {
-                record.filepathcad?<span className='bluecolor'>CAD下载</span>
+                record.filepathcad?<a className='bluecolor' href={window.g.filelook+record.filepathcad}>CAD下载</a>
                 :null
               }                
             </div>
