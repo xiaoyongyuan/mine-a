@@ -159,7 +159,7 @@ class Equipmanage extends Component {
                             <BaseForm formList={this.formList} filterSubmit={this.handleFilterSubmit}/>
                         </div>
                         <div className="rightOpt">
-                            <Button type="primary">导入</Button>
+                            <Button type="primary"><span className="actionfont action-daoru"/>&nbsp;&nbsp;导入</Button>
                         </div>
                     </div>
 

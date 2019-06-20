@@ -28,10 +28,12 @@ class CurveChart extends Component {
       var EchaetsType;
       if(value === '1'){
           EchaetsType = "dotdetails";
-      }else if(value === '2'){
-          EchaetsType = "dotdetailtwo";
-      }else {
-          EchaetsType = "displacement";
+      }
+      // else if(value === '2'){
+      //     EchaetsType = "dotdetailtwo";
+      // }
+      else {
+          EchaetsType = "dotdetails";
       }
        return(
            <DataOverviewEcharts

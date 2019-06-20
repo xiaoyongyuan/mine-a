@@ -153,23 +153,23 @@ class monitorpro extends Component {
                 if(text==0) return(
                     <div className='tableoption'>
                         <span className='yellowcolor' onClick={()=>this.changeguih(record)}>修改</span>
-                        <span className='bluecolor'>预览</span>
-                        <span className='bluecolor'>文档下载</span>
-                        <span className='bluecolor'>CAD下载</span>
+                        <a className='bluecolor' target="_blank"  href={"https://view.officeapps.live.com/op/view.aspx?src="+window.g.filelook+record.filepath}>预览</a>
+                        <a className='bluecolor'  href={window.g.filelook+record.filepath} download>文档下载</a>
+                        <a className='bluecolor' href={window.g.filelook+record.filepathcad} download>CAD下载</a>
                         <span className='greencolor'  onClick={()=>this.changestatus(record.code)}>执行</span>
                     </div>)
                 else if(text==1) return(
                     <div className='tableoption'>
                         <span className='yellowcolor' onClick={()=>this.changeguih(record)}>变更</span>
-                        <span className='bluecolor'>预览</span>
-                        <span className='bluecolor'>文档下载</span>
-                        <span className='bluecolor'>CAD下载</span>
+                        <a className='bluecolor' target="_blank"  href={"https://view.officeapps.live.com/op/view.aspx?src="+window.g.filelook+record.filepath}>预览</a>
+                        <a className='bluecolor'  href={window.g.filelook+record.filepath} download>文档下载</a>
+                        <a className='bluecolor' href={window.g.filelook+record.filepathcad} download>CAD下载</a>
                         <a className='greencolor' href={'#/main/monitorprolook?id='+record.code}>查看</a>
                     </div>)
               else return(
                 <div className='tableoption'>
-                    <span className='bluecolor'>预览</span>
-                    <span className='bluecolor'>文档下载</span>
+                    <a className='bluecolor' target="_blank"  href={"https://view.officeapps.live.com/op/view.aspx?src="+window.g.filelook+record.filepath}>预览</a>
+                    <a className='bluecolor'  href={window.g.filelook+record.filepath}>文档下载</a>
                     <span className='bluecolor'>CAD下载</span>
                     <a className='greencolor' href={'#/main/monitorprolook?id='+record.code}>查看</a>
                 </div>)
@@ -181,7 +181,7 @@ class monitorpro extends Component {
                     <div className="leftForm">
                     </div>
                     <div className="rightOpt">
-                        <Button type="primary" onClick={()=>this.changeState('newShow',true)}>新增</Button>
+                        <Button type="primary" onClick={()=>this.changeState('newShow',true)}><span className="actionfont action-xinzeng"/>&nbsp;&nbsp;新增</Button>
                     </div>
                 </div>
                 <Etable
