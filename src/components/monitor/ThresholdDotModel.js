@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import {Modal, InputNumber, Select, Form, Button, Input} from 'antd'
+import {Modal, InputNumber, Select, Form, Button, Input, message} from 'antd'
 import ofteraxios from '../../axios/ofter'
+import axios from "../../axios";
 const FormItem = Form.Item;
 const Option = Select.Option;
 let vis=false;
@@ -23,20 +24,25 @@ class ItemModel extends Component {
       if( nextProps.newShow !== vis){
           vis=nextProps.newShow;
           if(nextProps.newShow){
-              ofteraxios.thresholdDotlist(this.props.netid).then(res=>{ //监测点列表
-                  if(res.success){
-                      var project=[];
-                      res.data.map(item=>project.push({code:item.code,name:item.pointname}));
-                      this.setState({project,selectp:project.length?project[0].code:''})
-                  }
-              })
-
-              // this.setState({
-              //     code:nextProps.code,
-              //     type:nextProps.type
-              // }, () => {
-              //     this.requestdata();
+              // ofteraxios.thresholdDotlist(this.props.netid).then(res=>{ //监测点列表
+              //     if(res.success){
+              //         var project=[];
+              //         res.data.map(item=>project.push({code:item.code,name:item.pointname}));
+              //         this.setState({project,selectp:project.length?project[0].code:''})
+              //     }
               // });
+
+              this.setState({
+                  code:nextProps.code
+              }, () => {
+                 console.log("code342",this.state.code);
+              });
+              console.log("hhhttt11",nextProps.maximum);
+              this.props.form.setFieldsValue({
+                  lowvalue: nextProps.minumum,//低阈值
+                  heightvalue:nextProps.maximum,//高阈值itemid
+                  memo:nextProps.memo
+              });
 
           }
       }
@@ -60,14 +66,27 @@ class ItemModel extends Component {
           if (!err) {
               // var data=values;
              var data = {
+                 code:this.state.code,
                  maximum:values.heightvalue,
-                 netid:this.props.netid,
+                 minumum:values.lowvalue,
+                 memo:values.memo,
              };
-             console.log("data点",data);
-              // data.filename_cad=_this.state.cad;this.props.netid
-              // data.itemtype=2;
-              // data.filepath=_this.state.filepath;
-              // data.excel=_this.state.excel;
+              axios.ajax({
+                  baseURL:window.g.hongURL,
+                  method: 'put',
+                  url: '/api/updateMonitorDeviceThreshold',
+                  data: data
+              }).then((res)=>{
+                  const list=this.state.list;
+                  if(res.success){
+                      message.success('编辑成功！', 3);
+                      this.setState({
+                          list:list
+                      });
+                  }
+              }).catch((error)=>{
+                  console.log("error",error);
+              });
               _this.props.filterSubmit(data);
               _this.props.form.resetFields();
           }

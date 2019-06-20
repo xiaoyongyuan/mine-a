@@ -18,33 +18,38 @@ class Threshold extends Component {
 
     componentDidMount() {
         const ids=this.props.query.id;
-        const cid=this.props.query.cid;
-        console.log("cid",cid);
-        if(ids) this.setState({code:ids},()=>this.requestList());
+        if(ids) this.setState({netid:ids},()=>this.requestList());
     }
     requestList=()=>{
+        var that = this;
         axios.ajax({
             baseURL:window.g.hongURL,
             method: 'get',
             url: '/api/findMonitordeviceThresholdList',
-            data: {netid:this.state.code}
+            data: {netid:that.state.netid}
         })
             .then((res)=>{
                 if(res.success){
-                    this.setState({
+                    that.setState({
                         list:res.data,
                         pagination:Utils.pagination(res,(current)=>{
-                            this.params.pageindex=current;
-                            this.requestList();
+                            that.params.pageindex=current;
+                            that.requestList();
                         })
                     })
                 }
             });
     };
-    changeState=(key,val)=>{
+    changeState=(key,val,code,maximum,minumum,memo)=>{
+        console.log("maximum",maximum);
+        console.log("hhhlsjdf",code);
         this.setState(
             {
-                [key]:val
+                [key]:val,
+                maximum:maximum,
+                minumum:minumum,
+                memo:memo,
+                code
             }
             )
     };
@@ -162,7 +167,7 @@ class Threshold extends Component {
             }
         },{
             title: '备注',
-            dataIndex: 'remark',
+            dataIndex: 'memo',
         },{
             title: '操作',
             dataIndex: 'ifsys',
@@ -171,7 +176,7 @@ class Threshold extends Component {
                     <div className="tableoption">
                         {
                             text === '0'?
-                                <span className="greencolor" onClick={()=>this.changeState('newShow',true,record.code)} >编辑</span>:
+                                <span className="greencolor" onClick={()=>this.changeState('newShow',true,record.code,record.maximum,record.minumum,record.memo)} >编辑</span>:
                                 ''
                         }
                         {
@@ -200,7 +205,7 @@ class Threshold extends Component {
                     dataSource={this.state.list}
                     pagination={this.state.pagination}
                 />
-                <ItemModel netid={this.state.code} code={this.state.code} newShow={this.state.newShow} filterSubmit={this.uploadOk} uploadreset={()=>this.changeState('newShow',false)} />
+                <ItemModel memo={this.state.memo} minumum={this.state.minumum} maximum={this.state.maximum} netid={this.state.code} code={this.state.code} newShow={this.state.newShow} filterSubmit={this.uploadOk} uploadreset={()=>this.changeState('newShow',false)} />
             </div>
         );
     }
