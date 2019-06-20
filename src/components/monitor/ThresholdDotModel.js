@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {Modal,InputNumber, Select, Form, Button} from 'antd'
+import {Modal, InputNumber, Select, Form, Button, Input} from 'antd'
 import ofteraxios from '../../axios/ofter'
 const FormItem = Form.Item;
 const Option = Select.Option;
@@ -58,8 +58,13 @@ class ItemModel extends Component {
       this.props.form.validateFields((err, values) => {
           console.log("values234",values);
           if (!err) {
-              var data=values;
-              // data.filename_cad=_this.state.cad;
+              // var data=values;
+             var data = {
+                 maximum:values.heightvalue,
+                 netid:this.props.netid,
+             };
+             console.log("data点",data);
+              // data.filename_cad=_this.state.cad;this.props.netid
               // data.itemtype=2;
               // data.filepath=_this.state.filepath;
               // data.excel=_this.state.excel;
@@ -84,44 +89,35 @@ class ItemModel extends Component {
     return (
       <div className="ItemModel">
         <Modal
-          title="监测点阈值新增"
+          title="监测点阈值编辑"
           visible={this.props.newShow}
           code={this.props.code}
           onCancel={this.reset}
           footer={null}
         >
           <Form className='baseform' {...formItemLayout} >
-              <FormItem label='监测点' key='projectid'>
-                  {
-                      getFieldDecorator('projectid', {
-                          rules:[{
-                              required: true,
-                              message: '请选择项目',
-                          }],
-                          initialValue: this.state.selectp
-                      })(
-                          <Select
-                          >
-                              {this.state.project.map(city => (
-                                  <Option key={city.code} value={city.code}>{city.name}</Option>
-                              ))}
-                          </Select>
-                      )
-                  }
-              </FormItem>
               <FormItem label='高阈值' key='heightvalue'>
-                  {
-                      getFieldDecorator('heightvalue')(
-                          <InputNumber key='memoInput' />
-                      )
-                  }
+                  {getFieldDecorator('heightvalue', {
+                      rules: [{
+                          required: true, message: '请输高阈值!',
+                      }],
+                  })(
+                      <InputNumber  key='memoInput' />
+                  )}
               </FormItem>
               <FormItem label='低阈值' key='lowvalue'>
-                  {
-                      getFieldDecorator('lowvalue')(
-                          <InputNumber key='memoInput' />
-                      )
-                  }
+                  {getFieldDecorator('lowvalue', {
+                      rules: [{
+                          required: true, message: '请输低阈值!',
+                      }],
+                  })(
+                      <InputNumber  key='memoInput' />
+                  )}
+              </FormItem>
+              <FormItem label='备注' key='memo'>
+                  {getFieldDecorator('memo')(
+                      <Input  key='memoInput' />
+                  )}
               </FormItem>
               <FormItem key="buts">
                 <Button type='primary' onClick={this.handleFilterSubmit}>确定</Button>
