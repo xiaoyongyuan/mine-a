@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import BaseForm from "../common/BaseForm";
-import {Button,message} from "antd";
+import {Button} from "antd";
 import Etable from "../common/Etable";
 import axios from "../../axios";
 import Utils from "../../utils/utils";
+import ofteraxios from "../../axios/ofter";
 
 class Equipmanage extends Component {
     constructor(props){
@@ -11,6 +12,10 @@ class Equipmanage extends Component {
         this.state={
             visible:false,
             page: 1,
+            equiptypeArr:[
+                // {code: "0", name: "全部"},
+                // {code: "1", name: "GNSS"},
+            ]
         };
         this.formList={
             type:'inline',
@@ -26,6 +31,15 @@ class Equipmanage extends Component {
                     label: '设备名称',
                     field:'name',
                     placeholder:'',
+                },
+                {
+                    type: 'SELECT',
+                    label: '设备类型',
+                    field: 'equiptype',
+                    placeholder: '全部',
+                    initialValue: '',
+                    list:this.state.equiptypeArr,
+                    width:"195px"
                 },
                 {
                     type: 'INPUT',
@@ -52,6 +66,9 @@ class Equipmanage extends Component {
     params={
         pageindex:1
     };
+    componentWillMount(){
+        this.requestListEquiptype();
+    }
     componentDidMount(){
         this.requestList();
     };
@@ -63,6 +80,35 @@ class Equipmanage extends Component {
             this.requestList();
         })
     };
+
+    requestListEquiptype = () =>{
+        ofteraxios.equiptypelistquery().then(res=>{ //设备类型
+            if(res.success){
+                // var equiptypeArr=[];
+                res.data.map(
+                    item=>this.state.equiptypeArr.push(
+                        {
+                            code:item.dvalue,
+                            name:item.dname
+                        }
+                    )
+                );
+                this.state.equiptypeArr.unshift({
+                    code:'',
+                    name:'全部'
+                })
+                // this.setState(
+                //     {
+                //         equiptypeArr,
+                //         selectmontinet:equiptypeArr.length?equiptypeArr[0].code:''
+                //     },()=>{
+                //         console.log("equiptypeArr",equiptypeArr);
+                //     }
+                // )
+            }
+        });
+    };
+
     requestList = ()=>{
         console.log("this.params",this.params);
         const quparams = {
@@ -71,6 +117,7 @@ class Equipmanage extends Component {
             devicename:this.state.devicename,
             sccj:this.state.sccj,
             devicecode:this.state.devicecode,
+            devicetype:this.state.devicetype
         };
         axios.ajax({
             baseURL:window.g.deviceURL,
@@ -98,6 +145,7 @@ class Equipmanage extends Component {
             devicename:params.name,
             sccj:params.manufacturers,
             devicecode:params.cid,
+            devicetype:params.equiptype,
             pageindex:1
         }, () => {
             this.requestList();
@@ -114,7 +162,7 @@ class Equipmanage extends Component {
             render: (text,record,index) =>{
                 return(
                     <div>
-                        <img src={text} style={{width:'100px',height:'50px' }} />
+                        <img src={text} alt="" style={{width:'100px',height:'50px' }} />
                     </div>
                 )
             }
@@ -122,11 +170,11 @@ class Equipmanage extends Component {
             title: '设备名称',
             dataIndex: 'devicename',
         },{
-            title: '设备类型',
-            dataIndex: 'devicetype',
-        },{
             title: '设备编码',
             dataIndex: 'devicecode',
+        },{
+            title: '设备类型',
+            dataIndex: 'dname',
         },{
             title: '入库时间',
             dataIndex: 'createon',
@@ -141,7 +189,13 @@ class Equipmanage extends Component {
             dataIndex: 'ware',
             render: (text,record,index) =>{
                 return(
-                    <div className="state-bg-normal">入库</div>
+                    <div>
+                        {
+                            text?
+                                '出库':
+                                '入库'
+                        }
+                    </div>
                 )
             }
         },];
