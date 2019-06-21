@@ -134,13 +134,13 @@ class Dotequip extends Component {
         render: text => {
           switch (text) {
             case "0": {
-              return <div>未绑定</div>;
+              return <div className="state-bg-not">未绑定</div>;
             }
             case "1": {
-              return <div>启用</div>;
+              return <div className="state-bg-normal">启用</div>;
             }
             case "2": {
-              return <div>弃用</div>;
+              return <div className="state-bg-abandoning">弃用</div>;
             }
           }
         },

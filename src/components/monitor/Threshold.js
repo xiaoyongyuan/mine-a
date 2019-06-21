@@ -176,14 +176,14 @@ class Threshold extends Component {
             render: (text,record) =>{
                 return(
                     <div className="tableoption">
-                        <span className="greencolor" onClick={()=>this.showModelEdit('newEditShow',true,record.code)} >编辑</span>
+                        <span className="greencolor" onClick={()=>this.showModelEdit('newEditShow',true,record.code)} ><Button type="primary">编辑</Button></span>
                         {
                             text === '0'?
-                                <span className="redcolor" onClick={()=>this.isstart(1,record.code,record.netid,record.devicetype)}>禁用</span>:
-                                <span className="greencolor" onClick={()=>this.isstart(0,record.code,record.netid,record.devicetype)}>应用</span>
+                                <span className="redcolor" onClick={()=>this.isstart(1,record.code,record.netid,record.devicetype)}><Button type="danger" className="btn-abandoning">禁用</Button></span>:
+                                <span className="greencolor" onClick={()=>this.isstart(0,record.code,record.netid,record.devicetype)}><Button type="primary">应用</Button></span>
                         }
                         <Link className="detmain" to={'/main/thresholddot?id='+record.netid}>
-                            <span>查看点位阈值</span>
+                            <span><Button type="primary">查看点位阈值</Button></span>
                         </Link>
                     </div>
                 )

@@ -141,13 +141,7 @@ class Equipmanage extends Component {
             dataIndex: 'ware',
             render: (text,record,index) =>{
                 return(
-                    <div>
-                        {
-                            text?
-                                '出库':
-                                '入库'
-                        }
-                    </div>
+                    <div className="state-bg-normal">入库</div>
                 )
             }
         },];
