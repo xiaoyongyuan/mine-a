@@ -82,6 +82,23 @@ export default class ofterajax {
         })
     }
 
+    static equiptypelistquery() { //设备列表设备类型查询条件
+        return new Promise((resolve, reject) => {
+            axios.ajax({
+                baseURL:window.g.filelook,
+                method: 'get',
+                url: '/api/dictionary',
+                data: {
+                    pagesize:10000,
+                    dtype:'DEVICETYPE'
+                }
+            }).then((res)=>{
+                resolve(res)
+            })
+        })
+    }
+
+
     static thresholdDotlist(netid) { //监测点列表
         return new Promise((resolve, reject) => {
             axios.ajax({
