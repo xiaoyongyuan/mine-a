@@ -78,7 +78,6 @@ class Dotdetails extends Component {
         }
       })
       .then(res => {
-        console.log(res, "详情");
         if (res.success) {
           this.setState(
             {
@@ -90,16 +89,12 @@ class Dotdetails extends Component {
               xdata: res.data.createon
             },
             () => {
-              console.log(this.state.datalist);
-              console.log("xdata", this.state.xdata);
               var xdata = [];
               var levelvalue = [];
               var vertical = [];
               res.data.map(item => xdata.push(item.createon.substring(0, 10)));
               res.data.map(item => levelvalue.push(item.x));
               res.data.map(item => vertical.push(item.y));
-              console.log("xdata", xdata);
-              console.log("levelvalue", levelvalue);
               this.setState({
                 xdata: xdata,
                 levelvalue: levelvalue,
