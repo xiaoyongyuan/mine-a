@@ -419,7 +419,14 @@ class DataOverviewEcharts extends Component {
               name:"位移量(mm)",
               axisLabel: {//坐标轴刻度相关设置。
                   formatter: '{value} mm'
-              }
+              },
+              splitArea: {
+                  show: true,
+                  // areaStyle:{
+                  //     color: ['rgba(250,250,250,0.3)','rgba(200,200,200,0.3)'],
+                  //     shadowColor: 'rgba(0, 0, 0, 0.5)',
+                  // }
+              },
           },
           dataZoom: [{
               startValue: '2014-06-01'
