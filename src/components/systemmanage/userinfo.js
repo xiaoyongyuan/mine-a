@@ -265,7 +265,7 @@ class Userinfo extends Component {
             dataIndex: 'code',
             columnWidth:'100px',
             render: (text,record,index) =>{
-                return(<div className="tableoption"><span className="greencolor" onClick={() => _this.showModelEdit(text,record,index)}>编辑</span><span className="redcolor" onClick={()=>_this.showModaldelete(text,index)}>删除</span><span className="redcolor" onClick={()=>_this.showModalreset(text,index)}>密码重置</span></div>)
+                return(<div className="tableoption"><span className="greencolor" onClick={() => _this.showModelEdit(text,record,index)}><Button type="primary">编辑</Button></span><span className="redcolor" onClick={()=>_this.showModaldelete(text,index)}><Button type="primary">删除</Button></span><span className="redcolor" onClick={()=>_this.showModalreset(text,index)}><Button type="primary">密码重置</Button></span></div>)
             }
         }];
     return (

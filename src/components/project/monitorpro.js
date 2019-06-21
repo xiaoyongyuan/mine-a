@@ -138,9 +138,9 @@ class monitorpro extends Component {
             title: '状态',
             dataIndex: 'states',
             render: (text) =>{
-              if(text==0) return(<div className='graycolor'>编制中</div>)
-              else if(text==1) return(<div className='bluecolor'>执行中</div>)
-              else return(<div className='greencolor'>已完成</div>)
+              if(text==0) return(<div className='state-bg-not'>编制中</div>)
+              else if(text==1) return(<div className='state-bg-implement'>执行中</div>)
+              else return(<div className='state-bg-normal'>已完成</div>)
             }
         },{
             title: '备注',
@@ -152,26 +152,26 @@ class monitorpro extends Component {
             render: (text,record) =>{
                 if(text==0) return(
                     <div className='tableoption'>
-                        <span className='yellowcolor' onClick={()=>this.changeguih(record)}>修改</span>
-                        <a className='bluecolor' target="_blank"  href={"https://view.officeapps.live.com/op/view.aspx?src="+window.g.filelook+record.filepath}>预览</a>
-                        <a className='bluecolor'  href={window.g.filelook+record.filepath} download>文档下载</a>
-                        <a className='bluecolor' href={window.g.filelook+record.filepathcad} download>CAD下载</a>
-                        <span className='greencolor'  onClick={()=>this.changestatus(record.code)}>执行</span>
+                        <span className='yellowcolor' onClick={()=>this.changeguih(record)}><Button type="primary">修改</Button></span>
+                        <a className='bluecolor' target="_blank"  href={"https://view.officeapps.live.com/op/view.aspx?src="+window.g.filelook+record.filepath}><Button type="primary">预览</Button></a>
+                        <a className='bluecolor'  href={window.g.filelook+record.filepath} download><Button type="primary">文档下载</Button></a>
+                        <a className='bluecolor' href={window.g.filelook+record.filepathcad} download><Button type="primary">CAD下载</Button></a>
+                        <span className='greencolor'  onClick={()=>this.changestatus(record.code)}><Button type="primary">执行</Button></span>
                     </div>)
                 else if(text==1) return(
                     <div className='tableoption'>
-                        <span className='yellowcolor' onClick={()=>this.changeguih(record)}>变更</span>
-                        <a className='bluecolor' target="_blank"  href={"https://view.officeapps.live.com/op/view.aspx?src="+window.g.filelook+record.filepath}>预览</a>
-                        <a className='bluecolor'  href={window.g.filelook+record.filepath} download>文档下载</a>
-                        <a className='bluecolor' href={window.g.filelook+record.filepathcad} download>CAD下载</a>
-                        <a className='greencolor' href={'#/main/monitorprolook?id='+record.code}>查看</a>
+                        <span className='yellowcolor' onClick={()=>this.changeguih(record)}><Button type="primary">变更</Button></span>
+                        <a className='bluecolor' target="_blank"  href={"https://view.officeapps.live.com/op/view.aspx?src="+window.g.filelook+record.filepath}><Button type="primary">预览</Button></a>
+                        <a className='bluecolor'  href={window.g.filelook+record.filepath} download><Button type="primary">文档下载</Button></a>
+                        <a className='bluecolor' href={window.g.filelook+record.filepathcad} download><Button type="primary">CAD下载</Button></a>
+                        <a className='greencolor' href={'#/main/monitorprolook?id='+record.code}><Button type="primary">查看</Button></a>
                     </div>)
               else return(
                 <div className='tableoption'>
-                    <a className='bluecolor' target="_blank"  href={"https://view.officeapps.live.com/op/view.aspx?src="+window.g.filelook+record.filepath}>预览</a>
-                    <a className='bluecolor'  href={window.g.filelook+record.filepath}>文档下载</a>
-                    <span className='bluecolor'>CAD下载</span>
-                    <a className='greencolor' href={'#/main/monitorprolook?id='+record.code}>查看</a>
+                    <a className='bluecolor' target="_blank"  href={"https://view.officeapps.live.com/op/view.aspx?src="+window.g.filelook+record.filepath}><Button type="primary">预览</Button></a>
+                    <a className='bluecolor'  href={window.g.filelook+record.filepath}><Button type="primary">文档下载</Button></a>
+                    <a className='bluecolor'href={window.g.filelook+record.filepathcad} download><Button type="primary">CAD下载</Button></a>
+                    <a className='greencolor' href={'#/main/monitorprolook?id='+record.code}><Button type="primary">查看</Button></a>
                 </div>)
             }
         }];

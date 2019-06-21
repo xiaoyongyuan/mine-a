@@ -185,9 +185,9 @@ class Warning extends Component {
             dataIndex: 'status',
             render: (record) =>{
                 if(record.status===0){
-                    return ("未使用")
+                    return (<div className="state-bg-not">未使用</div>)
                 }else{
-                    return ("生效")
+                    return (<div className="state-bg-normal">生效</div>)
                 }
             },
         },{
