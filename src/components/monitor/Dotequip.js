@@ -519,7 +519,7 @@ class Dotequip extends Component {
                 <span className="tit block">
                   <Icon
                     type="file-text"
-                    style={{ display: "inline-block", marginRight: "2px" }}
+                    style={{ display: "inline-block", marginRight: "2px"}}
                   />
                   监测设备
                 </span>
@@ -542,7 +542,7 @@ class Dotequip extends Component {
                 <span className="tit block">
                   <Icon
                     type="cluster"
-                    style={{ display: "inline-block", marginRight: "2px" }}
+                    style={{ display: "inline-block", marginRight: "2px",fontSize:" 16px" }}
                   />
                   文档查看
                 </span>
