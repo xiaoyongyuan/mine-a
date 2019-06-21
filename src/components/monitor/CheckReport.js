@@ -6,7 +6,7 @@ import Utils from "../../utils/utils";
 import {Button, message} from "antd";
 import ItemModel from "./checkReportModel"
 class CheckReport extends Component {
-    state  ={
+    state = {
         newShow:false
     };
     params={
@@ -46,18 +46,17 @@ class CheckReport extends Component {
             method: 'get',
             url: '/alarmlist',
             data: this.params
-        })
-            .then((res)=>{
-                if(res.success){
-                    this.setState({
-                        list:res.data,
-                        pagination:Utils.pagination(res,(current)=>{
-                            this.params.pageindex=current;
-                            this.requestList();
-                        })
+        }).then((res)=>{
+            if(res.success){
+                this.setState({
+                    list:res.data,
+                    pagination:Utils.pagination(res,(current)=>{
+                        this.params.pageindex=current;
+                        this.requestList();
                     })
-                }
-            });
+                })
+            }
+        });
     };
     componentDidMount(){
         this.requestList()
@@ -87,11 +86,12 @@ class CheckReport extends Component {
             method: 'post',
             url: '/api/itemfile',
             data: params
-        })
-            .then((res)=>{
+        }).then((res)=>{
                 if(res.success){
                     _this.requestList();
-                }else{message.warn(res.msg)}
+                }else{
+                    message.warn(res.msg)
+                }
             });
     };
   render() {
@@ -133,11 +133,10 @@ class CheckReport extends Component {
                 bordered
                 columns={columns}
                 dataSource={this.state.list}
-                // pagination={this.state.pagination}
+                pagination={this.state.pagination}
             />
             <ItemModel newShow={this.state.newShow} filterSubmit={this.uploadOk} uploadreset={()=>this.changeState('newShow',false)} />
         </div>
-
     );
   }
 }

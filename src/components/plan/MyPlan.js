@@ -37,7 +37,7 @@ class MyPlan extends Component {
       axios.ajax({
           baseURL:'http://192.168.10.29:8001/sys',
           method: 'get',
-          url: '/api/findDictionaryByType',
+          url: '/api/dictionary',
           data: {
               dtype:'PLANTYPE',
           }
