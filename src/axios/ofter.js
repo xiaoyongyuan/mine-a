@@ -69,7 +69,7 @@ export default class ofterajax {
     static equiptypelist(value) { //设备类型列表
         return new Promise((resolve, reject) => {
             axios.ajax({
-                baseURL:window.g.syshongURL,
+                baseURL:window.g.deviceURL,
                 method: 'get',
                 url: '/api/monitorDeviceTypeAll',
                 data: {
