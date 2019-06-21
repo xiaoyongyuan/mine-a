@@ -52,7 +52,7 @@ class Companyinfo extends Component {
       <div className="companyinfo">
           <div className="companyinfoHeader">
               <div className="com-header">
-                  <span className="iconLittle"/><span className="comSystem">系统设置&nbsp;&nbsp;&gt;&nbsp;&nbsp;企业信息</span>
+                  <span className="iconLittle"/><span className="comSystem">系统设置&nbsp;&nbsp;<i style={{color:"#2463A1"}}>&gt;</i>&nbsp;&nbsp;企业信息</span>
               </div>
               <a href="#/main/companyinfoEdit"><Button className="canclebtn" type="primary"><span className="actionfont action-bianji"/>&nbsp;&nbsp;
                    编辑</Button></a>
