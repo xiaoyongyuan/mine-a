@@ -50,6 +50,7 @@ class Dotequip extends Component {
       {
         title: "序号",
         align: "center",
+        key: "no",
         render: (text, record, index) => {
           return index + 1;
         }
@@ -57,15 +58,18 @@ class Dotequip extends Component {
       {
         title: "点位名称",
         dataIndex: "pointname",
+        key: "dotname",
         align: "center"
       },
       {
         title: "设备id",
         dataIndex: "devicecode",
+        key: "devid",
         align: "center"
       },
       {
         title: "安装时间",
+        key: "instime",
         dataIndex: "installdate",
         render: text => {
           moment(text).format("YYYY-MM-DD HH:mm:ss");
@@ -75,6 +79,7 @@ class Dotequip extends Component {
       {
         title: "创建时间",
         dataIndex: "createon",
+        key: "creatime",
         render: text => {
           moment(text).format("YYYY-MM-DD HH:mm:ss");
         },
@@ -82,6 +87,7 @@ class Dotequip extends Component {
       },
       {
         title: "设备类型",
+        key: "devtype",
         dataIndex: "dname",
         align: "center"
       },
@@ -124,6 +130,7 @@ class Dotequip extends Component {
       {
         title: "状态",
         dataIndex: "states",
+        key: "states",
         render: text => {
           switch (text) {
             case "0": {
@@ -235,7 +242,6 @@ class Dotequip extends Component {
         url: "/api/getProjectListAll"
       })
       .then(res => {
-        console.log(res, "项目");
         if (res.success) {
           if (res.data.length > 0) {
             localStorage.setItem("prolist", res.data);
@@ -275,8 +281,6 @@ class Dotequip extends Component {
         }
       })
       .then(res => {
-        console.log(res, "类型");
-
         if (res.success) {
           if (res.data.length > 0) {
             var tlist = [];
@@ -316,7 +320,6 @@ class Dotequip extends Component {
         }
       })
       .then(res => {
-        console.log(res, "设备");
         if (res.success) {
           this.setState({
             tableData: res.data,
@@ -340,7 +343,6 @@ class Dotequip extends Component {
       }
     );
     this.state.originPro.find(item => {
-      console.log(item, val);
       if (item.code == val) {
         this.setState({
           filepath: item.filepath
