@@ -244,7 +244,7 @@ export default {
           component: "Userinfo"
         },
         {
-          title: "设备管理",
+          title: "设备列表",
           key: "/main/equipmanage",
           component: "Equipmanage"
         },
