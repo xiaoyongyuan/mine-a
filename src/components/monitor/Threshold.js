@@ -84,7 +84,7 @@ class Threshold extends Component {
                     cancelText: "取消",
                     onOk() {
                         axios.ajax({
-                            baseURL:window.g.syshongURL,
+                            baseURL:window.g.deviceURL,
                             method: 'put',
                             url: 'api/updateMonitorDeviceTypeStatus',
                             data: {
@@ -113,7 +113,7 @@ class Threshold extends Component {
                     cancelText: "取消",
                     onOk() {
                         axios.ajax({
-                            baseURL:window.g.syshongURL,
+                            baseURL:window.g.deviceURL,
                             method: 'put',
                             url: 'api/updateMonitorDeviceTypeStatus',
                             data: {
