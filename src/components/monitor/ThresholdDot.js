@@ -41,8 +41,6 @@ class Threshold extends Component {
             });
     };
     changeState=(key,val,code,maximum,minumum,memo)=>{
-        console.log("maximum",maximum);
-        console.log("hhhlsjdf",code);
         this.setState(
             {
                 [key]:val,
@@ -70,7 +68,6 @@ class Threshold extends Component {
     };
 
     isstart = (ifsys,code) =>{
-        console.log("code",code);
         var that = this;
         if(ifsys){
             this.setState({
@@ -130,7 +127,7 @@ class Threshold extends Component {
 
     };
     onChange = (checked) =>{
-        console.log(`switch to ${checked}`);
+
     };
 
     render() {

@@ -34,10 +34,7 @@ class ItemModel extends Component {
 
               this.setState({
                   code:nextProps.code
-              }, () => {
-                 console.log("code342",this.state.code);
               });
-              console.log("hhhttt11",nextProps.maximum);
               this.props.form.setFieldsValue({
                   lowvalue: nextProps.minumum,//低阈值
                   heightvalue:nextProps.maximum,//高阈值itemid
@@ -62,7 +59,6 @@ class ItemModel extends Component {
   handleFilterSubmit = ()=>{//查询提交
     const _this=this;
       this.props.form.validateFields((err, values) => {
-          console.log("values234",values);
           if (!err) {
               // var data=values;
              var data = {
@@ -85,7 +81,7 @@ class ItemModel extends Component {
                       });
                   }
               }).catch((error)=>{
-                  console.log("error",error);
+
               });
               _this.props.filterSubmit(data);
               _this.props.form.resetFields();

@@ -24,8 +24,6 @@ class ThresholdModel extends Component {
 
   }
     componentWillReceiveProps(nextProps){
-      console.log("nextProps1122",nextProps);
-
         if( nextProps.newShow !== vis){
             vis=nextProps.newShow;
             if(nextProps.newShow){
@@ -71,14 +69,12 @@ class ThresholdModel extends Component {
             const data={
                 code:this.state.code,
             };
-            console.log("hhhcode出阿里",data);
             axios.ajax({
                 baseURL:window.g.deviceURL,
                 method: 'get',
                 url: '/api/monitorDeviceTypeById',
                 data: data
             }).then((res)=>{
-                console.log("res111",res);
                 if(res.success){
                     // this.props.form.setFieldsValue({
                     //     lowvalue: res.data.minumum,//低阈值
@@ -109,7 +105,6 @@ class ThresholdModel extends Component {
   handleFilterSubmit = ()=>{//查询提交
     const _this=this;
       this.props.form.validateFields((err, values) => {
-          console.log("values33",values);
           if (!err) {
               var data={
                   itemid:values.projectid,
@@ -135,7 +130,6 @@ class ThresholdModel extends Component {
                           });
                       }
                   }).catch((error)=>{
-                      console.log("error",error);
                   });
               }else {
                   data.code=this.state.code;
@@ -153,13 +147,8 @@ class ThresholdModel extends Component {
                           });
                       }
                   }).catch((error)=>{
-                      console.log("error",error);
                   });
               }
-
-              // data.filename_cad=_this.state.cad;
-              // data.filepath=_this.state.filepath;
-              // data.excel=_this.state.excel;
               _this.props.filterSubmit(data);
               _this.props.form.resetFields();
           }
@@ -168,10 +157,8 @@ class ThresholdModel extends Component {
   };
   //改变规划方案
     projectidChange = (value) =>{
-        console.log("value",value);
         ofteraxios.montinetlist(value).then(res=>{ //监测网列表
             if(res.success){
-                console.log("res",res);
                 var montinet=[];
                 res.data.map(
                     item=>montinet.push(
@@ -193,7 +180,6 @@ class ThresholdModel extends Component {
     };
     //改变监测网
     montinetidChange =(value)=>{
-        console.log("value",value);
         ofteraxios.equiptypelist(value).then(res=>{ //设备类型列表
             if(res.success){
                 var equiptype=[];

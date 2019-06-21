@@ -73,7 +73,6 @@ class Threshold extends Component {
     };
     isstart = (states,code,netid,devicetype) =>{
         var that = this;
-        console.log("states",states);
         if(states === 0){
             this.setState({
                 title:"确认启用吗？"

@@ -24,8 +24,6 @@ class ThresholdEditModel extends Component {
 
   }
     componentWillReceiveProps(nextProps){
-      console.log("nextProps1122",nextProps);
-
         if( nextProps.newShow !== vis){
             vis=nextProps.newShow;
             if(nextProps.newShow){
@@ -71,14 +69,12 @@ class ThresholdEditModel extends Component {
             const data={
                 code:this.state.code,
             };
-            console.log("hhhcode出阿里",data);
             axios.ajax({
                 baseURL:window.g.deviceURL,
                 method: 'get',
                 url: '/api/monitorDeviceTypeById',
                 data: data
             }).then((res)=>{
-                console.log("res111",res);
                 if(res.success){
                     this.props.form.setFieldsValue({
                         lowvalue: res.data.minumum,//低阈值
@@ -116,7 +112,6 @@ class ThresholdEditModel extends Component {
   handleFilterSubmit = ()=>{//查询提交
     const _this=this;
       this.props.form.validateFields((err, values) => {
-          console.log("values33",values);
           if (!err) {
               var data={
                   itemid:values.projectid,
@@ -142,7 +137,7 @@ class ThresholdEditModel extends Component {
                       });
                   }
               }).catch((error)=>{
-                  console.log("error",error);
+
               });
 
               // data.filename_cad=_this.state.cad;
