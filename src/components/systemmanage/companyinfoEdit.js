@@ -301,7 +301,7 @@ class companyinfoEdit extends Component {
                                 listType="picture-card"
                                 className="avatar-uploader"
                                 showUploadList={false}
-                                action={imageUrl}
+                                action="http://192.168.10.29:8001/sys/api/uploadFile"
                                 beforeUpload={this.beforeUpload}
                                 onChange={this.handleChange}
                             >
