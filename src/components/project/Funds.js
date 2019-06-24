@@ -124,10 +124,10 @@ class Funds extends Component {
         dataIndex: 'index',
         render: (text, record,index) => (index+1),
       },{
-        title: '余额',
+        title: '余额(万元)',
         dataIndex: 'balance',
       },{
-        title: '变动',
+        title: '变动(万元)',
         dataIndex: 'fundtype',
         render: (text, record,index) => {
             return (
