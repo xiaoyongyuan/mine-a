@@ -68,7 +68,7 @@ class ItemModel extends Component {
                  memo:values.memo,
              };
               axios.ajax({
-                  baseURL:window.g.hongURL,
+                  baseURL:window.g.wangURL,
                   method: 'put',
                   url: '/api/updateMonitorDeviceThreshold',
                   data: data
