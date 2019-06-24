@@ -23,7 +23,7 @@ class Threshold extends Component {
     requestList=()=>{
         var that = this;
         axios.ajax({
-            baseURL:window.g.hongURL,
+            baseURL:window.g.wangURL,
             method: 'get',
             url: '/api/findMonitordeviceThresholdList',
             data: {netid:that.state.netid}
