@@ -16,7 +16,7 @@ class Main extends Component {
             <Sider className="Sider" width='220px'><LayerSider /></Sider>
             <Content className="Content"><MenuRoutes/></Content>
           </Layout>
-          <Footer className="Footer">Footer</Footer>
+            <Footer className="Footer">陕西北斗环境信息产业有限公司</Footer>
         </Layout>
       </div>
     );
