@@ -16,7 +16,6 @@ class LayerHeader extends Component {
     }
     hanleClose=()=>{
       const _this=this;
-      return;
         confirm({
             title: '退出',
             content: '确认退出吗？',
@@ -31,6 +30,7 @@ class LayerHeader extends Component {
         });
     };
   render() {
+    console.log('dddd',this.props,window.location)
     return (
       <div className="LayerHeader">
         <div className="header-left">

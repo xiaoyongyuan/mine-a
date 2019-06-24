@@ -8,17 +8,12 @@
       content="width=device-width, initial-scale=1, shrink-to-fit=no"
     />
     <meta name="theme-color" content="#000000" />
-    <!--
-      manifest.json provides metadata used when your web app is installed on a
-      user's mobile device or desktop. See https://developers.google.com/web/fundamentals/web-app-manifest/
-    -->
-    <link rel="stylesheet" href="https://js.arcgis.com/4.7/esri/css/main.css">
+    <link rel="stylesheet" href="%PUBLIC_URL%/arcgis4.7.css">
     
 
-
     <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
-    <link rel="stylesheet" type="text/css" href="css/animate.min.css"/>
-    <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=MuapPz6iQML2Vdhb8HEu8Ps3Wgt8oe5V"></script>
+    <!-- <link rel="stylesheet" type="text/css" href="css/animate.min.css"/> -->
+<!--     <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=MuapPz6iQML2Vdhb8HEu8Ps3Wgt8oe5V"></script> -->
     <script type="text/javascript" src="%PUBLIC_URL%/config.js"></script>
 
     <title>矿山地质环境动态监测预警系统</title>
@@ -29,7 +24,7 @@
     <div class="ajax-loading" id="ajaxLoading" style="display: none;">
       <div class="overlay"></div>
       <div class="loading">
-        <img src="https://media.number-7.cn/ebike-h5/static/images/common/loading.gif" alt="">
+        <img src="%PUBLIC_URL%/loading.gif" alt="加载中">
         <span>加载中，请稍后...</span>
       </div>
     </div>

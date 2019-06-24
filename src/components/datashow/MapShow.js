@@ -11,6 +11,8 @@ import Prodect from './Prodect';
 import logo from '../../style/imgs/logo.png';
 import globa from '../../style/imgs/globa.png';
 import pointer from '../../style/imgs/pointer.png';
+import hometitle from '../../style/imgs/hometitle.png';
+
 
 import './mapshow.less'
 class MapShow extends Component {
@@ -45,6 +47,9 @@ class MapShow extends Component {
     render() {
         return (
             <div className="MapShow">
+                <div className="hometitle">
+                    <img src={hometitle} width="100%" />
+                </div>
                 <div className="arcgis">
                     <ArcGISMap />
                 </div>

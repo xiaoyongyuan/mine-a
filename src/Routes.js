@@ -5,7 +5,7 @@ import Login from './components/login'
 import Main from './components/main'
 import Pandect from './components/pandect'
 import Notfound from './components/pages/notfound'
-import Common from './components/cs/common'
+
 
 
 
