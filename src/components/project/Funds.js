@@ -47,15 +47,15 @@ class Funds extends Component {
           type:'button',
           button:[
             {
-              label:'确定',
-              type:"primary",
-              click:'layerSubmit',
-            },
-            {
               label:'取消',
               click:'reset',
               fafuns:'uploadreset',
             },
+              {
+                  label:'确定',
+                  type:"primary",
+                  click:'layerSubmit',
+              },
           ]
         }
       ]
