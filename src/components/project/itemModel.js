@@ -1,9 +1,6 @@
 import React, { Component } from 'react';
-import {Modal,message, Input, Select, Form, Button, Checkbox, Radio, DatePicker, Upload, Icon} from 'antd'
-import BaseForm from "../common/BaseForm"
+import {Modal,message, Input, Select, Form, Button, Upload, Icon} from 'antd'
 import ofteraxios from '../../axios/ofter'
-
-
 const FormItem = Form.Item;
 const Option = Select.Option;
 class ItemModel extends Component {
@@ -25,12 +22,12 @@ class ItemModel extends Component {
   }
   changeState=(key,val)=>{
       this.setState({[key]:val})
-  }
+  };
   componentWillMount(){
     ofteraxios.projectlist().then(res=>{ //项目列表
       if(res.success){
-        var project=[]
-        res.data.map(item=>project.push({code:item.code,name:item.projectname}) )
+        var project=[];
+        res.data.map(item=>project.push({code:item.code,name:item.projectname}) );
         this.setState({project,selectp:project.length?project[0].code:''})
       }
     })
@@ -43,7 +40,7 @@ class ItemModel extends Component {
       excel:'',
       filepath:'',
       filename_cad:''
-    })
+    });
       this.props.form.resetFields();
       this.props.uploadreset()
   }
@@ -52,10 +49,10 @@ class ItemModel extends Component {
       this.props.form.validateFields((err, values) => {
           if (!err) {
               var data=values;
-              data.filename_cad=_this.state.cad
-              data.itemtype=2
-              data.filepath=_this.state.filepath
-              data.excel=_this.state.excel
+              data.filename_cad=_this.state.cad;
+              data.itemtype=2;
+              data.filepath=_this.state.filepath;
+              data.excel=_this.state.excel;
               _this.props.filterSubmit(data);
               _this.props.form.resetFields();
           }
@@ -98,20 +95,6 @@ class ItemModel extends Component {
         sm: { span: 10 },
       },
     };
-    const tailFormItemLayout = {
-      wrapperCol: {
-        xs: {
-          span: 24,
-          offset: 0,
-        },
-        sm: {
-          span: 16,
-          offset: 8,
-        },
-      },
-    };
-    
-
     return (
       <div className="ItemModel">
         <Modal
@@ -180,16 +163,6 @@ class ItemModel extends Component {
         </Modal>
       </div>
     );
-
-    function beforeUpload(file) {
-      console.log('file',file)
-      const isLt5M = file.size / 1024 / 1024 < 5;
-      if (!isLt5M) {
-        message.error("上传图片不能大于5M!");
-      }
-      return isLt5M;
-    }
-
   }
 }
 
