@@ -158,7 +158,7 @@ class UploadModel extends Component {
                       </Upload>,
                   )}
               </FormItem>
-              <FormItem key="buts">
+              <FormItem key="buts" style={{display:'flex','justify-content':'flex-end'}}>
                 <Button type='primary' onClick={this.handleFilterSubmit}>确定</Button>
                 <Button style={{ margin: '0 10px' }} onClick={this.reset}>取消</Button>
               </FormItem>
