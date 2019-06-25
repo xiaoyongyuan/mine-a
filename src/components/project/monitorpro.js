@@ -148,7 +148,7 @@ class monitorpro extends Component {
                 if(text===0) return(
                     <div className='tableoption'>
                         <span className='yellowcolor' onClick={()=>this.changeguih(record)}><Button type="primary">修改</Button></span>
-                        <a className='bluecolor' target="_blank" rel="noopener noreferrer"  href={"https://view.officeapps.live.com/op/view.aspx?src="+window.g.filelook+record.filepath}><Button type="primary">预览</Button></a>
+                        <a className='bluecolor' target="_blank"  rel="noopener noreferrer"  href={"https://view.officeapps.live.com/op/view.aspx?src="+window.g.filelook+record.filepath}><Button type="primary">预览</Button></a>
                         <a className='bluecolor'  href={window.g.filelook+record.filepath} download><Button type="primary">文档下载</Button></a>
                         <a className='bluecolor' href={window.g.filelook+record.filepathcad} download><Button type="primary">CAD下载</Button></a>
                         <span className='greencolor'  onClick={()=>this.changestatus(record.code)}><Button type="primary">执行</Button></span>

@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { Form, Icon, Input, Button, Checkbox,message } from "antd";
 import axios from '../../axios'
-
 import './index.less';
 import "../../style/ztt/css/fastspeed.css";
 import "../../style/ztt/css/style.css";
@@ -20,7 +19,6 @@ class Login extends Component {
     this.props.form.validateFields((err, values) => {
       if (!err) {
         //获取到的表单的值values
-        const { fetchData } = this.props;
         axios.login({
           data: {
             passWord:values.passWord,

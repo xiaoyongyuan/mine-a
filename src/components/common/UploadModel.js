@@ -1,9 +1,7 @@
 import React, { Component } from 'react';
-import {Modal,message, Input, Select, Form, Button, Checkbox, Radio, DatePicker, Upload, Icon} from 'antd'
+import {Modal,message, Form,} from 'antd'
 import BaseForm from "../common/BaseForm"
 import ofteraxios from '../../axios/ofter'
-
-const FormItem = Form.Item;
 class UploadModel extends Component {
   constructor(props){
     super(props);
@@ -96,40 +94,16 @@ class UploadModel extends Component {
   }
 
   handleFilterSubmit = (params)=>{ //提交表单
-    var data={}
-    data.projectname=params.projectname
-    data.filepath=params.fileurl
-    data.begindate=params.doubledata[0].format('YYYY-MM-DD')
-    data.enddate=params.doubledata[1].format('YYYY-MM-DD')
-    data.memo=params.memo
+    var data={};
+    data.projectname=params.projectname;
+    data.filepath=params.fileurl;
+    data.begindate=params.doubledata[0].format('YYYY-MM-DD');
+    data.enddate=params.doubledata[1].format('YYYY-MM-DD');
+    data.memo=params.memo;
     this.props.filterSubmit(data)
   }
 
   render() {
-    const { getFieldDecorator } = this.props.form;
-    const formItemLayout = {
-      labelCol: {
-        xs: { span: 24 },
-        sm: { span: 8 },
-      },
-      wrapperCol: {
-        xs: { span: 24 },
-        sm: { span: 16 },
-      },
-    };
-    const tailFormItemLayout = {
-      wrapperCol: {
-        xs: {
-          span: 24,
-          offset: 0,
-        },
-        sm: {
-          span: 16,
-          offset: 8,
-        },
-      },
-    };
-
     return (
       <div className="UploadModel">
         <Modal
@@ -142,16 +116,6 @@ class UploadModel extends Component {
         </Modal>
       </div>
     );
-
-    function beforeUpload(file) {
-      console.log('file',file)
-      const isLt5M = file.size / 1024 / 1024 < 5;
-      if (!isLt5M) {
-        message.error("上传图片不能大于5M!");
-      }
-      return isLt5M;
-    }
-
   }
 }
 

@@ -1,11 +1,7 @@
 import React, { Component } from 'react';
-import {Modal,message, Input, Select, Form, Button, Checkbox, Radio, DatePicker, Upload, Icon} from 'antd'
-import BaseForm from "../common/BaseForm"
+import {Modal,message, Select, Form, Button, Upload, Icon} from 'antd'
 import ofteraxios from '../../axios/ofter'
-
-
 const FormItem = Form.Item;
-const Option = Select.Option;
 class CheckReportModel extends Component {
   constructor(props){
     super(props);
@@ -98,20 +94,6 @@ class CheckReportModel extends Component {
         sm: { span: 10 },
       },
     };
-    const tailFormItemLayout = {
-      wrapperCol: {
-        xs: {
-          span: 24,
-          offset: 0,
-        },
-        sm: {
-          span: 16,
-          offset: 8,
-        },
-      },
-    };
-    
-
     return (
       <div className="CheckReportModel">
         <Modal
@@ -121,8 +103,6 @@ class CheckReportModel extends Component {
           footer={null}
         >
           <Form className='baseform' {...formItemLayout} >
-
-
               <FormItem label='选择文件' key='modoc'>
                   {getFieldDecorator('filepath', {
                       rules: [{
@@ -145,16 +125,6 @@ class CheckReportModel extends Component {
         </Modal>
       </div>
     );
-
-    function beforeUpload(file) {
-      console.log('file',file)
-      const isLt5M = file.size / 1024 / 1024 < 5;
-      if (!isLt5M) {
-        message.error("上传图片不能大于5M!");
-      }
-      return isLt5M;
-    }
-
   }
 }
 
