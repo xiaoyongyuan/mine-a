@@ -1,17 +1,6 @@
 import React, { Component } from 'react';
-import {Modal,message, Input, Select, Form, Button, Checkbox, Radio, DatePicker, Upload, Icon} from 'antd'
-import BaseForm from "../common/BaseForm"
-import ofteraxios from '../../axios/ofter'
-import axios from '../../axios'
-
-
+import {Modal,message, Select, Form, Button, Upload, Icon} from 'antd'
 const FormItem = Form.Item;
-const Option = Select.Option;
-const cadformat="image/vnd.dwg,image/vnd.dxf";
-const excelformat="application/vnd.ms-excel application/x-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
-const wordformat="application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document";
-
-
 class UploadModel extends Component {
   constructor(props){
     super(props);
@@ -29,7 +18,7 @@ class UploadModel extends Component {
   }
   changeState=(key,val)=>{
       this.setState({[key]:val})
-  }
+  };
   componentDidMount(){
     }
   reset = ()=>{ //取消表单
@@ -37,10 +26,10 @@ class UploadModel extends Component {
       filepathexcel:'',
       filepath:'',
       filepathcad:''
-    })
+    });
       this.props.form.resetFields();
       this.props.uploadreset()
-  }
+  };
   handleFilterSubmit = ()=>{//查询提交
     const _this=this;
       this.props.form.validateFields((err, values) => {
@@ -49,9 +38,9 @@ class UploadModel extends Component {
               if(!_this.state.filepath && !_this.state.filepathexcel && !_this.state.filepathcad){
                 return message.warn('请上传文件！')
               } 
-              data.filepath=_this.state.filepath
-              data.filepathexcel=_this.state.filepathexcel
-              data.filepathcad=_this.state.filepathcad
+              data.filepath=_this.state.filepath;
+              data.filepathexcel=_this.state.filepathexcel;
+              data.filepathcad=_this.state.filepathcad;
               _this.props.changeSubmit(data);
               _this.props.form.resetFields();
           }
@@ -76,11 +65,10 @@ class UploadModel extends Component {
           
             
         }
-    }
+    };
   removefile=(file,fileurl)=>{ //删除文件
     this.setState({[fileurl]:''})
-  } 
-
+  };
   render() {
     const { getFieldDecorator } = this.props.form;
     const formItemLayout = {
@@ -93,20 +81,6 @@ class UploadModel extends Component {
         sm: { span: 10 },
       },
     };
-    const tailFormItemLayout = {
-      wrapperCol: {
-        xs: {
-          span: 24,
-          offset: 0,
-        },
-        sm: {
-          span: 16,
-          offset: 8,
-        },
-      },
-    };
-    
-
     return (
       <div className="UploadModel">
         <Modal
@@ -166,18 +140,7 @@ class UploadModel extends Component {
         </Modal>
       </div>
     );
-
-    function beforeUpload(file) {
-      console.log('file',file)
-      const isLt5M = file.size / 1024 / 1024 < 5;
-      if (!isLt5M) {
-        message.error("上传图片不能大于5M!");
-      }
-      return isLt5M;
-    }
-
   }
 }
-
 export default UploadModel=Form.create({})(UploadModel);
 
