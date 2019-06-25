@@ -51,7 +51,6 @@ class Userinfo extends Component {
         });
     };
     showModelEdit = (code,record,index) =>{//编辑用户
-        console.log("父code",code);
         this.setState({
             modeltitle:'编辑',
             visible: true,
@@ -63,7 +62,6 @@ class Userinfo extends Component {
         e.preventDefault();
         const forms=this.formRef.formref();
         forms.validateFields((err, values) => {
-            console.log("values",values);
             if (!err) {
                 const data={
                     account:values.account,
@@ -132,14 +130,12 @@ class Userinfo extends Component {
         })
     };
     requestList = ()=>{
-        console.log("this.params",this.params);
         const quparams = {
             pagesize: 10,
             pageindex: this.params.pageindex,
             account:this.state.account,
         };
         axios.ajax({
-            baseURL:'http://192.168.10.29:8001/sys',
             method: 'get',
             url: '/api/companyUser',
             data: quparams
