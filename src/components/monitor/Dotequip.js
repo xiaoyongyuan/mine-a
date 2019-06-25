@@ -493,7 +493,7 @@ class Dotequip extends Component {
               <span className="label block">监测规划</span>
             </Col>
             <Col span={4}> {this.selprorender()}</Col>
-            <Col span={3}>
+            <Col span={4}>
               <span className="cont block">
                 <span className="tit block">
                   <Icon
@@ -516,7 +516,7 @@ class Dotequip extends Component {
               <span className="label block">监测网</span>
             </Col>
             <Col span={4}> {this.seltyperender()}</Col>
-            <Col span={3}>
+            <Col span={4}>
               <span className="cont block">
                 <span className="tit block">
                   <Icon
