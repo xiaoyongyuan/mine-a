@@ -5,9 +5,6 @@ import Utils from "../../utils/utils";
 import BaseForm from "../common/BaseForm"
 import Etable from "../common/Etable"
 import MonitModel from "./MonitModel"
-
-
-
 class Monitorpro extends Component {
     state  ={
       newShow:false
@@ -84,8 +81,8 @@ class Monitorpro extends Component {
       this.requestList();
     };
     uploadOk=(params)=>{ //上传提交
-      this.setState({newShow:false})
-      const _this=this
+      this.setState({newShow:false});
+      const _this=this;
       axios.ajax({
         baseURL:window.g.cuiURL,
         method: 'get',
