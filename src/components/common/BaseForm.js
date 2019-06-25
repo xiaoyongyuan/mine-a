@@ -13,7 +13,6 @@ import {
   message
 } from "antd";
 import moment from "moment";
-import axios from "../../axios";
 import ofterajax from "../../axios/ofter";
 
 import "./index.less";

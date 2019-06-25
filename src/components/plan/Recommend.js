@@ -127,7 +127,7 @@ class Recommend extends Component {
                               {/*<Link className="" to={'/main/lookplan'}  style={{color:'rgba(0, 0, 0, 0.65)'}}>*/}
                           <div className="dettitle">
                             <div className="detlogo">
-                              <img src={icon} />
+                              <img alt="" src={icon} />
                             </div>
                             <div className="detname">
                                 <div className="plan-title">{v.plantitle}</div>

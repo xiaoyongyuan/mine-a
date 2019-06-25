@@ -10,7 +10,7 @@ export default class Axios {
                 param: 'callback'
             }, function (err, response) {
                 console.log('response',response)
-                if (response&&response.status == 'success') {
+                if (response&&response.status === 'success') {
                     resolve(response);
                 } else {
                     reject(response.msg);
@@ -25,7 +25,7 @@ export default class Axios {
             loading = document.getElementById('ajaxLoading');
             loading.style.display = 'block';
         }
-        const token=localStorage.getItem("token")
+        const token=localStorage.getItem("token");
         return new Promise((resolve,reject)=>{
             if(!token){
                window.location.href='#/login'
@@ -47,14 +47,14 @@ export default class Axios {
                     loading = document.getElementById('ajaxLoading');
                     loading.style.display = 'none';
                 }
-                if(response&&response.status=='200'){
+                if(response&&response.status==='200'){
                     const res=response.data;
                     if(res.success===0){resolve(res)}
                     if(res.success===1){
                         resolve(res)
-                    }else if(res.success=='401' || res.success=='402'){
+                    }else if(res.success==='401' || res.success==='402'){
                         reject(response.msg);
-                        message.error(res.msg)
+                        message.error(res.msg);
                         window.location.href='#/login'
                     }else message.error(res.msg)
                 }else reject(response.msg);
@@ -76,7 +76,7 @@ export default class Axios {
                         loading = document.getElementById('ajaxLoading');
                         loading.style.display = 'none';
                     }
-                    if(response&&response.status=='200'){
+                    if(response&&response.status==='200'){
                         const res=response.data;
                         resolve(res)
                     }else reject(response.msg);
@@ -109,7 +109,7 @@ export default class Axios {
                     loading = document.getElementById('ajaxLoading');
                     loading.style.display = 'none';
                 }
-                if(response&&response.status=='200'){
+                if(response&&response.status==='200'){
                     const res=response.data;
                     resolve(res)
                 }else reject(response.msg);
@@ -117,10 +117,4 @@ export default class Axios {
 
         })
     }
-
-
-    
-
-
-
 }
