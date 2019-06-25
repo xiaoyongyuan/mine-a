@@ -1,7 +1,5 @@
 import React, { Component } from "react";
-import OverallEcharts from "../datashow/OverallEcharts";
 import DataOverviewEcharts from "../DataOverviewEcharts";
-import {Col} from "antd";
 class CurveChart extends Component {
   constructor(props) {
     super(props);
