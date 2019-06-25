@@ -30,7 +30,6 @@ class LayerHeader extends Component {
         });
     };
   render() {
-    console.log('dddd',this.props,window.location)
     return (
       <div className="LayerHeader">
         <div className="header-left">
