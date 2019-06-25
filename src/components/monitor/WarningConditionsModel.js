@@ -4,7 +4,6 @@ import {Modal, Cascader, Select, Button} from 'antd';
 import axios from "../../axios";
 const FormItem = Form.Item;
 const Option = Select.Option;
-let vis=false;
 class WarningConditionsModel extends Component{
     constructor(props){
         super(props);
@@ -46,7 +45,7 @@ class WarningConditionsModel extends Component{
                         options:arrs
                     })
                 }
-            });
+            },(res)=>{});
         }
     };
     handleFilterSubmit=()=>{
@@ -65,7 +64,6 @@ class WarningConditionsModel extends Component{
     };
     onChange = (value,selectedOptions) => {
         this.setState({monitoring:selectedOptions});
-        //console.log(value,selectedOptions)
     };
     loadData = selectedOptions => {
         const targetOption = selectedOptions[selectedOptions.length - 1];
@@ -93,7 +91,7 @@ class WarningConditionsModel extends Component{
                         options: [...this.state.options],
                     });
                 }
-            });
+            },(res)=>{});
 
     };
     render() {

@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import {Modal, Input, Form, Select, Button, Icon} from 'antd';
 import WarningConditionsModel from "./WarningConditionsModel";
-import axios from "../../axios";
 import ofteraxios from "../../axios/ofter";
 const FormItem = Form.Item;
 const Option = Select.Option;
@@ -61,16 +60,13 @@ class WarningModel extends Component{
         let arrs=[];//存取监测点
         //取出监测点
         params.monitoring.map((v)=>{
-            arrs.push(v.label);
+             return arrs.push(v.label);
         });
         // 给params.values赋值属性pointsPro
         params.values[0]["pointsPro"]=arrs.toString();
         for(let i in params.values){
             this.state.receive.push(params.values[i]);
         }
-        params.map((v)=>{
-
-        })
     };
     //删除监测点
     hanleDelete=(i)=>{

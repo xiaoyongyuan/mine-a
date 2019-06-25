@@ -79,7 +79,6 @@ class ClaaMonitor extends Component {
         duration:'22',
         status:'1',
         brand:'克拉',
-        frequency:'1',
         num:'10',
         register:0
 
@@ -95,7 +94,6 @@ class ClaaMonitor extends Component {
         duration:'22',
         status:'1',
         brand:'克拉',
-        frequency:'1',
         num:'10',
         register:1
       }],

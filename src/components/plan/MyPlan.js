@@ -94,11 +94,10 @@ class MyPlan extends Component {
                                 <Link className="detmain" to={'/main/lookplan?id='+v.code}>
                                 <div className="dettitle">
                                   <div className="detlogo">
-                                    <img src={icon} />
+                                    <img src={icon} alt='logo' />
                                   </div>
                                   <div className="detname">
                                       <div className="plan-title">{v.plantitle}</div>
-                                    {/*<div><span className="greencolor">{v.cname}</span> {v.khdate}</div>*/}
                                       <div><span className="greencolor">企业名称</span> {moment(v.createon).format('YYYY-MM-DD')}</div>
                                       <div className="intro">{v.summary}</div>
                                       <div className="planMore">更多&gt;&gt;&gt;</div>
@@ -109,7 +108,7 @@ class MyPlan extends Component {
                               <Link className="detmain" to={'/main/edit?id='+v.code}>
                                 <div className="dettitle">
                                   <div className="detlogo">
-                                      <img src={icon} />
+                                      <img src={icon} alt='logo' />
                                   </div>
                                   <div className="detname">
                                       <div className="plan-title">{v.plantitle}</div>

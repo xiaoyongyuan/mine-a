@@ -3,7 +3,6 @@ import {Modal, InputNumber, Select, Form, Button, message, Input} from 'antd'
 import ofteraxios from '../../axios/ofter'
 import axios from "../../axios";
 const FormItem = Form.Item;
-const Option = Select.Option;
 let vis=false;
 class ThresholdEditModel extends Component {
   constructor(props){
