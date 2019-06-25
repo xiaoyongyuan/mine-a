@@ -10,7 +10,6 @@ import CheckReport from "./CheckReport.js";
 import Utils from "../../utils/utils";
 
 import "../../style/jhy/css/dotdetails.less";
-const bizserviceURL = window.g.bizserviceURL;
 const easyURL = window.g.easyURL;
 
 const { TabPane } = Tabs;
