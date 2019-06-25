@@ -68,7 +68,7 @@ class Funds extends Component {
         this.changeState('newShow',false);
         axios.ajax({
             method: 'post',
-            url: '/api/itemFund',
+            url: '/sys/api/itemFund',
             data: params
         }).then((res)=>{
             const list=this.state.list;
@@ -84,9 +84,8 @@ class Funds extends Component {
     };
     requestList=()=>{
       axios.ajax({
-      	baseURL:'http://192.168.10.29:8001/sys',
         method: 'get',
-        url: '/api/itemFund',
+        url: '/sys/api/itemFund',
         data: this.params
       }).then((res)=>{
         if(res.success){
