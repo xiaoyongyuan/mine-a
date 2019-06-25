@@ -60,7 +60,6 @@ class SurveyRepro extends Component {
     
     requestList=()=>{
       axios.ajax({
-        // baseURL:window.g.wangURL,
         method: 'get',
         url: '/bizservice/api/getItemfileList',
         data: this.params
