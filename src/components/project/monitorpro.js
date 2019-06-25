@@ -25,9 +25,8 @@ class monitorpro extends Component {
 
     requestList=()=>{
         axios.ajax({
-            baseURL:window.g.wangURL,
             method: 'get',
-            url: '/api/getItemfileList',
+            url: '/bizservice/api/getItemfileList',
             data: this.params
         })
             .then((res)=>{
@@ -53,9 +52,8 @@ class monitorpro extends Component {
             this.setState({newShow:false});
             params.oldcode=id;
             axios.ajax({
-            baseURL:window.g.wangURL,
             method: 'put',
-            url: '/api/itemfile',
+            url: '/bizservice/api/itemfile',
             data: params
         }).then((res)=>{
                 if(res.success){
@@ -73,9 +71,8 @@ class monitorpro extends Component {
                 params.projectname=toparams.projectname;
             }
             axios.ajax({
-                baseURL:window.g.wangURL,
                 method: 'post',
-                url: '/api/itemfile',
+                url: '/bizservice/api/itemfile',
                 data: params
             }).then((res)=>{
                     if(res.success){
@@ -101,9 +98,8 @@ class monitorpro extends Component {
           content: '确认添加至我的预案？',
           onOk() {
             axios.ajax({
-                baseURL:window.g.wangURL,
                 method: 'put',
-                url: '/api/itemfile',
+                url: '/bizservice/api/itemfile',
                 data: {
                     states:'1',
                     code:code,
