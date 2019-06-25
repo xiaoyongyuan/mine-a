@@ -60,9 +60,8 @@ class Equipmanage extends Component {
     changePage = (page) => {
         this.setState({page}, () =>this.requestList())
     };
-
-    requestListEquiptype = () =>{
-        ofteraxios.equiptypelistquery().then(res=>{ //设备类型
+    requestListEquiptype = () =>{//设备类型
+        ofteraxios.equiptypelistquery().then(res=>{ 
             if(res.success){
                 res.data.map(
                     item=>this.state.equiptypeArr.push(
@@ -77,25 +76,17 @@ class Equipmanage extends Component {
                     name:'全部'
                 })
             }
-        });
+        },(res)=>{});
     };
-
     requestList = ()=>{
-        const quparams = {
-            pagesize: 10,
-            pageindex: this.params.pageindex,
-            devicename:this.state.devicename,
-            sccj:this.state.sccj,
-            devicecode:this.state.devicecode,
-            devicetype:this.state.devicetype
-        };
+        const _this=this;
         axios.ajax({
             method: 'get',
             url: '/device/api/equipment',
-            data: quparams
+            data: _this.params
         }).then((res)=>{
             if(res.success){
-                this.setState({
+                _this.setState({
                     list:res.data,
                     pagination:Utils.pagination(res,(current)=>{
                         this.params.pageindex=current;
@@ -106,15 +97,9 @@ class Equipmanage extends Component {
         },(res)=>{});
     };
     handleFilterSubmit=(params)=>{ //查询
-        this.setState({
-            devicename:params.name,
-            sccj:params.manufacturers,
-            devicecode:params.cid,
-            devicetype:params.equiptype,
-            pageindex:1
-        }, () => {
-            this.requestList();
-        });
+        this.params=params;
+        this.params.pageindex=1;
+        this.requestList();
     };
     render() {
         const columns=[{
