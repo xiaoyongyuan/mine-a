@@ -14,7 +14,7 @@ class ClaaMonitor extends Component {
     };
     this.params = {
         page:1,   
-    }
+    };
     this.equiptype = [];
     this.formList = [
         {
@@ -43,8 +43,6 @@ class ClaaMonitor extends Component {
           initialValue: '',
         },
     ]
-    
-
   }
   componentDidMount(){
     this.equiptype=[{
@@ -56,14 +54,14 @@ class ClaaMonitor extends Component {
     },{
       code:'3',
       name:'CNSS'
-    }] 
+    }];
     this.requestList();
   }
   changePage=(page,pageSize)=>{
     this.setState({
       page
     })
-  }
+  };
   requestList = ()=>{
     const data={
       success:1,
@@ -100,7 +98,7 @@ class ClaaMonitor extends Component {
       pageSize:10,
       page:this.params.page,
       total:30,
-    }
+    };
 
     this.setState({
         list:data.data,
@@ -109,11 +107,11 @@ class ClaaMonitor extends Component {
             this.requestList();
         })
     })
-  }
+  };
   selectEquiptype=(e)=>{ //选择设备
-    this.setState({equipment:e.target.value,page:1})
+    this.setState({equipment:e.target.value,page:1});
     this.requestList();
-  }
+  };
 
   render() {
       const columns=[{
@@ -156,7 +154,7 @@ class ClaaMonitor extends Component {
       },{
         title: '最后一次数据',
         dataIndex: 'lastdata',
-      }]
+      }];
       const rowSelection = {
         columnTitle:'选择'
       };
@@ -180,5 +178,4 @@ class ClaaMonitor extends Component {
     );
   }
 }
-
 export default ClaaMonitor;

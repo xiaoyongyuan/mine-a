@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import Etable from "../common/Etable"
-import BaseForm from "../common/BaseForm";
 import {Button,message,Modal} from "antd";
 import axios from "../../axios";
 import Utils from "../../utils/utils";
@@ -15,7 +14,6 @@ class Threshold extends Component {
           newShow:false
       };
   }
-
   componentDidMount() {
       this.requestList();
   }

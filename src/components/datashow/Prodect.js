@@ -1,6 +1,4 @@
 import React, { Component } from 'react';
-import ReactEcharts from 'echarts-for-react';
-import { Icon,List,Card,Progress,Typography } from 'antd'
 import Egraph from './../common/Egraph'
 import './mapshow.less'
 class Prodect extends Component {

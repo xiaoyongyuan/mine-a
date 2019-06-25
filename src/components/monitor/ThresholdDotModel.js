@@ -1,9 +1,7 @@
 import React, { Component } from 'react';
 import {Modal, InputNumber, Select, Form, Button, Input, message} from 'antd'
-import ofteraxios from '../../axios/ofter'
 import axios from "../../axios";
 const FormItem = Form.Item;
-const Option = Select.Option;
 let vis=false;
 class ItemModel extends Component {
   constructor(props){

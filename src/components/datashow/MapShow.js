@@ -1,19 +1,15 @@
 import React, { Component } from 'react';
 import moment from 'moment';
-import Itemshow from './Itemshow';
 import { Icon} from 'antd'
 import ArcGISMap from './ArcGISMap';
 import Pandect from './Pandect';
 import Monitor from './Monitor';
 import Gis from './Gis';
 import Prodect from './Prodect';
-
 import logo from '../../style/imgs/logo.png';
 import globa from '../../style/imgs/globa.png';
 import pointer from '../../style/imgs/pointer.png';
 import hometitle from '../../style/imgs/hometitle.png';
-
-
 import './mapshow.less'
 class MapShow extends Component {
     constructor(props){
@@ -33,22 +29,19 @@ class MapShow extends Component {
         setInterval(()=>{
                 _this.setState({systime:moment().format('YYYY-MM-DD hh:mm:ss')})
         },30000)
-
-
     }
     clickbtn=(val)=>{
         this.setState({showitem:val,activepointer:'active'+val})
-    }
+    };
     trigger=()=>{
         const tigclose=this.state.tigclose;
         this.setState({tigclose:!tigclose})
-    }
-
+    };
     render() {
         return (
             <div className="MapShow">
                 <div className="hometitle">
-                    <img src={hometitle} width="100%" />
+                    <img alt="" src={hometitle} width="100%" />
                 </div>
                 <div className="arcgis">
                     <ArcGISMap />
@@ -73,7 +66,7 @@ class MapShow extends Component {
                     </div>
                     <div className="rightshow">
                         <div className="headlogo">
-                            <img src={logo} />
+                            <img alt="" src={logo} />
                         </div>
                         <div className="switchRound">
                             <div className='currentweek'>
@@ -87,8 +80,8 @@ class MapShow extends Component {
                         </div>
                         <div className="roundBtn">
                             <div className="roundline">
-                                <div className='centericon'><img src={globa}  /></div>
-                                <div className={'pointer '+this.state.activepointer }><img src={pointer}  /></div>
+                                <div className='centericon'><img alt="" src={globa}  /></div>
+                                <div className={'pointer '+this.state.activepointer }><img alt="" src={pointer}  /></div>
                                 <div className={this.state.showitem=='pandect'?'showitem rounditem pandect':'rounditem pandect'} onClick={()=>this.clickbtn('pandect')}>系统总览</div>
                                 <div className={this.state.showitem=='monitor'?'showitem rounditem monitor':'rounditem monitor'} onClick={()=>this.clickbtn('monitor')}>监测数据</div>
                                 <div className={this.state.showitem=='gis'?'showitem rounditem gis':'rounditem gis'} onClick={()=>this.clickbtn('gis')}>遥感监测</div>
@@ -97,18 +90,14 @@ class MapShow extends Component {
                         </div>
                         <div className="itemshow">
                             <div className="Itemshow">
-                            {this.state.showitem=='pandect'?<Pandect />:null}
-                            {this.state.showitem=='monitor'?<Monitor />:null}
-                            {this.state.showitem=='gis'?<Gis />:null}
-                            {this.state.showitem=='prodect'?<Prodect />:null}   
+                            {this.state.showitem==='pandect'?<Pandect />:null}
+                            {this.state.showitem==='monitor'?<Monitor />:null}
+                            {this.state.showitem==='gis'?<Gis />:null}
+                            {this.state.showitem==='prodect'?<Prodect />:null}
                             </div>
-                            {/*<Itemshow showitem={this.state.showitem} />  */} 
                         </div> 
                     </div>               
                 </div>
-                {/*<div className="trigger" onClick={this.trigger}>
-                                    <div className="triggercont"><Icon type={this.state.tigclose?'double-right':'double-left'} /></div>
-                                </div>*/}
                 </div>
             </div>
         );
