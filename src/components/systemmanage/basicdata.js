@@ -50,8 +50,7 @@ class Basicdata extends Component {
     componentDidMount(){
         this.requestList();
     };
-    changePage = (page) => { //分页  页码改变的回调，参数是改变后的页码及每页条数
-        console.log("page",page);
+    changePage = (page) => {
         this.setState({
             page: page,
         }, () => {
@@ -59,7 +58,6 @@ class Basicdata extends Component {
         })
     };
     requestList = ()=>{
-        console.log("this.params",this.params);
         const quparams = {
             pagesize: 10,
             pageindex: this.params.pageindex,
@@ -71,22 +69,19 @@ class Basicdata extends Component {
             url: '/firstdata',
             data: quparams
         }).then((res)=>{
-            console.log("res",res);
             if(res.success){
                 this.setState({
                     list:res.data,
                     total: res.totalcount,
                     pagination:Utils.pagination(res,(current)=>{
-                        console.log("current",current);
                         this.params.pageindex=current;
                         this.requestList();
                     })
                 })
             }
-        });
+        },(res)=>{});
     };
     handleFilterSubmit=(params)=>{ //查询
-        console.log("params",params);
         this.setState({
             cid:params.cid,
             name:params.name,

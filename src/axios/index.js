@@ -26,7 +26,6 @@ export default class Axios {
             loading.style.display = 'block';
         }
         const token=localStorage.getItem("token")
-         
         return new Promise((resolve,reject)=>{
             if(!token){
                window.location.href='#/login'

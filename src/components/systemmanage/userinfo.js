@@ -18,7 +18,7 @@ class Userinfo extends Component {
           item:[
               {
                   type: 'INPUT',
-                  label: '工号',
+                  label: '用户名',
                   field:'account',
                   placeholder:'',
               },{
@@ -68,12 +68,10 @@ class Userinfo extends Component {
                     linktel:values.linktel,
                     realanme:values.realanme,
                 };
-                if(this.state.type === 0){
-                    //新增');
-                    console.log("新增");
+                if(this.state.type === 0){ //新增
                     axios.ajax({
                         method: 'post',
-                        url: '/api/companyUser',
+                        url: '/sys/api/companyUser',
                         data: data
                     }).then((res)=>{
                         const list=this.state.list;
@@ -85,22 +83,19 @@ class Userinfo extends Component {
                                list:list
                             });
                         }
-                    });
-                }else{
-                    //编辑接口');
-                    console.log("编辑");
+                    },(res)=>{});
+                }else{//编辑
                     data.code=this.state.codetype;
-                    console.log("data",data);
                     axios.ajax({
                         method: 'put',
-                        url: '/api/companyUser',
+                        url: '/sys/api/companyUser',
                         data: data
                     }).then((res)=>{
                         if(res.success){
                             message.success('编辑成功！', 3);
                             this.requestList();
                         }
-                    });
+                    },(res)=>{});
                 }
                 this.setState({
                     visible: false
@@ -121,8 +116,7 @@ class Userinfo extends Component {
     componentDidMount(){
         this.requestList();
     };
-    changePage = (page) => { //分页  页码改变的回调，参数是改变后的页码及每页条数
-        console.log("page",page);
+    changePage = (page) => {
         this.setState({
             page: page,
         }, () => {
@@ -137,7 +131,7 @@ class Userinfo extends Component {
         };
         axios.ajax({
             method: 'get',
-            url: '/api/companyUser',
+            url: '/sys/api/companyUser',
             data: quparams
         }).then((res)=>{
             if(res.success){
@@ -151,19 +145,15 @@ class Userinfo extends Component {
                     })
                 })
             }
-        });
+        },(res)=>{});
     };
     handleFilterSubmit=(params)=>{ //查询
-        console.log("params",params);
         this.setState({
             account:params.account,
             pageindex:1
         }, () => {
             this.requestList();
         });
-        // console.log("account",this.state.account);
-        // this.params = params;
-        // this.requestList();
     };
     showModaldelete = (code,index) =>{ //删除弹层
         this.setState({
@@ -189,10 +179,9 @@ class Userinfo extends Component {
         const data={
             code:this.state.code,
         };
-        console.log("data",data);
         axios.ajax({
             method: 'post',
-            url: '/api/resetPassword',
+            url: '/sys/api/resetPassword',
             data: data
         }).then((res)=>{
             if(res.success){
@@ -201,7 +190,7 @@ class Userinfo extends Component {
                 });
                 message.success('密码重置成功！', 3);
             }
-        });
+        },(res)=>{});
     };
     deleteCancel = () =>{ //删除取消
         this.setState({
@@ -217,35 +206,34 @@ class Userinfo extends Component {
         console.log("data",data);
         axios.ajax({
             method: 'delete',
-            url: '/api/companyUser',
+            url: '/sys/api/companyUser',
             data: data
         }).then((res)=>{
             if(res.success){
-                message.success('删除成功！', 3);
+                message.success('删除成功！');
                 this.setState({
                     list:list,
                     deleteshow: false,
                 })
             }
-        });
+        },(res)=>{});
     };
-
 
     render() {
         const _this=this;
         const columns=[{
             title: '序号',
             dataIndex: 'index',
-            render: (text, record,index) => (index+1),
+            render: (text,record,index) => (index+1),
+        },{
+            title: '用户名',
+            dataIndex: 'account',
         },{
             title: '姓名',
             dataIndex: 'realanme',
         },{
             title: '电话',
             dataIndex: 'linktel',
-        },{
-            title: '工号',
-            dataIndex: 'account',
         },{
             title: '职位',
             dataIndex: 'psition',
@@ -261,7 +249,9 @@ class Userinfo extends Component {
             dataIndex: 'code',
             columnWidth:'100px',
             render: (text,record,index) =>{
+              if(record.account!=='admin'){
                 return(<div className="tableoption"><span className="greencolor" onClick={() => _this.showModelEdit(text,record,index)}><Button type="primary">编辑</Button></span><span className="redcolor" onClick={()=>_this.showModaldelete(text,index)}><Button type="primary">删除</Button></span><span className="redcolor" onClick={()=>_this.showModalreset(text,index)}><Button type="primary">密码重置</Button></span></div>)
+              }
             }
         }];
     return (
@@ -275,7 +265,6 @@ class Userinfo extends Component {
                       <Button type="primary" onClick={this.showModal}><span className="actionfont action-xinzeng"/>&nbsp;&nbsp;新增</Button>
                   </div>
               </div>
-
               <Etable
                   ref="pageChange"
                   bordered

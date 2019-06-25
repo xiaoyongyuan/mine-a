@@ -12,25 +12,16 @@ class Equipmanage extends Component {
         this.state={
             visible:false,
             page: 1,
-            equiptypeArr:[
-                // {code: "0", name: "全部"},
-                // {code: "1", name: "GNSS"},
-            ]
+            equiptypeArr:[]
         };
         this.formList={
             type:'inline',
             item:[
                 {
                     type: 'INPUT',
-                    label: '设备编码',
-                    field:'cid',
-                    placeholder:'',
-                },
-                {
-                    type: 'INPUT',
-                    label: '设备名称',
-                    field:'name',
-                    placeholder:'',
+                    label: '设备编码/名称/厂家',
+                    field:'combination',
+                    placeholder:'请输入设备编码/名称/厂家',
                 },
                 {
                     type: 'SELECT',
@@ -40,12 +31,6 @@ class Equipmanage extends Component {
                     initialValue: '',
                     list:this.state.equiptypeArr,
                     width:"195px"
-                },
-                {
-                    type: 'INPUT',
-                    label: '厂家',
-                    field:'manufacturers',
-                    placeholder:'',
                 },{
                     type:'button',
                     button:[
@@ -72,19 +57,13 @@ class Equipmanage extends Component {
     componentDidMount(){
         this.requestList();
     };
-    changePage = (page) => { //分页  页码改变的回调，参数是改变后的页码及每页条数
-        console.log("page",page);
-        this.setState({
-            page: page,
-        }, () => {
-            this.requestList();
-        })
+    changePage = (page) => {
+        this.setState({page}, () =>this.requestList())
     };
 
     requestListEquiptype = () =>{
         ofteraxios.equiptypelistquery().then(res=>{ //设备类型
             if(res.success){
-                // var equiptypeArr=[];
                 res.data.map(
                     item=>this.state.equiptypeArr.push(
                         {
@@ -97,20 +76,11 @@ class Equipmanage extends Component {
                     code:'',
                     name:'全部'
                 })
-                // this.setState(
-                //     {
-                //         equiptypeArr,
-                //         selectmontinet:equiptypeArr.length?equiptypeArr[0].code:''
-                //     },()=>{
-                //         console.log("equiptypeArr",equiptypeArr);
-                //     }
-                // )
             }
         });
     };
 
     requestList = ()=>{
-        console.log("this.params",this.params);
         const quparams = {
             pagesize: 10,
             pageindex: this.params.pageindex,
@@ -120,27 +90,22 @@ class Equipmanage extends Component {
             devicetype:this.state.devicetype
         };
         axios.ajax({
-            baseURL:window.g.deviceURL,
             method: 'get',
-            url: '/api/equipment',
+            url: '/device/api/equipment',
             data: quparams
         }).then((res)=>{
-            console.log("res",res);
             if(res.success){
                 this.setState({
                     list:res.data,
-                    total: res.totalcount,
                     pagination:Utils.pagination(res,(current)=>{
-                        console.log("current",current);
                         this.params.pageindex=current;
                         this.requestList();
                     })
                 })
             }
-        });
+        },(res)=>{});
     };
     handleFilterSubmit=(params)=>{ //查询
-        console.log("params",params);
         this.setState({
             devicename:params.name,
             sccj:params.manufacturers,
@@ -162,7 +127,7 @@ class Equipmanage extends Component {
             render: (text,record,index) =>{
                 return(
                     <div>
-                        <img src={text} alt="" style={{width:'100px',height:'50px' }} />
+                        <img src={window.g.sys+text} alt="" style={{width:'100px',height:'50px' }} />
                     </div>
                 )
             }

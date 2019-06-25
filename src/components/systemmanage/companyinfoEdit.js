@@ -1,17 +1,16 @@
 import React, { Component } from 'react';
-import {Button,Modal,Row,Col,Typography,Input,Upload, Icon, message } from "antd";
+import {Button,Row,Col,Input,Upload, Icon, message } from "antd";
 import "../../style/yal/css/companyinfoEdit.less";
 import axios from "../../axios";
-import Utils from "../../utils/utils";
 
 const { TextArea } = Input;
-const { Paragraph } = Typography;
 class companyinfoEdit extends Component {
     constructor(props){
         super(props);
         this.state={
             str:'北斗环境',
-            isEdite:true
+            isEdite:true,
+            disabledbtn:false, //按钮可点击状态
         };
     }
     componentDidMount(){
@@ -22,12 +21,10 @@ class companyinfoEdit extends Component {
             code: 1,
         };
         axios.ajax({
-            // baseURL:window.g.cuiURL,
             method: 'get',
-            url: '/api/companyById',
+            url: '/sys/api/companyById',
             data: quparams,
         }).then((res)=>{
-            console.log("res",res);
             if(res.success){
                 this.setState({
                     cname:res.data.cname,//企业名称
@@ -46,7 +43,7 @@ class companyinfoEdit extends Component {
                     projectaddrs:res.data.addrs
                 })
             }
-        });
+        },(res)=>{});
     };
 
     getBase64 = (img, callback) => {
@@ -74,8 +71,6 @@ class companyinfoEdit extends Component {
             return;
         }
         if (info.file.status === 'done') {
-            console.log("url地址",info.file.response.data.url);
-            // Get this url from response in real world.
             this.getBase64(info.file.originFileObj, imageUrl =>
                 this.setState({
                     imageUrl,
@@ -87,7 +82,6 @@ class companyinfoEdit extends Component {
     };
 
     onChange = str => {
-        console.log('Content change:', str);
         this.setState({ str });
     };
     //编辑
@@ -113,6 +107,8 @@ class companyinfoEdit extends Component {
     //提交
     handleSubmitClick = (e) =>{
         e.preventDefault();
+        this.setState({disabledbtn:true})
+        
         this.setState({
             cname:this.state.cname,
             addrs:this.state.addrs,
@@ -140,53 +136,26 @@ class companyinfoEdit extends Component {
             currentinfo:this.state.intro,
             linkmen:this.state.projectusername,
             logo:this.state.logo,
-            // roleIds:1,
-            // prijecttel:this.state.prijecttel,
-            // projectemail:this.state.projectemail,
-            // projectaddrs:this.state.projectaddrs,
-            // zcaddrs:this.state.zcaddrs,
         };
         axios.ajax({
-            baseURL:'http://192.168.10.29:8001/sys',
             method: 'put',
-            url: '/api/company',
+            url: '/sys/api/company',
             data: data
         }).then((res)=>{
             if(res.success === 1){
-                console.log("编辑成功！");
-                message.success('编辑成功！', 3);
-                window.location.href="#/main/companyinfo";
-                this.requestList();
+                message.success('编辑成功',2,()=>window.location.href="#/main/companyinfo");
+            }else if(res.success === 0){
+                this.setState({disabledbtn:false})
+                message.error('修改企业失败');
             }
-            if(res.success === 0){
-                message.error('修改企业失败，企业角色必传！',3);
-            }
-        });
+        },(res)=>{});
     };
     //取消
     handleCancleClick = () =>{
         window.location.href="#/main/companyinfo";
-        /*this.setState({
-            cname:this.state.oldcname,
-            addrs:this.state.oldaddrs,
-            logo:this.state.oldlogo,
-            username:this.state.oldusername,
-            isEdite:true,
-            tel:this.state.oldtel,
-            email:this.state.oldemail,
-            khdate:this.state.oldkhdate,
-            projectcname:this.state.oldprojectcname,
-            intro:this.state.oldintro,
-            projectusername:this.state.oldprojectusername,
-            prijecttel:this.state.oldprijecttel,
-            projectemail:this.state.oldprojectemail,
-            projectaddrs:this.state.oldprojectaddrs,
-            zcaddrs:this.state.oldzcaddrs,
-        })*/
     };
     //输入企业名称
     InputonChange = (e) =>{
-        console.log(e.target.value);
         this.setState({
             cname:e.target.value
         });
@@ -279,9 +248,6 @@ class companyinfoEdit extends Component {
                         <Col span={12}>
                             <p> <Icon type="bars" />企业信息</p>
                         </Col>
-                       {/* <Col span={12} className="canclebtn-col">
-                           <Button className="canclebtn" onClick={this.handleEditClick}>编辑</Button>
-                        </Col>*/}
                     </Row>
                     <Row className="equ_row">
                         <Col span={3} className="t_r">
@@ -301,7 +267,7 @@ class companyinfoEdit extends Component {
                                 listType="picture-card"
                                 className="avatar-uploader"
                                 showUploadList={false}
-                                action="http://192.168.10.29:8001/sys/api/uploadFile"
+                                action={window.g.baseURL+"/sys/api/uploadFile"}
                                 beforeUpload={this.beforeUpload}
                                 onChange={this.handleChange}
                             >
@@ -423,8 +389,8 @@ class companyinfoEdit extends Component {
                     <Row className="equ_row">
                         <Col className="t_r_button" span={12} push={3}>
                             <div>
-                                <Button className="canclebtn" onClick={this.handleCancleClick}>取消</Button>
-                                <Button type="primary" onClick={this.handleSubmitClick}>提交</Button>
+                                <Button type="primary" disabled={this.state.disabledbtn} onClick={this.handleSubmitClick}>提交</Button>
+                                <Button className="canclebtn" disabled={this.state.disabledbtn} onClick={this.handleCancleClick}>取消</Button>
                             </div>
                         </Col>
                     </Row>

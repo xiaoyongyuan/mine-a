@@ -1,11 +1,21 @@
 import React, { Component } from 'react';
 import {Form,Input} from 'antd';
 import axios from "../../axios";
-import Utils from "../../utils/utils";
 import "../../style/yal/css/userinfo.less";
 const FormItem = Form.Item;
 let vis=false;
-
+const formItemLayout = {
+    labelCol: {
+        xs: { span: 24 },
+        sm: { span: 3 },
+        lg:{span:5},
+    },
+    wrapperCol: {
+        xs: { span: 24 },
+        sm: { span: 21 },
+        lg:{span:19},
+    },
+};
 class ModalForm extends Component{
     constructor(props){
         super(props);
@@ -23,7 +33,6 @@ class ModalForm extends Component{
         });
     }
     componentWillReceiveProps(nextProps){
-        console.log("nextProps",nextProps);
         if( nextProps.visible !== vis){
             vis=nextProps.visible;
             if(nextProps.visible){
@@ -42,43 +51,39 @@ class ModalForm extends Component{
             };
             axios.ajax({
                 method: 'get',
-                url: '/api/companyUserById',
+                url: '/sys/api/companyUserById',
                 data: data
             }).then((res)=>{
                 if(res.success){
                     this.props.form.setFieldsValue({
                         linktel:res.data.linktel,//电话
                         realanme:res.data.realanme,//姓名
-                        account:res.data.account,//工号
+                        account:res.data.account,//用户名
                     });
                 }
-            });
+            },(res)=>{});
         }
     };
     formref = () => { //将form传给父组件由父组件控制表单提交
         return this.props.form;
     };
     render(){
-        const { getFieldDecorator } = this.props.form;
-        const formItemLayout = {
-            labelCol: {
-                xs: { span: 24 },
-                sm: { span: 3 },
-            },
-            wrapperCol: {
-                xs: { span: 24 },
-                sm: { span: 21 },
-            },
-        };
+        const { getFieldDecorator } = this.props.form;   
+        const _this=this;   
         return(
             <div className="tc-label">
                 <Form {...formItemLayout}  layout="vertical">
-                    <FormItem label="姓名：">
-                        {getFieldDecorator('realanme', {
+                    <FormItem label="用户名：">
+                        {getFieldDecorator('account', {
                             rules: [{
-                                 required: true, message: '请输入姓名!',
+                                required: true, message: '请输入用户名!',
                             }],
                         })(
+                            <Input className="ModelFormInput" disabled={_this.state.code?true:false}  />
+                        )}
+                    </FormItem>
+                    <FormItem label="姓名：">
+                        {getFieldDecorator('realanme')(
                             <Input className="ModelFormInput" />
                         )}
                     </FormItem>
@@ -92,39 +97,18 @@ class ModalForm extends Component{
                             <Input className="ModelFormInput" />
                         )}
                     </FormItem>
-                    <FormItem label="工号：">
-                        {getFieldDecorator('account', {
-                            rules: [{
-                                required: true, message: '请输入工号!',
-                            }],
-                        })(
-                            <Input className="ModelFormInput" />
-                        )}
-                    </FormItem>
                     <FormItem label="职位：">
-                        {getFieldDecorator('position', {
-                            rules: [{
-                                required: false
-                            }],
-                        })(
+                        {getFieldDecorator('position')(
                             <Input className="ModelFormInput" />
                         )}
                     </FormItem>
                     <FormItem label="座机：">
-                        {getFieldDecorator('phone', {
-                            rules: [{
-                                required: false,
-                            }],
-                        })(
+                        {getFieldDecorator('phone')(
                             <Input className="ModelFormInput" />
                         )}
                     </FormItem>
                     <FormItem label="邮箱：">
-                        {getFieldDecorator('email', {
-                            rules: [{
-                                required: false,
-                            }],
-                        })(
+                        {getFieldDecorator('email')(
                             <Input className="ModelFormInput" />
                         )}
                     </FormItem>
