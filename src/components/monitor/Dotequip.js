@@ -1,27 +1,12 @@
 import React, { Component } from "react";
-import {
-  Row,
-  Col,
-  Icon,
-  Radio,
-  Button,
-  Modal,
-  DatePicker,
-  message,
-  Select,
-  Input
-} from "antd";
+import {Row, Col, Icon, Button, Modal, message, Select, Input} from "antd";
 import axios from "../../axios";
 import moment from "moment";
 import Table from "../common/Etable";
-import Form from "../common/BaseForm";
 import Utils from "../../utils/utils";
 
 import "../../style/jhy/css/dotequip.less";
 const confirm = Modal.confirm;
-const bizserviceURL = window.g.bizserviceURL;
-const sysURL = window.g.sysURL;
-const deviceURL = window.g.deviceURL;
 class Dotequip extends Component {
   constructor(props) {
     super(props);
@@ -237,9 +222,8 @@ class Dotequip extends Component {
   getProjectList = () => {
     axios
       .ajax({
-        baseURL: window.g.wangURL,
         method: "get",
-        url: "/api/getProjectListAll"
+        url: "/bizservice/api/getProjectListAll"
       })
       .then(res => {
         if (res.success) {
@@ -271,9 +255,8 @@ class Dotequip extends Component {
   getTypeList = () => {
     axios
       .ajax({
-        baseURL: window.g.deviceURL,
         method: "get",
-        url: "/api/monitorNetAll",
+        url: "/device/api/monitorNetAll",
         data: {
           itemid: this.state.projSelected
             ? this.state.projSelected
@@ -307,9 +290,8 @@ class Dotequip extends Component {
   getDeviceList = () => {
     axios
       .ajax({
-        baseURL: window.g.wangURL,
         method: "get",
-        url: "/api/findMonitordeviceThresholdList",
+        url: "/bizservice/api/findMonitordeviceThresholdList",
         data: {
           itemid: this.state.projSelected
             ? this.state.projSelected
@@ -380,9 +362,8 @@ class Dotequip extends Component {
     const _this = this;
     axios
       .ajax({
-        baseURL: window.g.wangURL,
         method: "put",
-        url: "/api/bindMonitorDevice",
+        url: "/bizservice/api/bindMonitorDevice",
         data: {
           code: this.state.bindCodeId,
           devicecode: this.input.state.value,
@@ -420,9 +401,8 @@ class Dotequip extends Component {
       onOk() {
         axios
           .ajax({
-            baseURL: window.g.wangURL,
             method: "put",
-            url: "/api/disabledMonitorDevice",
+            url: "/bizservice/api/disabledMonitorDevice",
             data: {
               code: id
             }
@@ -446,9 +426,8 @@ class Dotequip extends Component {
       onOk() {
         axios
           .ajax({
-            baseURL: window.g.wangURL,
             method: "put",
-            url: "/api/enabledMonitorDevice",
+            url: "/bizservice/api/enabledMonitorDevice",
             data: {
               code: id
             }
