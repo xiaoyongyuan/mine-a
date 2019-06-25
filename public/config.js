@@ -1,6 +1,6 @@
 window.g = {
     easyURL:'https://www.easy-mock.com/mock/5ce208b85fa13b1e54d26e06/mainapi',   //api
-    baseURL:'http://192.168.10.29:8001/sys',
+    baseURL:'http://192.168.10.29:8001',
     cuiURL:'http://192.168.10.29:8002/bizservice',
     cui29URL:'http://192.168.10.29:8003/bizservice',
     bizserviceURL:'http://192.168.10.29:8001/bizservice',
