@@ -55,9 +55,8 @@ class Threshold extends Component {
     };
     requestList=()=>{
         axios.ajax({
-            baseURL:window.g.deviceURL,
             method: 'get',
-            url: '/api/monitorDeviceType',
+            url: '/device/api/monitorDeviceType',
             data: this.params
         }).then((res)=>{
                 if(res.success){
@@ -84,9 +83,8 @@ class Threshold extends Component {
                     cancelText: "取消",
                     onOk() {
                         axios.ajax({
-                            baseURL:window.g.deviceURL,
                             method: 'put',
-                            url: 'api/updateMonitorDeviceTypeStatus',
+                            url: '/device/api/updateMonitorDeviceTypeStatus',
                             data: {
                                 states:states,
                                 code:code,
@@ -113,9 +111,8 @@ class Threshold extends Component {
                     cancelText: "取消",
                     onOk() {
                         axios.ajax({
-                            baseURL:window.g.deviceURL,
                             method: 'put',
-                            url: 'api/updateMonitorDeviceTypeStatus',
+                            url: '/device/api/updateMonitorDeviceTypeStatus',
                             data: {
                                 states:states,
                                 code:code,
