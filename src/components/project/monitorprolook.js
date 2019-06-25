@@ -1,13 +1,9 @@
 import React, { Component,Fragment } from 'react';
-import {Button,message} from 'antd'
+import {message} from 'antd'
 import axios from '../../axios'
 import Utils from "../../utils/utils";
-import BaseForm from "../common/BaseForm"
 import Etable from "../common/Etable"
 import ItemModel from "./itemModel"
-import ofteraxios from '../../axios/ofter'
-
-
 class Monitorprolook extends Component {
     state  ={
       newShow:false,

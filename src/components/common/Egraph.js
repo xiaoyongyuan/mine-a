@@ -33,20 +33,20 @@ class Egraph extends Component {
     }
     switch(cahrtp){
       case 'progressbar':
-        this.progressbar(data)
+        this.progressbar(data);
         break;
       case 'meter':
-        this.meter()
+        this.meter();
         break;
       case 'columnar':
-        this.columnar(columnar)
+        this.columnar(columnar);
         break;
       case 'brokenline':
-        this.brokenline(brokenline)
+        this.brokenline(brokenline);
         break;
-
+        default:
+        break;
     }
-    // this[this.props.cahrtp]()
   }
   
   //仪表盘

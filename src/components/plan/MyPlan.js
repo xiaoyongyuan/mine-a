@@ -90,7 +90,7 @@ class MyPlan extends Component {
                       this.state.list.map((v,i)=>(
                               <Col className="gridcol" key={v.code} md={24} xl={12} xxl={8}>
                               {
-                                v.states=='1'?
+                                v.states==='1'?
                                 <Link className="detmain" to={'/main/lookplan?id='+v.code}>
                                 <div className="dettitle">
                                   <div className="detlogo">

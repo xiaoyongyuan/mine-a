@@ -5,9 +5,7 @@ import './mapshow.less'
  
 export default class ArcGISMap extends Component{
     constructor(props){
-        super(props)
-       // this.tileMapUrl = "http://map.geoq.cn/ArcGIS/rest/services/ChinaOnlineStreetPurplishBlue/MapServer"
-       // this.tileMapUrl = "http://cache1.arcgisonline.cn/arcgis/rest/services/ChinaOnlineCommunity/MapServer/"
+        super(props);
         this.tileMapUrl = "http://map.geoq.cn/ArcGIS/rest/services/ChinaOnlineStreetPurplishBlue/MapServer"
     }
     componentDidMount(){
@@ -16,7 +14,7 @@ export default class ArcGISMap extends Component{
     initMap(){
         const mapURL = {
             url:"http://192.168.10.29:8080/arcgis/arcgis_js_api/library/4.11/dojo/dojo.js"
-        }
+        };
         esriLoader.loadModules([
           "esri/Map",
           "esri/Basemap",
@@ -25,21 +23,10 @@ export default class ArcGISMap extends Component{
           "esri/layers/FeatureLayer",
           "dojo/domReady!"
         ], mapURL).then(([Map,Basemap,TileLayer,SceneView,FeatureLayer])=>{
-            let layer = new TileLayer({
-              url: this.tileMapUrl       
-            })
-            let baseMap = new Basemap({
-              baseLayers: [layer],  
-              title: "Basemap",  
-              id: "myBasemap" 
-            });
-            // Create a Map instance
             let map = new Map({
-              //basemap: baseMap,
               basemap: "hybrid",
               ground: "world-elevation"
             });
-            // Create a MapView instance (for 2D viewing) and reference the map instance
             let view = new SceneView({
               center : [110.3038,39.3027],
               map:map,

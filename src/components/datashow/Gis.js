@@ -1,10 +1,6 @@
 import React, { Component } from 'react';
-import ReactEcharts from 'echarts-for-react';
-import { Icon,List,Card,Progress,Typography } from 'antd'
+import { List } from 'antd'
 import Egraph from './../common/Egraph'
-
-
-
 import './mapshow.less'
 class Gis extends Component {
     constructor(props){
@@ -16,8 +12,6 @@ class Gis extends Component {
     componentDidMount(){
 
     }
-
-
     render() {       
         return (
             <div className="Gis">

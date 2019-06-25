@@ -82,10 +82,10 @@ class MapShow extends Component {
                             <div className="roundline">
                                 <div className='centericon'><img alt="" src={globa}  /></div>
                                 <div className={'pointer '+this.state.activepointer }><img alt="" src={pointer}  /></div>
-                                <div className={this.state.showitem=='pandect'?'showitem rounditem pandect':'rounditem pandect'} onClick={()=>this.clickbtn('pandect')}>系统总览</div>
-                                <div className={this.state.showitem=='monitor'?'showitem rounditem monitor':'rounditem monitor'} onClick={()=>this.clickbtn('monitor')}>监测数据</div>
-                                <div className={this.state.showitem=='gis'?'showitem rounditem gis':'rounditem gis'} onClick={()=>this.clickbtn('gis')}>遥感监测</div>
-                                <div className={this.state.showitem=='prodect'?'showitem rounditem prodect':'rounditem prodect'} onClick={()=>this.clickbtn('prodect')}>项目管理</div>
+                                <div className={this.state.showitem==='pandect'?'showitem rounditem pandect':'rounditem pandect'} onClick={()=>this.clickbtn('pandect')}>系统总览</div>
+                                <div className={this.state.showitem==='monitor'?'showitem rounditem monitor':'rounditem monitor'} onClick={()=>this.clickbtn('monitor')}>监测数据</div>
+                                <div className={this.state.showitem==='gis'?'showitem rounditem gis':'rounditem gis'} onClick={()=>this.clickbtn('gis')}>遥感监测</div>
+                                <div className={this.state.showitem==='prodect'?'showitem rounditem prodect':'rounditem prodect'} onClick={()=>this.clickbtn('prodect')}>项目管理</div>
                             </div>
                         </div>
                         <div className="itemshow">
