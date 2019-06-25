@@ -71,15 +71,15 @@ class UploadModel extends Component {
             type:'button',
             button:[
               {
-                label:'提交',
-                type:"primary",
-                click:'layerSubmit',
-              },
-              {
                 label:'取消',
                 click:'reset',
                 fafuns:'onreset'
               },
+                {
+                    label:'确定',
+                    type:"primary",
+                    click:'layerSubmit',
+                },
             ]
           }
         ]

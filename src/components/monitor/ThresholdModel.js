@@ -311,8 +311,8 @@ class ThresholdModel extends Component {
                   )}
               </FormItem>
               <FormItem key="buts">
-                <Button type='primary' onClick={this.handleFilterSubmit}>确定</Button>
-                <Button style={{ margin: '0 10px' }} onClick={this.reset}>取消</Button>
+                  <Button style={{ margin: '0 10px' }} onClick={this.reset}>取消</Button>
+                 <Button type='primary' onClick={this.handleFilterSubmit}>确定</Button>
               </FormItem>
           </Form>         
         </Modal>

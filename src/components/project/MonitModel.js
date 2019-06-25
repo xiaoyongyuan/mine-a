@@ -24,7 +24,7 @@ class UploadModel extends Component {
       showUploadList:true,
       multiple:false,
       name:"file" , 
-      action:"http://192.168.10.29:8001/sys/api/uploadFile", //上传地址
+      action:window.g.baseURL+"/api/uploadFile", //上传地址
     }
   }
   changeState=(key,val)=>{

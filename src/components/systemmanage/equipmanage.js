@@ -208,6 +208,7 @@ class Equipmanage extends Component {
                         </div>
                         <div className="rightOpt">
                             <Button type="primary"><span className="actionfont action-daoru"/>&nbsp;&nbsp;导入</Button>
+                            <Button type="primary" style={{ marginLeft:'20px', }}><span className="actionfont action-daochu1"/>&nbsp;&nbsp;导出</Button>
                         </div>
                     </div>
 

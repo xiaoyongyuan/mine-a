@@ -21,7 +21,7 @@ class Main extends Component {
               <MenuRoutes/>
             </Content>
           </Layout>
-          <Footer className="Footer">Footer</Footer>
+            <Footer className="Footer">陕西北斗环境信息产业有限公司</Footer>
         </Layout>
       </div>
     );

@@ -423,8 +423,8 @@ class companyinfoEdit extends Component {
                     <Row className="equ_row">
                         <Col className="t_r_button" span={12} push={3}>
                             <div>
-                                <Button type="primary" onClick={this.handleSubmitClick}>提交</Button>
                                 <Button className="canclebtn" onClick={this.handleCancleClick}>取消</Button>
+                                <Button type="primary" onClick={this.handleSubmitClick}>提交</Button>
                             </div>
                         </Col>
                     </Row>
