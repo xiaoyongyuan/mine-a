@@ -1,9 +1,7 @@
 import React, { Component } from 'react';
-import ReactEcharts from 'echarts-for-react';
-import { Icon,List,Card,Progress,Typography } from 'antd'
+import { List } from 'antd'
 import Egraph from './../common/Egraph'
 import './mapshow.less'
-const { Paragraph } = Typography;
 class Pandect extends Component {
     constructor(props){
         super(props);
