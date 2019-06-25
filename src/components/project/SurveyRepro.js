@@ -6,9 +6,6 @@ import BaseForm from "../common/BaseForm"
 import Etable from "../common/Etable"
 import ItemModel from "./itemModel"
 import ofteraxios from '../../axios/ofter'
-
-
-var projectlistall=[{code: '', name: '全部'}]
 class SurveyRepro extends Component {
     state  ={
       newShow:false,
@@ -83,15 +80,7 @@ class SurveyRepro extends Component {
       window.open('http://192.168.10.20:8004/sys/UploadFile/OfficeFile/1136541326366367744.docx')
     };*/
     handleFilterSubmit=(params)=>{ //查询
-      console.log(params,'paramsparamsparams')
       this.params.projectid=params.projectid;
-      // if(params.doubledata){
-      //   this.params.createonbegin=params.doubledata[0].format('YYYY-MM-DD HH:mm:ss');
-      //   this.params.createonend=params.doubledata[1].format('YYYY-MM-DD HH:mm:ss');
-      // }else {
-      //     this.params.createonbegin = '';
-      //     this.params.createonend = ''
-      // }
       this.requestList();
     };
     uploadOk=(params)=>{ //上传提交
