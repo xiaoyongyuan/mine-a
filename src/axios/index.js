@@ -26,8 +26,12 @@ export default class Axios {
             loading.style.display = 'block';
         }
         const token=localStorage.getItem("token")
-        if(!token) return window.location.href='#/login'
+         
         return new Promise((resolve,reject)=>{
+            if(!token){
+               window.location.href='#/login'
+               reject(false)  
+            }
             axios({
                 method: options.method || 'get',
                 url: options.url,
@@ -50,6 +54,7 @@ export default class Axios {
                     if(res.success===1){
                         resolve(res)
                     }else if(res.success=='401' || res.success=='402'){
+                        reject(response.msg);
                         message.error(res.msg)
                         window.location.href='#/login'
                     }else message.error(res.msg)

@@ -24,7 +24,7 @@ class UploadModel extends Component {
       showUploadList:true,
       multiple:false,
       name:"file" , 
-      action:"http://192.168.10.29:8001/sys/api/uploadFile", //上传地址
+      action:window.g.baseURL+"/api/uploadFile", //上传地址
     }
   }
   changeState=(key,val)=>{
@@ -158,9 +158,9 @@ class UploadModel extends Component {
                       </Upload>,
                   )}
               </FormItem>
-              <FormItem key="buts">
+              <FormItem key="buts" style={{display:'flex','justify-content':'flex-end'}}>
+                <Button type='primary' onClick={this.handleFilterSubmit}>确定</Button>
                 <Button style={{ margin: '0 10px' }} onClick={this.reset}>取消</Button>
-                  <Button type='primary' onClick={this.handleFilterSubmit}>确定</Button>
               </FormItem>
           </Form>         
         </Modal>

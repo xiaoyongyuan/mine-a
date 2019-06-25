@@ -7,8 +7,6 @@ import Pandect from './components/pandect'
 import Notfound from './components/pages/notfound'
 
 
-
-
 //页面样式：登录，总览（大数据），main
 class Routes extends Component {
   render() {
