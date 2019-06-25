@@ -59,9 +59,8 @@ class SurveyRepro extends Component {
     
     requestList=()=>{
       axios.ajax({
-        baseURL:window.g.wangURL,
         method: 'get',
-        url: '/api/getItemfileList',
+        url: '/bizservice/api/getItemfileList',
         data: this.params
       })
       .then((res)=>{
@@ -88,9 +87,8 @@ class SurveyRepro extends Component {
       params.itemtype=5;
       const _this=this;
       axios.ajax({
-        baseURL:window.g.cuiURL,
         method: 'post',
-        url: '/api/itemfile',
+        url: '/bizservice/api/itemfile',
         data: params
       })
       .then((res)=>{
