@@ -22,9 +22,8 @@ class Lookplan extends Component {
   }
   requestList=()=>{
     axios.ajax({
-        baseURL:'http://192.168.10.29:8002/bizservice',
       method: 'get',
-      url: '/api/getPlanById',
+      url: '/bizservice/api/getPlanById',
       data: {planId:this.state.code}
     }).then((res)=>{
       if(res.success){
@@ -42,9 +41,8 @@ class Lookplan extends Component {
             onOk() {
                 console.log("code",_this.state.code);
                 axios.ajax({
-                    baseURL:'http://192.168.10.29:8002/bizservice',
                   method: 'get',
-                  url: '/api/setMyPlan',
+                  url: '/bizservice/api/setMyPlan',
                   data: {
                         code:_this.state.code,
                       companycode:'122'
