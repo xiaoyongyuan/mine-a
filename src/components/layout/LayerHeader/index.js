@@ -3,10 +3,7 @@ import { withRouter } from 'react-router-dom';
 import {Select, Badge, Modal,message} from 'antd';
 import axios from "../../../axios";
 import './index.less';
-const Option = Select.Option;
 const confirm = Modal.confirm;
-
-
 class LayerHeader extends Component {
     constructor(props) {
       super(props);
@@ -53,5 +50,4 @@ class LayerHeader extends Component {
     );
   }
 }
-
 export default withRouter(LayerHeader);
