@@ -7,25 +7,6 @@ import Datamanage from './datashow/datamanage'
 import Projectmanage from './datashow/projectmanage'
 import MapShow from './datashow/MapShow'
 
-//数据总览明细
-import Detaildata from './geology/detaildata'
-
-//数据预览
-import Aquifer from './overview/Aquifer'
-import Insar from './overview/insar'
-import Soilbreathe from './overview/soilbreathe'
-import Geology from './overview/geology'
-import Landform from './overview/Landform'
-import Pollution from './overview/Pollution'
-import Soil from './overview/Soil'
-import Preview from './overview/preview'
-//-----------
-//数据管理
-import Insarmanage from './manage/Insarmanage'
-import Aquifermanage from './manage/Aquifermanage'
-import Landformmanage from './manage/Landformmanage'
-import Pollutionmanage from './manage/Pollutionmanage'
-import Soilmanage from './manage/Soilmanage'
 
 //设备管理
 import Monitor from './equipment/Monitor'
@@ -71,9 +52,6 @@ import companyinfoEdit from "./systemmanage/companyinfoEdit";
 
 export default {
   Datamanage,Projectmanage,MapShow,
-  Insar,Detaildata,Soilbreathe,
-  Aquifer,Landform,Pollution,Soil,Preview,Geology,
-  Insarmanage,Aquifermanage,Landformmanage,Pollutionmanage,Soilmanage,
   Monitor,ClaaMonitor,Evideo,
   MyPlan,Recommend,Edit,Detailplan,Lookplan,
   Scheme,Funds,Monitorpro,AssessRepro,SurveyRepro,ProspectRepro,Supervisor,MonitorRepro,Monitorprolook,Treatment,CheckAccept,
