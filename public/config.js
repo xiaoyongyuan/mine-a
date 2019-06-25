@@ -7,6 +7,8 @@ window.g = {
     sysURL:'http://192.168.10.29:8001/sys',
     hongURL:'http://192.168.10.11:8001/bizservice',
     syshongURL:'http://192.168.10.11:8001/device',
+    mapURL:'http://39.97.238.216:8080',
+
 
     wangURL:'http://192.168.10.29:8001', //预案(确定)
     deviceURL:'http://192.168.10.29:8001/device', //设备

@@ -13,7 +13,7 @@ export default class ArcGISMap extends Component{
     }
     initMap(){
         const mapURL = {
-            url:"http://192.168.10.29:8080/arcgis/arcgis_js_api/library/4.11/dojo/dojo.js"
+            url:window.g.mapURL+"/arcgis/arcgis_js_api/library/4.11/dojo/dojo.js"
         };
         esriLoader.loadModules([
           "esri/Map",
