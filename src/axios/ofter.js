@@ -39,12 +39,8 @@ export default class ofterajax {
     static projectlist() { //项目方案列表
         return new Promise((resolve, reject) => {
            axios.ajax({
-              // baseURL:window.g.cuiURL,
-              //  baseURL:window.g.bizserviceURL,
-              baseURL:window.g.wangURL,
               method: 'get',
-              // url: '/api/getProjectAllItem',
-               url: '/api/getProjectAll',
+               url: '/bizservice/api/getProjectAll',
             }).then((res)=>{
                 resolve(res) 
             })  
@@ -54,9 +50,8 @@ export default class ofterajax {
         console.log("hhhwww",value);
         return new Promise((resolve, reject) => {
             axios.ajax({
-                baseURL:window.g.deviceURL,
                 method: 'get',
-                url: '/api/monitorNetAll',
+                url: '/device/api/monitorNetAll',
                 data: {
                     pagesize:200,
                     itemid:value
@@ -69,9 +64,8 @@ export default class ofterajax {
     static equiptypelist(value) { //设备类型列表
         return new Promise((resolve, reject) => {
             axios.ajax({
-                baseURL:window.g.deviceURL,
                 method: 'get',
-                url: '/api/monitorDeviceTypeAll',
+                url: '/device/api/monitorDeviceTypeAll',
                 data: {
                     // pagesize:200,
                     netid:value,
@@ -85,9 +79,8 @@ export default class ofterajax {
     static equiptypelistquery() { //设备列表设备类型查询条件
         return new Promise((resolve, reject) => {
             axios.ajax({
-                baseURL:window.g.filelook,
                 method: 'get',
-                url: '/api/dictionary',
+                url: '/sys/api/dictionary',
                 data: {
                     pagesize:10000,
                     dtype:'DEVICETYPE'

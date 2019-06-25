@@ -1,16 +1,12 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import moment from 'moment';
-import {Row, Col, Select, Pagination, Typography, Button, Empty} from "antd";
+import {Row, Col, Select, Pagination, Button, Empty} from "antd";
 import axios from '../../axios'
-import ofteraxios from '../../axios/ofter'
 import icon from "../../style/ztt/imgs/icon.png";
 import Utils from "../../utils/utils";
 import './index.less'
-
-const { Title,Paragraph } = Typography;
 const Option = Select.Option;
-
 class MyPlan extends Component {
   constructor(props){
     super(props);
@@ -35,9 +31,8 @@ class MyPlan extends Component {
   };
   requersPlantType = () =>{
       axios.ajax({
-          baseURL:'http://192.168.10.29:8001/sys',
           method: 'get',
-          url: '/api/dictionary',
+          url: '/sys/api/dictionary',
           data: {
               dtype:'PLANTYPE',
           }
@@ -53,9 +48,8 @@ class MyPlan extends Component {
       this.params.plantype=this.state.selecttype || 0;
       // this.params.pageindex = this.state.pageindex;
       axios.ajax({
-          baseURL:window.g.wangURL,
           method: 'get',
-          url: '/api/getPlanByPlantype',
+          url: '/bizservice/api/getPlanByPlantype',
           data: this.params
       }).then((res)=>{
           if(res.success){
@@ -70,26 +64,6 @@ class MyPlan extends Component {
           }
       });
   };
-  // requestList=()=>{
-  //     console.log("dfd",this.state.selecttype === '');
-  //     this.params.plantype=this.state.selecttype;
-  //     axios.ajax({
-  //         baseURL:'http://192.168.10.29:8002/bizservice',
-  //       method: 'get',
-  //       url: '/api/plan',
-  //       data: this.params
-  //     }).then((res)=>{
-  //       if(res.success){
-  //         this.setState({
-  //             list:res.data,
-  //             pagination:Utils.pagination(res,(current)=>{
-  //                 this.params.pageindex=current;
-  //                 this.requestList();
-  //             })
-  //         })
-  //       }
-  //     });
-  // };
   render() {
       const isempty = this.state.isempty;
     return (

@@ -69,21 +69,7 @@ class WarningModel extends Component{
             this.state.receive.push(params.values[i]);
         }
         params.map((v)=>{
-       /* axios.ajax({
-            baseURL:window.g.cuiURL,
-            method: 'post',
-            url: 'warnlist',
-            data: {
-                dot:v.dot,
-                time:v.time,
-                datas:v.datas,
-                judge:v.judge
-            }
-        }).then((res)=>{
-            if(res.success){
-                console.log(res.data)
-            }
-        });*/
+
         })
     };
     //删除监测点

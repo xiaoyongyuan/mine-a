@@ -51,9 +51,8 @@ class Scheme extends Component {
     };
     requestList=()=>{
       axios.ajax({
-        baseURL:window.g.wangURL,
         method: 'get',
-        url: '/api/getProjectAll',
+        url: '/bizservice/api/getProjectAll',
         data: this.params
       })
       .then((res)=>{
@@ -71,17 +70,13 @@ class Scheme extends Component {
         console.log(res,'返回错误处理')
       });
     };
-   /* preview=(filepath)=>{ //预览文件
-      window.open(window.g.baseURL+filepath);
-    }*/
     uploadOk=(params)=>{ //上传提交
       const _this=this;
 
       this.changeState('newShow',false);
       axios.ajax({
-        baseURL:window.g.wangURL,
         method: 'post',
-        url: '/api/project',
+        url: '/bizservice/api/project',
         data: params
       }).then((res)=>{
         if(res.success){

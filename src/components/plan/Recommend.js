@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import {Row, Col, Select, Pagination, Typography, Modal, Radio, Button,Empty } from "antd";
+import {Row, Col, Select, Pagination, Modal, Radio,Empty } from "antd";
 import axios from '../../axios'
 import Utils from "../../utils/utils";
 import './index.less';
 import icon from "../../style/ztt/imgs/icon.png";
-const { Title,Paragraph } = Typography;
 const confirm = Modal.confirm;
 const Option = Select.Option;
 class Recommend extends Component {
@@ -38,16 +37,9 @@ class Recommend extends Component {
       this.params.recommendtype=this.state.recommendtype;
       this.params.plantype=this.state.selecttype || 0;
       axios.ajax({
-        baseURL:window.g.wangURL,
         method: 'get',
-        url: '/api/getPlanByRecommendtype',
+        url: '/bizservice/api/getPlanByRecommendtype',
           data:this.params,
-        // data: {
-        //     pageindex:1,
-        //     pagesize:9,
-        //     recommendtype:this.state.recommendtype,
-        //     plantype:this.state.selecttype || 0
-        // }
       }).then((res)=>{
         if(res.success){
           this.setState({
@@ -64,9 +56,8 @@ class Recommend extends Component {
   //查询下拉框内容
     requersPlantType = () =>{
         axios.ajax({
-            baseURL:'http://192.168.10.29:8001/sys',
             method: 'get',
-            url: '/api/dictionary',
+            url: '/sys/api/dictionary',
             data: {
                 dtype:'PLANTYPE',
             }

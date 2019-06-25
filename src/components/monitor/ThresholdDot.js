@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Etable from "../common/Etable"
-import {Button, message, Modal} from "antd";
+import { message, Modal} from "antd";
 import axios from "../../axios";
 import Utils from "../../utils/utils";
 import ItemModel from "./ThresholdDotModel";
@@ -23,9 +23,8 @@ class Threshold extends Component {
     requestList=()=>{
         var that = this;
         axios.ajax({
-            baseURL:window.g.wangURL,
             method: 'get',
-            url: '/api/findMonitordeviceThresholdList',
+            url: '/bizservice/api/findMonitordeviceThresholdList',
             data: {netid:that.state.netid}
         })
             .then((res)=>{
@@ -80,9 +79,8 @@ class Threshold extends Component {
                     cancelText: "取消",
                     onOk() {
                         axios.ajax({
-                            baseURL:window.g.wangURL,
                             method: 'put',
-                            url: '/api/setUpMonitorDeviceIfsys',
+                            url: '/bizservice/api/setUpMonitorDeviceIfsys',
                             data: {
                                 code:code,
                                 ifsys:ifsys
@@ -107,9 +105,8 @@ class Threshold extends Component {
                     cancelText: "取消",
                     onOk() {
                         axios.ajax({
-                            baseURL:window.g.wangURL,
                             method: 'put',
-                            url: '/api/setUpMonitorDeviceIfsys',
+                            url: '/bizservice/api/setUpMonitorDeviceIfsys',
                             data: {
                                 code:code,
                                 ifsys:ifsys

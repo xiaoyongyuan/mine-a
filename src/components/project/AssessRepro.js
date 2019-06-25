@@ -7,8 +7,6 @@ import Etable from "../common/Etable"
 import ItemModel from "./itemModel"
 import ofteraxios from '../../axios/ofter'
 
-
-var projectlistall=[{code: '', name: '全部'}]
 class SurveyRepro extends Component {
     state  ={
       newShow:false,
@@ -49,8 +47,8 @@ class SurveyRepro extends Component {
     componentWillMount(){
       ofteraxios.projectlist().then(res=>{ //项目列表
         if(res.success){
-          var project=[{code:'',name:'所有项目'}]
-          res.data.map(item=>project.push({code:item.code,name:item.projectname}) )
+          var project=[{code:'',name:'所有项目'}];
+          res.data.map(item=>project.push({code:item.code,name:item.projectname}) );
           this.formList.item[0].list=project;
         }
       })
@@ -62,9 +60,8 @@ class SurveyRepro extends Component {
     
     requestList=()=>{
       axios.ajax({
-        baseURL:window.g.wangURL,
         method: 'get',
-        url: '/api/getItemfileList',
+        url: '/bizservice/api/getItemfileList',
         data: this.params
       })
       .then((res)=>{
@@ -99,9 +96,8 @@ class SurveyRepro extends Component {
       params.itemtype=4;
       const _this=this;
       axios.ajax({
-        baseURL:window.g.cuiURL,
         method: 'post',
-        url: '/api/itemfile',
+        url: '/bizservice/api/itemfile',
         data: params
       })
       .then((res)=>{

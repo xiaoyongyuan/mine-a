@@ -39,9 +39,8 @@ class Edit extends Component {
   }
     requersPlantType = () =>{
         axios.ajax({
-            baseURL:'http://192.168.10.29:8001/sys',
             method: 'get',
-            url: '/api/dictionary',
+            url: '/sys/api/dictionary',
             data: {
                 dtype:'PLANTYPE',
             }
@@ -55,9 +54,8 @@ class Edit extends Component {
     };
   requestList=()=>{
     axios.ajax({
-        baseURL:window.g.wangURL,
       method: 'get',
-      url: '/api/getPlanById',
+      url: '/bizservice/api/getPlanById',
       data: {planId:this.state.code}
     }).then((res)=>{
       if(res.success){
@@ -122,9 +120,8 @@ class Edit extends Component {
       const ids=this.props.query.id;
      if(ids === undefined){
          axios.ajax({
-             baseURL:window.g.wangURL,
              method: 'post',
-             url: '/api/plan',
+             url: '/bizservice/api/plan',
              data: params
          }).then((res)=>{
              if(res.success){
@@ -134,9 +131,8 @@ class Edit extends Component {
      }else {
          params.code=ids;
          axios.ajax({
-           baseURL:window.g.wangURL,
              method: 'put',
-             url: '/api/plan',
+             url: '/bizservice/api/plan',
              data: params
          }).then((res)=>{
              if(res.success){
