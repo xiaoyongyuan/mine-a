@@ -66,6 +66,9 @@ class Scheme extends Component {
               })
           })
         }
+      },(res)=>{
+        //返回错误处理
+        console.log(res,'返回错误处理')
       });
     };
    /* preview=(filepath)=>{ //预览文件
