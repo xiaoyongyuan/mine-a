@@ -106,7 +106,7 @@ class Dotdetails extends Component {
     switch (type) {
       case "1":
         {
-          columns = [
+         return  columns = [
             {
               title: "编号",
               dataIndex: "code",
@@ -147,10 +147,10 @@ class Dotdetails extends Component {
             }
           ];
         }
-        break;
+        
       case "2":
         {
-          columns = [
+          return columns = [
             {
               title: "编号",
               dataIndex: "code",
@@ -181,11 +181,11 @@ class Dotdetails extends Component {
             }
           ];
         }
-        break;
+        
 
       case "3":
         {
-          columns = [
+          return columns = [
             {
               title: "编号",
               dataIndex: "code",
@@ -216,11 +216,11 @@ class Dotdetails extends Component {
             }
           ];
         }
-        break;
+        
 
       case "4":
         {
-          columns = [
+          return columns = [
             {
               title: "编号",
               dataIndex: "code",
@@ -251,11 +251,11 @@ class Dotdetails extends Component {
             }
           ];
         }
-        break;
+        
 
       case "5":
         {
-          columns = [
+          return columns = [
             {
               title: "编号",
               dataIndex: "code",
@@ -286,11 +286,11 @@ class Dotdetails extends Component {
             }
           ];
         }
-        break;
+        
 
       case "6":
         {
-          columns = [
+          return columns = [
             {
               title: "编号",
               dataIndex: "code",
@@ -321,11 +321,11 @@ class Dotdetails extends Component {
             }
           ];
         }
-        break;
+        
 
       case "7":
         {
-          columns = [
+          return columns = [
             {
               title: "编号",
               dataIndex: "code",
@@ -362,11 +362,11 @@ class Dotdetails extends Component {
             }
           ];
         }
-        break;
+        
 
       case "8":
         {
-          columns = [
+          return columns = [
             {
               title: "编号",
               dataIndex: "code",
@@ -397,7 +397,7 @@ class Dotdetails extends Component {
             }
           ];
         }
-        break;
+        
 
       default:
         break;

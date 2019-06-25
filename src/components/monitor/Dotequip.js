@@ -116,6 +116,7 @@ class Dotequip extends Component {
         title: "状态",
         dataIndex: "states",
         key: "states",
+        align: "center",
         render: text => {
           switch (text) {
             case "0": {
@@ -127,9 +128,11 @@ class Dotequip extends Component {
             case "2": {
               return <div className="state-bg-abandoning">弃用</div>;
             }
+            default:
+            return text
           }
         },
-        align: "center"
+        
       },
       {
         title: "操作",
@@ -151,7 +154,6 @@ class Dotequip extends Component {
                   </Button>
                 );
               }
-              break;
             case "1":
               {
                 return (
@@ -177,7 +179,6 @@ class Dotequip extends Component {
                   </div>
                 );
               }
-              break;
             case "2":
               {
                 return (
@@ -204,12 +205,10 @@ class Dotequip extends Component {
                   </div>
                 );
               }
-              break;
 
             default:
               {
               }
-              break;
           }
         }
       }
@@ -231,7 +230,7 @@ class Dotequip extends Component {
             localStorage.setItem("prolist", res.data);
             var plist = [];
             res.data.map(v => {
-              plist.push({
+              return plist.push({
                 label: v.projectname,
                 value: v.code
               });
@@ -268,7 +267,7 @@ class Dotequip extends Component {
           if (res.data.length > 0) {
             var tlist = [];
             res.data.map(v => {
-              tlist.push({
+              return tlist.push({
                 label: v.netname, //或nettype
                 value: v.code
               });
@@ -362,7 +361,6 @@ class Dotequip extends Component {
     const _this = this;
     axios
       .ajax({
-        method: "put",
         url: "/bizservice/api/bindMonitorDevice",
         data: {
           code: this.state.bindCodeId,

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {Modal,message, Form,} from 'antd'
+import {Modal, Form,} from 'antd'
 import BaseForm from "../common/BaseForm"
 import ofteraxios from '../../axios/ofter'
 class UploadModel extends Component {

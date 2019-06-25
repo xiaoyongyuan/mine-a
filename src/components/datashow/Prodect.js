@@ -18,7 +18,7 @@ class Prodect extends Component {
         return (
             <div className="Prodect">
                 <dl className="columndl">
-                    <dt className="columndt">项目管理<a className="columndtright"></a></dt>
+                    <dt className="columndt">项目管理<a className="columndtright" href="/#/main/scheme"></a></dt>
                     <div className="egraph">
                       <Egraph dataHeight='400' cahrtp='progressbar' />
                     </div>

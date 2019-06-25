@@ -35,7 +35,7 @@ class WarningConditionsModel extends Component{
                 if(res.success){
                     var arrs=[];
                     res.data.map((v)=>{
-                        arrs.push({
+                        return arrs.push({
                             value: v.code,
                             label: v.name,
                             isLeaf: false,
@@ -81,7 +81,7 @@ class WarningConditionsModel extends Component{
                 if(res.success){
                     var target=[];
                     res.data.map((v)=>{
-                        target.push({
+                        return target.push({
                             label:v.name,
                             value: v.code,
                         })

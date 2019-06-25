@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {Modal, InputNumber, Select, Form, Button, Input, message} from 'antd'
+import {Modal, InputNumber, Form, Button, Input, message} from 'antd'
 import axios from "../../axios";
 const FormItem = Form.Item;
 let vis=false;
@@ -14,10 +14,7 @@ class ItemModel extends Component {
   changeState=(key,val)=>{
       this.setState({[key]:val})
   };
-  componentWillMount(){
 
-
-  }
   componentWillReceiveProps(nextProps){
       if( nextProps.newShow !== vis){
           vis=nextProps.newShow;

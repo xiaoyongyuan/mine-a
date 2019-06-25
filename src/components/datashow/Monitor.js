@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
-import ReactEcharts from 'echarts-for-react';
-import { Icon,List,Card,Progress,Typography } from 'antd'
+import { List } from 'antd'
 import Egraph from './../common/Egraph'
 import './mapshow.less'
 class Monitor extends Component {
@@ -54,7 +53,7 @@ class Monitor extends Component {
         return (
             <div className="Monitor">
                 <dl className="columndl">
-                    <dt className="columndt">监测网<a className="columndtright"></a></dt>
+                    <dt className="columndt">监测网<a className="columndtright" href="/#/main/dotequip"></a></dt>
                     <List className='listitem'>
                     {netlist.map((item,i)=>(<List.Item style={{textAlign:'left',paddingLeft:'35px',position:'relative'}} key={'Item'+i}><span className={'micon micon'+item.icon} /> {item.text}</List.Item>))} 
                     </List>
