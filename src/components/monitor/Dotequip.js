@@ -489,10 +489,7 @@ class Dotequip extends Component {
       <div className="dotequip">
         <div className="optbox">
           <Row type="flex" gutter={16} align="middle">
-            <Col span={2}>
-              <span className="label block">监测规划</span>
-            </Col>
-            <Col span={4}> {this.selprorender()}</Col>
+            <Col span={6}><span style={{ marginRight:'10px' }} className="label block">监测规划</span> {this.selprorender()}</Col>
             <Col span={4}>
               <span className="cont block">
                 <span className="tit block">
@@ -512,10 +509,7 @@ class Dotequip extends Component {
             align="middle"
             style={{ marginTop: "10px" }}
           >
-            <Col span={2}>
-              <span className="label block">监测网</span>
-            </Col>
-            <Col span={4}> {this.seltyperender()}</Col>
+            <Col span={6}><span style={{ marginRight:'10px' }} className="label block">监测网</span> {this.seltyperender()}</Col>
             <Col span={4}>
               <span className="cont block">
                 <span className="tit block">
