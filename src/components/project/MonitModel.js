@@ -1,17 +1,9 @@
 import React, { Component } from 'react';
-import {Modal,message, Input, Select, Form, Button, Checkbox, Radio, DatePicker, Upload, Icon} from 'antd'
-import BaseForm from "../common/BaseForm"
+import {Modal,message, Input, Select, Form, Button, Upload, Icon} from 'antd'
 import ofteraxios from '../../axios/ofter'
 import axios from '../../axios'
-
-
 const FormItem = Form.Item;
 const Option = Select.Option;
-const cadformat="image/vnd.dwg,image/vnd.dxf";
-const excelformat="application/vnd.ms-excel application/x-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
-const wordformat="application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document";
-
-
 class UploadModel extends Component {
   constructor(props){
     super(props);
@@ -33,8 +25,8 @@ class UploadModel extends Component {
   componentWillMount(){
     ofteraxios.projectlist().then(res=>{ //项目列表
       if(res.success){
-        var project=[]
-        res.data.map(item=>project.push({code:item.code,name:item.projectname}) )
+        var project=[];
+        res.data.map(item=>project.push({code:item.code,name:item.projectname}) );
         this.setState({project,selectp:''})
       }
     })
@@ -47,10 +39,10 @@ class UploadModel extends Component {
       excel:'',
       filepath:'',
       filename_cad:''
-    })
+    });
       this.props.form.resetFields();
       this.props.uploadreset()
-  }
+  };
   handleFilterSubmit = ()=>{//查询提交
     const _this=this;
       this.props.form.validateFields((err, values) => {
@@ -105,7 +97,7 @@ class UploadModel extends Component {
         var project=_this.state.project;
         _this.props.form.setFieldsValue({ projectid: '' });
         project.map((item,i)=>{
-          if(item.code==value) project[i].disabled=true
+          if(item.code===value) project[i].disabled=true
         })
         this.setState(project)
       }
@@ -124,20 +116,6 @@ class UploadModel extends Component {
         sm: { span: 10 },
       },
     };
-    const tailFormItemLayout = {
-      wrapperCol: {
-        xs: {
-          span: 24,
-          offset: 0,
-        },
-        sm: {
-          span: 16,
-          offset: 8,
-        },
-      },
-    };
-    
-
     return (
       <div className="UploadModel">
         <Modal
@@ -235,16 +213,6 @@ class UploadModel extends Component {
         </Modal>
       </div>
     );
-
-    function beforeUpload(file) {
-      console.log('file',file)
-      const isLt5M = file.size / 1024 / 1024 < 5;
-      if (!isLt5M) {
-        message.error("上传图片不能大于5M!");
-      }
-      return isLt5M;
-    }
-
   }
 }
 
