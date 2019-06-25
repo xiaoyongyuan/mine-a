@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {Modal,message, Select, Form, Button, Upload, Icon} from 'antd'
+import {Modal,message, Form, Button, Upload, Icon} from 'antd'
 const FormItem = Form.Item;
 class UploadModel extends Component {
   constructor(props){
