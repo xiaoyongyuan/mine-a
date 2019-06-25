@@ -145,26 +145,8 @@ class Warning extends Component {
         });
     };
     uploadOkInsert=(params,receive)=>{ //上传提交
-        console.log(params,"预警")
         if(receive.length>=1){
             this.setState({newShow:false});
-            /*axios.ajax({
-            baseURL:window.g.cuiURL,
-            method: 'post',
-            url: 'warnlist',
-            data: {
-                project:params.project,
-                name:params.name,
-                rank:params.rank,
-                judge:params.judge,
-                memo:params.memo,
-                conditions:receive
-            }
-        }).then((res)=>{
-            if(res.success){
-                console.log(res.data)
-            }
-        });*/
         }else{
             message.warning("请添加报警条件!");
         }

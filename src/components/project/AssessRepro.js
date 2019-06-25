@@ -96,9 +96,8 @@ class SurveyRepro extends Component {
       params.itemtype=4;
       const _this=this;
       axios.ajax({
-        baseURL:window.g.cuiURL,
         method: 'post',
-        url: '/api/itemfile',
+        url: '/bizservice/api/itemfile',
         data: params
       })
       .then((res)=>{

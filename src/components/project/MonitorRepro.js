@@ -49,9 +49,8 @@ class Monitorpro extends Component {
     
     requestList=()=>{
       axios.ajax({
-        baseURL:window.g.cuiURL,
         method: 'get',
-        url: '/api/getItemByItemtype',
+        url: '/bizservice/api/getItemByItemtype',
         data: this.params
       })
       .then((res)=>{
@@ -84,9 +83,8 @@ class Monitorpro extends Component {
       this.setState({newShow:false});
       const _this=this;
       axios.ajax({
-        baseURL:window.g.cuiURL,
         method: 'get',
-        url: '/api/itemfile',
+        url: '/bizservice/api/itemfile',
         data: params
       })
       .then((res)=>{
