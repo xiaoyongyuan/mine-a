@@ -8,10 +8,8 @@ import CurveChart from "./CurveChart";
 import AlarmInfo from "./AlarmInfo";
 import CheckReport from "./CheckReport.js";
 import Utils from "../../utils/utils";
-
 import "../../style/jhy/css/dotdetails.less";
 const easyURL = window.g.easyURL;
-
 const { TabPane } = Tabs;
 class Dotdetails extends Component {
   constructor(props) {
@@ -69,9 +67,6 @@ class Dotdetails extends Component {
         // url: "http://192.168.10.11:8001/bizservice/api/monitorDataTransfer",
         url: easyURL + "/monitordotdata",
         data: {
-          // deviceId: this.props.query.deviceId,
-          // companyCode: this.props.query.companyCode,
-          // deviceType: this.props.query.deviceType
           id: this.props.query.deviceId,
           type: this.props.query.deviceType
         }
