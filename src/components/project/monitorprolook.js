@@ -27,9 +27,8 @@ class Monitorprolook extends Component {
     requestList=()=>{
       const _this=this;
       axios.ajax({
-        baseURL:window.g.wangURL,
         method: 'get',
-        url: '/api/getItemfileList',
+        url: '/bizservice/api/getItemfileList',
         data: {oldcode:_this.state.oldcode}
       })
       .then((res)=>{
@@ -53,9 +52,8 @@ class Monitorprolook extends Component {
       params.itemtype=10;
       const _this=this;
       axios.ajax({
-        baseURL:window.g.cuiURL,
         method: 'post',
-        url: '/api/itemfile',
+        url: '/bizservice/api/itemfile',
         data: params
       })
       .then((res)=>{
