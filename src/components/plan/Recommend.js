@@ -37,9 +37,10 @@ class Recommend extends Component {
       this.params.recommendtype=this.state.recommendtype;
       this.params.plantype=this.state.selecttype || 0;
       axios.ajax({
+        baseURL:window.g.bizserviceURL,
         method: 'get',
-        url: '/bizservice/api/getPlanByRecommendtype',
-          data:this.params,
+        url: '/api/getPlanByRecommendtype',
+        data:this.params,
       }).then((res)=>{
         if(res.success){
           this.setState({
@@ -51,11 +52,12 @@ class Recommend extends Component {
               })
           })
         }
-      });
+      },()=>{});
   };
   //查询下拉框内容
     requersPlantType = () =>{
         axios.ajax({
+            baseURL:window.g.fileURL,
             method: 'get',
             url: '/sys/api/dictionary',
             data: {
@@ -67,7 +69,7 @@ class Recommend extends Component {
                     plantype:res.data
                 })
             }
-        });
+        },()=>{});
     };
   add(code) {
     const _this=this;
@@ -76,8 +78,9 @@ class Recommend extends Component {
           content: '确认添加至我的预案？',
           onOk() {
               axios.ajax({
+                baseURL:window.g.easyURL,
                 method: 'get',
-                url: 'plan',
+                url: '/plan',
                 data: {ids:code}
               }).then((res)=>{
                 if(res.success){
@@ -88,7 +91,6 @@ class Recommend extends Component {
       });
     };
     handleChange=(selecttype)=>{ //选择类别
-        console.log("selecttype",selecttype);
         this.setState({selecttype,page:1,},()=>this.requestList())
     };
 

@@ -19,9 +19,7 @@ class ThresholdEditModel extends Component {
   changeState=(key,val)=>{
       this.setState({[key]:val})
   };
-  componentWillMount(){
 
-  }
     componentWillReceiveProps(nextProps){
         if( nextProps.newShow !== vis){
             vis=nextProps.newShow;
@@ -55,12 +53,7 @@ class ThresholdEditModel extends Component {
 
             }
         }
-      // if(nextProps.newShow){
-      //
-      //
-      //
-      //
-      // }
+
     }
 
     requestdata=() => {//取数据
@@ -86,9 +79,7 @@ class ThresholdEditModel extends Component {
             });
         }
     };
-  componentDidMount(){
 
-  }
   reset = ()=>{ //取消表单
     this.setState({
         projectid:'',
@@ -114,35 +105,14 @@ class ThresholdEditModel extends Component {
           if (!err) {
               var data={
                   itemid:values.projectid,
-                  // netname:values.netname,equiptypeid
                   netid:values.netname,
                   maximum:values.heightvalue,
                   minumum:values.lowvalue,
                   devicetype:values.equiptypeid,
                   memo:values.memo
               };
-              data.code=this.state.code;
-              axios.ajax({
-                  baseURL:window.g.deviceURL,
-                  method: 'put',
-                  url: '/api/monitorDeviceType',
-                  data: data
-              }).then((res)=>{
-                  const list=this.state.list;
-                  if(res.success){
-                      message.success('编辑成功！', 3);
-                      this.setState({
-                          list:list
-                      });
-                  }
-              }).catch((error)=>{
-
-              });
-
-              // data.filename_cad=_this.state.cad;
-              // data.filepath=_this.state.filepath;
-              // data.excel=_this.state.excel;
-              this.props.uploadreset();
+              data.code=_this.state.code;
+              
               _this.props.filterSubmit(data);
               _this.props.form.resetFields();
           }

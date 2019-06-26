@@ -21,20 +21,41 @@ class Threshold extends Component {
       // companycode:'1'
         pageindex:1
     };
-    uploadOk=(params)=>{ //上传提交
+    uploadOk=(params)=>{ //新增提交
         this.setState({newShow:false});
         const _this=this;
         axios.ajax({
-            baseURL:window.g.easyURL,
-            method: 'post',
-            url: '/threshold_net',
-            data: params
-        })
-            .then((res)=>{
-                if(res.success){
-                    _this.requestList();
-                }else{message.warn(res.msg)}
-            });
+          baseURL:window.g.deviceURL,
+          method: 'put',
+          url: '/api/updateMonitorDeviceThreshold',
+          data: params
+      }).then((res)=>{
+          if(res.success){
+              message.success('操作成功！');
+              _this.requestList();
+          }
+      },()=>{});
+
+
+    };
+    EditOk=(params)=>{ //新增提交
+        this.setState({newEditShow:false});
+        const _this=this;
+        axios.ajax({
+          baseURL:window.g.deviceURL,
+          method: 'put',
+          url: '/api/monitorDeviceType',
+          data: params
+      }).then((res)=>{
+          const list=this.state.list;
+          if(res.success){
+              message.success('操作成功！');
+              _this.requestList();
+
+          }
+      },()=>{});
+
+
     };
     changeState=(key,val)=>{
         this.setState({
@@ -52,17 +73,19 @@ class Threshold extends Component {
         })
     };
     requestList=()=>{
+        const _this=this;
         axios.ajax({
+            baseURL:window.g.deviceURL,
             method: 'get',
-            url: '/device/api/monitorDeviceType',
-            data: this.params
+            url: '/api/monitorDeviceType',
+            data: _this.params
         }).then((res)=>{
                 if(res.success){
-                    this.setState({
+                    _this.setState({
                         list:res.data,
                         pagination:Utils.pagination(res,(current)=>{
-                            this.params.pageindex=current;
-                            this.requestList();
+                            _this.params.pageindex=current;
+                            _this.requestList();
                         })
                     })
                 }
@@ -71,61 +94,55 @@ class Threshold extends Component {
     isstart = (states,code,netid,devicetype) =>{
         var that = this;
         if(states === 0){
-            this.setState({
-                title:"确认启用吗？"
-            },()=>{
-                confirm({
-                    title: this.state.title,
-                    okText: "确认",
-                    okType: "danger",
-                    cancelText: "取消",
-                    onOk() {
-                        axios.ajax({
-                            method: 'put',
-                            url: '/device/api/updateMonitorDeviceTypeStatus',
-                            data: {
-                                states:states,
-                                code:code,
-                                netid:netid,
-                                devicetype:devicetype
-                            }
-                        }).then((res)=>{
-                            if(res.success){
-                                message.success('启用成功！');
-                                that.requestList();
-                            }
-                        });
-                    }
-                });
-            })
+            confirm({
+                title: "确认启用吗？",
+                okText: "确认",
+                okType: "danger",
+                cancelText: "取消",
+                onOk() {
+                    axios.ajax({
+                        baseURL:window.g.deviceURL,
+                        method: 'put',
+                        url: '/api/updateMonitorDeviceTypeStatus',
+                        data: {
+                            states:states,
+                            code:code,
+                            netid:netid,
+                            devicetype:devicetype
+                        }
+                    }).then((res)=>{
+                        if(res.success){
+                            message.success('启用成功！');
+                            that.requestList();
+                        }
+                    });
+                }
+            });
         }else{
-            this.setState({
-                title:"确认禁用吗？"
-            },()=>{
-                confirm({
-                    title: this.state.title,
-                    okText: "确认",
-                    okType: "danger",
-                    cancelText: "取消",
-                    onOk() {
-                        axios.ajax({
-                            method: 'put',
-                            url: '/device/api/updateMonitorDeviceTypeStatus',
-                            data: {
-                                states:states,
-                                code:code,
-                                netid:netid,
-                                devicetype:devicetype
-                            }
-                        }).then((res)=>{
-                            if(res.success){
-                                message.success('禁用成功！');
-                                that.requestList();
-                            }
-                        });
-                    }
-                });
-            })
+            confirm({
+                title: "确认禁用吗？",
+                okText: "确认",
+                okType: "danger",
+                cancelText: "取消",
+                onOk() {
+                    axios.ajax({
+                        baseURL:window.g.deviceURL,
+                        method: 'put',
+                        url: '/api/updateMonitorDeviceTypeStatus',
+                        data: {
+                            states:states,
+                            code:code,
+                            netid:netid,
+                            devicetype:devicetype
+                        }
+                    }).then((res)=>{
+                        if(res.success){
+                            message.success('禁用成功！');
+                            that.requestList();
+                        }
+                    });
+                }
+            });
         }
     };
     render() {
@@ -202,7 +219,7 @@ class Threshold extends Component {
               pagination={this.state.pagination}
           />
           <ThresholdModel type={this.state.type} code={this.state.code} newShow={this.state.newShow} filterSubmit={this.uploadOk} uploadreset={()=>this.changeState('newShow',false)} />
-          <ThresholdEditModelModel type={this.state.type} code={this.state.code} newShow={this.state.newEditShow} filterSubmit={this.uploadOk} uploadreset={()=>this.changeState('newShow',false)}/>
+          <ThresholdEditModelModel type={this.state.type} code={this.state.code} newShow={this.state.newEditShow} filterSubmit={this.EditOk} uploadreset={()=>this.changeState('newShow',false)}/>
       </div>
     );
   }

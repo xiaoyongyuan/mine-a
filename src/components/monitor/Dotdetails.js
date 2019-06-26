@@ -9,7 +9,7 @@ import AlarmInfo from "./AlarmInfo";
 import CheckReport from "./CheckReport.js";
 import Utils from "../../utils/utils";
 import "../../style/jhy/css/dotdetails.less";
-const easyURL = window.g.easyURL;
+
 const { TabPane } = Tabs;
 class Dotdetails extends Component {
   constructor(props) {
@@ -63,9 +63,9 @@ class Dotdetails extends Component {
   getList = () => {
     axios
       .ajax({
+        baseURL:window.g.easyURL,
         method: "get",
-        // url: "http://192.168.10.11:8001/bizservice/api/monitorDataTransfer",
-        url: easyURL + "/monitordotdata",
+        url: "/monitordotdata",
         data: {
           id: this.props.query.deviceId,
           type: this.props.query.deviceType

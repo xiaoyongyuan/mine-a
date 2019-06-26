@@ -23,8 +23,9 @@ class Monitorprolook extends Component {
     requestList=()=>{
       const _this=this;
       axios.ajax({
+        baseURL:window.g.bizserviceURL,
         method: 'get',
-        url: '/bizservice/api/getItemfileList',
+        url: '/api/getItemfileList',
         data: {oldcode:_this.state.oldcode}
       })
       .then((res)=>{
@@ -48,15 +49,16 @@ class Monitorprolook extends Component {
       params.itemtype=10;
       const _this=this;
       axios.ajax({
+        baseURL:window.g.bizserviceURL,
         method: 'post',
-        url: '/bizservice/api/itemfile',
+        url: '/api/itemfile',
         data: params
       })
       .then((res)=>{
         if(res.success){
           _this.requestList();
         }else{message.warn(res.msg)}
-      });
+      },()=>{});
     };
     changeState=(key,val)=>{
       this.setState({[key]:val})
@@ -86,12 +88,12 @@ class Monitorprolook extends Component {
           return(
             <div className='tableoption'>
               {
-                record.filepath?<Fragment><a className='greencolor' target="_blank" rel="noopener noreferrer"  href={"https://view.officeapps.live.com/op/view.aspx?src="+window.g.filelook+record.filepath}>预览</a>
-                <a className='bluecolor' href={window.g.filelook+record.filepath}>文档下载</a></Fragment>
+                record.filepath?<Fragment><a className='greencolor' target="_blank" rel="noopener noreferrer"  href={"https://view.officeapps.live.com/op/view.aspx?src="+window.g.fileURL+record.filepath}>预览</a>
+                <a className='bluecolor' href={window.g.fileURL+record.filepath}>文档下载</a></Fragment>
                 :null
               }
               {
-                record.filepathcad?<a className='bluecolor' href={window.g.filelook+record.filepathcad}>CAD下载</a>
+                record.filepathcad?<a className='bluecolor' href={window.g.fileURL+record.filepathcad}>CAD下载</a>
                 :null
               }                
             </div>

@@ -19,13 +19,7 @@ class ItemModel extends Component {
       if( nextProps.newShow !== vis){
           vis=nextProps.newShow;
           if(nextProps.newShow){
-              // ofteraxios.thresholdDotlist(this.props.netid).then(res=>{ //监测点列表
-              //     if(res.success){
-              //         var project=[];
-              //         res.data.map(item=>project.push({code:item.code,name:item.pointname}));
-              //         this.setState({project,selectp:project.length?project[0].code:''})
-              //     }
-              // });
+
 
               this.setState({
                   code:nextProps.code
@@ -62,22 +56,6 @@ class ItemModel extends Component {
                  minumum:values.lowvalue,
                  memo:values.memo,
              };
-              axios.ajax({
-                  baseURL:window.g.wangURL,
-                  method: 'put',
-                  url: '/api/updateMonitorDeviceThreshold',
-                  data: data
-              }).then((res)=>{
-                  const list=this.state.list;
-                  if(res.success){
-                      message.success('编辑成功！', 3);
-                      this.setState({
-                          list:list
-                      });
-                  }
-              }).catch((error)=>{
-
-              });
               _this.props.filterSubmit(data);
               _this.props.form.resetFields();
           }

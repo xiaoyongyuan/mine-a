@@ -5,7 +5,6 @@ import moment from "moment";
 import Table from "../common/Etable";
 import Utils from "../../utils/utils";
 
-const easyURL = window.g.easyURL;
 
 class AlarmInfo extends Component {
   constructor(props) {
@@ -101,8 +100,9 @@ class AlarmInfo extends Component {
   getList = () => {
     axios
       .ajax({
+        baseURL:window.g.easyURL,
         method: "get",
-        url: easyURL + "/alarmlist",
+        url:"/alarmlist",
         data: {
           id: this.props.cid,
           type: this.props.netid,
@@ -117,13 +117,12 @@ class AlarmInfo extends Component {
             {
               datalist: res.data,
               pagination: Utils.pagination(res, current => {
+                this.params.pageindex=current
                 this.getList();
               })
-            },
-            () => {}
-          );
+            });
         }
-      });
+      },()=>{});
   };
   handleFilterSubmit = data => {
     this.setState(

@@ -25,13 +25,14 @@ class Login extends Component {
             userName:values.userName,
           }
         }).then((res)=>{
+          console.log('成功返回',res)
           if(res.access_token){
             localStorage.setItem("token", res.access_token);
             this.props.history.push("/pandect/mapshow");
           }else{
             message.warn('用户名或密码错误！')
           }
-        })        
+        },(res)=>{console.log('错误返回',res)})        
       }
     });
   };

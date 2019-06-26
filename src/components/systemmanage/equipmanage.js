@@ -81,8 +81,9 @@ class Equipmanage extends Component {
     requestList = ()=>{
         const _this=this;
         axios.ajax({
+            baseURL:window.g.deviceURL,
             method: 'get',
-            url: '/device/api/equipment',
+            url: '/api/equipment',
             data: _this.params
         }).then((res)=>{
             if(res.success){

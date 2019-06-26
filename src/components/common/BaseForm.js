@@ -70,7 +70,6 @@ class FilterForm extends React.Component {
       const resp = info.file.response;
       if (resp.success) {
         this.setState({ fileurl: resp.data.url }, () => {
-          console.log("上传成功", this.state.fileurl);
         });
       } else {
         message.error(resp.msg);

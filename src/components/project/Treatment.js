@@ -58,29 +58,29 @@ class SurveyRepro extends Component {
     }
     
     requestList=()=>{
+      const _this=this;
       axios.ajax({
+        baseURL:window.g.bizserviceURL,
         method: 'get',
-        url: '/bizservice/api/getItemfileList',
-        data: this.params
+        url: '/api/getItemfileList',
+        data: _this.params
       })
       .then((res)=>{
         if(res.success){
-          this.setState({
+          _this.setState({
               list:res.data,
               pagination:Utils.pagination(res,(current)=>{
-                  this.params.pageindex=current;
-                  this.requestList();
+                  _this.params.pageindex=current;
+                  _this.requestList();
               })
           })
         }
-      });
+      },()=>{});
     };
-    preview=(filepath)=>{ //预览文件
-      window.open('http://192.168.10.20:8004/sys/UploadFile/OfficeFile/1136541326366367744.docx')
-    };
+
     handleFilterSubmit=(params)=>{ //查询
-      console.log(params,'paramsparamsparams')
       this.params.projectid=params.projectid;
+      this.params.pageindex=1;
       this.requestList();
     };
     uploadOk=(params)=>{ //上传提交
@@ -88,15 +88,16 @@ class SurveyRepro extends Component {
       params.itemtype=10;
       const _this=this;
       axios.ajax({
+        baseURL:window.g.bizserviceURL,
         method: 'post',
-        url: '/bizservice/api/itemfile',
+        url: '/api/itemfile',
         data: params
       })
       .then((res)=>{
         if(res.success){
           _this.requestList();
         }else{message.warn(res.msg)}
-      });
+      },()=>{});
     };
     changeState=(key,val)=>{
       this.setState({[key]:val})
@@ -127,10 +128,8 @@ class SurveyRepro extends Component {
         dataIndex: 'register',
         render: (text,record) =>{
           return(<div className="tableoption">
-              <a className="greencolor"  target="_blank" rel="noopener noreferrer" href={"https://view.officeapps.live.com/op/view.aspx?src="+window.g.filelook+record.filepath}  onClick={()=>this.preview(record.filepath)}><Button type="primary">预览</Button></a>
-          <form method='GET' action='https://view.officeapps.live.com/op/view.aspx?src=api.aokecloud.cn/upload/椒图数据字典20190417.docx'>
-              <a type='submit' href={window.g.filelook+record.filepath}  className="bluecolor"><Button type="primary">下载</Button></a>
-          </form>
+              <a className="greencolor" target="_blank" rel="noopener noreferrer" href={"https://view.officeapps.live.com/op/view.aspx?src="+window.g.fileURL+record.filepath}><Button type="primary">预览</Button></a>
+            <a type='submit' href={window.g.fileURL+record.filepath} className="bluecolor"><Button type="primary">下载</Button></a> 
           </div>)
         }
       }];

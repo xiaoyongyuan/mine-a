@@ -64,11 +64,11 @@ class Funds extends Component {
       this.requestList()
     }
     layerSubmit=(params)=>{ //提交
-        console.log("params",params);
         this.changeState('newShow',false);
         axios.ajax({
+            baseURL:window.g.fileURL,
             method: 'post',
-            url: '/sys/api/itemFund',
+            url: '/api/itemFund',
             data: params
         }).then((res)=>{
             const list=this.state.list;
@@ -80,12 +80,13 @@ class Funds extends Component {
                 });
                 this.requestList();
             }
-        });
+        },()=>{});
     };
     requestList=()=>{
       axios.ajax({
+        baseURL:window.g.fileURL,
         method: 'get',
-        url: '/sys/api/itemFund',
+        url: '/api/itemFund',
         data: this.params
       }).then((res)=>{
         if(res.success){
@@ -98,21 +99,6 @@ class Funds extends Component {
           })
         }
       });
-    };
-    uploadOk=(params)=>{ //上传提交
-      const _this=this;
-      this.changeState('newShow',false);
-      axios.ajax({
-        method: 'get',
-        url: 'funds',
-        data: params
-      }).then((res)=>{
-        if(res.success){
-          _this.requestList()
-        }
-      });
-      //新增提交
-      console.log(params)
     };
     changeState=(key,val)=>{
       this.setState({[key]:val})

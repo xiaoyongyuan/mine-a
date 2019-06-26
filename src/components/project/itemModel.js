@@ -16,7 +16,7 @@ class ItemModel extends Component {
       showUploadList:true,
       multiple:false,
       name:"file" ,
-        action:window.g.baseURL+"/api/uploadFile", //上传地址
+      action:window.g.fileURL+"/api/uploadFile", //上传地址
     }
     
   }
@@ -30,11 +30,10 @@ class ItemModel extends Component {
         res.data.map(item=>project.push({code:item.code,name:item.projectname}) );
         this.setState({project,selectp:project.length?project[0].code:''})
       }
-    })
+    },()=>{})
 
   }
-  componentDidMount(){
-    }
+
   reset = ()=>{ //取消表单
     this.setState({
       excel:'',
@@ -61,7 +60,6 @@ class ItemModel extends Component {
   };
 
   uploadchange=(info,fileurl)=>{ //上传文件
-    console.log('fileurlfileurl',info,fileurl)
         if (info.file.status === 'uploading') {
             this.setState({ loading: true });
             return;
@@ -81,7 +79,6 @@ class ItemModel extends Component {
     }
   removefile=(file,fileurl)=>{ //删除文件
     this.setState({[fileurl]:''})
-
   } 
   render() {
     const { getFieldDecorator } = this.props.form;

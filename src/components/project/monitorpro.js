@@ -24,8 +24,9 @@ class monitorpro extends Component {
 
     requestList=()=>{
         axios.ajax({
+            baseURL:window.g.bizserviceURL,
             method: 'get',
-            url: '/bizservice/api/getItemfileList',
+            url: '/api/getItemfileList',
             data: this.params
         })
             .then((res)=>{
@@ -38,10 +39,7 @@ class monitorpro extends Component {
                         })
                     })
                 }
-            });
-    };
-    preview=(filepath)=>{ //预览文件
-        window.open('http://192.168.10.20:8004/sys/UploadFile/OfficeFile/1136541326366367744.docx')
+            },()=>{});
     };
     uploadOk=(params,id)=>{ //上传提交
         const _this=this;
@@ -50,18 +48,18 @@ class monitorpro extends Component {
         if(id && !this.state.idstates){
             this.setState({newShow:false});
             params.oldcode=id;
-            axios.ajax({
-            method: 'put',
-            url: '/bizservice/api/itemfile',
-            data: params
-        }).then((res)=>{
-                if(res.success){
-                    _this.requestList();
-                }else{message.warn(res.msg)}
-            });
+                axios.ajax({
+                    baseURL:window.g.bizserviceURL,
+                    method: 'put',
+                    url: '/api/itemfile',
+                    data: params
+                }).then((res)=>{
+                    if(res.success){
+                        _this.requestList();
+                    }else{message.warn(res.msg)}
+                },()=>{});
         }else{
-            this.setState({newShow:false});
-            this.setState({EditShow:false});
+            this.setState({newShow:false,EditShow:false});
             if(id){
                 const toparams=this.state.toparams;
                 params.oldcode=id;
@@ -70,14 +68,15 @@ class monitorpro extends Component {
                 params.projectname=toparams.projectname;
             }
             axios.ajax({
+                baseURL:window.g.bizserviceURL,
                 method: 'post',
-                url: '/bizservice/api/itemfile',
+                url: '/api/itemfile',
                 data: params
             }).then((res)=>{
                     if(res.success){
                         _this.requestList();
                     }else{message.warn(res.msg)}
-                });
+                },()=>{});
 
         }
         
@@ -87,18 +86,18 @@ class monitorpro extends Component {
     };
     changeguih=(record)=>{ //变更
         this.setState({id:record.code,EditShow:true,idstates:record.states,toparams:record})
-
     }
     changestatus=(code)=>{
         const _this=this;
 
       confirm({
           title: '添加',
-          content: '确认添加至我的预案？',
+          content: '确认操作',
           onOk() {
             axios.ajax({
+                baseURL:window.g.bizserviceURL,
                 method: 'put',
-                url: '/bizservice/api/itemfile',
+                url: '/api/itemfile',
                 data: {
                     states:'1',
                     code:code,
@@ -107,7 +106,7 @@ class monitorpro extends Component {
                 if(res.success){
                     _this.requestList();
                 }else{message.warn(res.msg)}
-            });
+            },()=>{});
           }
       });
         
@@ -148,24 +147,24 @@ class monitorpro extends Component {
                 if(text===0) return(
                     <div className='tableoption'>
                         <span className='yellowcolor' onClick={()=>this.changeguih(record)}><Button type="primary">修改</Button></span>
-                        <a className='bluecolor' target="_blank"  rel="noopener noreferrer"  href={"https://view.officeapps.live.com/op/view.aspx?src="+window.g.filelook+record.filepath}><Button type="primary">预览</Button></a>
-                        <a className='bluecolor'  href={window.g.filelook+record.filepath} download><Button type="primary">文档下载</Button></a>
-                        <a className='bluecolor' href={window.g.filelook+record.filepathcad} download><Button type="primary">CAD下载</Button></a>
+                        <a className='bluecolor' target="_blank"  rel="noopener noreferrer"  href={"https://view.officeapps.live.com/op/view.aspx?src="+window.g.fileURL+record.filepath}><Button type="primary">预览</Button></a>
+                        <a className='bluecolor'  href={window.g.fileURL+record.filepath} download><Button type="primary">文档下载</Button></a>
+                        <a className='bluecolor' href={window.g.fileURL+record.filepathcad} download><Button type="primary">CAD下载</Button></a>
                         <span className='greencolor'  onClick={()=>this.changestatus(record.code)}><Button type="primary">执行</Button></span>
                     </div>)
                 else if(text===1) return(
                     <div className='tableoption'>
                         <span className='yellowcolor' onClick={()=>this.changeguih(record)}><Button type="primary">变更</Button></span>
-                        <a className='bluecolor' target="_blank" rel="noopener noreferrer"  href={"https://view.officeapps.live.com/op/view.aspx?src="+window.g.filelook+record.filepath}><Button type="primary">预览</Button></a>
-                        <a className='bluecolor'  href={window.g.filelook+record.filepath} download><Button type="primary">文档下载</Button></a>
-                        <a className='bluecolor' href={window.g.filelook+record.filepathcad} download><Button type="primary">CAD下载</Button></a>
+                        <a className='bluecolor' target="_blank" rel="noopener noreferrer"  href={"https://view.officeapps.live.com/op/view.aspx?src="+window.g.fileURL+record.filepath}><Button type="primary">预览</Button></a>
+                        <a className='bluecolor'  href={window.g.fileURL+record.filepath} download><Button type="primary">文档下载</Button></a>
+                        <a className='bluecolor' href={window.g.fileURL+record.filepathcad} download><Button type="primary">CAD下载</Button></a>
                         <a className='greencolor' href={'#/main/monitorprolook?id='+record.code}><Button type="primary">查看</Button></a>
                     </div>)
               else return(
                 <div className='tableoption'>
-                    <a className='bluecolor' target="_blank" rel="noopener noreferrer"  href={"https://view.officeapps.live.com/op/view.aspx?src="+window.g.filelook+record.filepath}><Button type="primary">预览</Button></a>
-                    <a className='bluecolor'  href={window.g.filelook+record.filepath}><Button type="primary">文档下载</Button></a>
-                    <a className='bluecolor'href={window.g.filelook+record.filepathcad} download><Button type="primary">CAD下载</Button></a>
+                    <a className='bluecolor' target="_blank" rel="noopener noreferrer"  href={"https://view.officeapps.live.com/op/view.aspx?src="+window.g.fileURL+record.filepath}><Button type="primary">预览</Button></a>
+                    <a className='bluecolor'  href={window.g.fileURL+record.filepath}><Button type="primary">文档下载</Button></a>
+                    <a className='bluecolor'href={window.g.fileURL+record.filepathcad} download><Button type="primary">CAD下载</Button></a>
                     <a className='greencolor' href={'#/main/monitorprolook?id='+record.code}><Button type="primary">查看</Button></a>
                 </div>)
             }

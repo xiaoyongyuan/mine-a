@@ -6,32 +6,21 @@ class CheckReportModel extends Component {
   constructor(props){
     super(props);
     this.state={
-      project:[], //项目方案列表
-      selectp:'', //选择的项目方案
     };
 
     this.property={
       accept:"application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document",
       showUploadList:true,
       multiple:false,
-      name:"file" ,
-        action:"http://192.168.10.29:8001/sys/api/uploadFile", //上传地址
+      name:"file",
+      action:window.g.fileURL+"/sys/api/uploadFile", //上传地址
     }
     
   }
   changeState=(key,val)=>{
       this.setState({[key]:val})
   }
-  componentWillMount(){
-    ofteraxios.projectlist().then(res=>{ //项目列表
-      if(res.success){
-        var project=[]
-        res.data.map(item=>project.push({code:item.code,name:item.title}) )
-        this.setState({project,selectp:project.length?project[0].code:''})
-      }
-    })
 
-  }
   componentDidMount(){
     }
   reset = ()=>{ //取消表单
@@ -60,7 +49,6 @@ class CheckReportModel extends Component {
   };
 
   uploadchange=(info,fileurl)=>{ //上传文件
-    console.log('fileurlfileurl',info,fileurl)
         if (info.file.status === 'uploading') {
             this.setState({ loading: true });
             return;

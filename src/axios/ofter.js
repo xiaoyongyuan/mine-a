@@ -10,20 +10,10 @@ export default class ofterajax {
               data: {pagesize:200}
             }).then((res)=>{
                 resolve(res.data) 
-            })  
+            },(res)=>reject(res))  
         })
     }
-    static equipment(dot) {
-        return new Promise((resolve, reject) => {
-           axios.ajax({
-              method: 'get',
-              url: '/equipment',
-              data: {pagesize:200,dot:dot}
-            }).then((res)=>{
-                resolve(res.data) 
-            })  
-        })
-    }
+
     static plantype() { //预案类型
         return new Promise((resolve, reject) => {
            axios.ajax({
@@ -32,23 +22,24 @@ export default class ofterajax {
               url: '/plantype',
             }).then((res)=>{
                 resolve(res) 
-            })  
+            },(res)=>reject(res))  
         })
     }
     static projectlist() { //项目方案列表
         return new Promise((resolve, reject) => {
            axios.ajax({
+            baseURL:window.g.bizserviceURL,
               method: 'get',
-               url: '/bizservice/api/getProjectAll',
+               url: '/api/getProjectAll',
             }).then((res)=>{
                 resolve(res) 
             })  
         })
     }
     static montinetlist(value) { //监测网列表
-        console.log("hhhwww",value);
         return new Promise((resolve, reject) => {
             axios.ajax({
+                baseURL:window.g.deviceURL,
                 method: 'get',
                 url: '/device/api/monitorNetAll',
                 data: {
@@ -57,31 +48,31 @@ export default class ofterajax {
                 }
             }).then((res)=>{
                 resolve(res)
-            })
+            },(res)=>reject(res))
         })
     }
-    static equiptypelist(value) { //设备类型列表
+    static equiptypelist(value) { //获取监测网设备类型列表
         return new Promise((resolve, reject) => {
             axios.ajax({
+                baseURL:window.g.deviceURL,
                 method: 'get',
-                url: '/device/api/monitorDeviceTypeAll',
+                url: '/api/monitorDeviceTypeAll',
                 data: {
-                    // pagesize:200,
                     netid:value,
                 }
             }).then((res)=>{
                 resolve(res)
-            })
+            },(res)=>reject(res))
         })
     }
 
-    static equiptypelistquery() { //设备列表设备类型查询条件
+    static equiptypelistquery() { //设备类型
         return new Promise((resolve, reject) => {
             axios.ajax({
+                baseURL:window.g.fileURL,
                 method: 'get',
-                url: '/sys/api/dictionary',
+                url: '/api/dictionary',
                 data: {
-                    pagesize:10000,
                     dtype:'DEVICETYPE'
                 }
             }).then((res)=>{
@@ -91,18 +82,4 @@ export default class ofterajax {
     }
 
 
-    static thresholdDotlist(netid) { //监测点列表
-        return new Promise((resolve, reject) => {
-            axios.ajax({
-                baseURL:window.g.hongURL,
-                method: 'get',
-                url: '/api/findMonitorNetDeviceList',
-                data: {
-                    netid,
-                }
-            }).then((res)=>{
-                resolve(res)
-            })
-        })
-    }
 }

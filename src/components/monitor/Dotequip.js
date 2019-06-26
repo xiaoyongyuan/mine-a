@@ -221,8 +221,9 @@ class Dotequip extends Component {
   getProjectList = () => {
     axios
       .ajax({
+        baseURL:window.g.bizserviceURL,
         method: "get",
-        url: "/bizservice/api/getProjectListAll"
+        url: "/api/getProjectListAll"
       })
       .then(res => {
         if (res.success) {
@@ -254,8 +255,9 @@ class Dotequip extends Component {
   getTypeList = () => {
     axios
       .ajax({
+        baseURL:window.g.deviceURL,
         method: "get",
-        url: "/device/api/monitorNetAll",
+        url: "/api/monitorNetAll",
         data: {
           itemid: this.state.projSelected
             ? this.state.projSelected
@@ -289,8 +291,9 @@ class Dotequip extends Component {
   getDeviceList = () => {
     axios
       .ajax({
+        baseURL:window.g.bizserviceURL,
         method: "get",
-        url: "/bizservice/api/findMonitordeviceThresholdList",
+        url: "/api/findMonitordeviceThresholdList",
         data: {
           itemid: this.state.projSelected
             ? this.state.projSelected
@@ -361,7 +364,9 @@ class Dotequip extends Component {
     const _this = this;
     axios
       .ajax({
-        url: "/bizservice/api/bindMonitorDevice",
+        baseURL:window.g.bizserviceURL,
+        method: "put",
+        url: "/api/bindMonitorDevice",
         data: {
           code: this.state.bindCodeId,
           devicecode: this.input.state.value,
@@ -399,8 +404,9 @@ class Dotequip extends Component {
       onOk() {
         axios
           .ajax({
+            baseURL:window.g.bizserviceURL,
             method: "put",
-            url: "/bizservice/api/disabledMonitorDevice",
+            url: "/api/disabledMonitorDevice",
             data: {
               code: id
             }
@@ -424,8 +430,9 @@ class Dotequip extends Component {
       onOk() {
         axios
           .ajax({
+            baseURL:window.g.bizserviceURL,
             method: "put",
-            url: "/bizservice/api/enabledMonitorDevice",
+            url: "/api/enabledMonitorDevice",
             data: {
               code: id
             }
@@ -517,14 +524,7 @@ class Dotequip extends Component {
                   />
                   文档查看
                 </span>
-                <a
-                  className="cotrg block"
-                  href={`https://view.officeapps.live.com/op/view.aspx?src=${
-                    this.state.filepath
-                  }`}
-                >
-                  查看
-                </a>
+                <a className="cotrg block" target="_blank" rel="noopener noreferrer" href={"https://view.officeapps.live.com/op/view.aspx?src="+window.g.fileURL+this.state.filepath}>查看</a>
               </span>
             </Col>
           </Row>

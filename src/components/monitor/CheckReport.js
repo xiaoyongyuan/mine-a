@@ -64,9 +64,6 @@ class CheckReport extends Component {
     changeState=(key,val)=>{
         this.setState({[key]:val})
     };
-    /*preview=(filepath)=>{ //预览文件
-       window.open('http://192.168.10.20:8004/sys/UploadFile/OfficeFile/1136541326366367744.docx')
-    };*/
     handleFilterSubmit=(params)=>{ //查询
         if(params.doubledata){
             this.params.createonbegin=params.doubledata[0].format('YYYY-MM-DD HH:mm:ss');
@@ -82,8 +79,9 @@ class CheckReport extends Component {
         params.itemtype=7;
         const _this=this;
         axios.ajax({
+            baseURL:window.g.bizserviceURL,
             method: 'post',
-            url: '/bizservice/api/itemfile',
+            url: '/api/itemfile',
             data: params
         }).then((res)=>{
                 if(res.success){
@@ -110,10 +108,8 @@ class CheckReport extends Component {
           dataIndex: 'register',
           render: (text,record) =>{
               return(<div className="tableoption">
-                  <a className="greencolor" target="_blank" rel="noopener noreferrer"  href={"https://view.officeapps.live.com/op/view.aspx?src="+window.g.filelook+record.filepath}  onClick={()=>this.preview(record.filepath)}><Button type="primary">预览</Button></a>
-                  <form method='GET' action='https://view.officeapps.live.com/op/view.aspx?src=api.aokecloud.cn/upload/椒图数据字典20190417.docx'>
-                      <a type='submit' href={window.g.filelook+record.filepath} className="bluecolor"><Button type="primary">下载</Button></a>
-                  </form>
+                  <a className="greencolor" target="_blank" rel="noopener noreferrer" href={"https://view.officeapps.live.com/op/view.aspx?src="+window.g.fileURL+record.filepath}><Button type="primary">预览</Button></a>
+                <a  href={window.g.fileURL+record.filepath} className="bluecolor"><Button type="primary">下载</Button></a>
               </div>)
           }
       }];

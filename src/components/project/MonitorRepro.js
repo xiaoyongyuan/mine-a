@@ -49,8 +49,9 @@ class Monitorpro extends Component {
     
     requestList=()=>{
       axios.ajax({
+        baseURL:window.g.bizserviceURL,
         method: 'get',
-        url: '/bizservice/api/getItemByItemtype',
+        url: '/api/getItemByItemtype',
         data: this.params
       })
       .then((res)=>{
@@ -83,15 +84,16 @@ class Monitorpro extends Component {
       this.setState({newShow:false});
       const _this=this;
       axios.ajax({
+        baseURL:window.g.bizserviceURL,
         method: 'get',
-        url: '/bizservice/api/itemfile',
+        url: '/api/itemfile',
         data: params
       })
       .then((res)=>{
         if(res.success){
           _this.requestList();
         }else{message.warn(res.msg)}
-      });
+      },()=>{});
     };
     changeState=(key,val)=>{
       this.setState({[key]:val})
@@ -122,9 +124,9 @@ class Monitorpro extends Component {
         dataIndex: 'register',
         render: (text,record) =>{
           return(<div className="tableoption">
-          <a className="greencolor"  target="_blank" rel="noopener noreferrer" href={"https://view.officeapps.live.com/op/view.aspx?src="+window.g.filelook+record.filepath}  onClick={()=>this.preview(record.filepath)}>预览</a>
+          <a className="greencolor"  target="_blank" rel="noopener noreferrer" href={"https://view.officeapps.live.com/op/view.aspx?src="+window.g.fileURL+record.filepath}  onClick={()=>this.preview(record.filepath)}>预览</a>
           <form method='GET' action='https://view.officeapps.live.com/op/view.aspx?src=api.aokecloud.cn/upload/椒图数据字典20190417.docx'>
-            <a type='submit'  href={window.g.filelook+record.filepath} className="bluecolor">
+            <a type='submit'  href={window.g.fileURL+record.filepath} className="bluecolor">
           下载</a>
           </form>
           </div>)

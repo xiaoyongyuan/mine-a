@@ -21,8 +21,9 @@ class companyinfoEdit extends Component {
             code: 1,
         };
         axios.ajax({
+            baseURL:window.g.fileURL,
             method: 'get',
-            url: '/sys/api/companyById',
+            url: '/api/companyById',
             data: quparams,
         }).then((res)=>{
             if(res.success){
@@ -138,8 +139,9 @@ class companyinfoEdit extends Component {
             logo:this.state.logo,
         };
         axios.ajax({
+            baseURL:window.g.fileURL,
             method: 'put',
-            url: '/sys/api/company',
+            url: '/api/company',
             data: data
         }).then((res)=>{
             if(res.success === 1){

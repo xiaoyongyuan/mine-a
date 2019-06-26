@@ -7,14 +7,12 @@ import Etable from "../common/Etable"
 import UploadModel from "../common/UploadModel"
 
 
-
 class Scheme extends Component {
     state  ={
       newShow:false
     };
     params={
       pageindex:1,
-      pagesize:3
     };
     formList={
       type:'inline',
@@ -45,14 +43,15 @@ class Scheme extends Component {
       this.requestList()
     }
     handleFilterSubmit=(params)=>{ //查询
-      this.params.projectname=params.projectname;
+      this.params=params;
       this.params.pageindex=1;
       this.requestList();
     };
     requestList=()=>{
       axios.ajax({
+        baseURL:window.g.bizserviceURL,
         method: 'get',
-        url: '/bizservice/api/getProjectAll',
+        url: '/api/getProjectAll',
         data: this.params
       })
       .then((res)=>{
@@ -65,18 +64,15 @@ class Scheme extends Component {
               })
           })
         }
-      },(res)=>{
-        //返回错误处理
-        console.log(res,'返回错误处理')
-      });
+      },(res)=>{});
     };
     uploadOk=(params)=>{ //上传提交
       const _this=this;
-
       this.changeState('newShow',false);
       axios.ajax({
+        baseURL:window.g.bizserviceURL,
         method: 'post',
-        url: '/bizservice/api/project',
+        url: '/api/project',
         data: params
       }).then((res)=>{
         if(res.success){
@@ -86,7 +82,6 @@ class Scheme extends Component {
           _this.requestList()
         }
       });
-      //新增提交
     };
     changeState=(key,val)=>{
       this.setState({[key]:val})
@@ -97,7 +92,6 @@ class Scheme extends Component {
         dataIndex: 'index',
         render: (text, record,index) => (index+1),
       },{
-        // title: '文件名',
         title: '项目名称',
         dataIndex: 'projectname',
       },{
@@ -129,10 +123,8 @@ class Scheme extends Component {
         dataIndex: 'register',
         render: (text,record) =>{
           return(<div className="tableoption">
-              <a className="greencolor" target="_blank" rel="noopener noreferrer" href={"https://view.officeapps.live.com/op/view.aspx?src="+window.g.filelook+record.filepath}  onClick={()=>this.preview(record.filepath)}><Button type="primary">预览</Button></a>
-              <form method='GET' action='https://view.officeapps.live.com/op/view.aspx?src=api.aokecloud.cn/upload/椒图数据字典20190417.docx'>
-                  <a type='submit' href={window.g.filelook+record.filepath} className="bluecolor"><Button type="primary">下载</Button></a>
-              </form>
+              <a className="greencolor" target="_blank" rel="noopener noreferrer" href={"https://view.officeapps.live.com/op/view.aspx?src="+window.g.fileURL+record.filepath}><Button type="primary">预览</Button></a>
+              <a  href={window.g.fileURL+record.filepath} className="bluecolor"><Button type="primary">下载</Button></a>
           </div>)
         }
       }];

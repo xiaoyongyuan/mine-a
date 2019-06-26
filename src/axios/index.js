@@ -32,9 +32,9 @@ export default class Axios {
                reject(false)  
             }
             axios({
+                baseURL: options.baseURL||baseURL,
                 method: options.method || 'get',
                 url: options.url,
-                baseURL: options.baseURL||baseURL,
                 headers:{
                     ContentType:'application/json;charset=UTF-8',
                     AUTHORIZATION: 'Bearer '+localStorage.getItem("token")
@@ -47,7 +47,7 @@ export default class Axios {
                     loading = document.getElementById('ajaxLoading');
                     loading.style.display = 'none';
                 }
-                if(response&&response.status==='200'){
+                if(response&&response.status===200){
                     const res=response.data;
                     if(res.success===0){resolve(res)}
                     if(res.success===1){
@@ -70,13 +70,13 @@ export default class Axios {
             loading.style.display = 'block';
         }
         return new Promise((resolve,reject)=>{
-            axios.post(window.g.loginurl+'/oauth/login/login',options.data)
+            axios.post(window.g.loginURL+'/oauth/login/login',options.data)
                 .then((response)=>{
                     if (options.isShowLoading !== false) {
                         loading = document.getElementById('ajaxLoading');
                         loading.style.display = 'none';
                     }
-                    if(response&&response.status==='200'){
+                    if(response&&response.status===200){
                         const res=response.data;
                         resolve(res)
                     }else reject(response.msg);
@@ -94,22 +94,19 @@ export default class Axios {
         }
         return new Promise((resolve,reject)=>{
             axios({
+                baseURL: window.g.exitURL,
                 method:'get',
-                url: window.g.exiturl+'/login/exit',
+                url:'/login/exit',
                 params:{
                     token:localStorage.getItem("token")
                 },
-                // headers: {
-                //     ContentType:'application/json;charset=UTF-8',
-                //     AUTHORIZATION: 'Bearer '+localStorage.getItem("token")
-                // }
             })
             .then((response)=>{
                 if (options.isShowLoading !== false) {
                     loading = document.getElementById('ajaxLoading');
                     loading.style.display = 'none';
                 }
-                if(response&&response.status==='200'){
+                if(response&&response.status===200){
                     const res=response.data;
                     resolve(res)
                 }else reject(response.msg);

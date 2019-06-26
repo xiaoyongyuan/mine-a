@@ -22,8 +22,9 @@ class Lookplan extends Component {
   }
   requestList=()=>{
     axios.ajax({
+      baseURL:window.g.bizserviceURL,
       method: 'get',
-      url: '/bizservice/api/getPlanById',
+      url: '/api/getPlanById',
       data: {planId:this.state.code}
     }).then((res)=>{
       if(res.success){
@@ -39,10 +40,10 @@ class Lookplan extends Component {
             title: '添加',
             content: '确认添加至我的预案？',
             onOk() {
-                console.log("code",_this.state.code);
                 axios.ajax({
+                  baseURL:window.g.bizserviceURL,
                   method: 'get',
-                  url: '/bizservice/api/setMyPlan',
+                  url: '/api/setMyPlan',
                   data: {
                         code:_this.state.code,
                       companycode:'122'

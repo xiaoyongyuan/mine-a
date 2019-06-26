@@ -16,7 +16,7 @@ class UploadModel extends Component {
       showUploadList:true,
       multiple:false,
       name:"file" , 
-      action:window.g.baseURL+"/api/uploadFile", //上传地址
+      action:window.g.fileURL+"/api/uploadFile", //上传地址
     }
   }
   changeState=(key,val)=>{
@@ -60,7 +60,6 @@ class UploadModel extends Component {
   };
 
   uploadchange=(info,fileurl)=>{ //上传文件
-    console.log('fileurlfileurl',info,fileurl)
         if (info.file.status === 'uploading') {
             this.setState({ loading: true });
             return;
@@ -85,7 +84,7 @@ class UploadModel extends Component {
   selectproj=(value)=>{
     const _this=this;
     axios.ajax({
-        baseURL:window.g.wangURL,
+        baseURL:window.g.bizserviceURL,
         method: 'get',
         url: '/api/checkitemFile',
         data: {

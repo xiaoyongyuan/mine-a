@@ -70,8 +70,9 @@ class Userinfo extends Component {
                 };
                 if(this.state.type === 0){ //新增
                     axios.ajax({
+                        baseURL:window.g.fileURL,
                         method: 'post',
-                        url: '/sys/api/companyUser',
+                        url: '/api/companyUser',
                         data: data
                     }).then((res)=>{
                         const list=this.state.list;
@@ -87,8 +88,9 @@ class Userinfo extends Component {
                 }else{//编辑
                     data.code=this.state.codetype;
                     axios.ajax({
+                        baseURL:window.g.fileURL,
                         method: 'put',
-                        url: '/sys/api/companyUser',
+                        url: '/api/companyUser',
                         data: data
                     }).then((res)=>{
                         if(res.success){
@@ -130,8 +132,9 @@ class Userinfo extends Component {
             account:this.state.account,
         };
         axios.ajax({
+            baseURL:window.g.fileURL,
             method: 'get',
-            url: '/sys/api/companyUser',
+            url: '/api/companyUser',
             data: quparams
         }).then((res)=>{
             if(res.success){
@@ -180,8 +183,9 @@ class Userinfo extends Component {
             code:this.state.code,
         };
         axios.ajax({
+            baseURL:window.g.fileURL,
             method: 'post',
-            url: '/sys/api/resetPassword',
+            url: '/api/resetPassword',
             data: data
         }).then((res)=>{
             if(res.success){
@@ -203,10 +207,10 @@ class Userinfo extends Component {
         };
         const list=this.state.list;
         list.splice(this.state.index,1);
-        console.log("data",data);
         axios.ajax({
+            baseURL:window.g.fileURL,
             method: 'delete',
-            url: '/sys/api/companyUser',
+            url: '/api/companyUser',
             data: data
         }).then((res)=>{
             if(res.success){

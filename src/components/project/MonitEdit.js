@@ -13,7 +13,7 @@ class UploadModel extends Component {
       showUploadList:true,
       multiple:false,
       name:"file" , 
-      action:window.g.baseURL+"/api/uploadFile", //上传地址
+      action:window.g.fileURL+"/api/uploadFile", //上传地址
     }
   }
   changeState=(key,val)=>{

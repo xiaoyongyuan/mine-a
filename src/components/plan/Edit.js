@@ -39,8 +39,9 @@ class Edit extends Component {
   }
     requersPlantType = () =>{
         axios.ajax({
+            baseURL:window.g.fileURL,
             method: 'get',
-            url: '/sys/api/dictionary',
+            url: '/api/dictionary',
             data: {
                 dtype:'PLANTYPE',
             }
@@ -54,14 +55,12 @@ class Edit extends Component {
     };
   requestList=()=>{
     axios.ajax({
+      baseURL:window.g.bizserviceURL,
       method: 'get',
-      url: '/bizservice/api/getPlanById',
+      url: '/api/getPlanById',
       data: {planId:this.state.code}
     }).then((res)=>{
       if(res.success){
-          console.log("res",res);
-        // const data=res.data;
-        // const editorS=this.state.editorState;
         const planinfo = res.data.planinfo;
         const contentBlock=htmltod(planinfo);
         const contentState=ContentState.createFromBlockArray(contentBlock.contentBlocks);
@@ -71,14 +70,11 @@ class Edit extends Component {
           inputval:res.data.plantitle, //标题
             abstract:res.data.summary,//摘要
           selecttype:res.data.plantype //类别
-        },()=>{
-          console.log('ddddd',editorState)
         })
       }
-    });
+    },(res)=>{});
   };
   selectopt=(type,selecttype)=>{ //选择类别
-      console.log("12",type,selecttype);
     this.setState({
             [type]:selecttype
         }
@@ -120,8 +116,9 @@ class Edit extends Component {
       const ids=this.props.query.id;
      if(ids === undefined){
          axios.ajax({
+            baseURL:window.g.bizserviceURL,
              method: 'post',
-             url: '/bizservice/api/plan',
+             url: '/api/plan',
              data: params
          }).then((res)=>{
              if(res.success){
@@ -131,9 +128,10 @@ class Edit extends Component {
      }else {
          params.code=ids;
          axios.ajax({
-             method: 'put',
-             url: '/bizservice/api/plan',
-             data: params
+            baseURL:window.g.bizserviceURL,
+            method: 'put',
+            url: '/api/plan',
+            data: params
          }).then((res)=>{
              if(res.success){
                  message.success('编辑成功！', 2).then(()=>window.history.go(-1));

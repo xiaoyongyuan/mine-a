@@ -23,8 +23,9 @@ class Threshold extends Component {
     requestList=()=>{
         var that = this;
         axios.ajax({
+            baseURL:window.g.bizserviceURL,
             method: 'get',
-            url: '/bizservice/api/findMonitordeviceThresholdList',
+            url: '/api/findMonitordeviceThresholdList',
             data: {netid:that.state.netid}
         })
             .then((res)=>{
@@ -79,8 +80,9 @@ class Threshold extends Component {
                     cancelText: "取消",
                     onOk() {
                         axios.ajax({
+                            baseURL:window.g.bizserviceURL,
                             method: 'put',
-                            url: '/bizservice/api/setUpMonitorDeviceIfsys',
+                            url: '/api/setUpMonitorDeviceIfsys',
                             data: {
                                 code:code,
                                 ifsys:ifsys
@@ -90,7 +92,7 @@ class Threshold extends Component {
                                 message.success('禁用成功！');
                                 that.requestList();
                             }
-                        });
+                        },()=>{});
                     }
                 });
             })
@@ -105,8 +107,9 @@ class Threshold extends Component {
                     cancelText: "取消",
                     onOk() {
                         axios.ajax({
+                            baseURL:window.g.bizserviceURL,
                             method: 'put',
-                            url: '/bizservice/api/setUpMonitorDeviceIfsys',
+                            url: '/api/setUpMonitorDeviceIfsys',
                             data: {
                                 code:code,
                                 ifsys:ifsys

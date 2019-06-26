@@ -31,8 +31,9 @@ class MyPlan extends Component {
   };
   requersPlantType = () =>{
       axios.ajax({
+          baseURL:window.g.fileURL,
           method: 'get',
-          url: '/sys/api/dictionary',
+          url: '/api/dictionary',
           data: {
               dtype:'PLANTYPE',
           }
@@ -46,10 +47,10 @@ class MyPlan extends Component {
   };
   getPlanByPlantype=()=>{
       this.params.plantype=this.state.selecttype || 0;
-      // this.params.pageindex = this.state.pageindex;
       axios.ajax({
+          baseURL:window.g.bizserviceURL,
           method: 'get',
-          url: '/bizservice/api/getPlanByPlantype',
+          url: '//api/getPlanByPlantype',
           data: this.params
       }).then((res)=>{
           if(res.success){
@@ -62,7 +63,7 @@ class MyPlan extends Component {
                   })
               })
           }
-      });
+      },()=>{});
   };
   render() {
       const isempty = this.state.isempty;

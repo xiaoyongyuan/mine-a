@@ -50,8 +50,9 @@ class ModalForm extends Component{
                 code:this.state.code,
             };
             axios.ajax({
+                baseURL:window.g.fileURL,
                 method: 'get',
-                url: '/sys/api/companyUserById',
+                url: '/api/companyUserById',
                 data: data
             }).then((res)=>{
                 if(res.success){
