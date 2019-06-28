@@ -4,6 +4,7 @@ import "../../style/yal/css/companyinfoEdit.less";
 import axios from "../../axios";
 
 const { TextArea } = Input;
+const token={AUTHORIZATION: 'Bearer '+localStorage.getItem("token")};
 class companyinfoEdit extends Component {
     constructor(props){
         super(props);
@@ -269,7 +270,8 @@ class companyinfoEdit extends Component {
                                 listType="picture-card"
                                 className="avatar-uploader"
                                 showUploadList={false}
-                                action={window.g.baseURL+"/sys/api/uploadFile"}
+                                action={window.g.fileURL+"/api/uploadFile"}
+                                headers={token }
                                 beforeUpload={this.beforeUpload}
                                 onChange={this.handleChange}
                             >

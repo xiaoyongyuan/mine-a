@@ -3,6 +3,7 @@ import {Modal,message, Input, Select, Form, Button, Upload, Icon} from 'antd'
 import ofteraxios from '../../axios/ofter'
 const FormItem = Form.Item;
 const Option = Select.Option;
+const token={AUTHORIZATION: 'Bearer '+localStorage.getItem("token")};
 class ItemModel extends Component {
   constructor(props){
     super(props);
@@ -138,7 +139,7 @@ class ItemModel extends Component {
                             message: '请上传文件',
                           }],
                     })(
-                      <Upload {...this.property} onChange={(info)=>this.uploadchange(info,'filepath')} onRemove={(info)=>this.removefile(info,'filepath')}>
+                      <Upload {...this.property} headers={token } onChange={(info)=>this.uploadchange(info,'filepath')} onRemove={(info)=>this.removefile(info,'filepath')}>
                         <Button>
                           <Icon type="upload" /> 选择文件
                         </Button>

@@ -4,6 +4,7 @@ import ofteraxios from '../../axios/ofter'
 import axios from '../../axios'
 const FormItem = Form.Item;
 const Option = Select.Option;
+const token={AUTHORIZATION: 'Bearer '+localStorage.getItem("token")};
 class UploadModel extends Component {
   constructor(props){
     super(props);
@@ -73,14 +74,12 @@ class UploadModel extends Component {
           }else{
             message.error(resp.msg)
           }
-          
-            
         }
     }
   removefile=(file,fileurl)=>{ //删除文件
     this.setState({[fileurl]:''})
 
-  } 
+  };
   selectproj=(value)=>{
     const _this=this;
     axios.ajax({
@@ -162,7 +161,7 @@ class UploadModel extends Component {
                             message: '请上传word或pdf文件',
                           }],
                     })(
-                      <Upload accept='application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document' {...this.property}  onChange={(info)=>this.uploadchange(info,'filepath')} onRemove={(info)=>this.removefile(info,'filepath')}>
+                      <Upload accept='application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document' {...this.property} headers={token }  onChange={(info)=>this.uploadchange(info,'filepath')} onRemove={(info)=>this.removefile(info,'filepath')}>
                         <Button>
                           <Icon type="upload" /> 选择word或pdf文件
                         </Button>
@@ -176,7 +175,7 @@ class UploadModel extends Component {
                             message: '请上传CAD文件',
                           }],
                     })(
-                      <Upload  {...this.property} accept='application/acad,application/dxf' onChange={(info)=>this.uploadchange(info,'filepathcad')} onRemove={(info)=>this.removefile(info,'filepathcad')}>
+                      <Upload  headers={token } {...this.property} accept='application/acad,application/dxf' onChange={(info)=>this.uploadchange(info,'filepathcad')} onRemove={(info)=>this.removefile(info,'filepathcad')}>
                         <Button>
                           <Icon type="upload" /> 选择CAD文件
                         </Button>
@@ -190,7 +189,7 @@ class UploadModel extends Component {
                             message: '请上传Excel文件',
                           }],
                     })(
-                      <Upload  {...this.property} accept='application/vnd.ms-excel application/x-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' onChange={(info)=>this.uploadchange(info,'filepathexcel')} onRemove={(info)=>this.removefile(info,'filepathexcel')}>
+                      <Upload headers={token }  {...this.property} headers={token } accept='application/vnd.ms-excel application/x-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' onChange={(info)=>this.uploadchange(info,'filepathexcel')} onRemove={(info)=>this.removefile(info,'filepathexcel')}>
                         <Button>
                           <Icon type="upload" /> 选择Excel文件
                         </Button>
