@@ -104,8 +104,8 @@ class Scheme extends Component {
         title: '状态',
         dataIndex: 'states',
         render: (text) =>{
-          if(text===0) return(<div className='state-bg-not'>编制中</div>);
-          else if(text===1) return(<div className='state-bg-implement'>执行中</div>);
+          if(text==='0') return(<div className='state-bg-not'>编制中</div>);
+          else if(text==='1') return(<div className='state-bg-implement'>执行中</div>);
           else return(<div className='state-bg-normal'>已完成</div>)
         }
       },{
