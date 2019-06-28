@@ -27,7 +27,7 @@ class MapShow extends Component {
         const _this=this;
         //30秒循环一次
         setInterval(()=>{
-                _this.setState({systime:moment().format('YYYY-MM-DD hh:mm:ss')})
+                _this.setState({systime:moment().format('YYYY-MM-DD HH:mm:ss')})
         },30000)
     }
     clickbtn=(val)=>{
