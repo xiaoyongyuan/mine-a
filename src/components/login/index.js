@@ -35,14 +35,13 @@ class Login extends Component {
             userName:values.userName,
           }
         }).then((res)=>{
-          console.log('成功返回',res);
           if(res.access_token){
             localStorage.setItem("token", res.access_token);
             this.props.history.push("/pandect/mapshow");
           }else{
             message.warn('用户名或密码错误！')
           }
-        },(res)=>{console.log('错误返回',res)})        
+        },(res)=>{console.log('错误返回',res)})
       }
     });
   };
@@ -51,7 +50,6 @@ class Login extends Component {
         this.props.form.validateFields((err, values) => {
             if (!err) {
                 if(values.authCode){
-                    console.log("authCode",values.authCode);
                     //获取到的表单的值values
                     axios.loginbyAuthcode({
                         data: {
@@ -59,7 +57,6 @@ class Login extends Component {
                             code:values.authCode,
                         }
                     }).then((res)=>{
-                        console.log('成功返回',res);
                         if(res.data){
                             localStorage.setItem("token", res.data);
                             this.props.history.push("/pandect/mapshow");
@@ -77,22 +74,17 @@ class Login extends Component {
       this.setState({
           userlogin:true,
           authcodelogin:false,
-      },()=>{
-        console.log("userlogin",this.state.userlogin,this.state.authcodelogin)
       })
     };
     authcodeonChage = () =>{
         this.setState({
             userlogin:false,
             authcodelogin:true,
-        },()=>{
-            console.log("authcodelogin",this.state.userlogin,this.state.authcodelogin)
         })
     };
     //获取验证码
     getPhoneCode = () =>{
         this.props.form.validateFields((err, values) => {
-            console.log("phone",values.phone);
             if (!phoneRexp.test(values.phone)) {
                 message.error('手机号格式有误');
                 return;
@@ -102,7 +94,6 @@ class Login extends Component {
                 phone:values.phone
             }).then((res)=>{
                 if(res.success){
-                    console.log("获取成功！");
                     message.success('验证码获取成功');
                     this.setState({
                         isGetCode:true
