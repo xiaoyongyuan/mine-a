@@ -20,7 +20,7 @@ class Egraph extends Component {
   componentDidMount(){
     const cahrtp=this.props.cahrtp;
     const data={ //进度测试数据
-      item:['项目方案','监测规划','评估报告','调查报告','勘察报告','设计报告','施工报告','施工监理','治理方案','项目验收',],
+      item:['项目验收','治理方案','施工监理','施工报告','设计报告','勘察报告','调查报告','评估报告','监测规划','项目方案',],
       values:[60,100,40,20,70,48,30,69,78,0]
     }
     const columnar={ //进度测试数据
@@ -101,7 +101,7 @@ class Egraph extends Component {
                     fontSize: 12,
                     color:'#04A4CE'
                 },
-                formatter: '已损毁{value}% \n'
+                formatter: '已复垦{value}% \n'
             },
             data: [{
                 name: "",
