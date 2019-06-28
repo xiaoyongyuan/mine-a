@@ -53,9 +53,9 @@ export default class Axios {
                     if(res.success===1){
                         resolve(res)
                     }else if(res.success==='401' || res.success==='402'){
-                        reject(response.msg);
                         message.error(res.msg);
                         window.location.href='#/login'
+                        reject(response.msg);
                     }else message.error(res.msg)
                 }else reject(response.msg);
             });
@@ -111,6 +111,37 @@ export default class Axios {
                     resolve(res)
                 }else reject(response.msg);
             });
+
+        })
+    }
+
+    static getAuthcode(options){
+        let loading;
+        if (options.isShowLoading !== false){
+            loading = document.getElementById('ajaxLoading');
+            loading.style.display = 'block';
+        }
+        return new Promise((resolve,reject)=>{
+            axios({
+                baseURL: window.g.exitURL,
+                method:'post',
+                url:'/login/sendCode/'+options.phone,
+            })
+                .then((response)=>{
+                    if (options.isShowLoading !== false) {
+                        loading = document.getElementById('ajaxLoading');
+                        loading.style.display = 'none';
+                    }
+                    if(response&&response.status===200){
+                        const res=response.data;
+                        if(res.success){
+                            resolve(res)
+                        }else{
+                            message.error(res.msg);
+                            reject(response)
+                        }
+                    }else reject(response.msg);
+                });
 
         })
     }
