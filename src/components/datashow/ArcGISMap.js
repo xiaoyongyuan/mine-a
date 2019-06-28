@@ -44,10 +44,10 @@ export default class ArcGISMap extends Component{
          
           let pointLayer = new FeatureLayer({
                   //url: "https://beidou.esrichina.com/server/rest/services/Hosted/cornerPoint1/FeatureServer"
-                  url:"https://beidou.esrichina.com/server/rest/services/Hosted/test3d_WFL1/FeatureServer"
+                  //  url:"https://beidou.esrichina.com/server/rest/services/Hosted/test3d_WFL1/FeatureServer"
           });
 
-          map.add(pointLayer);
+          // map.add(pointLayer);
         })
 
     }

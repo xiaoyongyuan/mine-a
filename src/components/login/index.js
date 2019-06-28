@@ -3,7 +3,9 @@ import { Form, Icon, Input, Button, Checkbox,message } from "antd";
 import axios from '../../axios';
 import './index.less';
 import logo from '../../style/imgs/logonew.png'
+import Utils from "../../utils/utils";
 
+const  phoneRexp = /^(13[0-9]|14[579]|15[0-3,5-9]|16[6]|17[0135678]|18[0-9]|19[89])\d{8}$/;
 const FormItem = Form.Item;
 class Login extends Component {
   
@@ -12,6 +14,9 @@ class Login extends Component {
       this.state={
         userlogin:true,
         authcodelogin:false,
+          btnTxt:'获取验证码',
+          isGetCode: false,
+          countDown: 60,
       };
   }
 
@@ -41,6 +46,33 @@ class Login extends Component {
       }
     });
   };
+    handleSubmitbyAuthcode = e => {//验证码登录
+        e.preventDefault();
+        this.props.form.validateFields((err, values) => {
+            if (!err) {
+                if(values.authCode){
+                    console.log("authCode",values.authCode);
+                    //获取到的表单的值values
+                    axios.loginbyAuthcode({
+                        data: {
+                            phoneNum:values.phone,
+                            code:values.authCode,
+                        }
+                    }).then((res)=>{
+                        console.log('成功返回',res);
+                        if(res.data){
+                            localStorage.setItem("token", res.data);
+                            this.props.history.push("/pandect/mapshow");
+                        }else{
+                            message.warn('验证码不正确，请重新输入正确验证码！')
+                        }
+                    },(res)=>{console.log('错误返回',res)})
+                }else {
+                    message.warn('请输入验证码')
+                }
+            }
+        });
+    };
     useronChage = () =>{
       this.setState({
           userlogin:true,
@@ -57,6 +89,52 @@ class Login extends Component {
             console.log("authcodelogin",this.state.userlogin,this.state.authcodelogin)
         })
     };
+    //获取验证码
+    getPhoneCode = () =>{
+        this.props.form.validateFields((err, values) => {
+            console.log("phone",values.phone);
+            if (!phoneRexp.test(values.phone)) {
+                message.error('手机号格式有误');
+                return;
+            }
+            axios.getAuthcode({
+                method: 'post',
+                phone:values.phone
+            }).then((res)=>{
+                if(res.success){
+                    console.log("获取成功！");
+                    message.success('验证码获取成功');
+                    this.setState({
+                        isGetCode:true
+                    });
+                    this.timer();
+                }
+            });
+        });
+    };
+    /**
+     * 验证码倒计时
+     */
+    timer = () => {
+        let that = this,
+            countDown = that.state.countDown;
+        let clock = setInterval(() => {
+            countDown--;
+            if (countDown >= 0) {
+                that.setState({
+                    countDown: countDown
+                });
+            } else {
+                clearInterval(clock);
+                that.setState({
+                    countDown: 60,
+                    isGetCode: false,
+                    btnTxt: '重新获取'
+                })
+            }
+        }, 1000)
+    };
+
   render() {
     const { getFieldDecorator } = this.props.form;
     return (
@@ -67,52 +145,6 @@ class Login extends Component {
               </div>
           </div>
           <div className="logincont">
-            {/*<div className="login-form">*/}
-              {/*<Form*/}
-                {/*onSubmit={this.handleSubmit}*/}
-                {/*style={{ maxWidth: "280px", margin: "0 auto" }}>*/}
-                {/*<FormItem>*/}
-                  {/*{getFieldDecorator("userName", {*/}
-                    {/*rules: [{ required: true, message: "请输入用户名!" }]*/}
-                  {/*})(*/}
-                    {/*<Input*/}
-                      {/*placeholder="请输入用户名"*/}
-                      {/*prefix={<Icon type="user" style={{ fontSize: 13 }} />}*/}
-                    {/*/>*/}
-                  {/*)}*/}
-                {/*</FormItem>*/}
-                {/*<FormItem>*/}
-                  {/*{getFieldDecorator("passWord", {*/}
-                    {/*rules: [{ required: true, message: "请输入密码!" }]*/}
-                  {/*})(*/}
-                    {/*<Input*/}
-                      {/*placeholder="请输入密码"*/}
-                      {/*prefix={<Icon type="lock" style={{ fontSize: 13 }} />}*/}
-                      {/*type="password"*/}
-                    {/*/>*/}
-                  {/*)}*/}
-                {/*</FormItem>*/}
-                {/*<FormItem>*/}
-                  {/*{getFieldDecorator("remember", {*/}
-                    {/*valuePropName: "checked",*/}
-                    {/*initialValue: true*/}
-                  {/*})(<Checkbox className="test">记住我</Checkbox>)}*/}
-                  {/*/!*<span className="login-form-forgot" href="" style={{float: 'right'}}>忘记密码</span>*!/*/}
-                  {/*<Button*/}
-                    {/*type="primary"*/}
-                    {/*htmlType="submit"*/}
-                    {/*className="login-form-button"*/}
-                    {/*style={{ width: "100%" }}*/}
-                  {/*>*/}
-                    {/*登录*/}
-                  {/*</Button>*/}
-                {/*</FormItem>*/}
-              {/*</Form>*/}
-            {/*</div>*/}
-
-
-
-
               <div className="login-formnew">
                   <div className="loginsj">
                       <div className="logindk">
@@ -178,7 +210,7 @@ class Login extends Component {
                                                       {getFieldDecorator("remember", {
                                                           valuePropName: "checked",
                                                           initialValue: true
-                                                      })(<Checkbox className="rember-user">记住用户</Checkbox>)}
+                                                      })(<Checkbox className="rember-user">记住用户名</Checkbox>)}
                                                       {/*<span className="login-form-forgot" href="" style={{float: 'right'}}>忘记密码</span>*/}
                                                       <Button
                                                           type="primary"
@@ -191,10 +223,61 @@ class Login extends Component {
                                                   </FormItem>
                                               </Form>
                                           </div>:
-                                          ''
+                                         <div className="form-select">
+                                             <Form
+                                                 onSubmit={this.handleSubmitbyAuthcode}
+                                                 style={{ maxWidth: "100%", margin: "0 auto" }}>
+                                                 <FormItem>
+                                                     {getFieldDecorator("phone", {
+                                                         rules: [{
+                                                             required: true, message: "请输入正确的手机号码!" ,
+                                                             // pattern: new RegExp(/^1(3|4|5|6|7|8|9)\d{9}$/, "g")
+                                                         }]
+                                                     })(
+                                                         <Input
+                                                             placeholder="请输入手机号码"
+                                                             prefix={<Icon type="mobile" style={{ fontSize: 13 }} />}
+                                                         />
+                                                     )}
+                                                 </FormItem>
+                                                 <FormItem
+                                                     style={{ width:"100%" }}
+                                                 >
+                                                     {getFieldDecorator("authCode", {
+                                                         // rules: [{ required: true, message: "请输入短信验证码!" }]
+                                                     })(
+                                                         <Input
+                                                             placeholder="请输入短信验证码"
+                                                             prefix={<Icon type="lock" style={{ fontSize: 13 }} />}
+                                                             type="password"
+                                                         />
+
+                                                     )}
+                                                         {
+                                                             !this.state.isGetCode?
+                                                                 <div className="getAuthCode" style={{ cursor:'pointer' }} onClick={this.getPhoneCode}>{ this.state.btnTxt }</div>:
+                                                                 <div className="timeer">{this.state.countDown}s</div>
+                                                         }
+                                                 </FormItem>
+                                                 <FormItem>
+                                                     {getFieldDecorator("remember", {
+                                                         valuePropName: "checked",
+                                                         initialValue: true
+                                                     })(<Checkbox className="rember-user">记住用户名</Checkbox>)}
+                                                     {/*<span className="login-form-forgot" href="" style={{float: 'right'}}>忘记密码</span>*/}
+                                                     <Button
+                                                         type="primary"
+                                                         htmlType="submit"
+                                                         className="login-form-button"
+                                                         style={{ width: "100%" }}
+                                                     >
+                                                         登录
+                                                     </Button>
+                                                 </FormItem>
+                                             </Form>
+                                         </div>
                                   }
                               </div>
-
                           </div>
                       </div>
                   </div>

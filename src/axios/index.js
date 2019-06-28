@@ -9,7 +9,7 @@ export default class Axios {
             JsonP(options.url, {
                 param: 'callback'
             }, function (err, response) {
-                console.log('response',response)
+                console.log('response',response);
                 if (response&&response.status === 'success') {
                     resolve(response);
                 } else {
@@ -26,9 +26,10 @@ export default class Axios {
             loading.style.display = 'block';
         }
         const token=localStorage.getItem("token");
+        console.log("token",token);
         return new Promise((resolve,reject)=>{
             if(!token){
-               window.location.href='#/login'
+               window.location.href='#/login';
                reject(false)  
             }
             axios({
@@ -54,7 +55,7 @@ export default class Axios {
                         resolve(res)
                     }else if(res.success==='401' || res.success==='402'){
                         message.error(res.msg);
-                        window.location.href='#/login'
+                        window.location.href='#/login';
                         reject(response.msg);
                     }else message.error(res.msg)
                 }else reject(response.msg);
@@ -115,6 +116,7 @@ export default class Axios {
         })
     }
 
+    //获取验证码
     static getAuthcode(options){
         let loading;
         if (options.isShowLoading !== false){
@@ -142,6 +144,31 @@ export default class Axios {
                         }
                     }else reject(response.msg);
                 });
+
+        })
+    }
+
+    //验证码登录
+    static loginbyAuthcode(options){
+        let loading;
+        if (options.isShowLoading !== false){
+            loading = document.getElementById('ajaxLoading');
+            loading.style.display = 'block';
+        }
+        return new Promise((resolve,reject)=>{
+            axios.post(window.g.exitURL+'/login/loginByMobile',options.data)
+                .then((response)=>{
+                    if (options.isShowLoading !== false) {
+                        loading = document.getElementById('ajaxLoading');
+                        loading.style.display = 'none';
+                    }
+                    if(response&&response.status===200){
+                        const res=response.data;
+                        resolve(res)
+                    }else reject(response.msg);
+
+                })
+
 
         })
     }
