@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {Modal, InputNumber, Form, Button, message, Input} from 'antd'
+import {Modal, InputNumber, Form, Button, Input} from 'antd'
 import ofteraxios from '../../axios/ofter'
 import axios from "../../axios";
 const FormItem = Form.Item;

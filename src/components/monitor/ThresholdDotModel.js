@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
-import {Modal, InputNumber, Form, Button, Input, message} from 'antd'
-import axios from "../../axios";
+import {Modal, InputNumber, Form, Button, Input} from 'antd'
 const FormItem = Form.Item;
 let vis=false;
 class ItemModel extends Component {
