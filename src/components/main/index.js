@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import { Layout } from 'antd';
 import LayerSider from './../layout/LayerSider';
 import LayerHeader from './../layout/LayerHeader';
+import LayerCrumb from './../layout/LayerCrumb';
 import MenuRoutes from '../../routes/MenuRoutes';
-
 
 import './index.less';
 const {Header, Footer, Sider, Content} = Layout;
@@ -16,7 +16,7 @@ class Main extends Component {
           <Layout>
             <Sider className="Sider" width='220px'><LayerSider /></Sider>
             <Content className="Content">
-            {/*<LayerCrumb />*/}
+              {/*<LayerCrumb />*/}
               <MenuRoutes/>
             </Content>
           </Layout>
