@@ -41,7 +41,7 @@ export default class ofterajax {
             axios.ajax({
                 baseURL:window.g.deviceURL,
                 method: 'get',
-                url: '/device/api/monitorNetAll',
+                url: '/api/monitorNetAll',
                 data: {
                     pagesize:200,
                     itemid:value
