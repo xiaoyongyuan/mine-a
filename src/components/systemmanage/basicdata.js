@@ -78,16 +78,18 @@ class Basicdata extends Component {
         },(res)=>{});
     };
     changePage = (page) => {
-        this.params.pageindex=page
+        this.params.pageindex=page;
         this.requestList();
     };
     requestList = ()=>{
         const _this=this;
         axios.ajax({
-            baseURL:window.g.easyURL,
+            // baseURL:window.g.easyURL,
+            baseURL:'http://192.168.10.11:8001/bizservice',
             method: 'get',
+            url: '/api/checkDataOriginal',
             data: _this.params,
-            url: '/firstdata',
+
         }).then((res)=>{
             if(res.success){
                 _this.setState({
@@ -101,8 +103,8 @@ class Basicdata extends Component {
         },(res)=>{});
     };
     handleFilterSubmit=(params)=>{ //查询
-        this.params.pageindex=1
-        this.params.equiptype=params.equiptype
+        this.params.pageindex=1;
+        this.params.equiptype=params.equiptype;
         if(params.doubledata){
             this.params.createonbegin=params.doubledata[0].format('YYYY-MM-DD HH:mm:ss');
             this.params.createonend=params.doubledata[1].format('YYYY-MM-DD HH:mm:ss');
@@ -133,10 +135,10 @@ class Basicdata extends Component {
             dataIndex: 'name',
         },{
             title: '数据',
-            dataIndex: 'type',
+            dataIndex: 'datainfo',
         },{
-            title: '设备IMEI',
-            dataIndex: 'cid',
+            title: '设备编码',
+            dataIndex: 'devicecode',
         },{
             title: '数据时间',
             dataIndex: 'createon',
@@ -145,7 +147,7 @@ class Basicdata extends Component {
             dataIndex: 'manufacturers',
         },{
             title: '单位',
-            dataIndex: 'unit',
+            dataIndex: 'units',
         },];
         return (
             <div className="Basicdata">
