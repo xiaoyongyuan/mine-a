@@ -110,7 +110,18 @@ class UploadModel extends Component {
       }
 
     })
-  }
+  };
+    //限制上传大小
+    beforeUpload = (file) =>{
+        console.log("file",file);
+        const isLt2M = file.size / 1024 / 1024 < 20;
+        if (!isLt2M) {
+            Modal.error({
+                title: '超过20M限制 不允许上传!'
+            })
+        }
+        return isLt2M;
+    };
   render() {
     const { getFieldDecorator } = this.props.form;
     const formItemLayout = {
@@ -170,7 +181,7 @@ class UploadModel extends Component {
                             message: '请上传word或pdf文件',
                           }],
                     })(
-                      <Upload accept='application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document' {...this.property} headers={token }  onChange={(info)=>this.uploadchange(info,'filepath')} onRemove={(info)=>this.removefile(info,'filepath')}>
+                      <Upload beforeUpload={this.beforeUpload} accept='application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document' {...this.property} headers={token }  onChange={(info)=>this.uploadchange(info,'filepath')} onRemove={(info)=>this.removefile(info,'filepath')}>
                         <Button>
                           <Icon type="upload" /> 选择word或pdf文件
                         </Button>
@@ -184,7 +195,7 @@ class UploadModel extends Component {
                             message: '请上传CAD文件',
                           }],
                     })(
-                      <Upload  headers={token } {...this.property} accept='application/acad,application/dxf' onChange={(info)=>this.uploadchange(info,'filepathcad')} onRemove={(info)=>this.removefile(info,'filepathcad')}>
+                      <Upload beforeUpload={this.beforeUpload}  headers={token } {...this.property} accept='application/acad,application/dxf' onChange={(info)=>this.uploadchange(info,'filepathcad')} onRemove={(info)=>this.removefile(info,'filepathcad')}>
                         <Button>
                           <Icon type="upload" /> 选择CAD文件
                         </Button>
@@ -198,7 +209,7 @@ class UploadModel extends Component {
                             message: '请上传Excel文件',
                           }],
                     })(
-                      <Upload headers={token }  {...this.property} headers={token } accept='application/vnd.ms-excel application/x-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' onChange={(info)=>this.uploadchange(info,'filepathexcel')} onRemove={(info)=>this.removefile(info,'filepathexcel')}>
+                      <Upload beforeUpload={this.beforeUpload} headers={token }  {...this.property} headers={token } accept='application/vnd.ms-excel application/x-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' onChange={(info)=>this.uploadchange(info,'filepathexcel')} onRemove={(info)=>this.removefile(info,'filepathexcel')}>
                         <Button>
                           <Icon type="upload" /> 选择Excel文件
                         </Button>

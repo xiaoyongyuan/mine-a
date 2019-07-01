@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {Modal, Form,} from 'antd'
+import {Modal, Form,message} from 'antd'
 import BaseForm from "../common/BaseForm"
 class UploadModel extends Component {
   constructor(props){
@@ -52,7 +52,7 @@ class UploadModel extends Component {
               name:"file" , 
               action:window.g.fileURL+"/api/uploadFile", //上传地址
                 headers:{AUTHORIZATION: 'Bearer '+localStorage.getItem("token")},
-                beforeUpload:this.beforeUpload()
+                beforeUpload:this.beforeUpload
             }
           },{
           type: 'INPUT',
@@ -98,6 +98,12 @@ class UploadModel extends Component {
   };
     beforeUpload = (file) =>{
       console.log("file",file);
+        const isLt2M = file.size / 1024 / 1024 < 20;
+        if (!isLt2M) {
+            Modal.error({
+                title: '超过20M限制 不允许上传!'
+            })
+        }
     };
   render() {
     return (
@@ -108,7 +114,7 @@ class UploadModel extends Component {
           onCancel={this.reset}
           footer={null}
         >
-          <BaseForm formList={this.formList} filterSubmit={this.handleFilterSubmit} onreset={this.props.uploadreset}/>          
+          <BaseForm formList={this.formList} filterSubmit={this.handleFilterSubmit} onreset={this.props.uploadreset}/>
         </Modal>
       </div>
     );

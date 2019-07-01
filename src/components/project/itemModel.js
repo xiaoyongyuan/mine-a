@@ -74,13 +74,22 @@ class ItemModel extends Component {
           }else{
             message.error(resp.msg)
           }
-          
-            
         }
-    }
+    };
   removefile=(file,fileurl)=>{ //删除文件
     this.setState({[fileurl]:''})
-  } 
+  };
+  //限制上传大小
+    beforeUpload = (file) =>{
+        console.log("file",file);
+        const isLt2M = file.size / 1024 / 1024 < 20;
+        if (!isLt2M) {
+            Modal.error({
+                title: '超过20M限制 不允许上传!'
+            })
+        }
+        return isLt2M;
+    };
   render() {
     const { getFieldDecorator } = this.props.form;
     const formItemLayout = {
@@ -139,7 +148,7 @@ class ItemModel extends Component {
                             message: '请上传文件',
                           }],
                     })(
-                      <Upload {...this.property} headers={token } onChange={(info)=>this.uploadchange(info,'filepath')} onRemove={(info)=>this.removefile(info,'filepath')}>
+                      <Upload beforeUpload={this.beforeUpload} {...this.property} headers={token } onChange={(info)=>this.uploadchange(info,'filepath')} onRemove={(info)=>this.removefile(info,'filepath')}>
                         <Button>
                           <Icon type="upload" /> 选择文件
                         </Button>
