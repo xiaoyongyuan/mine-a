@@ -30,7 +30,7 @@ export default class ofterajax {
            axios.ajax({
             baseURL:window.g.bizserviceURL,
               method: 'get',
-               url: '/api/getProjectAll',
+               url: '/api/getProjectListAll',
             }).then((res)=>{
                 resolve(res) 
             })  

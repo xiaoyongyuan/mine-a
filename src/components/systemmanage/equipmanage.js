@@ -26,7 +26,7 @@ class Equipmanage extends Component {
                 {
                     type: 'SELECT',
                     label: '设备类型',
-                    field: 'equiptype',
+                    field: 'devicetype',
                     placeholder: '全部',
                     initialValue: '',
                     list:this.state.equiptypeArr,

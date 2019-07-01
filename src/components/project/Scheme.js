@@ -51,7 +51,7 @@ class Scheme extends Component {
       axios.ajax({
         baseURL:window.g.bizserviceURL,
         method: 'get',
-        url: '/api/getProjectAll',
+        url: '/api/getProjectList',
         data: this.params
       })
       .then((res)=>{

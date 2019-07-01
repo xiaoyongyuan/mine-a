@@ -51,7 +51,8 @@ class UploadModel extends Component {
               multiple:false,
               name:"file" , 
               action:window.g.fileURL+"/api/uploadFile", //上传地址
-                headers:{AUTHORIZATION: 'Bearer '+localStorage.getItem("token")}
+                headers:{AUTHORIZATION: 'Bearer '+localStorage.getItem("token")},
+                beforeUpload:this.beforeUpload()
             }
           },{
           type: 'INPUT',
@@ -80,12 +81,12 @@ class UploadModel extends Component {
       this.setState({[key]:val})
   };
   componentDidMount(){
-    }
+
+  }
   reset = ()=>{ //取消表单
       this.props.form.resetFields();
       this.props.uploadreset();
   };
-
   handleFilterSubmit = (params)=>{ //提交表单
     var data={};
     data.projectname=params.projectname;
@@ -95,7 +96,9 @@ class UploadModel extends Component {
     data.memo=params.memo;
     this.props.filterSubmit(data)
   };
-
+    beforeUpload = (file) =>{
+      console.log("file",file);
+    };
   render() {
     return (
       <div className="UploadModel">

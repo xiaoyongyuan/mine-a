@@ -56,12 +56,6 @@ class ThresholdModel extends Component {
 
             }
         }
-      // if(nextProps.newShow){
-      //
-      //
-      //
-      //
-      // }
     }
 
     requestdata=() => {//取数据
