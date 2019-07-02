@@ -148,7 +148,7 @@ class Userinfo extends Component {
                     })
                 })
             }
-        },(res)=>{});
+        });
     };
     handleFilterSubmit=(params)=>{ //查询
         this.setState({

@@ -19,6 +19,7 @@ class UploadModel extends Component {
       multiple:false,
       name:"file" , 
       action:window.g.fileURL+"/api/uploadFile", //上传地址
+        headers:token,//请求头
     }
   }
   changeState=(key,val)=>{
@@ -58,10 +59,10 @@ class UploadModel extends Component {
       this.props.form.validateFields((err, values) => {
           if (!err) {
               var data=values;
-              data.itemtype=2
-              data.filepath=_this.state.filepath
-              data.filepathexcel=_this.state.filepathexcel
-              data.filepathcad=_this.state.filepathcad
+              data.itemtype=2;
+              data.filepath=_this.state.filepath;
+              data.filepathexcel=_this.state.filepathexcel;
+              data.filepathcad=_this.state.filepathcad;
               _this.props.filterSubmit(data);
               _this.props.form.resetFields();
           }
@@ -84,10 +85,9 @@ class UploadModel extends Component {
             message.error(resp.msg)
           }
         }
-    }
+    };
   removefile=(file,fileurl)=>{ //删除文件
     this.setState({[fileurl]:''})
-
   };
   selectproj=(value)=>{
     const _this=this;
@@ -105,7 +105,7 @@ class UploadModel extends Component {
         _this.props.form.setFieldsValue({ projectid: '' });
         project.map((item,i)=>{
           if(item.code===value) project[i].disabled=true
-        })
+        });
         this.setState(project)
       }
 
@@ -181,7 +181,7 @@ class UploadModel extends Component {
                             message: '请上传word或pdf文件',
                           }],
                     })(
-                      <Upload beforeUpload={this.beforeUpload} accept='application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document' {...this.property} headers={token }  onChange={(info)=>this.uploadchange(info,'filepath')} onRemove={(info)=>this.removefile(info,'filepath')}>
+                      <Upload beforeUpload={this.beforeUpload} accept='application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document' {...this.property}  onChange={(info)=>this.uploadchange(info,'filepath')} onRemove={(info)=>this.removefile(info,'filepath')}>
                         <Button>
                           <Icon type="upload" /> 选择word或pdf文件
                         </Button>
@@ -195,7 +195,7 @@ class UploadModel extends Component {
                             message: '请上传CAD文件',
                           }],
                     })(
-                      <Upload beforeUpload={this.beforeUpload}  headers={token } {...this.property} accept='application/acad,application/dxf' onChange={(info)=>this.uploadchange(info,'filepathcad')} onRemove={(info)=>this.removefile(info,'filepathcad')}>
+                      <Upload beforeUpload={this.beforeUpload} {...this.property} accept='application/acad,application/dxf' onChange={(info)=>this.uploadchange(info,'filepathcad')} onRemove={(info)=>this.removefile(info,'filepathcad')}>
                         <Button>
                           <Icon type="upload" /> 选择CAD文件
                         </Button>
@@ -209,7 +209,7 @@ class UploadModel extends Component {
                             message: '请上传Excel文件',
                           }],
                     })(
-                      <Upload beforeUpload={this.beforeUpload} headers={token }  {...this.property} headers={token } accept='application/vnd.ms-excel application/x-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' onChange={(info)=>this.uploadchange(info,'filepathexcel')} onRemove={(info)=>this.removefile(info,'filepathexcel')}>
+                      <Upload beforeUpload={this.beforeUpload} {...this.property} accept='application/vnd.ms-excel application/x-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' onChange={(info)=>this.uploadchange(info,'filepathexcel')} onRemove={(info)=>this.removefile(info,'filepathexcel')}>
                         <Button>
                           <Icon type="upload" /> 选择Excel文件
                         </Button>

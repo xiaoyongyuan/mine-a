@@ -44,7 +44,7 @@ class monitorpro extends Component {
     uploadOk=(params,id)=>{ //上传提交
         const _this=this;
         params.itemtype=11;
-        
+
         if(id && !this.state.idstates){
             this.setState({newShow:false});
             params.oldcode=id;
@@ -79,17 +79,20 @@ class monitorpro extends Component {
                 },()=>{});
 
         }
-        
+
     };
     changeState=(key,val)=>{
-        this.setState({[key]:val})
+        this.setState(
+            {
+                [key]:val,
+            }
+        )
     };
     changeguih=(record)=>{ //变更
         this.setState({id:record.code,EditShow:true,idstates:record.states,toparams:record})
-    }
+    };
     changestatus=(code)=>{
         const _this=this;
-
       confirm({
           title: '添加',
           content: '确认操作',
@@ -109,8 +112,7 @@ class monitorpro extends Component {
             },()=>{});
           }
       });
-        
-    }
+    };
     render() {
         const columns=[{
             title: '序号',
@@ -159,7 +161,7 @@ class monitorpro extends Component {
                         <a className='bluecolor'  href={window.g.fileURL+record.filepath} download><Button type="primary">文档下载</Button></a>
                         <a className='bluecolor' href={window.g.fileURL+record.filepathcad} download><Button type="primary">CAD下载</Button></a>
                         <a className='greencolor' href={'#/main/monitorprolook?id='+record.code}><Button type="primary">查看</Button></a>
-                    </div>)
+                    </div>);
               else return(
                 <div className='tableoption'>
                     <a className='bluecolor' target="_blank" rel="noopener noreferrer"  href={"https://view.officeapps.live.com/op/view.aspx?src="+window.g.fileURL+record.filepath}><Button type="primary">预览</Button></a>
