@@ -102,7 +102,8 @@ class UploadModel extends Component {
         if (!isLt2M) {
             Modal.error({
                 title: '超过20M限制 不允许上传!'
-            })
+            });
+            return false;
         }
     };
   render() {

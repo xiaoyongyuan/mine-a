@@ -26,6 +26,7 @@ export default class Axios {
             loading.style.display = 'block';
         }
         const token=localStorage.getItem("token");
+        console.log("token",token);
         return new Promise((resolve,reject)=>{
             if(!token){
                window.location.href='#/login';
@@ -58,7 +59,7 @@ export default class Axios {
                         window.location.href='#/login';
                     }else{
                         message.error(res.msg);
-                        window.location.href='#/login';
+                        // window.location.href='#/login';
                     }
                 }else{
                     reject(response.msg);

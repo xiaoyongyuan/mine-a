@@ -123,7 +123,7 @@ class Scheme extends Component {
         dataIndex: 'register',
         render: (text,record) =>{
           return(<div className="tableoption">
-              <a className="greencolor" target="_blank" rel="noopener noreferrer" href={"https://view.officeapps.live.com/op/view.aspx?src="+window.g.fileURL+record.filepath}><Button type="primary">预览</Button></a>
+              <a className="greencolor" target="_blank" rel="noopener noreferrer" href={"https://view.officeapps.live.com/op/view.aspx?src="+window.g.filesURL+record.filepath}><Button type="primary">预览</Button></a>
               <a  href={window.g.fileURL+record.filepath} className="bluecolor"><Button type="primary">下载</Button></a>
           </div>)
         }

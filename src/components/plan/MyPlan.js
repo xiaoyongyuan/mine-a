@@ -50,7 +50,7 @@ class MyPlan extends Component {
       axios.ajax({
           baseURL:window.g.bizserviceURL,
           method: 'get',
-          url: '//api/getPlanByPlantype',
+          url: '/api/getPlanByPlantype',
           data: this.params
       }).then((res)=>{
           if(res.success){

@@ -22,15 +22,15 @@ class Egraph extends Component {
     const data={ //进度测试数据
       item:['项目验收','治理方案','施工监理','施工报告','设计报告','勘察报告','调查报告','评估报告','监测规划','项目方案',],
       values:[60,100,40,20,70,48,30,69,78,0]
-    }
+    };
     const columnar={ //进度测试数据
       item:['地形地貌','土地环境','地下水','雨量'],
       values:[60,121,43,87]
-    }
+    };
     const brokenline={ //进度测试数据
       item:['2','4','6','8','10','12','14','16','18','20','22','24','26','28'],
       values:[10,2,5,0,0,1,3,4,2,0,1,0,0,2]
-    }
+    };
     switch(cahrtp){
       case 'progressbar':
         this.progressbar(data);
@@ -38,6 +38,9 @@ class Egraph extends Component {
       case 'meter':
         this.meter();
         break;
+        case 'shmeter':
+            this.shmeter();
+            break;
       case 'columnar':
         this.columnar(columnar);
         break;
@@ -49,14 +52,79 @@ class Egraph extends Component {
     }
   }
   
-  //仪表盘
+  //已复垦仪表盘
   meter=()=>{
     const _this=this;
     var option= {
       series: _this.getSeries(80).concat(_this.getAxisTick())
     };
     this.setState({option})
-  }
+  };
+    //已损毁仪表盘
+    shmeter=()=>{
+        const _this=this;
+        var option= {
+            series: _this.shgetSeries(80).concat(_this.getAxisTick())
+        };
+        this.setState({option})
+    };
+
+    //损毁
+    shgetSeries=(data)=>{
+        return [
+            {
+                name: '数据',
+                type: 'gauge',
+                startAngle: startAngle,
+                endAngle: endAngle,
+                radius: '50%',
+                center: ['50%','55%'],
+                min: 0,
+                max: 100,
+                splitNumber:splitNumber,
+                axisLine: {
+                    lineStyle: {
+                        width: 1,
+                        color: [[1, '#fff']]
+                    }
+                },
+                axisTick: {
+                    show: false
+                },
+                axisLabel: {
+                    show: true,
+                    distance:-48,
+                    fontSize:10
+                },
+                splitLine: {
+                    lineStyle: {
+                        width: 0
+                    }
+                },
+                itemStyle:{
+                    color:'#04A4CE'
+                },
+                pointer: { //指针
+                    show:true,
+                    length: '100%'
+                },
+                detail: {
+                    offsetCenter: [0, '150%'],
+                    textStyle: {
+                        fontSize: 12,
+                        color:'#04A4CE'
+                    },
+                    formatter: '已损毁{value}% \n'
+                },
+                data: [{
+                    name: "",
+                    value: data
+                }]
+            }
+        ];
+    };
+
+    //复垦
   getSeries=(data)=>{
     return [
         {
@@ -109,7 +177,7 @@ class Egraph extends Component {
             }]
         }
     ];
-  }
+  };
 
   getAxisTick=()=>{     
       var tickWidth = (startAngle - endAngle - (splitNumber - 1) * splitWidth) / splitNumber;
@@ -169,7 +237,7 @@ class Egraph extends Component {
         }
 
         return ticks;
-    }
+    };
 
   progressbar=(data)=>{
     var option=  {
@@ -283,7 +351,7 @@ class Egraph extends Component {
     ]
 };
     this.setState({option})
-  }
+  };
   columnar=(data)=>{ //柱状图
     var option = {
           grid: {
@@ -347,7 +415,7 @@ class Egraph extends Component {
       };
     this.setState({option})
 
-  }
+  };
   brokenline=(data)=>{  //折线
     var option = {
         tooltip: {
@@ -426,7 +494,7 @@ class Egraph extends Component {
         }]
     };
     this.setState({option})
-  }
+  };
 
 
   render() {    

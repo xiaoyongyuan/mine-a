@@ -24,7 +24,7 @@ class Gis extends Component {
                 <dl className="columndl">
                     <dt className="columndt">土地损毁</dt>
                     <div className="egraph">
-                        <Egraph key='sunh' dataHeight='150' cahrtp='meter' />  
+                        <Egraph key='sunh' dataHeight='150' cahrtp='shmeter' />
                     </div>
                 </dl>
                 <dl className="columndl">
