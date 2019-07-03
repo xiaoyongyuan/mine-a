@@ -59,7 +59,7 @@ class Recommend extends Component {
         axios.ajax({
             baseURL:window.g.fileURL,
             method: 'get',
-            url: '/sys/api/dictionary',
+            url: '/api/dictionary',
             data: {
                 dtype:'PLANTYPE',
             }
@@ -119,7 +119,6 @@ class Recommend extends Component {
             </Row>
             <div className="planlist">
               <Row gutter={16}>
-
                   {
                       isempty>0?
                       this.state.list.map((v,i)=>(

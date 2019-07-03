@@ -84,8 +84,8 @@ class Basicdata extends Component {
     requestList = ()=>{
         const _this=this;
         axios.ajax({
-            // baseURL:window.g.easyURL,
-            baseURL:'http://192.168.10.11:8001/bizservice',
+            baseURL:window.g.bizserviceURL,
+            // baseURL:'http://192.168.10.11:8001/bizservice',
             method: 'get',
             url: '/api/checkDataOriginal',
             data: _this.params,

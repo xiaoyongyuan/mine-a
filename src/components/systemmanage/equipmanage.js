@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import BaseForm from "../common/BaseForm";
-import {Button} from "antd";
+import {Button,Modal} from "antd";
 import Etable from "../common/Etable";
 import axios from "../../axios";
 import Utils from "../../utils/utils";
@@ -102,6 +102,25 @@ class Equipmanage extends Component {
         this.params.pageindex=1;
         this.requestList();
     };
+    showModal = () => {
+        this.setState({
+            visible: true,
+        });
+    };
+    handleOk = e => {
+        console.log(e);
+        this.setState({
+            visible: false,
+        });
+    };
+
+    handleCancel = e => {
+        console.log(e);
+        this.setState({
+            visible: false,
+        });
+    };
+
     render() {
         const columns=[{
             title: '序号',
@@ -158,7 +177,8 @@ class Equipmanage extends Component {
                             <BaseForm formList={this.formList} filterSubmit={this.handleFilterSubmit}/>
                         </div>
                         <div className="rightOpt">
-                            <Button type="primary"><span className="actionfont action-daoru"/>&nbsp;&nbsp;导入</Button>
+                            <a  href="http://www.beidouenv.com/uploadFile/sbrk.xlsx" className="bluecolor"><Button type="primary"><span className="actionfont action-daoru"/> 下载导入模板</Button></a>
+                            <Button type="primary" style={{ marginLeft:'20px', }} onClick={this.showModal}><span className="actionfont action-daoru"/>&nbsp;&nbsp;导入</Button>
                             <Button type="primary" style={{ marginLeft:'20px', }}><span className="actionfont action-daochu1"/>&nbsp;&nbsp;导出</Button>
                         </div>
                     </div>
@@ -170,6 +190,14 @@ class Equipmanage extends Component {
                         dataSource={this.state.list}
                         pagination={this.state.pagination}
                     />
+                    <Modal
+                        title="导入设备列表"
+                        visible={this.state.visible}
+                        onOk={this.handleOk}
+                        onCancel={this.handleCancel}
+                    >
+                        <button type="primary">下载导入模板</button>
+                    </Modal>
                 </div>
             </div>
         );

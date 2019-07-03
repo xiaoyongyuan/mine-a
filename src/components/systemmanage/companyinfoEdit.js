@@ -109,8 +109,12 @@ class companyinfoEdit extends Component {
     //提交
     handleSubmitClick = (e) =>{
         e.preventDefault();
-        this.setState({disabledbtn:true})
-        
+        if(!this.demo()){
+            return false;
+        }
+
+
+        this.setState({disabledbtn:true});
         this.setState({
             cname:this.state.cname,
             addrs:this.state.addrs,
@@ -138,9 +142,12 @@ class companyinfoEdit extends Component {
             currentinfo:this.state.intro,
             linkmen:this.state.projectusername,
             logo:this.state.logo,
+            // "project.code":"1",
+
         };
         axios.ajax({
             baseURL:window.g.fileURL,
+            // baseURL:'http://192.168.10.11:8001/sys',
             method: 'put',
             url: '/api/company',
             data: data
@@ -234,6 +241,22 @@ class companyinfoEdit extends Component {
         this.setState({
             projectaddrs:e.target.value
         })
+    };
+    //邮箱失去焦点
+    demo = (e) => {
+        console.log("e",e);
+        var reg = new RegExp("^[a-z0-9]+([._\\-]*[a-z0-9])*@([a-z0-9]+[-a-z0-9]*[a-z0-9]+.){1,63}[a-z0-9]+$"); //正则
+        // email
+        var filter = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+        var obj = document.getElementById("email"); //要验证的对象
+        console.log("obj",obj.value);
+       if(filter.test(obj.value)){
+           return true;
+        }
+        else{
+           alert('您的电子邮件格式不正确');
+           return false;
+        }
     };
 
     render() {
@@ -379,7 +402,7 @@ class companyinfoEdit extends Component {
                             电子邮箱：
                         </Col>
                         <Col span={21} className="t_l">
-                           <Input  onChange={this.InputProjectEmailOnchange.bind(this)} value={this.state.projectemail} />
+                           <Input onBlur={this.demo} id="email"  onChange={this.InputProjectEmailOnchange.bind(this)} value={this.state.projectemail} />
                         </Col>
                     </Row>
                     <Row className="equ_row">

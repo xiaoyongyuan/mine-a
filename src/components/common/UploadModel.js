@@ -46,13 +46,14 @@ class UploadModel extends Component {
               },
             ],
             property: {
-              accept:"application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document",
-              showUploadList:true,
-              multiple:false,
-              name:"file" , 
-              action:window.g.fileURL+"/api/uploadFile", //上传地址
+                onChange:this.handleChange,
+                accept:"application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+                showUploadList:true,
+                multiple:false,
+                name:"file" ,
+                action:window.g.fileURL+"/api/uploadFile", //上传地址
                 headers:{AUTHORIZATION: 'Bearer '+localStorage.getItem("token")},
-                beforeUpload:this.beforeUpload
+                beforeUpload:this.beforeUpload,
             }
           },{
           type: 'INPUT',
@@ -97,13 +98,32 @@ class UploadModel extends Component {
     this.props.filterSubmit(data)
   };
     beforeUpload = (file) =>{
-      console.log("file",file);
+        console.log("进入beforeUpload");
+        console.log("file",file);
         const isLt2M = file.size / 1024 / 1024 < 20;
         if (!isLt2M) {
             Modal.error({
                 title: '超过20M限制 不允许上传!'
             });
             return false;
+        }
+    };
+    handleChange = info => {
+        console.log("进入onchangge");
+        let fileList = [...info.fileList];
+        console.log("info",info);
+        fileList = fileList.map(file => {
+            if (file.response) {
+                file.url = file.response.url;
+            }
+            return file;
+        });
+        const isLt2M = info.file.size / 1024 / 1024 < 20;
+        console.log("isLt2M",isLt2M);
+        if(isLt2M){
+            this.setState({
+                fileList:fileList
+            });
         }
     };
   render() {
