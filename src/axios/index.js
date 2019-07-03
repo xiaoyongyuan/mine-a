@@ -84,6 +84,7 @@ export default class Axios {
                     }
                     if(response&&response.status===200){
                         const res=response.data;
+                        console.log("wocao",res);
                         resolve(res)
                     }else reject(response.msg);
 

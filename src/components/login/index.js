@@ -58,6 +58,7 @@ class Login extends Component {
                         }
                     }).then((res)=>{
                         if(res.data){
+                            console.log("res验证码",res);
                             localStorage.setItem("token", res.data);
                             this.props.history.push("/pandect/mapshow");
                         }else{

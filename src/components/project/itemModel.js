@@ -62,10 +62,12 @@ class ItemModel extends Component {
 
   uploadchange=(info,fileurl)=>{ //上传文件
         if (info.file.status === 'uploading') {
+            console.log("qian",token);
             this.setState({ loading: true });
             return;
         }
         if (info.file.status === 'done') {
+            console.log("hou",token);
           const resp=info.file.response;
           if(resp.success){
             this.setState({[fileurl]:resp.data.url},()=>{
