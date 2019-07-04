@@ -170,6 +170,11 @@ export default {
         title: "企业信息编辑",
         key: "/main/companyinfoEdit",
         component: "companyinfoEdit"
-    },    
+    },
+      {
+          title: "项目信息编辑",
+          key: "/main/projectinfoEdit",
+          component: "ProjectinfoEdit"
+      },
   ]
 };

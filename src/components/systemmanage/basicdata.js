@@ -123,13 +123,13 @@ class Basicdata extends Component {
         },{
             title: '地点',
             dataIndex: 'img',
-            render: (text,record,index) =>{
-                return(
-                    <div className="tableoption">
-                        {record.x+','+record.y+','+record.z}
-                    </div>
-                )
-            }
+            // render: (text,record,index) =>{
+            //     return(
+            //         <div className="tableoption">
+            //             {record.x+','+record.y+','+record.z}
+            //         </div>
+            //     )
+            // }
         },{
             title: '设备名称',
             dataIndex: 'name',

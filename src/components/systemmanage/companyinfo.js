@@ -13,6 +13,7 @@ class Companyinfo extends Component {
   }
     componentDidMount(){
         this.requestList();
+        this.requestListproject();
     };
     requestList = ()=>{
         const quparams = {
@@ -34,13 +35,26 @@ class Companyinfo extends Component {
                     email:res.data.emailaddress,
                     zcaddrs:res.data.address,//企业注册地址
                     khdate:res.data.khdate,
-                    projectcname:res.data.cname,
-                    intro:res.data.currentinfo,
+                })
+            }
+        },(res)=>{});
+    };
+    requestListproject = ()=>{
+        axios.ajax({
+            baseURL:window.g.bizserviceURL,
+            method:'get',
+            url:'api/getProject'
+        }).then((res)=>{
+            if(res.success){
+                console.log("resbiz",res);
+                this.setState({
+                    projectcname:res.data.projectname,
+                    intro:res.data.projectmemo,
                     projectusername:res.data.linkmen,//项目联系人
                     prijecttel:res.data.linktel,
                     projectemail:res.data.emailaddress,
                     projectaddrs:res.data.addrs
-                })
+                });
             }
         },(res)=>{});
     };
@@ -54,8 +68,9 @@ class Companyinfo extends Component {
               <div className="com-header">
                   <span className="iconLittle"/><span className="comSystem">系统设置&nbsp;&nbsp;<i style={{color:"#2463A1"}}>&gt;</i>&nbsp;&nbsp;企业信息</span>
               </div>
-              <a href="#/main/companyinfoEdit"><Button className="canclebtn" type="primary"><span className="actionfont action-bianji"/>&nbsp;&nbsp;
-                   编辑</Button></a>
+              <a href="#/main/companyinfoEdit">
+                  <Button className="canclebtn" type="primary"><span className="actionfont action-bianji"/>&nbsp;&nbsp;编辑</Button>
+              </a>
           </div>
           <div className="CompanyinfoTop">
               <Row className="con-row">
@@ -95,8 +110,18 @@ class Companyinfo extends Component {
                   <Col span={21} className="comContent">{this.state.khdate}</Col>
               </Row>
           </div>
+
           <div className="CompanyinfoBottom">
-              <p className="project-title"><span className="iconLittle"/><span className="comSystem">项目信息</span></p>
+              <Row>
+                  <Col span={12}>
+                      <p className="project-title"><span className="iconLittle"/><span className="comSystem">项目信息</span></p>
+                  </Col>
+                  <Col span={12} className="projectinfo">
+                      <a href="#/main/projectinfoEdit">
+                          <Button className="canclebtn" type="primary"><span className="actionfont action-bianji"/>&nbsp;&nbsp;编辑</Button>
+                      </a>
+                  </Col>
+              </Row>
               <Row  className="con-row">
                   <Col span={3} className="comName">项目名称</Col>
                   <Col span={9} className="comContent">{this.state.projectcname}</Col>

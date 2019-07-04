@@ -5,7 +5,7 @@ import axios from "../../axios";
 
 const { TextArea } = Input;
 const token={AUTHORIZATION: 'Bearer '+localStorage.getItem("token")};
-class companyinfoEdit extends Component {
+class projectinfoEdit extends Component {
     constructor(props){
         super(props);
         this.state={
@@ -18,32 +18,22 @@ class companyinfoEdit extends Component {
         this.requestList();
     };
     requestList = ()=>{
-        const quparams = {
-            code: 1,
-        };
         axios.ajax({
-            baseURL:window.g.fileURL,
-            method: 'get',
-            url: '/api/companyById',
-            data: quparams,
+            baseURL:window.g.bizserviceURL,
+            method:'get',
+            url:'api/getProject'
         }).then((res)=>{
             if(res.success){
+                console.log("resbiz",res);
                 this.setState({
-                    cname:res.data.cname,//企业名称
-                    addrs:res.data.location,//企业地址
-                    username:res.data.legalperson,//法人
-                    logo:res.data.logo,//企业logo
-                    tel:res.data.linktel,//联系电话
-                    email:res.data.emailaddress,
-                    zcaddrs:res.data.address,//企业注册地址
-                    khdate:res.data.khdate,
-                    projectcname:res.data.cname,
-                    intro:res.data.currentinfo,
+                    projectcname:res.data.projectname,
+                    intro:res.data.projectmemo,
                     projectusername:res.data.linkmen,//项目联系人
                     prijecttel:res.data.linktel,
-                    projectemail:res.data.emailaddress,
-                    projectaddrs:res.data.addrs
-                })
+                    emailaddress:res.data.emailaddress,
+                    projectaddrs:res.data.addrs,
+                    linktel:res.data.linktel,
+                });
             }
         },(res)=>{});
     };
@@ -53,7 +43,6 @@ class companyinfoEdit extends Component {
         reader.addEventListener('load', () => callback(reader.result));
         reader.readAsDataURL(img);
     };
-
     handleChange = info => {
         if (info.file.status === 'uploading') {
             this.setState({ loading: true });
@@ -76,38 +65,14 @@ class companyinfoEdit extends Component {
     //编辑
     handleEditClick = () => {
         this.setState({
-            oldcname:this.state.cname,
-            oldlogo:this.state.logo,
-            oldaddrs:this.state.addrs,
-            oldusername:this.state.username,
-            isEdite:false,
-            oldtel:this.state.tel,
-            oldemail:this.state.email,
-            oldkhdate:this.state.khdate,
             oldprojectcname:this.state.projectcname,
-            oldintro:this.state.intro,
-            oldprojectusername:this.state.projectusername,
-            oldprijecttel:this.state.prijecttel,
-            oldprojectemail:this.state.projectemail,
-            oldprojectaddrs:this.state.projectaddrs,
+            oldintro:this.state.projectmemo,
+            oldprojectusername:this.state.linkmen,
+            oldprijecttel:this.state.linktel,
+            oldprojectemail:this.state.emailaddress,
+            oldprojectaddrs:this.state.addrs,
             oldzcaddrs:this.state.zcaddrs,
         })
-    };
-    //邮箱失去焦点
-    demo = (e) => {
-        console.log("e",e);
-        var reg = new RegExp("^[a-z0-9]+([._\\-]*[a-z0-9])*@([a-z0-9]+[-a-z0-9]*[a-z0-9]+.){1,63}[a-z0-9]+$"); //正则
-        // email
-        var filter = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
-        var obj = document.getElementById("email"); //要验证的对象
-        console.log("obj",obj.value);
-        if(filter.test(obj.value)){
-            return true;
-        }
-        else{
-            alert('您的电子邮件格式不正确');
-            return false;
-        }
     };
     //提交
     handleSubmitClick = (e) =>{
@@ -117,13 +82,6 @@ class companyinfoEdit extends Component {
         }
         this.setState({disabledbtn:true});
         this.setState({
-            cname:this.state.cname,
-            addrs:this.state.addrs,
-            username:this.state.username,
-            isEdite:true,
-            tel:this.state.tel,
-            email:this.state.email,
-            khdate:this.state.khdate,
             projectcname:this.state.projectcname,
             intro:this.state.intro,
             projectusername:this.state.projectusername,
@@ -131,29 +89,30 @@ class companyinfoEdit extends Component {
             projectemail:this.state.projectemail,
             projectaddrs:this.state.projectaddrs,
             zcaddrs:this.state.zcaddrs,
+            linktel:this.state.linktel,
         });
         const data={
-            code:"1",
-            cname:this.state.cname,
+           code:"1",
+            projectname:this.state.projectcname,
+            projectmemo:this.state.intro,
             location:this.state.addrs,
             legalperson:this.state.username,
-            linktel:this.state.tel,
-            emailaddress:this.state.email,
+            linktel:this.state.linktel,
+            emailaddress:this.state.emailaddress,
             address:this.state.zcaddrs,
-            currentinfo:this.state.intro,
             linkmen:this.state.projectusername,
             logo:this.state.logo,
         };
         axios.ajax({
-            baseURL:window.g.fileURL,
+            baseURL:window.g.bizserviceURL,
             method: 'put',
-            url: '/api/company',
+            url:'/api/project',
             data: data
         }).then((res)=>{
             if(res.success === 1){
                 message.success('编辑成功',2,()=>window.location.href="#/main/companyinfo");
             }else if(res.success === 0){
-                this.setState({disabledbtn:false})
+                this.setState({disabledbtn:false});
                 message.error('修改企业失败');
             }
         },(res)=>{});
@@ -225,13 +184,13 @@ class companyinfoEdit extends Component {
     //联系电话
     InputProjectTelOnChange = (e) =>{
         this.setState({
-            prijecttel:e.target.value
+            linktel:e.target.value
         });
     };
     //电子邮箱
     InputProjectEmailOnchange = (e) =>{
         this.setState({
-            projectemail:e.target.value
+            emailaddress:e.target.value
         })
     };
     //项目地址
@@ -268,35 +227,25 @@ class companyinfoEdit extends Component {
         return (
             <div className="Companyinfo">
                 <div className="box-padding">
-                    <Row>
-                        <Col span={12}>
-                            <p> <Icon type="bars" />企业信息</p>
+                    <Row className="projectinfo">
+                        <Col span={24}>
+                            <p> <Icon type="bars" />项目信息</p>
                         </Col>
                     </Row>
                     <Row className="equ_row">
                         <Col span={3} className="t_r">
-                            企业名称：
+                            项目名称：
                         </Col>
                         <Col span={21} className="t_l">
-                             <Input onChange={this.InputonChange.bind(this)} value={this.state.cname} />
+                           <Input  onChange={this.InputProjectNameOnchange.bind(this)} value={this.state.projectcname} />
                         </Col>
                     </Row>
                     <Row className="equ_row">
                         <Col span={3} className="t_r">
-                            企业logo：
+                            项目简介：
                         </Col>
                         <Col span={21} className="t_l">
-                            <Upload
-                                name="file"
-                                listType="picture-card"
-                                className="avatar-uploader"
-                                showUploadList={false}
-                                action={window.g.fileURL+"/api/uploadFile"}
-                                headers={token }
-                                onChange={this.handleChange}
-                            >
-                                {imageUrl ? <img src={imageUrl} alt="logo" /> : uploadButton}
-                            </Upload>
+                            <TextArea autosize  onChange={this.InputProjectintroOnchange.bind(this)} value={this.state.intro} />
                         </Col>
                     </Row>
                     <Row>
@@ -306,18 +255,10 @@ class companyinfoEdit extends Component {
                     </Row>
                     <Row className="equ_row">
                         <Col span={3} className="t_r">
-                            企业地址：
+                            项目联系人：
                         </Col>
                         <Col span={21} className="t_l">
-                            <Input   onChange={this.InputassressonChange.bind(this)} value={this.state.addrs} />
-                        </Col>
-                    </Row>
-                    <Row className="equ_row">
-                        <Col span={3} className="t_r">
-                            法人：
-                        </Col>
-                        <Col span={21} className="t_l">
-                            <Input   onChange={this.InputusernameOnChange.bind(this)} value={this.state.username} />
+                          <Input  onChange={this.InputProjectusernameOnChange.bind(this)} value={this.state.projectusername} />
                         </Col>
                     </Row>
                     <Row className="equ_row">
@@ -325,31 +266,23 @@ class companyinfoEdit extends Component {
                             联系电话：
                         </Col>
                         <Col span={21} className="t_l">
-                            <Input   onChange={this.InputTelOnChange.bind(this)} value={this.state.tel} />
+                           <Input  onChange={this.InputProjectTelOnChange.bind(this)} value={this.state.linktel} />
                         </Col>
                     </Row>
                     <Row className="equ_row">
                         <Col span={3} className="t_r">
-                            企业邮箱：
+                            电子邮箱：
                         </Col>
                         <Col span={21} className="t_l">
-                           <Input onBlur={this.demo} id="email"   onChange={this.InputEmailOnchange.bind(this)} value={this.state.email} />
+                           <Input onBlur={this.demo} id="email"  onChange={this.InputProjectEmailOnchange.bind(this)} value={this.state.emailaddress} />
                         </Col>
                     </Row>
                     <Row className="equ_row">
                         <Col span={3} className="t_r">
-                            企业注册地址：
+                            项目地址：
                         </Col>
                         <Col span={21} className="t_l">
-                           <Input   onChange={this.InputzcaddrsOnchange.bind(this)} value={this.state.zcaddrs} />
-                        </Col>
-                    </Row>
-                    <Row className="equ_row">
-                        <Col span={3} className="t_r">
-                            开户时间：
-                        </Col>
-                        <Col span={21} className="t_l">
-                           <Input  onChange={this.InputkhdateOnchange.bind(this)} value={this.state.khdate} />
+                            <Input  onChange={this.InputProjectzcaddrsOnchange.bind(this)} value={this.state.projectaddrs} />
                         </Col>
                     </Row>
                     <Row className="equ_row">
@@ -366,4 +299,4 @@ class companyinfoEdit extends Component {
     }
 }
 
-export default companyinfoEdit;
+export default projectinfoEdit;

@@ -178,14 +178,14 @@ class Equipmanage extends Component {
             dataIndex: 'units',
         },{
             title: '状态',
-            dataIndex: 'ware',
+            dataIndex: 'states',
             render: (text,record,index) =>{
                 return(
                     <div>
                         {
-                            text?
-                                '出库':
-                                '入库'
+                            text === '1'?
+                                '已使用':
+                                '未使用'
                         }
                     </div>
                 )

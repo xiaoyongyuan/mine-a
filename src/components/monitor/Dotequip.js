@@ -223,7 +223,7 @@ class Dotequip extends Component {
       .ajax({
         baseURL:window.g.bizserviceURL,
         method: "get",
-        url: "/api/getProjectListAll"
+        url: "/api/findMonitorPlanAll"
       })
       .then(res => {
         if (res.success) {
@@ -232,7 +232,7 @@ class Dotequip extends Component {
             var plist = [];
             res.data.map(v => {
               return plist.push({
-                label: v.projectname,
+                label: v.itemtitle,
                 value: v.code
               });
             });
@@ -381,7 +381,7 @@ class Dotequip extends Component {
           });
           _this.getDeviceList();
         } else {
-          message.error("绑定失败");
+          // message.error("绑定失败");
           this.setState({
             bindmodalshow: false
           });
