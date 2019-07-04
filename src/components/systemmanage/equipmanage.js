@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import BaseForm from "../common/BaseForm";
-import {Button,Modal} from "antd";
+import {Button, Modal, Upload, Icon, Form, message} from "antd";
 import Etable from "../common/Etable";
+import EquipListModalForm from './EquipListModalForm.js';
 import axios from "../../axios";
 import Utils from "../../utils/utils";
 import ofteraxios from "../../axios/ofter";
-
 class Equipmanage extends Component {
     constructor(props){
         super(props);
@@ -108,9 +108,31 @@ class Equipmanage extends Component {
         });
     };
     handleOk = e => {
-        console.log(e);
-        this.setState({
-            visible: false,
+        e.preventDefault();
+        const forms=this.formRef.formref();
+        forms.validateFields((err, values) => {
+            console.log("values",values);
+            if (!err) {
+                const data={
+                    filePath:values.filepath.file.response.data.url,
+                };
+                axios.ajax({
+                    baseURL:window.g.deviceURL,
+                    method: 'post',
+                    url: 'api/equipmentImport',
+                    data: data
+                }).then((res)=>{
+                    console.log("res",res);
+                    if(res.success){
+                        message.success('导入成功！', 3);
+                        this.requestList();
+                    }
+                },(res)=>{});
+                this.setState({
+                    visible: false
+                });
+                forms.resetFields() //清空
+            }
         });
     };
 
@@ -169,6 +191,19 @@ class Equipmanage extends Component {
                 )
             }
         },];
+
+
+
+        // const formItemLayout = {
+        //     labelCol: {
+        //         xs: { span: 24 },
+        //         sm: { span: 5 },
+        //     },
+        //     wrapperCol: {
+        //         xs: { span: 24 },
+        //         sm: { span: 10 },
+        //     },
+        // };
         return (
             <div className="Equipmanage">
                 <div className="simple">
@@ -196,7 +231,10 @@ class Equipmanage extends Component {
                         onOk={this.handleOk}
                         onCancel={this.handleCancel}
                     >
-                        <button type="primary">下载导入模板</button>
+
+                        <EquipListModalForm visible={this.state.visible}
+                                   wrappedComponentRef={(form) => this.formRef = form}
+                        />
                     </Modal>
                 </div>
             </div>

@@ -134,6 +134,9 @@ class Basicdata extends Component {
             title: '设备名称',
             dataIndex: 'name',
         },{
+            title: '设备类型',
+            dataIndex: 'dname',
+        },{
             title: '数据',
             dataIndex: 'datainfo',
         },{
