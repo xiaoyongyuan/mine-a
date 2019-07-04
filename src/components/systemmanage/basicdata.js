@@ -29,7 +29,7 @@ class Basicdata extends Component {
                 },
                 {
                     type: 'RANGPICKER',
-                    label: '时间',
+                    label: '数据时间',
                     field:'rankname',
                     placeholder:'',
                 },
