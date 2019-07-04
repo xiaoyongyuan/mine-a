@@ -177,6 +177,7 @@ class monitorpro extends Component {
                     <div className="leftForm">
                     </div>
                     <div className="rightOpt">
+                        <a  href="http://www.beidouenv.com/uploadFile/dwdr.xlsx" className="bluecolor"><Button style={{ marginRight:'20px' }} type="primary"><span className="actionfont action-daoru"/> 下载导入模板(点位)</Button></a>
                         <Button type="primary" onClick={()=>this.changeState('newShow',true)}><span className="actionfont action-xinzeng"/>&nbsp;&nbsp;新增</Button>
                     </div>
                 </div>
