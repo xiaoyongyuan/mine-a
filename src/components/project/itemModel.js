@@ -103,7 +103,7 @@ class ItemModel extends Component {
     return (
       <div className="ItemModel">
         <Modal
-          title="上传111"
+          title="上传"
           visible={this.props.newShow}
           onCancel={this.reset}
           footer={null}
