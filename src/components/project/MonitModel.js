@@ -4,7 +4,6 @@ import ofteraxios from '../../axios/ofter'
 import axios from '../../axios'
 const FormItem = Form.Item;
 const Option = Select.Option;
-const token={AUTHORIZATION: 'Bearer '+localStorage.getItem("token")};
 let vis=false;
 class UploadModel extends Component {
   constructor(props){
@@ -13,22 +12,15 @@ class UploadModel extends Component {
       project:[], //项目方案列表
       selectp:'', //选择的项目方案
     };
-
-    this.property={
-      showUploadList:true,
-      multiple:false,
-      name:"file" , 
-      action:window.g.fileURL+"/api/uploadFile", //上传地址
-        headers:token,//请求头
-    }
+      this.fileList={
+          filepath:[],
+          filepathcad:[],
+          filepathexcel:[],
+      }
   }
   changeState=(key,val)=>{
       this.setState({[key]:val})
   };
-  componentWillMount(){
-
-
-  }
     componentWillReceiveProps(nextProps){
         if( nextProps.newShow !== vis){
             vis=nextProps.newShow;
@@ -43,51 +35,60 @@ class UploadModel extends Component {
             }
         }
     }
-  componentDidMount(){
-    }
+  componentDidMount(){}
   reset = ()=>{ //取消表单
-    this.setState({
-      excel:'',
-      filepath:'',
-      filename_cad:''
-    });
+      this.fileList={
+          filepath:[],
+          filepathcad:[],
+          filepathexcel:[],
+      };
       this.props.form.resetFields();
-      this.props.uploadreset()
+      this.props.uploadreset();
   };
-  handleFilterSubmit = ()=>{//查询提交
+  handleFilterSubmit = ()=>{//表单提交
     const _this=this;
       this.props.form.validateFields((err, values) => {
+          console.log(values,'values33');
           if (!err) {
-              var data=values;
-              data.itemtype=2;
-              data.filepath=_this.state.filepath;
-              data.filepathexcel=_this.state.filepathexcel;
-              data.filepathcad=_this.state.filepathcad;
+              var data={};
+              data.projectid=values.projectid;
+              data.itemtitle=values.itemtitle;
+              data.memo=values.memo;
+              data.filepath=values.filepath.fileList[0].url;
+              data.filepathcad=values.filepathcad.fileList[0].url;
+              data.filepathexcel=values.filepathexcel.fileList[0].url;
               _this.props.filterSubmit(data);
               _this.props.form.resetFields();
           }
       });
-        
   };
 
-  uploadchange=(info,fileurl)=>{ //上传文件
-        if (info.file.status === 'uploading') {
-            this.setState({ loading: true });
-            return;
+    uploadchange=(info,fileurl)=>{ //上传文件
+        let switchUp=true;
+        let fileList = [...info.fileList];
+        fileList = fileList.slice(-1);
+        const isLt2M = info.file.size / 1024 / 1024 < 20;
+        console.log('info.file.size',info.file);
+        if( info.file.size / 1024 / 1024 > 20){ //只能上传20M以内的文件
+            message.error('请上传20M以内的文件');
+            switchUp=false;
+        }else{
+            fileList = fileList.map(file => {
+                if (file.response) {
+                    if(file.response.success){
+                        file.url = file.response.data.url;
+                    }else{
+                        message.error(file.response.msg);
+                        switchUp=false;
+                    }
+                }
+                return file;
+            });
         }
-        if (info.file.status === 'done') {
-          const resp=info.file.response;
-          if(resp.success){
-            this.setState({[fileurl]:resp.data.url},()=>{
-                console.log('上传成功',this.state[fileurl])
-            })
-          }else{
-            message.error(resp.msg)
-          }
-        }
+        this.fileList[fileurl]=switchUp?fileList:[]
     };
   removefile=(file,fileurl)=>{ //删除文件
-    this.setState({[fileurl]:''})
+      this.fileList[fileurl]=[]
   };
   selectproj=(value)=>{
     const _this=this;
@@ -108,22 +109,17 @@ class UploadModel extends Component {
         });
         this.setState(project)
       }
-
     })
   };
-    //限制上传大小
-    beforeUpload = (file) =>{
-        console.log("file",file);
-        const isLt2M = file.size / 1024 / 1024 < 20;
-        if (!isLt2M) {
-            Modal.error({
-                title: '超过20M限制 不允许上传!'
-            });
-            return false
-        }
-        return isLt2M;
-    };
+
   render() {
+      const property={
+          showUploadList:true,
+          multiple:false,
+          name:"file" ,
+          action:window.g.fileURL+"/api/uploadFile", //上传地址
+          headers:{AUTHORIZATION: 'Bearer '+localStorage.getItem("token")},//请求头
+      };
     const { getFieldDecorator } = this.props.form;
     const formItemLayout = {
       labelCol: {
@@ -182,7 +178,7 @@ class UploadModel extends Component {
                             message: '请上传word或pdf文件',
                           }],
                     })(
-                      <Upload beforeUpload={this.beforeUpload} accept='application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document' {...this.property}  onChange={(info)=>this.uploadchange(info,'filepath')} onRemove={(info)=>this.removefile(info,'filepath')}>
+                      <Upload fileList={this.fileList.filepath} accept='application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document' {...property}  onChange={(info)=>this.uploadchange(info,'filepath')} onRemove={(info)=>this.removefile(info,'filepath')}>
                         <Button>
                           <Icon type="upload" /> 选择word或pdf文件
                         </Button>
@@ -196,7 +192,7 @@ class UploadModel extends Component {
                             message: '请上传CAD文件',
                           }],
                     })(
-                      <Upload beforeUpload={this.beforeUpload} {...this.property} accept='application/acad,application/dxf' onChange={(info)=>this.uploadchange(info,'filepathcad')} onRemove={(info)=>this.removefile(info,'filepathcad')}>
+                      <Upload fileList={this.fileList.filepathcad} {...property} accept='application/acad,application/dxf' onChange={(info)=>this.uploadchange(info,'filepathcad')} onRemove={(info)=>this.removefile(info,'filepathcad')}>
                         <Button>
                           <Icon type="upload" /> 选择CAD文件
                         </Button>
@@ -210,7 +206,7 @@ class UploadModel extends Component {
                             message: '请上传Excel文件',
                           }],
                     })(
-                      <Upload beforeUpload={this.beforeUpload} {...this.property} accept='application/vnd.ms-excel application/x-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' onChange={(info)=>this.uploadchange(info,'filepathexcel')} onRemove={(info)=>this.removefile(info,'filepathexcel')}>
+                      <Upload fileList={this.fileList.filepathexcel} {...property} accept='application/vnd.ms-excel application/x-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' onChange={(info)=>this.uploadchange(info,'filepathexcel')} onRemove={(info)=>this.removefile(info,'filepathexcel')}>
                         <Button>
                           <Icon type="upload" /> 选择Excel文件
                         </Button>

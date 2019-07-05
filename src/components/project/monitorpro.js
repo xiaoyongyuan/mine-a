@@ -41,10 +41,10 @@ class monitorpro extends Component {
                 }
             },()=>{});
     };
-    uploadOk=(params,id)=>{ //上传提交
+    uploadOk=(params,id)=>{ //保存数据
+        console.log("params11",params);
         const _this=this;
         params.itemtype=11;
-
         if(id && !this.state.idstates){
             this.setState({newShow:false});
             params.oldcode=id;
@@ -77,7 +77,6 @@ class monitorpro extends Component {
                         _this.requestList();
                     }else{message.warn(res.msg)}
                 },()=>{});
-
         }
 
     };
