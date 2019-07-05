@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import BaseForm from "../common/BaseForm";
-import {Button} from "antd";
+import {Button, message} from "antd";
 import Etable from "../common/Etable";
 import axios from "../../axios";
 import Utils from "../../utils/utils";
@@ -32,6 +32,7 @@ class Basicdata extends Component {
                     label: '数据时间',
                     field:'rankname',
                     placeholder:'',
+                    format:'YYYY-MM-DD HH:mm:ss'
                 },
                 {
                     type:'button',
@@ -81,11 +82,24 @@ class Basicdata extends Component {
         this.params.pageindex=page;
         this.requestList();
     };
+    export = () =>{
+        axios.ajax({
+            baseURL:window.g.bizserviceURL,
+            method: 'get',
+            url: 'api/exportCheckDataOriginal',
+        }).then((res)=>{
+            console.log("res",res);
+            if(res.success){
+                window.location.href = window.g.fileURL+"/api/download?fileName=" + res.msg + "&delete=" + true + "&access_token=" +localStorage.getItem("token");
+                message.success('导出成功！', 3);
+                this.requestList();
+            }
+        },(res)=>{});
+    };
     requestList = ()=>{
         const _this=this;
         axios.ajax({
             baseURL:window.g.bizserviceURL,
-            // baseURL:'http://192.168.10.11:8001/bizservice',
             method: 'get',
             url: '/api/checkDataOriginal',
             data: _this.params,
@@ -103,11 +117,12 @@ class Basicdata extends Component {
         },(res)=>{});
     };
     handleFilterSubmit=(params)=>{ //查询
+        console.log("params",params);
         this.params.pageindex=1;
-        this.params.equiptype=params.equiptype;
-        if(params.doubledata){
-            this.params.createonbegin=params.doubledata[0].format('YYYY-MM-DD HH:mm:ss');
-            this.params.createonend=params.doubledata[1].format('YYYY-MM-DD HH:mm:ss');
+        this.params.devicetype=params.equiptype;
+        if(params.rankname){
+            this.params.createonbegin=params.rankname[0].format('YYYY-MM-DD HH:mm:ss');
+            this.params.createonend=params.rankname[1].format('YYYY-MM-DD HH:mm:ss');
         }else {
             this.params.createonbegin = '';
             this.params.createonend = ''
@@ -160,7 +175,7 @@ class Basicdata extends Component {
                             <BaseForm formList={this.formList} filterSubmit={this.handleFilterSubmit}/>
                         </div>
                         <div className="rightOpt">
-                            <Button type="primary"><span className="actionfont action-daochu1"/>&nbsp;&nbsp;导出</Button>
+                            <Button type="primary" onClick={this.export}><span className="actionfont action-daochu1"/>&nbsp;&nbsp;导出</Button>
                         </div>
                     </div>
 

@@ -107,6 +107,20 @@ class Equipmanage extends Component {
             visible: true,
         });
     };
+    export = () =>{
+        axios.ajax({
+            baseURL:window.g.deviceURL,
+            method: 'get',
+            url: 'api/exportEquipment',
+        }).then((res)=>{
+            console.log("res",res);
+            if(res.success){
+                window.location.href = window.g.fileURL+"/api/download?fileName=" + res.msg + "&delete=" + true + "&access_token=" +localStorage.getItem("token");
+                message.success('导出成功！', 3);
+                this.requestList();
+            }
+        },(res)=>{});
+    };
     handleOk = e => {
         e.preventDefault();
         const forms=this.formRef.formref();
@@ -192,18 +206,6 @@ class Equipmanage extends Component {
             }
         },];
 
-
-
-        // const formItemLayout = {
-        //     labelCol: {
-        //         xs: { span: 24 },
-        //         sm: { span: 5 },
-        //     },
-        //     wrapperCol: {
-        //         xs: { span: 24 },
-        //         sm: { span: 10 },
-        //     },
-        // };
         return (
             <div className="Equipmanage">
                 <div className="simple">
@@ -214,7 +216,7 @@ class Equipmanage extends Component {
                         <div className="rightOpt">
                             <a  href="http://www.beidouenv.com/uploadFile/sbrk.xlsx" className="bluecolor"><Button type="primary"><span className="actionfont action-daoru"/> 下载导入模板</Button></a>
                             <Button type="primary" style={{ marginLeft:'20px', }} onClick={this.showModal}><span className="actionfont action-daoru"/>&nbsp;&nbsp;导入</Button>
-                            <Button type="primary" style={{ marginLeft:'20px', }}><span className="actionfont action-daochu1"/>&nbsp;&nbsp;导出</Button>
+                            <Button type="primary" style={{ marginLeft:'20px', }} onClick={this.export} ><span className="actionfont action-daochu1"/>&nbsp;&nbsp;导出</Button>
                         </div>
                     </div>
 
