@@ -5,6 +5,7 @@ import Utils from "../../utils/utils";
 import BaseForm from "../common/BaseForm"
 import Etable from "../common/Etable"
 import MonitModel from "./MonitModel"
+import ItemModel from "./itemModel"
 class Monitorpro extends Component {
     state  ={
       newShow:false
@@ -83,14 +84,17 @@ class Monitorpro extends Component {
     uploadOk=(params)=>{ //上传提交
       this.setState({newShow:false});
       const _this=this;
+        params.itemtype=2;
       axios.ajax({
         baseURL:window.g.bizserviceURL,
-        method: 'get',
+        method: 'post',
         url: '/api/itemfile',
         data: params
       })
       .then((res)=>{
         if(res.success){
+            _this.params.itemtype=2;
+            _this.params.pageindex=1;
           _this.requestList();
         }else{message.warn(res.msg)}
       },()=>{});
@@ -105,13 +109,13 @@ class Monitorpro extends Component {
         render: (text, record,index) => (index+1),
       },{
         title: '文件名',
-        dataIndex: 'title',
+        dataIndex: 'itemtitle',
       },{
         title: '适用年限',
         dataIndex: 'begindate',
-        render: (text,record) =>{
-          return(<div>{text+'--'+record.enddate}</div>)
-        }
+        // render: (text,record) =>{
+        //   return(<div>{text+'--'+record.enddate}</div>)
+        // }
       },{
         title: '上传人',
         dataIndex: 'uploader',
@@ -122,15 +126,12 @@ class Monitorpro extends Component {
         title: '操作',
         key:'option',
         dataIndex: 'register',
-        render: (text,record) =>{
-          return(<div className="tableoption">
-          <a className="greencolor"  target="_blank" rel="noopener noreferrer" href={"https://view.officeapps.live.com/op/view.aspx?src="+window.g.filesURL+record.filepath}  onClick={()=>this.preview(record.filepath)}>预览</a>
-          <form method='GET' action='https://view.officeapps.live.com/op/view.aspx?src=api.aokecloud.cn/upload/椒图数据字典20190417.docx'>
-            <a type='submit'  href={window.g.fileURL+record.filepath} className="bluecolor">
-          下载</a>
-          </form>
-          </div>)
-        }
+          render: (text,record) =>{
+              return(<div className="tableoption">
+                  <a className="greencolor" target="_blank" rel="noopener noreferrer" href={"https://view.officeapps.live.com/op/view.aspx?src="+window.g.filesURL+record.filepath}><Button type="primary">预览</Button></a>
+                  <a  href={window.g.fileURL+record.filepath} className="bluecolor"><Button type="primary">下载</Button></a>
+              </div>)
+          }
       }];
     return (
       <div className="Monitorpro">
@@ -149,7 +150,8 @@ class Monitorpro extends Component {
               dataSource={this.state.list}
               pagination={this.state.pagination}
           />
-        <MonitModel newShow={this.state.newShow} filterSubmit={this.uploadOk} uploadreset={()=>this.changeState('newShow',false)} />
+          <ItemModel  newShow={this.state.newShow} filterSubmit={this.uploadOk} uploadreset={()=>this.changeState('newShow',false)} />
+        {/*<MonitModel newShow={this.state.newShow} filterSubmit={this.uploadOk} uploadreset={()=>this.changeState('newShow',false)} />*/}
       </div>
     );
   }

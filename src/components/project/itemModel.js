@@ -3,7 +3,6 @@ import {Modal,message, Input, Select, Form, Button, Upload, Icon} from 'antd'
 import ofteraxios from '../../axios/ofter'
 const FormItem = Form.Item;
 const Option = Select.Option;
-const token={AUTHORIZATION: 'Bearer '+localStorage.getItem("token")};
 class ItemModel extends Component {
   constructor(props){
     super(props);
@@ -11,15 +10,9 @@ class ItemModel extends Component {
       project:[], //项目方案列表
       selectp:'', //选择的项目方案
     };
-
-    this.property={
-      accept:"application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document",
-      showUploadList:true,
-      multiple:false,
-      name:"file" ,
-      action:window.g.fileURL+"/api/uploadFile", //上传地址
-    }
-    
+      this.fileList={
+          filepath:[],
+      };
   }
   changeState=(key,val)=>{
       this.setState({[key]:val})
@@ -36,64 +29,66 @@ class ItemModel extends Component {
   }
 
   reset = ()=>{ //取消表单
-    this.setState({
-      excel:'',
-      filepath:'',
-      filename_cad:''
-    });
+      this.fileList={
+          filepath:[],
+      };
       this.props.form.resetFields();
       this.props.uploadreset()
-  }
+  };
   handleFilterSubmit = ()=>{//查询提交
     const _this=this;
       this.props.form.validateFields((err, values) => {
+          console.log(values,'values33');
           if (!err) {
-              var data=values;
-              data.filename_cad=_this.state.cad;
-              data.itemtype=2;
-              data.filepath=_this.state.filepath;
-              data.excel=_this.state.excel;
+              var data={};
+              data.itemtitle=values.itemtitle;
+              data.filepath=values.filepath.fileList[0].url;
+              data.memo=values.memo;
+              data.projectid=values.projectid;
               _this.props.filterSubmit(data);
               _this.props.form.resetFields();
+              _this.reset();
           }
       });
         
   };
 
-  uploadchange=(info,fileurl)=>{ //上传文件
-        if (info.file.status === 'uploading') {
-            console.log("qian",token);
-            this.setState({ loading: true });
-            return;
+    uploadchange=(info,fileurl)=>{ //上传文件
+        let switchUp=true;
+        let fileList = [...info.fileList];
+        fileList = fileList.slice(-1);
+        const isLt2M = info.file.size / 1024 / 1024 < 20;
+        console.log('info.file.size',info.file);
+        if( info.file.size / 1024 / 1024 > 20){ //只能上传20M以内的文件
+            message.error('请上传20M以内的文件');
+            switchUp=false;
+        }else{
+            fileList = fileList.map(file => {
+                if (file.response) {
+                    if(file.response.success){
+                        file.url = file.response.data.url;
+                    }else{
+                        message.error(file.response.msg);
+                        switchUp=false;
+                    }
+                }
+                return file;
+            });
         }
-        if (info.file.status === 'done') {
-            console.log("hou",token);
-          const resp=info.file.response;
-          if(resp.success){
-            this.setState({[fileurl]:resp.data.url},()=>{
-                console.log('上传成功',this.state[fileurl])
-            })
-          }else{
-            message.error(resp.msg)
-          }
-        }
+        this.fileList[fileurl]=switchUp?fileList:[]
     };
   removefile=(file,fileurl)=>{ //删除文件
-    this.setState({[fileurl]:''})
+      this.fileList[fileurl]=[]
   };
-  //限制上传大小
-    beforeUpload = (file) =>{
-        console.log("file",file);
-        const isLt2M = file.size / 1024 / 1024 < 20;
-        if (!isLt2M) {
-            Modal.error({
-                title: '超过20M限制 不允许上传!'
-            });
-            return false
-        }
-        return isLt2M;
-    };
   render() {
+      const property={
+          accept:"application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+          showUploadList:true,
+          multiple:false,
+          name:"file" ,
+          action:window.g.fileURL+"/api/uploadFile", //上传地址
+          headers:{AUTHORIZATION: 'Bearer '+localStorage.getItem("token")},//请求头
+      };
     const { getFieldDecorator } = this.props.form;
     const formItemLayout = {
       labelCol: {
@@ -108,7 +103,7 @@ class ItemModel extends Component {
     return (
       <div className="ItemModel">
         <Modal
-          title="上传"
+          title="上传111"
           visible={this.props.newShow}
           onCancel={this.reset}
           footer={null}
@@ -151,7 +146,7 @@ class ItemModel extends Component {
                             message: '请上传文件',
                           }],
                     })(
-                      <Upload beforeUpload={this.beforeUpload} {...this.property} headers={token } onChange={(info)=>this.uploadchange(info,'filepath')} onRemove={(info)=>this.removefile(info,'filepath')}>
+                      <Upload fileList={this.fileList.filepath} {...property} onChange={(info)=>this.uploadchange(info,'filepath')} onRemove={(info)=>this.removefile(info,'filepath')}>
                         <Button>
                           <Icon type="upload" /> 选择文件
                         </Button>
@@ -166,8 +161,8 @@ class ItemModel extends Component {
                   }
               </FormItem>
               <FormItem key="buts" style={{display:'flex','justify-content':'flex-end'}}>
-                <Button type='primary' onClick={this.handleFilterSubmit}>确定</Button>
                 <Button style={{ margin: '0 10px' }} onClick={this.reset}>取消</Button>
+                  <Button type='primary' onClick={this.handleFilterSubmit}>确定</Button>
               </FormItem>
           </Form>         
         </Modal>

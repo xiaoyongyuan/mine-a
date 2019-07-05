@@ -59,6 +59,7 @@ class UploadModel extends Component {
               data.filepathexcel=values.filepathexcel.fileList[0].url;
               _this.props.filterSubmit(data);
               _this.props.form.resetFields();
+              _this.reset();
           }
       });
   };
@@ -221,8 +222,8 @@ class UploadModel extends Component {
                   }
               </FormItem>
               <FormItem key="buts" style={{display:'flex','justify-content':'flex-end'}}>
-                <Button type='primary' onClick={this.handleFilterSubmit}>确定</Button>
                 <Button style={{ margin: '0 10px' }} onClick={this.reset}>取消</Button>
+                  <Button type='primary' onClick={this.handleFilterSubmit}>确定</Button>
               </FormItem>
           </Form>         
         </Modal>

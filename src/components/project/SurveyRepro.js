@@ -83,7 +83,6 @@ class SurveyRepro extends Component {
       this.requestList();
     };
     uploadOk=(params)=>{ //上传提交
-
       this.setState({newShow:false});
       params.itemtype=5;
       const _this=this;

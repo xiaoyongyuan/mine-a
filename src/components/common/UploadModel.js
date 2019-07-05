@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
-import {Modal, Form, message, Input, Select, Upload, Button, Icon,DatePicker } from 'antd'
-import BaseForm from "../common/BaseForm"
+import {Modal, Form, message, Input, Upload, Button, Icon,DatePicker } from 'antd'
 const FormItem = Form.Item;
-const { MonthPicker, RangePicker, WeekPicker } = DatePicker;
+const { RangePicker, } = DatePicker;
 class UploadModel extends Component {
   constructor(props){
     super(props);
@@ -29,7 +28,6 @@ class UploadModel extends Component {
     handleFilterSubmit = ()=>{//表单提交
         const _this=this;
         this.props.form.validateFields((err, values) => {
-            console.log(values.uploader.fileList[0].url,'values33');
             if (!err) {
                 var data={};
                   data.projectname=values.projectname;
@@ -39,6 +37,7 @@ class UploadModel extends Component {
                 data.memo=values.memo;
                 _this.props.filterSubmit(data);
                 _this.props.form.resetFields();
+                _this.reset();
             }
         });
     };
