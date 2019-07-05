@@ -47,14 +47,16 @@ class Companyinfo extends Component {
         }).then((res)=>{
             if(res.success){
                 console.log("resbiz",res);
-                this.setState({
-                    projectcname:res.data.projectname,
-                    intro:res.data.projectmemo,
-                    projectusername:res.data.linkmen,//项目联系人
-                    prijecttel:res.data.linktel,
-                    projectemail:res.data.emailaddress,
-                    projectaddrs:res.data.addrs
-                });
+                if(res.data !== null){
+                    this.setState({
+                        projectcname:res.data.projectname,
+                        intro:res.data.projectmemo,
+                        projectusername:res.data.linkmen,//项目联系人
+                        prijecttel:res.data.linktel,
+                        projectemail:res.data.emailaddress,
+                        projectaddrs:res.data.addrs
+                    });
+                }
             }
         },(res)=>{});
     };

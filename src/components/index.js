@@ -50,6 +50,7 @@ import Equipmanage from './systemmanage/equipmanage'
 import Basicdata from './systemmanage/basicdata'
 import companyinfoEdit from "./systemmanage/companyinfoEdit";
 import ProjectinfoEdit from "./systemmanage/projectinfoEdit";
+// import Test from "./systemmanage/test";
 
 export default {
   Datamanage,Projectmanage,MapShow,
@@ -57,5 +58,6 @@ export default {
   MyPlan,Recommend,Edit,Detailplan,Lookplan,
   Scheme,Funds,Monitorpro,AssessRepro,SurveyRepro,ProspectRepro,Supervisor,MonitorRepro,Monitorprolook,Treatment,CheckAccept,
   Dotequip,Threshold,ThresholdDot,Warning,Dotdetails,
-  Companyinfo,Userinfo,DesignRepro,Construction,Equipmanage,Basicdata,companyinfoEdit,ProjectinfoEdit
+  Companyinfo,Userinfo,DesignRepro,Construction,Equipmanage,Basicdata,companyinfoEdit,ProjectinfoEdit,
+    // Test
 };

@@ -136,7 +136,12 @@ export default {
           title: "基础数据",
           key: "/main/basicdata",
           component: "Basicdata"
-        }
+        },
+          // {
+          //     title: "ceshi",
+          //     key: "/main/test",
+          //     component: "Test"
+          // }
       ]
     }
   ],

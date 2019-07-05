@@ -97,9 +97,10 @@ class UploadModel extends Component {
     data.memo=params.memo;
     this.props.filterSubmit(data)
   };
-    beforeUpload = (file) =>{
+    beforeUpload = (file,fileList) =>{
         console.log("进入beforeUpload");
         console.log("file",file);
+        console.log("fileList",fileList);
         const isLt2M = file.size / 1024 / 1024 < 20;
         if (!isLt2M) {
             Modal.error({

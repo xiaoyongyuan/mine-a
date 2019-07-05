@@ -53,13 +53,11 @@ export default class Axios {
                     if(res.success===0){resolve(res)}
                     if(res.success===1){
                         resolve(res)
-                    }else if(res.success==='401' || res.success==='402'){
-                        message.error(res.msg);
+                    }else if(res.success=='401' || res.success=='402'){
                         reject(response.msg);
                         window.location.href='#/login';
                     }else{
                         message.error(res.msg);
-                        // window.location.href='#/login';
                     }
                 }else{
                     reject(response.msg);
