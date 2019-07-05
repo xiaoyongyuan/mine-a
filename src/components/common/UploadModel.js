@@ -1,82 +1,16 @@
 import React, { Component } from 'react';
-import {Modal, Form,message} from 'antd'
+import {Modal, Form, message, Input, Select, Upload, Button, Icon,DatePicker } from 'antd'
 import BaseForm from "../common/BaseForm"
+const FormItem = Form.Item;
+const { MonthPicker, RangePicker, WeekPicker } = DatePicker;
 class UploadModel extends Component {
   constructor(props){
     super(props);
     this.state={
     };
-    this.formList ={
-        item:[
-        {
-          type: 'INPUT',
-          label: '项目名称',
-          field: 'projectname',
-          placeholder: '',
-          rules: [
-              {
-                required: true,
-                message: '请填写项目名称',
-              },
-            ],
-        },
-        {
-          type: 'RANGPICKER',
-          label: '年份',
-          field:'doubledata',
-          placeholder:'请选择年份',
-          showTime:false,
-          format:'YYYY-MM-DD',
-          rules: [
-              {
-                required: true,
-                message: '请选择年份',
-              },
-            ],
-        },
-          {
-            type: 'upload',
-            label: '上传',
-            field: 'uploader',
-            placeholder: '点击上传文件',
-            rules: [
-              {
-                required: true,
-                message: '请上传文件',
-              },
-            ],
-            property: {
-                onChange:this.handleChange,
-                accept:"application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document",
-                showUploadList:true,
-                multiple:false,
-                name:"file" ,
-                action:window.g.fileURL+"/api/uploadFile", //上传地址
-                headers:{AUTHORIZATION: 'Bearer '+localStorage.getItem("token")},
-                beforeUpload:this.beforeUpload,
-            }
-          },{
-          type: 'INPUT',
-          label: '备注',
-          field: 'memo',
-          placeholder: '',
-          },{
-            type:'button',
-            button:[
-              {
-                label:'取消',
-                click:'reset',
-                fafuns:'onreset'
-              },
-                {
-                    label:'确定',
-                    type:"primary",
-                    click:'layerSubmit',
-                },
-            ]
-          }
-        ]
-      }
+      this.fileList={
+          filepath:[],
+      };
   }
   changeState=(key,val)=>{
       this.setState({[key]:val})
@@ -85,49 +19,78 @@ class UploadModel extends Component {
 
   }
   reset = ()=>{ //取消表单
+      this.fileList={
+          filepath:[],
+      };
       this.props.form.resetFields();
       this.props.uploadreset();
   };
-  handleFilterSubmit = (params)=>{ //提交表单
-    var data={};
-    data.projectname=params.projectname;
-    data.filepath=params.fileurl;
-    data.begindate=params.doubledata[0].format('YYYY-MM-DD');
-    data.enddate=params.doubledata[1].format('YYYY-MM-DD');
-    data.memo=params.memo;
-    this.props.filterSubmit(data)
-  };
-    beforeUpload = (file,fileList) =>{
-        console.log("进入beforeUpload");
-        console.log("file",file);
-        console.log("fileList",fileList);
-        const isLt2M = file.size / 1024 / 1024 < 20;
-        if (!isLt2M) {
-            Modal.error({
-                title: '超过20M限制 不允许上传!'
-            });
-            return false;
-        }
-    };
-    handleChange = info => {
-        console.log("进入onchangge");
-        let fileList = [...info.fileList];
-        console.log("info",info);
-        fileList = fileList.map(file => {
-            if (file.response) {
-                file.url = file.response.url;
+
+    handleFilterSubmit = ()=>{//表单提交
+        const _this=this;
+        this.props.form.validateFields((err, values) => {
+            console.log(values.uploader.fileList[0].url,'values33');
+            if (!err) {
+                var data={};
+                  data.projectname=values.projectname;
+                  data.filepath=values.uploader.fileList[0].url;
+                  data.begindate=values.doubledata[0].format('YYYY-MM-DD');
+                  data.enddate=values.doubledata[1].format('YYYY-MM-DD');
+                data.memo=values.memo;
+                _this.props.filterSubmit(data);
+                _this.props.form.resetFields();
             }
-            return file;
         });
+    };
+
+    uploadchange=(info,fileurl)=>{ //上传文件
+        let switchUp=true;
+        let fileList = [...info.fileList];
+        fileList = fileList.slice(-1);
         const isLt2M = info.file.size / 1024 / 1024 < 20;
-        console.log("isLt2M",isLt2M);
-        if(isLt2M){
-            this.setState({
-                fileList:fileList
+        console.log('info.file.size',info.file);
+        if( info.file.size / 1024 / 1024 > 20){ //只能上传20M以内的文件
+            message.error('请上传20M以内的文件');
+            switchUp=false;
+        }else{
+            fileList = fileList.map(file => {
+                if (file.response) {
+                    if(file.response.success){
+                        file.url = file.response.data.url;
+                    }else{
+                        message.error(file.response.msg);
+                        switchUp=false;
+                    }
+                }
+                return file;
             });
         }
+        this.fileList[fileurl]=switchUp?fileList:[]
     };
+
+    removefile=(file,fileurl)=>{ //删除文件
+        this.fileList[fileurl]=[]
+    };
+
   render() {
+      const property={
+          showUploadList:true,
+          multiple:false,
+          name:"file" ,
+          action:window.g.fileURL+"/api/uploadFile", //上传地址
+          headers:{AUTHORIZATION: 'Bearer '+localStorage.getItem("token")},//请求头
+      };
+      const { getFieldDecorator } = this.props.form;
+      const formItemLayout = {
+          labelCol: {
+              xs: { span: 24 },
+              sm: { span: 5 },
+          },
+          wrapperCol: {
+              xs: { span: 24 },
+              sm: { span: 10 },
+          },
+      };
     return (
       <div className="UploadModel">
         <Modal
@@ -136,7 +99,57 @@ class UploadModel extends Component {
           onCancel={this.reset}
           footer={null}
         >
-          <BaseForm formList={this.formList} filterSubmit={this.handleFilterSubmit} onreset={this.props.uploadreset}/>
+            <Form className='baseform' {...formItemLayout} >
+                <FormItem label='项目名称' key='pname'>
+                    {
+                        getFieldDecorator('projectname',{
+                            rules:[{
+                                required: true,
+                                message: '请输入标题',
+                            }],
+                        })(
+                            <Input key='montInput' />
+                        )
+                    }
+                </FormItem>
+                <FormItem label='年份' key='year'>
+                    {
+                        getFieldDecorator('doubledata',{
+                            rules:[{
+                                required: true,
+                                message: '请选择年份',
+                            }],
+                        })(
+                            <RangePicker />
+                        )
+                    }
+                </FormItem>
+                <FormItem label='上传' key='mofiel'>
+                    {getFieldDecorator('uploader', {
+                        rules: [{
+                            required: true,
+                            message: '请上传文件',
+                        }],
+                    })(
+                        <Upload fileList={this.fileList.filepath} {...property} accept='application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document' onChange={(info)=>this.uploadchange(info,'filepath')} onRemove={(info)=>this.removefile(info,'filepath')}>
+                            <Button>
+                                <Icon type="upload" /> 选择文件
+                            </Button>
+                        </Upload>,
+                    )}
+                </FormItem>
+                <FormItem label='备注' key='memo'>
+                    {
+                        getFieldDecorator('memo')(
+                            <Input key='memoInput' />
+                        )
+                    }
+                </FormItem>
+                <FormItem key="buts" style={{display:'flex','justify-content':'flex-end'}}>
+                    <Button style={{ margin: '0 10px' }} onClick={this.reset}>取消</Button>
+                    <Button type='primary' onClick={this.handleFilterSubmit}>确定</Button>
+                </FormItem>
+            </Form>
         </Modal>
       </div>
     );
