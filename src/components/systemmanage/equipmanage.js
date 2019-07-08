@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 import BaseForm from "../common/BaseForm";
-import {Button, Modal, Upload, Icon, Form, message} from "antd";
+import {Button, message} from "antd";
 import Etable from "../common/Etable";
 import EquipListModalForm from './EquipListModalForm.js';
 import axios from "../../axios";
 import Utils from "../../utils/utils";
 import ofteraxios from "../../axios/ofter";
-import UploadModel from "../common/UploadModel";
+import logoimg from "../../style/imgs/logo.png";
 class Equipmanage extends Component {
     constructor(props){
         super(props);
@@ -184,7 +184,11 @@ class Equipmanage extends Component {
             render: (text,record,index) =>{
                 return(
                     <div>
-                        <img src={window.g.sys+text} alt="" style={{width:'100px',height:'50px' }} />
+                        {
+                            text !== null?
+                            <img src={window.g.filesURL+text} alt="" style={{width:'100px',height:'50px' }} />:
+                                <img src={logoimg}alt="" style={{width:'100px',height:'50px' }}></img>
+                        }
                     </div>
                 )
             }
@@ -247,7 +251,6 @@ class Equipmanage extends Component {
                         newShow={this.state.newShow}
                         filterSubmit={this.uploadOk}
                         uploadreset={()=>this.changeState('newShow',false)}
-                        // visible={this.state.visible}
                         wrappedComponentRef={(form) => {
                             this.formRef = form
                         }}
