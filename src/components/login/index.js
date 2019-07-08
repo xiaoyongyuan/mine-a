@@ -38,6 +38,14 @@ class Login extends Component {
           if(res.access_token){
             localStorage.setItem("token", res.access_token);
             this.props.history.push("/pandect/mapshow");
+              axios.user({
+                  baseURL:window.g.exitURL,
+                  method: 'post',
+                  url: '/login/userInfo',
+              }).then((res)=>{
+                  console.log("ceshi用户",res);
+                  localStorage.setItem("username", res.account);
+              });
           }else{
             message.warn('用户名或密码错误！')
           }
@@ -61,6 +69,14 @@ class Login extends Component {
                             console.log("res验证码",res);
                             localStorage.setItem("token", res.data);
                             this.props.history.push("/pandect/mapshow");
+                            axios.user({
+                                baseURL:window.g.exitURL,
+                                method: 'post',
+                                url: '/login/userInfo',
+                            }).then((res)=>{
+                                console.log("ceshi用户",res);
+                                localStorage.setItem("username", res.account);
+                            });
                         }else{
                             message.warn('验证码不正确，请重新输入正确验证码！')
                         }

@@ -89,7 +89,7 @@ class Monitorprolook extends Component {
             <div className='tableoption'>
               {
                 record.filepath?<Fragment><a className='greencolor' target="_blank" rel="noopener noreferrer"  href={"https://view.officeapps.live.com/op/view.aspx?src="+window.g.filesURL+record.filepath}>预览</a>
-                <a className='bluecolor' href={window.g.fileURL+record.filepath}>文档下载</a></Fragment>
+                <a className='bluecolor' href={window.g.filesURL+record.filepath}>文档下载</a></Fragment>
                 :null
               }
               {

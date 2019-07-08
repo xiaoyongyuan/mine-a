@@ -27,6 +27,7 @@ class LayerHeader extends Component {
         });
     };
   render() {
+      const userName=localStorage.getItem("username");
     return (
       <div className="LayerHeader">
         <div className="header-left">
@@ -36,10 +37,11 @@ class LayerHeader extends Component {
         </div>
         <div className="header-right">
           <span>欢迎您</span>
-          <Select defaultValue="Admin" style={{width:"90px"}}>
-              <option value="Admin">Admin</option>
-              <option value="Jack">Jack</option>
-          </Select >
+            <span style={{ marginLeft:'10px' }}>{userName}</span>
+          {/*<Select defaultValue="Admin" style={{width:"90px"}}>*/}
+              {/*<option value="Admin">Admin</option>*/}
+              {/*<option value="Jack">Jack</option>*/}
+          {/*</Select >*/}
             <Badge count={5}>
               <i className="actionfont action-lingsheng iconclearance"/>
             </Badge>
