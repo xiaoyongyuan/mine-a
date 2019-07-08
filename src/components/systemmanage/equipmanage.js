@@ -6,13 +6,15 @@ import EquipListModalForm from './EquipListModalForm.js';
 import axios from "../../axios";
 import Utils from "../../utils/utils";
 import ofteraxios from "../../axios/ofter";
+import UploadModel from "../common/UploadModel";
 class Equipmanage extends Component {
     constructor(props){
         super(props);
         this.state={
             visible:false,
             page: 1,
-            equiptypeArr:[]
+            equiptypeArr:[],
+            newShow:false
         };
         this.formList={
             type:'inline',
@@ -54,6 +56,27 @@ class Equipmanage extends Component {
     componentWillMount(){
         this.requestListEquiptype();
     }
+    uploadOk=(params)=>{ //上传提交
+        console.log("第一个",params);
+        const _this=this;
+        this.changeState('newShow',false);
+        console.log("params",params);
+        axios.ajax({
+            baseURL:window.g.deviceURL,
+            method: 'post',
+            url: 'api/equipmentImport',
+            data: params
+        }).then((res)=>{
+            console.log("res",res);
+            if(res.success){
+                message.success('导入成功！', 3);
+                this.requestList();
+            }
+        },(res)=>{});
+    };
+    changeState=(key,val)=>{
+        this.setState({[key]:val})
+    };
     componentDidMount(){
         this.requestList();
     };
@@ -126,7 +149,7 @@ class Equipmanage extends Component {
         const forms=this.formRef.formref();
         forms.validateFields((err, values) => {
             console.log("values",values);
-            if (!err) {
+            // if (!err) {
                 const data={
                     filePath:values.filepath.file.response.data.url,
                 };
@@ -146,7 +169,7 @@ class Equipmanage extends Component {
                     visible: false
                 });
                 forms.resetFields() //清空
-            }
+            // }
         });
     };
 
@@ -215,7 +238,7 @@ class Equipmanage extends Component {
                         </div>
                         <div className="rightOpt">
                             <a  href="http://www.beidouenv.com/uploadFile/sbrk.xlsx" className="bluecolor"><Button type="primary"><span className="actionfont action-daoru"/> 下载导入模板</Button></a>
-                            <Button type="primary" style={{ marginLeft:'20px', }} onClick={this.showModal}><span className="actionfont action-daoru"/>&nbsp;&nbsp;导入</Button>
+                            <Button type="primary" style={{ marginLeft:'20px', }} onClick={()=>this.changeState('newShow',true)}><span className="actionfont action-daoru"/>&nbsp;&nbsp;导入</Button>
                             <Button type="primary" style={{ marginLeft:'20px', }} onClick={this.export} ><span className="actionfont action-daochu1"/>&nbsp;&nbsp;导出</Button>
                         </div>
                     </div>
@@ -227,17 +250,15 @@ class Equipmanage extends Component {
                         dataSource={this.state.list}
                         pagination={this.state.pagination}
                     />
-                    <Modal
-                        title="导入设备列表"
-                        visible={this.state.visible}
-                        onOk={this.handleOk}
-                        onCancel={this.handleCancel}
-                    >
-
-                        <EquipListModalForm visible={this.state.visible}
-                                   wrappedComponentRef={(form) => this.formRef = form}
-                        />
-                    </Modal>
+                    <EquipListModalForm
+                        newShow={this.state.newShow}
+                        filterSubmit={this.uploadOk}
+                        uploadreset={()=>this.changeState('newShow',false)}
+                        // visible={this.state.visible}
+                        wrappedComponentRef={(form) => {
+                            this.formRef = form
+                        }}
+                    />
                 </div>
             </div>
         );

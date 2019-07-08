@@ -204,7 +204,7 @@ class projectinfoEdit extends Component {
         console.log("e",e);
         var reg = new RegExp("^[a-z0-9]+([._\\-]*[a-z0-9])*@([a-z0-9]+[-a-z0-9]*[a-z0-9]+.){1,63}[a-z0-9]+$"); //正则
         // email
-        var filter = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+        var filter=/^\w+@\w+(\.[a-zA-Z]{2,3}){1,2}$/;
         var obj = document.getElementById("email"); //要验证的对象
         console.log("obj",obj.value);
        if(filter.test(obj.value)){

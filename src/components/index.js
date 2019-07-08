@@ -18,6 +18,7 @@ import MyPlan from './plan/MyPlan'
 import Recommend from './plan/Recommend'
 import Edit from './plan/Edit'
 import Lookplan from './plan/Lookplan'
+import MyLookplan from './plan/MyLookplan'
 import Detailplan from './plan/detailplan'
 
 
@@ -55,7 +56,7 @@ import ProjectinfoEdit from "./systemmanage/projectinfoEdit";
 export default {
   Datamanage,Projectmanage,MapShow,
   Monitor,ClaaMonitor,Evideo,
-  MyPlan,Recommend,Edit,Detailplan,Lookplan,
+  MyPlan,Recommend,Edit,Detailplan,Lookplan,MyLookplan,
   Scheme,Funds,Monitorpro,AssessRepro,SurveyRepro,ProspectRepro,Supervisor,MonitorRepro,Monitorprolook,Treatment,CheckAccept,
   Dotequip,Threshold,ThresholdDot,Warning,Dotdetails,
   Companyinfo,Userinfo,DesignRepro,Construction,Equipmanage,Basicdata,companyinfoEdit,ProjectinfoEdit,

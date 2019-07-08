@@ -92,7 +92,7 @@ class MyPlan extends Component {
                               <Col className="gridcol" key={v.code} md={24} xl={12} xxl={8}>
                               {
                                 v.states==='1'?
-                                <Link className="detmain" to={'/main/lookplan?id='+v.code}>
+                                <Link className="detmain" to={'/main/mylookplan?id='+v.code}>
                                 <div className="dettitle">
                                   <div className="detlogo">
                                     <img src={icon} alt='logo' />

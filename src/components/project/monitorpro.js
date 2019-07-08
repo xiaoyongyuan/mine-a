@@ -133,7 +133,7 @@ class monitorpro extends Component {
             title: '状态',
             dataIndex: 'states',
             render: (text) =>{
-              if(text==='0') return(<div className='state-bg-not'>编制中</div>);
+              if(text==='0') return(<div className='state-bg-not'>规划中</div>);
               else if(text==='1') return(<div className='state-bg-implement'>执行中</div>);
               else return(<div className='state-bg-normal'>已完成</div>)
             }
@@ -145,15 +145,15 @@ class monitorpro extends Component {
             key:'option',
             dataIndex: 'states',
             render: (text,record) =>{
-                if(text===0) return(
+                if(text==='0') return(
                     <div className='tableoption'>
                         <span className='yellowcolor' onClick={()=>this.changeguih(record)}><Button type="primary">修改</Button></span>
                         <a className='bluecolor' target="_blank"  rel="noopener noreferrer"  href={"https://view.officeapps.live.com/op/view.aspx?src="+window.g.filesURL+record.filepath}><Button type="primary">预览</Button></a>
                         <a className='bluecolor'  href={window.g.fileURL+record.filepath} download><Button type="primary">文档下载</Button></a>
                         <a className='bluecolor' href={window.g.fileURL+record.filepathcad} download><Button type="primary">CAD下载</Button></a>
                         <span className='greencolor'  onClick={()=>this.changestatus(record.code)}><Button type="primary">执行</Button></span>
-                    </div>)
-                else if(text===1) return(
+                    </div>);
+                else if(text==='1') return(
                     <div className='tableoption'>
                         <span className='yellowcolor' onClick={()=>this.changeguih(record)}><Button type="primary">变更</Button></span>
                         <a className='bluecolor' target="_blank" rel="noopener noreferrer"  href={"https://view.officeapps.live.com/op/view.aspx?src="+window.g.filesURL+record.filepath}><Button type="primary">预览</Button></a>

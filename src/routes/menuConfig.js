@@ -156,6 +156,11 @@ export default {
       key: "/main/lookplan",
       component: "Lookplan"
     },
+      {
+          title: "查看我的预案详情",
+          key: "/main/mylookplan",
+          component: "MyLookplan"
+      },
     {
       title: "点位详情",
       key: "/main/dotdetails*",
