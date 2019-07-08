@@ -139,7 +139,6 @@ class WarningModel extends Component{
                 sm: { span: 10 },
             },
         };
-        //console.log(this.state.receive,'ddddddddddd')
            return (
             <div className="ItemModel">
                 <Modal

@@ -109,7 +109,7 @@ class EquipListModalForm extends Component{
                                 </Upload>
                             )}
                         </FormItem>
-                        <FormItem key="buts" style={{display:'flex','justify-content':'flex-end'}}>
+                        <FormItem key="buts" style={{display:'flex',justifyContent:'flex-end'}}>
                             <Button style={{ margin: '0 10px' }} onClick={this.reset}>取消</Button>
                             <Button type='primary' onClick={this.handleFilterSubmit}>确定</Button>
                         </FormItem>

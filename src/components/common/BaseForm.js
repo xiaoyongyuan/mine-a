@@ -36,7 +36,6 @@ class FilterForm extends React.Component {
       if (!err) {
         var data = values;
         if (values.upload) data.fileurl = _this.state.fileurl;
-        console.log("提交前", this.state.fileurl, data);
         _this.props.filterSubmit(data);
         _this.props.form.resetFields();
       }

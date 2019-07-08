@@ -57,7 +57,6 @@ class UploadModel extends Component {
           const resp=info.file.response;
           if(resp.success){
             this.setState({[fileurl]:resp.data.url},()=>{
-                console.log('上传成功',this.state[fileurl])
             })
           }else{
             message.error(resp.msg)
@@ -132,7 +131,7 @@ class UploadModel extends Component {
                       </Upload>,
                   )}
               </FormItem>
-              <FormItem key="buts" style={{display:'flex','justify-content':'flex-end'}}>
+              <FormItem key="buts" style={{display:'flex',justifyContent:'flex-end'}}>
                 <Button type='primary' onClick={this.handleFilterSubmit}>确定</Button>
                 <Button style={{ margin: '0 10px' }} onClick={this.reset}>取消</Button>
               </FormItem>

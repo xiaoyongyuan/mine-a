@@ -142,7 +142,6 @@ class Userinfo extends Component {
                     list:res.data,
                     total: res.totalcount,
                     pagination:Utils.pagination(res,(current)=>{
-                        console.log("current",current);
                         this.params.pageindex=current;
                         this.requestList();
                     })
@@ -166,7 +165,6 @@ class Userinfo extends Component {
         });
     };
     showModalreset = (code,index) => {//重置密码
-        console.log("code",code);
         this.setState({
             resetshow: true,
             index:index,

@@ -13,7 +13,6 @@ class LayerCrumb extends Component {
   }
 
   render() {
-    console.log(document.referrer)
     return (
       <div className="LayerCrumb">
         <Breadcrumb>

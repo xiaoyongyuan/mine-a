@@ -46,7 +46,6 @@ class Companyinfo extends Component {
             url:'api/getProject'
         }).then((res)=>{
             if(res.success){
-                console.log("resbiz",res);
                 if(res.data !== null){
                     this.setState({
                         projectcname:res.data.projectname,

@@ -42,7 +42,6 @@ class monitorpro extends Component {
             },()=>{});
     };
     uploadOk=(params,id)=>{ //保存数据
-        console.log("params11",params);
         const _this=this;
         params.itemtype=11;
         if(id && !this.state.idstates){

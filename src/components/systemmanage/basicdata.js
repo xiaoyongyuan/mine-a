@@ -88,7 +88,6 @@ class Basicdata extends Component {
             method: 'get',
             url: 'api/exportCheckDataOriginal',
         }).then((res)=>{
-            console.log("res",res);
             if(res.success){
                 window.location.href = window.g.fileURL+"/api/download?fileName=" + res.msg + "&delete=" + true + "&access_token=" +localStorage.getItem("token");
                 message.success('导出成功！', 3);
@@ -117,7 +116,6 @@ class Basicdata extends Component {
         },(res)=>{});
     };
     handleFilterSubmit=(params)=>{ //查询
-        console.log("params",params);
         this.params.pageindex=1;
         this.params.devicetype=params.equiptype;
         if(params.rankname){

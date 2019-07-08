@@ -67,7 +67,6 @@ class Scheme extends Component {
       },(res)=>{});
     };
     uploadOk=(params)=>{ //上传提交
-        console.log("第一个",params);
       const _this=this;
       this.changeState('newShow',false);
       axios.ajax({

@@ -27,7 +27,6 @@ class Edit extends Component {
   componentDidMount(){
     const _this=this;
     const ids=this.props.query.id;
-    console.log("ids",ids);
       this.requersPlantType();
     if(ids){
       this.setState(
@@ -111,7 +110,6 @@ class Edit extends Component {
         plantype:this.state.selecttype, //类别
         summary:this.state.abstract,//摘要
     };
-    console.log(params,'console.log(params)')
     if(!params.planinfo || !params.plantitle || !params.plantype || !params.summary) message.warn('请填写完整！');
       const ids=this.props.query.id;
      if(ids === undefined){

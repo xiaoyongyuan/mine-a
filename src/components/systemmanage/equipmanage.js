@@ -57,17 +57,14 @@ class Equipmanage extends Component {
         this.requestListEquiptype();
     }
     uploadOk=(params)=>{ //上传提交
-        console.log("第一个",params);
         const _this=this;
         this.changeState('newShow',false);
-        console.log("params",params);
         axios.ajax({
             baseURL:window.g.deviceURL,
             method: 'post',
             url: 'api/equipmentImport',
             data: params
         }).then((res)=>{
-            console.log("res",res);
             if(res.success){
                 message.success('导入成功！', 3);
                 this.requestList();
@@ -136,7 +133,6 @@ class Equipmanage extends Component {
             method: 'get',
             url: 'api/exportEquipment',
         }).then((res)=>{
-            console.log("res",res);
             if(res.success){
                 window.location.href = window.g.fileURL+"/api/download?fileName=" + res.msg + "&delete=" + true + "&access_token=" +localStorage.getItem("token");
                 message.success('导出成功！', 3);
@@ -148,7 +144,6 @@ class Equipmanage extends Component {
         e.preventDefault();
         const forms=this.formRef.formref();
         forms.validateFields((err, values) => {
-            console.log("values",values);
             // if (!err) {
                 const data={
                     filePath:values.filepath.file.response.data.url,
@@ -159,7 +154,6 @@ class Equipmanage extends Component {
                     url: 'api/equipmentImport',
                     data: data
                 }).then((res)=>{
-                    console.log("res",res);
                     if(res.success){
                         message.success('导入成功！', 3);
                         this.requestList();
@@ -174,7 +168,6 @@ class Equipmanage extends Component {
     };
 
     handleCancel = e => {
-        console.log(e);
         this.setState({
             visible: false,
         });

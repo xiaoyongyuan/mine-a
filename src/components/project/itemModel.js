@@ -38,7 +38,6 @@ class ItemModel extends Component {
   handleFilterSubmit = ()=>{//查询提交
     const _this=this;
       this.props.form.validateFields((err, values) => {
-          console.log(values,'values33');
           if (!err) {
               var data={};
               data.itemtitle=values.itemtitle;
@@ -58,7 +57,6 @@ class ItemModel extends Component {
         let fileList = [...info.fileList];
         fileList = fileList.slice(-1);
         const isLt2M = info.file.size / 1024 / 1024 < 20;
-        console.log('info.file.size',info.file);
         if( info.file.size / 1024 / 1024 > 20){ //只能上传20M以内的文件
             message.error('请上传20M以内的文件');
             switchUp=false;
@@ -160,7 +158,7 @@ class ItemModel extends Component {
                       )
                   }
               </FormItem>
-              <FormItem key="buts" style={{display:'flex','justify-content':'flex-end'}}>
+              <FormItem key="buts" style={{display:'flex',justifyContent:'flex-end'}}>
                 <Button style={{ margin: '0 10px' }} onClick={this.reset}>取消</Button>
                   <Button type='primary' onClick={this.handleFilterSubmit}>确定</Button>
               </FormItem>
