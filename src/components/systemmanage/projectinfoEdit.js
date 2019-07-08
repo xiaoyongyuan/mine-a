@@ -1,10 +1,8 @@
 import React, { Component } from 'react';
-import {Button,Row,Col,Input,Upload, Icon, message } from "antd";
+import {Button,Row,Col,Input, Icon, message } from "antd";
 import "../../style/yal/css/companyinfoEdit.less";
 import axios from "../../axios";
-
 const { TextArea } = Input;
-const token={AUTHORIZATION: 'Bearer '+localStorage.getItem("token")};
 class projectinfoEdit extends Component {
     constructor(props){
         super(props);
@@ -201,9 +199,6 @@ class projectinfoEdit extends Component {
     };
     //邮箱失去焦点
     demo = (e) => {
-        console.log("e",e);
-        var reg = new RegExp("^[a-z0-9]+([._\\-]*[a-z0-9])*@([a-z0-9]+[-a-z0-9]*[a-z0-9]+.){1,63}[a-z0-9]+$"); //正则
-        // email
         var filter=/^\w+@\w+(\.[a-zA-Z]{2,3}){1,2}$/;
         var obj = document.getElementById("email"); //要验证的对象
         console.log("obj",obj.value);
@@ -217,13 +212,6 @@ class projectinfoEdit extends Component {
     };
 
     render() {
-        const uploadButton = (
-            <div>
-                <Icon type={this.state.loading ? 'loading' : 'plus'} />
-                <div className="ant-upload-text">上传企业logo</div>
-            </div>
-        );
-        const imageUrl = this.state.imageUrl;
         return (
             <div className="Companyinfo">
                 <div className="box-padding">

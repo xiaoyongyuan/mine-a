@@ -47,7 +47,6 @@ class Threshold extends Component {
           url: '/api/monitorDeviceType',
           data: params
       }).then((res)=>{
-          const list=this.state.list;
           if(res.success){
               message.success('操作成功！');
               _this.requestList();

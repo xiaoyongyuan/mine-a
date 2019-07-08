@@ -46,7 +46,6 @@ class UploadModel extends Component {
         let switchUp=true;
         let fileList = [...info.fileList];
         fileList = fileList.slice(-1);
-        const isLt2M = info.file.size / 1024 / 1024 < 20;
         if( info.file.size / 1024 / 1024 > 20){ //只能上传20M以内的文件
             message.error('请上传20M以内的文件');
             switchUp=false;

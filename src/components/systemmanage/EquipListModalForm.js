@@ -1,10 +1,7 @@
 import React, { Component } from 'react';
-import {Button, Form, Icon, Input, message, Modal, Upload} from 'antd';
-import axios from "../../axios";
+import {Button, Form, Icon, message, Modal, Upload} from 'antd';
 import "../../style/yal/css/userinfo.less";
-const token={AUTHORIZATION: 'Bearer '+localStorage.getItem("token")};
 const FormItem = Form.Item;
-let vis=false;
 const formItemLayout = {
     labelCol: {
         xs: { span: 24 },
@@ -43,7 +40,6 @@ class EquipListModalForm extends Component{
         let switchUp=true;
         let fileList = [...info.fileList];
         fileList = fileList.slice(-1);
-        const isLt2M = info.file.size / 1024 / 1024 < 20;
         console.log('info.file.size',info.file);
         if( info.file.size / 1024 / 1024 > 20){ //只能上传20M以内的文件
             message.error('请上传20M以内的文件');
@@ -77,13 +73,10 @@ class EquipListModalForm extends Component{
         });
     };
     render(){
-        const { getFieldDecorator } = this.props.form;   
-        const _this=this;
+        const { getFieldDecorator } = this.props.form;
         const property = {
             accept:"application/vnd.openxmlformats-officedocument.wordprocessingml.document",
-            // action:window.g.deviceURL+ '/api/equipmentImport',application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document
             action:window.g.fileURL+"/api/uploadFile",
-            // onChange: this.handleChange,
             multiple: false,
             headers:{AUTHORIZATION: 'Bearer '+localStorage.getItem("token")},//请求头
         };
