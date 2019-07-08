@@ -119,11 +119,11 @@ class Basicdata extends Component {
         this.params.pageindex=1;
         this.params.devicetype=params.equiptype;
         if(params.rankname){
-            this.params.createonbegin=params.rankname[0].format('YYYY-MM-DD HH:mm:ss');
-            this.params.createonend=params.rankname[1].format('YYYY-MM-DD HH:mm:ss');
+            this.params.beginDate=params.rankname[0].format('YYYY-MM-DD HH:mm:ss');
+            this.params.endDate=params.rankname[1].format('YYYY-MM-DD HH:mm:ss');
         }else {
-            this.params.createonbegin = '';
-            this.params.createonend = ''
+            this.params.beginDate = '';
+            this.params.endDate = ''
         }
         this.requestList();
 
