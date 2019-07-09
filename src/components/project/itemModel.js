@@ -3,6 +3,7 @@ import {Modal,message, Input, Select, Form, Button, Upload, Icon} from 'antd'
 import ofteraxios from '../../axios/ofter'
 const FormItem = Form.Item;
 const Option = Select.Option;
+let vis=false;
 class ItemModel extends Component {
   constructor(props){
     super(props);
@@ -17,17 +18,20 @@ class ItemModel extends Component {
   changeState=(key,val)=>{
       this.setState({[key]:val})
   };
-  componentWillMount(){
-    ofteraxios.projectlist().then(res=>{ //项目列表
-      if(res.success){
-        var project=[];
-        res.data.map(item=>project.push({code:item.code,name:item.projectname}) );
-        this.setState({project,selectp:project.length?project[0].code:''})
+  componentWillReceiveProps(nextProps){
+      if(nextProps.newShow !== vis){
+          vis=nextProps.newShow;
+          if(nextProps.newShow){
+              ofteraxios.projectlist().then(res=>{ //项目列表
+                  if(res.success){
+                      var project=[];
+                      res.data.map(item=>project.push({code:item.code,name:item.projectname}) );
+                      this.setState({project,selectp:project.length?project[0].code:''})
+                  }
+              },()=>{})
+          }
       }
-    },()=>{})
-
   }
-
   reset = ()=>{ //取消表单
       this.fileList={
           filepath:[],

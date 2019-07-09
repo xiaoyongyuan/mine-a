@@ -27,7 +27,7 @@ class ThresholdModel extends Component {
         if( nextProps.newShow !== vis){
             vis=nextProps.newShow;
             if(nextProps.newShow){
-                ofteraxios.projectlist().then(res=>{ //规划方案列表
+                ofteraxios.projectlist().then(res=>{ //监测规划列表
                     if(res.success){
                         var project=[];
                         res.data.map(
@@ -46,7 +46,6 @@ class ThresholdModel extends Component {
                         )
                     }
                 });
-
                 this.setState({
                     code:nextProps.code,
                     type:nextProps.type

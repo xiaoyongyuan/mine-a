@@ -42,21 +42,21 @@ class SurveyRepro extends Component {
       pageindex:1,
       itemtype:5,
     };
-    
-    componentWillMount(){
-      ofteraxios.projectlist().then(res=>{ //项目列表
-        if(res.success){
-          var project=[{code:'',name:'所有项目'}];
-          res.data.map(item=>project.push({code:item.code,name:item.projectname}) );
-          this.formList.item[0].list=project;
-        }
-      },()=>{})
+    constructor(Props){
+        super(Props);
     }
-
+    componentWillMount(){//在组件挂载到DOM前调用，且只会被调用一次
+        ofteraxios.projectlist().then(res=>{ //项目列表
+            if(res.success){
+                var project=[{code:'',name:'所有项目'}];
+                res.data.map(item=>project.push({code:item.code,name:item.projectname}) );
+                this.formList.item[0].list=project;
+            }
+        },()=>{})
+    }
     componentDidMount(){
       this.requestList()
     }
-    
     requestList=()=>{
       axios.ajax({
         baseURL:window.g.bizserviceURL,
@@ -79,7 +79,6 @@ class SurveyRepro extends Component {
     handleFilterSubmit=(params)=>{ //查询
       this.params.projectid=params.projectid;
       this.params.pageindex=1;
-
       this.requestList();
     };
     uploadOk=(params)=>{ //上传提交
@@ -116,7 +115,7 @@ class SurveyRepro extends Component {
         dataIndex: 'projectname',
       },{
         title: '上传人',
-        dataIndex: 'uploader',
+        dataIndex: 'createby',
       },{
         title: '上传时间',
         dataIndex: 'createon',

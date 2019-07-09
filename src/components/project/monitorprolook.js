@@ -1,5 +1,5 @@
 import React, { Component,Fragment } from 'react';
-import {message} from 'antd'
+import {Button, message} from 'antd'
 import axios from '../../axios'
 import Utils from "../../utils/utils";
 import Etable from "../common/Etable"
@@ -76,7 +76,7 @@ class Monitorprolook extends Component {
         dataIndex: 'projectname',
       },{
         title: '上传人',
-        dataIndex: 'uploader',
+        dataIndex: 'createby',
       },{
         title: '上传时间',
         dataIndex: 'createon',
@@ -87,15 +87,9 @@ class Monitorprolook extends Component {
         render: (text,record) =>{
           return(
             <div className='tableoption'>
-              {
-                record.filepath?<Fragment><a className='greencolor' target="_blank" rel="noopener noreferrer"  href={"https://view.officeapps.live.com/op/view.aspx?src="+window.g.filesURL+record.filepath}>预览</a>
-                <a className='bluecolor' href={window.g.filesURL+record.filepath}>文档下载</a></Fragment>
-                :null
-              }
-              {
-                record.filepathcad?<a className='bluecolor' href={window.g.fileURL+record.filepathcad}>CAD下载</a>
-                :null
-              }                
+                <a className='bluecolor' target="_blank"  rel="noopener noreferrer"  href={"https://view.officeapps.live.com/op/view.aspx?src="+window.g.filesURL+record.filepath}><Button type="primary">预览</Button></a>
+                <a className='bluecolor'  href={window.g.filesURL+record.filepath} download><Button type="primary">文档下载</Button></a>
+                <a className='bluecolor' href={window.g.filesURL+record.filepathcad} download><Button type="primary">CAD下载</Button></a>
             </div>
           )
         }

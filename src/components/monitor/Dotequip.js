@@ -22,7 +22,6 @@ class Dotequip extends Component {
       bindmodalshow: false, //
       bindDevId: "", //绑定设备id
       bindCodeId: "", //绑定code
-      pagination: [],
       deviceCount: "",
       detcode: "",
       filepath: ""
@@ -56,19 +55,13 @@ class Dotequip extends Component {
         title: "安装时间",
         key: "instime",
         dataIndex: "installdate",
-        render: text => {
-          moment(text).format("YYYY-MM-DD HH:mm:ss");
-        },
-        align: "center"
+        align: "center",
       },
       {
         title: "创建时间",
         dataIndex: "createon",
         key: "creatime",
-        render: text => {
-          moment(text).format("YYYY-MM-DD HH:mm:ss");
-        },
-        align: "center"
+        align: "center",
       },
       {
         title: "设备类型",
@@ -289,24 +282,28 @@ class Dotequip extends Component {
   };
 
   getDeviceList = () => {
+      const quparams = {
+          pagesize: 10,
+          pageindex: this.params.pageindex,
+          itemid: this.state.projSelected
+              ? this.state.projSelected
+              : this.state.projdefsel,
+          netid: this.state.monintSelected
+              ? this.state.monintSelected
+              : this.state.monintdefsel
+      };
     axios
       .ajax({
         baseURL:window.g.bizserviceURL,
         method: "get",
         url: "/api/findMonitordeviceThresholdList",
-        data: {
-          itemid: this.state.projSelected
-            ? this.state.projSelected
-            : this.state.projdefsel,
-          netid: this.state.monintSelected
-            ? this.state.monintSelected
-            : this.state.monintdefsel
-        }
+        data:quparams
       })
       .then(res => {
         if (res.success) {
           this.setState({
             tableData: res.data,
+            total: res.totalcount,
             pagination: Utils.pagination(res, current => {
               this.params.pageindex = current;
               this.getDeviceList();

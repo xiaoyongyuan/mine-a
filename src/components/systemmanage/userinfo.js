@@ -135,7 +135,7 @@ class Userinfo extends Component {
             baseURL:window.g.fileURL,
             method: 'get',
             url: '/api/companyUser',
-            data: quparams
+            data:quparams
         }).then((res)=>{
             if(res.success){
                 this.setState({
@@ -236,16 +236,18 @@ class Userinfo extends Component {
         },{
             title: '电话',
             dataIndex: 'linktel',
-        },{
-            title: '职位',
-            dataIndex: 'psition',
-        },{
-            title: '座机',
-            dataIndex: 'phone',
-        },{
-            title: '邮箱',
-            dataIndex: 'email',
-        },{
+        },
+        //     {
+        //     title: '职位',
+        //     dataIndex: 'psition',
+        // },{
+        //     title: '座机',
+        //     dataIndex: 'phone',
+        // },{
+        //     title: '邮箱',
+        //     dataIndex: 'email',
+        // },
+            {
             title: '操作',
             key:'option',
             dataIndex: 'code',

@@ -36,6 +36,18 @@ export default class ofterajax {
             })  
         })
     }
+    static monitorprolist() { //监测规划列表
+        return new Promise((resolve, reject) => {
+            axios.ajax({
+                baseURL:window.g.bizserviceURL,
+                method: 'get',
+                url: '/api/findMonitorPlanAll',
+            }).then((res)=>{
+                resolve(res)
+            })
+        })
+    }
+
     static montinetlist(value) { //监测网列表
         return new Promise((resolve, reject) => {
             axios.ajax({

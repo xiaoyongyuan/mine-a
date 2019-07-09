@@ -84,7 +84,11 @@ class ModalForm extends Component{
                         )}
                     </FormItem>
                     <FormItem label="姓名：">
-                        {getFieldDecorator('realanme')(
+                        {getFieldDecorator('realanme', {
+                            rules: [{
+                                required: true, message: '请输入姓名!',
+                            }],
+                        })(
                             <Input className="ModelFormInput" />
                         )}
                     </FormItem>

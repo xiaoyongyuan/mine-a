@@ -41,43 +41,55 @@ class monitorpro extends Component {
                 }
             },()=>{});
     };
-    uploadOk=(params,id)=>{ //保存数据
+    uploadOk=(params,id,itemtitle,projectid)=>{ //保存数据
         const _this=this;
         params.itemtype=11;
-        if(id && !this.state.idstates){
+        if(id && this.state.idstates === '1'){//变更
             this.setState({newShow:false});
             params.oldcode=id;
+            params.itemtitle=itemtitle;
+            params.projectid=projectid;
                 axios.ajax({
                     baseURL:window.g.bizserviceURL,
-                    method: 'put',
+                    method: 'post',
                     url: '/api/itemfile',
                     data: params
                 }).then((res)=>{
                     if(res.success){
+                        message.success("变更成功");
                         _this.requestList();
                     }else{message.warn(res.msg)}
                 },()=>{});
         }else{
             this.setState({newShow:false,EditShow:false});
             if(id){
-                const toparams=this.state.toparams;
-                params.oldcode=id;
-                params.itemtitle=toparams.itemtitle;
-                params.projectid=toparams.projectid;
-                params.projectname=toparams.projectname;
-            }
-            axios.ajax({
-                baseURL:window.g.bizserviceURL,
-                method: 'post',
-                url: '/api/itemfile',
-                data: params
-            }).then((res)=>{
+                params.code=id;
+                axios.ajax({//修改
+                    baseURL:window.g.bizserviceURL,
+                    method: 'put',
+                    url: '/api/itemfile',
+                    data: params
+                }).then((res)=>{
                     if(res.success){
+                        message.success("修改成功");
                         _this.requestList();
                     }else{message.warn(res.msg)}
                 },()=>{});
+            }
+            if(id === undefined){
+                axios.ajax({//新增
+                    baseURL:window.g.bizserviceURL,
+                    method: 'post',
+                    url: '/api/itemfile',
+                    data: params
+                }).then((res)=>{
+                    if(res.success){
+                        message.success("新增成功");
+                        _this.requestList();
+                    }else{message.warn(res.msg)}
+                },()=>{});
+            }
         }
-
     };
     changeState=(key,val)=>{
         this.setState(
@@ -87,7 +99,14 @@ class monitorpro extends Component {
         )
     };
     changeguih=(record)=>{ //变更
-        this.setState({id:record.code,EditShow:true,idstates:record.states,toparams:record})
+        this.setState({
+            id:record.code,
+            EditShow:true,
+            idstates:record.states,
+            toparams:record,
+            itemtitle:record.itemtitle,
+            projectid:record.projectid
+        })
     };
     changestatus=(code)=>{
         const _this=this;
@@ -124,7 +143,7 @@ class monitorpro extends Component {
             dataIndex: 'projectname',
         },{
             title: '上传人',
-            dataIndex: 'uploader',
+            dataIndex: 'createby',
         },{
             title: '上传时间',
             dataIndex: 'createon',
@@ -149,7 +168,7 @@ class monitorpro extends Component {
                         <span className='yellowcolor' onClick={()=>this.changeguih(record)}><Button type="primary">修改</Button></span>
                         <a className='bluecolor' target="_blank"  rel="noopener noreferrer"  href={"https://view.officeapps.live.com/op/view.aspx?src="+window.g.filesURL+record.filepath}><Button type="primary">预览</Button></a>
                         <a className='bluecolor'  href={window.g.filesURL+record.filepath} download><Button type="primary">文档下载</Button></a>
-                        <a className='bluecolor' href={window.g.fileURL+record.filepathcad} download><Button type="primary">CAD下载</Button></a>
+                        <a className='bluecolor' href={window.g.filesURL+record.filepathcad} download><Button type="primary">CAD下载</Button></a>
                         <span className='greencolor'  onClick={()=>this.changestatus(record.code)}><Button type="primary">执行</Button></span>
                     </div>);
                 else if(text==='1') return(
@@ -187,7 +206,7 @@ class monitorpro extends Component {
                     pagination={this.state.pagination}
                 />
                 <MonitModel newShow={this.state.newShow} filterSubmit={(params)=>this.uploadOk(params)} uploadreset={()=>this.changeState('newShow',false)} />
-                <MonitEdit newShow={this.state.EditShow} changeSubmit={(params)=>this.uploadOk(params,this.state.id)} uploadreset={()=>this.changeState('EditShow',false)} />
+                <MonitEdit newShow={this.state.EditShow} changeSubmit={(params)=>this.uploadOk(params,this.state.id,this.state.itemtitle,this.state.projectid)} uploadreset={()=>this.changeState('EditShow',false)} />
             </div>
         );
     }

@@ -115,7 +115,7 @@ class SurveyRepro extends Component {
         dataIndex: 'projectname',
       },{
         title: '上传人',
-        dataIndex: 'uploader',
+        dataIndex: 'createby',
       },{
         title: '上传时间',
         dataIndex: 'createon',
