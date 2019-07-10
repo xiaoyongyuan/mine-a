@@ -57,7 +57,6 @@ class Equipmanage extends Component {
         this.requestListEquiptype();
     }
     uploadOk=(params)=>{ //上传提交
-        const _this=this;
         this.changeState('newShow',false);
         axios.ajax({
             baseURL:window.g.deviceURL,
@@ -76,9 +75,6 @@ class Equipmanage extends Component {
     };
     componentDidMount(){
         this.requestList();
-    };
-    changePage = (page) => {
-        this.setState({page}, () =>this.requestList())
     };
     requestListEquiptype = () =>{//设备类型
         ofteraxios.equiptypelistquery().then(res=>{ 
@@ -122,11 +118,6 @@ class Equipmanage extends Component {
         this.params.pageindex=1;
         this.requestList();
     };
-    showModal = () => {
-        this.setState({
-            visible: true,
-        });
-    };
     export = () =>{
         axios.ajax({
             baseURL:window.g.deviceURL,
@@ -140,39 +131,6 @@ class Equipmanage extends Component {
             }
         },(res)=>{});
     };
-    handleOk = e => {
-        e.preventDefault();
-        const forms=this.formRef.formref();
-        forms.validateFields((err, values) => {
-            // if (!err) {
-                const data={
-                    filePath:values.filepath.file.response.data.url,
-                };
-                axios.ajax({
-                    baseURL:window.g.deviceURL,
-                    method: 'post',
-                    url: 'api/equipmentImport',
-                    data: data
-                }).then((res)=>{
-                    if(res.success){
-                        message.success('导入成功！', 3);
-                        this.requestList();
-                    }
-                },(res)=>{});
-                this.setState({
-                    visible: false
-                });
-                forms.resetFields() //清空
-            // }
-        });
-    };
-
-    handleCancel = e => {
-        this.setState({
-            visible: false,
-        });
-    };
-
     render() {
         const columns=[{
             title: '序号',
@@ -251,14 +209,10 @@ class Equipmanage extends Component {
                         newShow={this.state.newShow}
                         filterSubmit={this.uploadOk}
                         uploadreset={()=>this.changeState('newShow',false)}
-                        wrappedComponentRef={(form) => {
-                            this.formRef = form
-                        }}
                     />
                 </div>
             </div>
         );
     }
 }
-
 export default Equipmanage;

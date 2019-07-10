@@ -20,8 +20,8 @@ class LayerSider extends Component {
     })
   }
   onTitleClick=(key,dom)=>{
-    console.log(key,dom)
-  }
+
+  };
   handleClick = ({ item, key }) => {
         if (key === this.state.currentKey) {
             return false;

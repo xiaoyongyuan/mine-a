@@ -43,7 +43,6 @@ class Login extends Component {
                   method: 'post',
                   url: '/login/userInfo',
               }).then((res)=>{
-                  console.log("ceshi用户",res);
                   localStorage.setItem("username", res.account);
               });
           }else{
@@ -74,7 +73,6 @@ class Login extends Component {
                                 method: 'post',
                                 url: '/login/userInfo',
                             }).then((res)=>{
-                                console.log("ceshi用户",res);
                                 localStorage.setItem("username", res.account);
                             });
                         }else{

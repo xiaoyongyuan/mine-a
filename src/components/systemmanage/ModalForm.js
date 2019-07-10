@@ -77,10 +77,11 @@ class ModalForm extends Component{
                     <FormItem label="用户名：">
                         {getFieldDecorator('account', {
                             rules: [{
-                                required: true, message: '请输入用户名!',
+                                required: true, message: '请输入不超过12位的字母或数字!',
+                                pattern: new RegExp(/^[^\u4e00-\u9fa5]+$/, "g")
                             }],
                         })(
-                            <Input className="ModelFormInput" disabled={_this.state.code?true:false}  />
+                            <Input maxlength="12" className="ModelFormInput" disabled={_this.state.code?true:false}  />
                         )}
                     </FormItem>
                     <FormItem label="姓名：">

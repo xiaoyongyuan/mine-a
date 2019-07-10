@@ -33,9 +33,6 @@ class EquipListModalForm extends Component{
         this.props.form.resetFields();
         this.props.uploadreset();
     };
-    formref = () => { //将form传给父组件由父组件控制表单提交
-        return this.props.form;
-    };
     handleChange = (info,fileurl) => {
         let switchUp=true;
         let fileList = [...info.fileList];
@@ -62,7 +59,6 @@ class EquipListModalForm extends Component{
     handleFilterSubmit = ()=>{//表单提交
         const _this=this;
         this.props.form.validateFields((err, values) => {
-            console.log("woc",values);
             if (!err) {
                 var data={};
                 data.filePath=values.filepath.fileList[0].url;
@@ -108,10 +104,8 @@ class EquipListModalForm extends Component{
                         </FormItem>
                     </Form>
                 </Modal>
-
             </div>
         )
     }
 }
-
 export default EquipListModalForm = Form.create({})(EquipListModalForm);

@@ -1,12 +1,12 @@
 import React, { Component } from "react";
-import {Row, Col, Icon, Button, Modal, message, Select, Input} from "antd";
+import {Row, Form, Col, Icon, Button, Modal, message, Select, Input} from "antd";
 import axios from "../../axios";
 import moment from "moment";
 import Table from "../common/Etable";
 import Utils from "../../utils/utils";
-
 import "../../style/jhy/css/dotequip.less";
 const confirm = Modal.confirm;
+const FormItem = Form.Item;
 class Dotequip extends Component {
   constructor(props) {
     super(props);
@@ -46,7 +46,7 @@ class Dotequip extends Component {
         align: "center"
       },
       {
-        title: "设备id",
+        title: "设备ID",
         dataIndex: "devicecode",
         key: "devid",
         align: "center"
@@ -359,31 +359,37 @@ class Dotequip extends Component {
   };
   submitBind = () => {
     const _this = this;
-    axios
-      .ajax({
-        baseURL:window.g.bizserviceURL,
-        method: "put",
-        url: "/api/bindMonitorDevice",
-        data: {
-          code: this.state.bindCodeId,
-          devicecode: this.input.state.value,
-          states: 1
-        }
-      })
-      .then(res => {
-        if (res.success) {
-          message.success("绑定成功");
-          this.setState({
-            bindmodalshow: false
-          });
-          _this.getDeviceList();
-        } else {
-          // message.error("绑定失败");
-          this.setState({
-            bindmodalshow: false
-          });
-        }
-      });
+    const bindvalue = this.input.state.value;
+   console.log("bindvalue",bindvalue);
+   if(bindvalue){
+       axios.ajax({
+           baseURL:window.g.bizserviceURL,
+           method: "put",
+           url: "/api/bindMonitorDevice",
+           data: {
+               code: this.state.bindCodeId,
+               devicecode: this.input.state.value,
+               states: 1
+           }
+       })
+           .then(res => {
+               if (res.success) {
+                   message.success("绑定成功");
+                   this.setState({
+                       bindmodalshow: false
+                   });
+                   _this.getDeviceList();
+               } else {
+                   // message.error("绑定失败");
+                   this.setState({
+                       bindmodalshow: false
+                   });
+               }
+           });
+   }else {
+       message.warning('请输入要绑定的设备ID');
+   }
+
   };
   handDetail = record => {
     window.location.href = `/#/main/dotdetails?deviceId=${

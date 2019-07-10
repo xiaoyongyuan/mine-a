@@ -121,10 +121,10 @@ class Funds extends Component {
         },
       },{
         title: '变动时间',
-        dataIndex: 'createin',
+        dataIndex: 'updateon',
       },{
         title: '记录人',
-        dataIndex: 'cname',
+        dataIndex: 'createby',
       },{
         title: '记录时间',
         dataIndex: 'createon',
