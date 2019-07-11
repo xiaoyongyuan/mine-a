@@ -99,7 +99,7 @@ class UploadModel extends Component {
               <FormItem label='监测规划' key='modoc'>
                   {getFieldDecorator('filepath', {
                       rules: [{
-                            required: false,
+                            required: true,
                             message: '请上传word或pdf文件',
                           }],
                     })(
@@ -113,7 +113,7 @@ class UploadModel extends Component {
               <FormItem label='CAD' key='mocad'>
                   {getFieldDecorator('filepathcad', {
                       rules: [{
-                            required: false,
+                            required: true,
                             message: '请上传CAD文件',
                           }],
                     })(
@@ -127,7 +127,7 @@ class UploadModel extends Component {
               <FormItem label='Excel' key='moExcel'>
                   {getFieldDecorator('filepathexcel', {
                       rules: [{
-                            required: false,
+                            required: true,
                             message: '请上传Excel文件',
                           }],
                     })(

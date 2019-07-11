@@ -101,6 +101,14 @@ class SurveyRepro extends Component {
     changeState=(key,val)=>{
       this.setState({[key]:val})
     };
+    download = (record) =>{
+        if(record.filepath.lastIndexOf(".pdf") === -1){
+            window.location.href = window.g.filesURL+record.filepath;
+        }else{
+            var strs=record.filepath.split("/");
+            window.location.href = window.g.fileURL+"/api/pdf/download?fileName=" + strs[3] + "&delete=" + false + "&access_token=" +localStorage.getItem("token");
+        }
+    };
     render() {
       const columns=[{
         title: '序号',
@@ -126,10 +134,15 @@ class SurveyRepro extends Component {
         key:'option',
         dataIndex: 'register',
         render: (text,record) =>{
-          return(<div className="tableoption">
-              <a className="greencolor" target="_blank" rel="noopener noreferrer" href={"https://view.officeapps.live.com/op/view.aspx?src="+window.g.filesURL+record.filepath}><Button type="primary">预览</Button></a>
-            <a type='submit' href={window.g.filesURL+record.filepath} className="bluecolor"><Button type="primary">下载</Button></a>
-          </div>)
+            return(<div className="tableoption">
+                {
+                    record.filepath.lastIndexOf(".pdf") === -1?
+                        <a className="greencolor" target="_blank" rel="noopener noreferrer" href={"https://view.officeapps.live.com/op/view.aspx?src="+window.g.filesURL+record.filepath}><Button type="primary">预览</Button></a>:
+                        <a className="greencolor" target="_blank" rel="noopener noreferrer" href={window.g.filesURL+record.filepath}><Button type="primary">预览</Button></a>
+
+                }
+                <Button type="primary" onClick={()=>this.download(record)}>下载</Button>
+            </div>)
         }
       }];
     return (

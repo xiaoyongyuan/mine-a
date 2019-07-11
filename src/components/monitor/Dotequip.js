@@ -292,14 +292,12 @@ class Dotequip extends Component {
               ? this.state.monintSelected
               : this.state.monintdefsel
       };
-    axios
-      .ajax({
+    axios.ajax({
         baseURL:window.g.bizserviceURL,
         method: "get",
         url: "/api/findMonitordeviceThresholdList",
         data:quparams
-      })
-      .then(res => {
+      }).then(res => {
         if (res.success) {
           this.setState({
             tableData: res.data,
@@ -497,7 +495,9 @@ class Dotequip extends Component {
       <div className="dotequip">
         <div className="optbox">
           <Row type="flex" gutter={16} align="middle">
-            <Col span={6}><span style={{ marginRight:'10px' }} className="label block">监测规划</span> {this.selprorender()}</Col>
+            <Col span={6}>
+                <span style={{ marginRight:'10px' }} className="label block">监测规划</span> {this.selprorender()}
+            </Col>
             <Col span={4}>
               <span className="cont block">
                 <span className="tit block">

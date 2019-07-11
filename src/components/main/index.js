@@ -26,5 +26,4 @@ class Main extends Component {
     );
   }
 }
-//dfsddsdfs
 export default Main;

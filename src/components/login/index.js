@@ -44,6 +44,7 @@ class Login extends Component {
                   url: '/login/userInfo',
               }).then((res)=>{
                   localStorage.setItem("username", res.account);
+                  localStorage.setItem("userRole",res.power);
               });
           }else{
             message.warn('用户名或密码错误！')

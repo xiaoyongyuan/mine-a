@@ -42,9 +42,9 @@ class LayerHeader extends Component {
               {/*<option value="Admin">Admin</option>*/}
               {/*<option value="Jack">Jack</option>*/}
           {/*</Select >*/}
-            <Badge count={5}>
+            {/*<Badge count={5}>*/}
               <i className="actionfont action-lingsheng iconclearance"/>
-            </Badge>
+            {/*</Badge>*/}
           <i className="actionfont action-changjianwenti iconclearance"/>
           <i className="actionfont action-guanji iconclearance" onClick={this.hanleClose}/>
         </div>

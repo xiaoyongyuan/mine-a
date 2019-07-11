@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
-import {Form,Input} from 'antd';
+import {Form, Input, Select} from 'antd';
 import axios from "../../axios";
 import "../../style/yal/css/userinfo.less";
+const Option = Select.Option;
 const FormItem = Form.Item;
 let vis=false;
 const formItemLayout = {
@@ -21,16 +22,37 @@ class ModalForm extends Component{
         super(props);
         this.state={
             visible:props.visible || false,
-            form:false
+            form:false,
+            UserRole:[], //用户角色列表
+            SelectUserRole:'', //选择的用户角色
         };
     }
     componentDidMount() {
+        //加载用户角色
+        // axios.ajax({
+        //     baseURL:window.g.fileURL,
+        //     method: 'get',
+        //     url: '/api/companyRoles',
+        //     // data: data
+        // }).then((res)=>{
+        //     if(res.success){
+        //         console.log("res",res);
+        //         if(res.success){
+        //             var UserRole=[];
+        //             res.data.map(item=>UserRole.push({code:item.code,name:item.rolename}) );
+        //             this.setState({UserRole:UserRole,SelectUserRole:UserRole.length?UserRole[0].code:''})
+        //         }
+        //     }
+        // },(res)=>{});
         //编辑  数据回填
         this.setState({
             code:this.props.code,
         },()=>{
             this.requestdata()
         });
+    }
+    componentWillMount(){
+
     }
     componentWillReceiveProps(nextProps){
         if( nextProps.visible !== vis){
@@ -56,10 +78,12 @@ class ModalForm extends Component{
                 data: data
             }).then((res)=>{
                 if(res.success){
+                    console.log("res",res);
                     this.props.form.setFieldsValue({
                         linktel:res.data.linktel,//电话
                         realanme:res.data.realanme,//姓名
                         account:res.data.account,//用户名
+                        power:res.data.power,//用户角色
                     });
                 }
             },(res)=>{});
@@ -70,7 +94,8 @@ class ModalForm extends Component{
     };
     render(){
         const { getFieldDecorator } = this.props.form;   
-        const _this=this;   
+        const _this=this;
+        const userRole = localStorage.getItem("userRole");
         return(
             <div className="tc-label">
                 <Form {...formItemLayout}  layout="vertical">
@@ -81,7 +106,7 @@ class ModalForm extends Component{
                                 pattern: new RegExp(/^[^\u4e00-\u9fa5]+$/, "g")
                             }],
                         })(
-                            <Input maxlength="12" className="ModelFormInput" disabled={_this.state.code?true:false}  />
+                            <Input maxLength={12} className="ModelFormInput" disabled={_this.state.code?true:false}  />
                         )}
                     </FormItem>
                     <FormItem label="姓名：">
@@ -103,21 +128,45 @@ class ModalForm extends Component{
                             <Input className="ModelFormInput" />
                         )}
                     </FormItem>
-                    <FormItem label="职位：">
-                        {getFieldDecorator('position')(
-                            <Input className="ModelFormInput" />
-                        )}
+                    <FormItem label='用户角色：' key='power'>
+                        {
+                            getFieldDecorator('power', {
+                                rules:[{
+                                    required: true,
+                                    message: '请选择用户角色',
+                                }],
+                                initialValue: '2'
+                            })(
+                                <Select
+                                    disabled={userRole === '2'?true:false}
+                                >
+                                    {/*{this.state.UserRole.map(city => (*/}
+                                        {/*<Option key={city.code} value={city.code}>{city.name}</Option>*/}
+                                    {/*))}*/}
+                                    <Option key="1" value="1">管理员</Option>
+                                    <Option key="2" value="2">普通用户</Option>
+                                </Select>
+                            )
+                        }
                     </FormItem>
-                    <FormItem label="座机：">
-                        {getFieldDecorator('phone')(
-                            <Input className="ModelFormInput" />
-                        )}
-                    </FormItem>
-                    <FormItem label="邮箱：">
-                        {getFieldDecorator('email')(
-                            <Input className="ModelFormInput" />
-                        )}
-                    </FormItem>
+
+
+
+                    {/*<FormItem label="职位：">*/}
+                        {/*{getFieldDecorator('position')(*/}
+                            {/*<Input className="ModelFormInput" />*/}
+                        {/*)}*/}
+                    {/*</FormItem>*/}
+                    {/*<FormItem label="座机：">*/}
+                        {/*{getFieldDecorator('phone')(*/}
+                            {/*<Input className="ModelFormInput" />*/}
+                        {/*)}*/}
+                    {/*</FormItem>*/}
+                    {/*<FormItem label="邮箱：">*/}
+                        {/*{getFieldDecorator('email')(*/}
+                            {/*<Input className="ModelFormInput" />*/}
+                        {/*)}*/}
+                    {/*</FormItem>*/}
                 </Form>
             </div>
         )

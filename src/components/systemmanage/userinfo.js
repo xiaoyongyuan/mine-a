@@ -67,6 +67,7 @@ class Userinfo extends Component {
                     account:values.account,
                     linktel:values.linktel,
                     realanme:values.realanme,
+                    power:values.power
                 };
                 if(this.state.type === 0){ //新增
                     axios.ajax({
@@ -222,6 +223,8 @@ class Userinfo extends Component {
     };
 
     render() {
+        const userRole = localStorage.getItem("userRole");
+        var userStr = localStorage.getItem("username");
         const _this=this;
         const columns=[{
             title: '序号',
@@ -253,7 +256,10 @@ class Userinfo extends Component {
             dataIndex: 'code',
             columnWidth:'100px',
             render: (text,record,index) =>{
-              if(record.account!=='admin'){
+                if(userRole==='1'){
+                    return(<div className="tableoption"><span className="greencolor" onClick={() => _this.showModelEdit(text,record,index)}><Button type="primary">编辑</Button></span><span className="redcolor" onClick={()=>_this.showModaldelete(text,index)}><Button type="primary">删除</Button></span><span className="redcolor" onClick={()=>_this.showModalreset(text,index)}><Button type="primary">密码重置</Button></span></div>)
+                }
+              if(userRole!=='1'&& record.account === userStr){
                 return(<div className="tableoption"><span className="greencolor" onClick={() => _this.showModelEdit(text,record,index)}><Button type="primary">编辑</Button></span><span className="redcolor" onClick={()=>_this.showModaldelete(text,index)}><Button type="primary">删除</Button></span><span className="redcolor" onClick={()=>_this.showModalreset(text,index)}><Button type="primary">密码重置</Button></span></div>)
               }
             }
@@ -266,7 +272,11 @@ class Userinfo extends Component {
                       <BaseForm formList={this.formList} filterSubmit={this.handleFilterSubmit}/>
                   </div>
                   <div className="rightOpt">
-                      <Button type="primary" onClick={this.showModal}><span className="actionfont action-xinzeng"/>&nbsp;&nbsp;新增</Button>
+                      {
+                          userRole==='1'?
+                              <Button type="primary" onClick={this.showModal}><span className="actionfont action-xinzeng"/>&nbsp;&nbsp;新增</Button>:
+                              ''
+                      }
                   </div>
               </div>
               <Etable

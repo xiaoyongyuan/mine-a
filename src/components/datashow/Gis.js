@@ -16,10 +16,10 @@ class Gis extends Component {
         return (
             <div className="Gis">
                 <List className='listitem'>
-                    <List.Item key='Item1'>地形地貌</List.Item>
-                    <List.Item key='Item1'>INSAR</List.Item>
-                    <List.Item key='Item1'>高光谱</List.Item>
-                    <List.Item key='Item1'>土地损毁与复垦</List.Item>
+                    <List.Item key='ItemLandform'>地形地貌</List.Item>
+                    <List.Item key='ItemInsar'>INSAR</List.Item>
+                    <List.Item key='ItemHyperspectral'>高光谱</List.Item>
+                    <List.Item key='ItemDestru'>土地损毁与复垦</List.Item>
                 </List>
                 <dl className="columndl">
                     <dt className="columndt">土地损毁</dt>
