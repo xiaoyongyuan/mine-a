@@ -272,9 +272,13 @@ class Userinfo extends Component {
                                     </span>:
                                     ''
                             }
-                            <span className="redcolor" onClick={()=>_this.showModalreset(text,index)}>
-                                <Button type="primary">密码重置</Button>
-                            </span>
+                            {
+                                record.account !== userStr?
+                                    <span className="redcolor" onClick={()=>_this.showModalreset(text,index)}>
+                                      <Button type="primary">密码重置</Button>
+                                    </span>:
+                                    ''
+                            }
                         </div>
                     )
                 }
@@ -295,9 +299,13 @@ class Userinfo extends Component {
                                     </span>:
                               ''
                       }
-                      <span className="redcolor" onClick={()=>_this.showModalreset(text,index)}>
+                      {
+                          record.account !== userStr?
+                              <span className="redcolor" onClick={()=>_this.showModalreset(text,index)}>
                                 <Button type="primary">密码重置</Button>
-                            </span>
+                            </span>:
+                              ''
+                      }
                   </div>
                 )
               }
