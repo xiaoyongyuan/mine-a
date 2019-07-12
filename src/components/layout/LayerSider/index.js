@@ -57,7 +57,7 @@ class LayerSider extends Component {
           <span className="nav-text">{el.title}</span>
         </NavLink></Menu.Item>)
     })
-  }
+  };
   render() {
     return (
       <div className="LayerSider">
