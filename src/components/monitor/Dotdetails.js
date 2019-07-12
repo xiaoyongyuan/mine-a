@@ -11,6 +11,260 @@ import Utils from "../../utils/utils";
 import "../../style/jhy/css/dotdetails.less";
 
 const { TabPane } = Tabs;
+const realdatalist = [
+    {
+      code:'1',
+      datatime:'2019-05-15 12:13:11',
+        xwy:11,
+        xcz:2,
+        ywy:-1,
+        ycz:6,
+        tjsc:2
+    },
+    {
+        code:'2',
+        datatime:'2019-05-16 10:22:44',
+        xwy:7,
+        xcz:2,
+        ywy:-16,
+        ycz:6,
+        tjsc:2
+    },
+    {
+        code:'3',
+        datatime:'2019-05-17 13:13:55',
+        xwy:15,
+        xcz:2,
+        ywy:-3,
+        ycz:6,
+        tjsc:1
+    },
+    {
+        code:'4',
+        datatime:'2019-05-18 14:22:11',
+        xwy:13,
+        xcz:2,
+        ywy:-19,
+        ycz:6,
+        tjsc:3
+    },
+    {
+        code:'5',
+        datatime:'2019-05-19 14:22:11',
+        xwy:12,
+        xcz:2,
+        ywy:-13,
+        ycz:6,
+        tjsc:2
+    },
+    {
+        code:'6',
+        datatime:'2019-05-20 12:33:55',
+        xwy:13,
+        xcz:2,
+        ywy:-9,
+        ycz:6,
+        tjsc:2
+    },
+    {
+        code:'7',
+        datatime:'2019-05-21 20:22:11',
+        xwy:10,
+        xcz:2,
+        ywy:-8,
+        ycz:6,
+        tjsc:2
+    },
+    {
+        code:'8',
+        datatime:'2019-05-22 21:12:32',
+        xwy:22,
+        xcz:2,
+        ywy:-16,
+        ycz:6,
+        tjsc:2
+    },
+    {
+        code:'9',
+        datatime:'2019-05-23 21:12:32',
+        xwy:12,
+        xcz:2,
+        ywy:-13,
+        ycz:6,
+        tjsc:2
+    },
+    {
+        code:'10',
+        datatime:'2019-05-24 21:12:32',
+        xwy:12,
+        xcz:2,
+        ywy:-10,
+        ycz:6,
+        tjsc:2
+    },
+    {
+        code:'11',
+        datatime:'2019-05-25 10:24:21',
+        xwy:32,
+        xcz:2,
+        ywy:-12,
+        ycz:6,
+        tjsc:2
+    },
+    {
+        code:'12',
+        datatime:'2019-05-26 10:24:21',
+        xwy:15,
+        xcz:2,
+        ywy:-14,
+        ycz:6,
+        tjsc:2
+    },
+    {
+        code:'13',
+        datatime:'2019-05-27 10:24:21',
+        xwy:12,
+        xcz:2,
+        ywy:-19,
+        ycz:6,
+        tjsc:2
+    },
+    {
+        code:'14',
+        datatime:'2019-05-28 10:24:21',
+        xwy:12,
+        xcz:2,
+        ywy:-12,
+        ycz:6,
+        tjsc:2
+    },
+    {
+        code:'15',
+        datatime:'2019-05-29 12:13:11',
+        xwy:11,
+        xcz:2,
+        ywy:-3,
+        ycz:6,
+        tjsc:2
+    },
+    {
+        code:'16',
+        datatime:'2019-05-30 10:22:44',
+        xwy:7,
+        xcz:2,
+        ywy:-5,
+        ycz:6,
+        tjsc:2
+    },
+    {
+        code:'17',
+        datatime:'2019-05-31 13:13:55',
+        xwy:15,
+        xcz:2,
+        ywy:-19,
+        ycz:6,
+        tjsc:1
+    },
+    {
+        code:'18',
+        datatime:'2019-06-01 14:22:11',
+        xwy:13,
+        xcz:2,
+        ywy:-15,
+        ycz:6,
+        tjsc:3
+    },
+    {
+        code:'19',
+        datatime:'2019-06-02 14:22:11',
+        xwy:12,
+        xcz:2,
+        ywy:-10,
+        ycz:6,
+        tjsc:2
+    },
+    {
+        code:'20',
+        datatime:'2019-06-03 12:33:55',
+        xwy:13,
+        xcz:2,
+        ywy:-19,
+        ycz:6,
+        tjsc:2
+    },
+    {
+        code:'21',
+        datatime:'2019-06-04 20:22:11',
+        xwy:10,
+        xcz:2,
+        ywy:-13,
+        ycz:6,
+        tjsc:2
+    },
+    {
+        code:'22',
+        datatime:'2019-06-05 21:12:32',
+        xwy:22,
+        xcz:2,
+        ywy:-15,
+        ycz:6,
+        tjsc:2
+    },
+    {
+        code:'23',
+        datatime:'2019-06-06 21:12:32',
+        xwy:12,
+        xcz:2,
+        ywy:-11,
+        ycz:6,
+        tjsc:2
+    },
+    {
+        code:'24',
+        datatime:'2019-06-07 10:24:21',
+        xwy:12,
+        xcz:2,
+        ywy:-20,
+        ycz:6,
+        tjsc:2
+    },
+    {
+        code:'25',
+        datatime:'2019-06-08 10:24:21',
+        xwy:32,
+        xcz:2,
+        ywy:-10,
+        ycz:6,
+        tjsc:2
+    },
+    {
+        code:'26',
+        datatime:'2019-06-09 10:24:21',
+        xwy:45,
+        xcz:2,
+        ywy:-18,
+        ycz:6,
+        tjsc:2
+    },
+    {
+        code:'27',
+        datatime:'2019-06-10 10:24:21',
+        xwy:12,
+        xcz:2,
+        ywy:-22,
+        ycz:6,
+        tjsc:2
+    },
+    {
+        code:'28',
+        datatime:'2019-06-11 21:12:32',
+        xwy:21,
+        xcz:2,
+        ywy:-10,
+        ycz:6,
+        tjsc:2
+    },
+];
 class Dotdetails extends Component {
   constructor(props) {
     super(props);
@@ -22,7 +276,6 @@ class Dotdetails extends Component {
       cid: "",
       deviceId: "",
       deviceType: "",
-      pagination: []
     };
     this.params = {
       pageindex: 1,
@@ -114,36 +367,36 @@ class Dotdetails extends Component {
             },
             {
               title: "数据时间",
-              dataIndex: "createon",
+              dataIndex: "datatime",
               align: "center"
             },
             {
               title: "水平位移",
-              dataIndex: "x",
+              dataIndex: "xwy",
               align: "center"
             },
             {
               title: "水平差值",
-              dataIndex: "xdiff",
+              dataIndex: "xcz",
               align: "center"
             },
             {
               title: "垂直位移",
-              dataIndex: "y",
+              dataIndex: "ywy",
               align: "center"
             },
             {
               title: "垂直差值",
-              dataIndex: "ydiff",
+              dataIndex: "ycz",
               align: "center"
             },
             {
               title: "统计时长",
-              dataIndex: "",
+              dataIndex: "tjsc",
               align: "center",
-              render: () => {
-                return 1;
-              }
+              // render: () => {
+              //   return 1;
+              // }
             }
           ];
         }
@@ -426,8 +679,8 @@ class Dotdetails extends Component {
             />
             <Table
               columns={this.getColumns()}
-              dataSource={this.state.datalist}
-              pagination={this.state.pagination}
+              dataSource={realdatalist}
+              // pagination={this.state.pagination}
             />
           </TabPane>
           <TabPane tab="曲线图" key="2">

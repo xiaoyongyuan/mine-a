@@ -254,13 +254,52 @@ class Userinfo extends Component {
             title: '操作',
             key:'option',
             dataIndex: 'code',
-            columnWidth:'100px',
             render: (text,record,index) =>{
                 if(userRole==='1'){
-                    return(<div className="tableoption"><span className="greencolor" onClick={() => _this.showModelEdit(text,record,index)}><Button type="primary">编辑</Button></span><span className="redcolor" onClick={()=>_this.showModaldelete(text,index)}><Button type="primary">删除</Button></span><span className="redcolor" onClick={()=>_this.showModalreset(text,index)}><Button type="primary">密码重置</Button></span></div>)
+                    return(
+                        <div className="tableoption">
+                            {
+                                record.account !== userStr?
+                                    <span className="greencolor" onClick={() => _this.showModelEdit(text,record,index)}>
+                                      <Button type="primary">编辑</Button>
+                                    </span>:
+                                    ''
+                            }
+                            {
+                                record.account !== userStr?
+                                    <span className="redcolor" onClick={()=>_this.showModaldelete(text,index)}>
+                                      <Button type="primary">删除</Button>
+                                    </span>:
+                                    ''
+                            }
+                            <span className="redcolor" onClick={()=>_this.showModalreset(text,index)}>
+                                <Button type="primary">密码重置</Button>
+                            </span>
+                        </div>
+                    )
                 }
               if(userRole!=='1'&& record.account === userStr){
-                return(<div className="tableoption"><span className="greencolor" onClick={() => _this.showModelEdit(text,record,index)}><Button type="primary">编辑</Button></span><span className="redcolor" onClick={()=>_this.showModaldelete(text,index)}><Button type="primary">删除</Button></span><span className="redcolor" onClick={()=>_this.showModalreset(text,index)}><Button type="primary">密码重置</Button></span></div>)
+                return(
+                  <div className="tableoption">
+                      {
+                          record.account !== userStr?
+                              <span className="greencolor" onClick={() => _this.showModelEdit(text,record,index)}>
+                                      <Button type="primary">编辑</Button>
+                                    </span>:
+                              ''
+                      }
+                      {
+                          record.account !== userStr?
+                              <span className="redcolor" onClick={()=>_this.showModaldelete(text,index)}>
+                                      <Button type="primary">删除</Button>
+                                    </span>:
+                              ''
+                      }
+                      <span className="redcolor" onClick={()=>_this.showModalreset(text,index)}>
+                                <Button type="primary">密码重置</Button>
+                            </span>
+                  </div>
+                )
               }
             }
         }];

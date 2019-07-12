@@ -437,7 +437,7 @@ class DataOverviewEcharts extends Component {
               {
                   name:'水平位移',
                   type:'line',
-                  data:[11, 7, 15, 13, 12, 13, 10,22,12,12,32,15,12,12,11, 7, 15, 13, 12, 13, 10,22,12,12,32,45,12,12],
+                  data:[11, 7, 15, 13, 12, 13, 10,22,12,12,32,15,12,12,-1, 7, 15, 13, 12, 13, 10,22,12,12,32,45,12,12],
                   // data:this.props.levelvalue,
                   // markPoint: {
                   //     data: [

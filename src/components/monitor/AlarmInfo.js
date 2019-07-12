@@ -4,8 +4,57 @@ import axios from "../../axios";
 import moment from "moment";
 import Table from "../common/Etable";
 import Utils from "../../utils/utils";
-
-
+const alarmlist= [
+    {
+      code:'1',
+        cid:'235674',
+        name:'一级水位预警',
+        data:'2019-05-15 13:44:12',
+        rank:'1',
+    },
+    {
+        code:'2',
+        cid:'235675',
+        name:'二级降雨量预警',
+        data:'2019-05-16 13:44:12',
+        rank:'2',
+    },
+    {
+        code:'3',
+        cid:'235676',
+        name:'一级降雨量预警',
+        data:'2019-05-17 13:44:12',
+        rank:'1',
+    },
+    {
+        code:'4',
+        cid:'334563',
+        name:'三级损毁预警',
+        data:'2019-05-18 13:44:12',
+        rank:'2',
+    },
+    {
+        code:'5',
+        cid:'334563',
+        name:'三级损毁预警',
+        data:'2019-05-19 13:44:12',
+        rank:'2',
+    },
+    {
+        code:'6',
+        cid:'334563',
+        name:'三级损毁预警',
+        data:'2019-05-20 21:11:12',
+        rank:'2',
+    },
+    {
+        code:'7',
+        cid:'124332',
+        name:'二级降雨量预警',
+        data:'2019-05-21 13:44:12',
+        rank:'3',
+    },
+];
 class AlarmInfo extends Component {
   constructor(props) {
     super(props);
@@ -117,7 +166,7 @@ class AlarmInfo extends Component {
             {
               datalist: res.data,
               pagination: Utils.pagination(res, current => {
-                this.params.pageindex=current
+                this.params.pageindex=current;
                 this.getList();
               })
             });
@@ -149,11 +198,10 @@ class AlarmInfo extends Component {
           formList={this.formList}
           filterSubmit={this.handleFilterSubmit}
         />
-
         <Table
           columns={this.columns}
-          dataSource={this.state.datalist}
-          pagination={this.state.pagination}
+          dataSource={alarmlist}
+          // pagination={this.state.pagination}
         />
       </div>
     );

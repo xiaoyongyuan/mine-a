@@ -22,16 +22,17 @@ class projectinfoEdit extends Component {
             url:'api/getProject'
         }).then((res)=>{
             if(res.success){
-                console.log("resbiz",res);
-                this.setState({
-                    projectcname:res.data.projectname,
-                    intro:res.data.projectmemo,
-                    projectusername:res.data.linkmen,//项目联系人
-                    prijecttel:res.data.linktel,
-                    emailaddress:res.data.emailaddress,
-                    projectaddrs:res.data.addrs,
-                    linktel:res.data.linktel,
-                });
+                if(res.data !== null) {
+                    this.setState({
+                        projectcname: res.data.projectname,
+                        intro: res.data.projectmemo,
+                        projectusername: res.data.linkmen,//项目联系人
+                        prijecttel: res.data.linktel,
+                        emailaddress: res.data.emailaddress,
+                        projectaddrs: res.data.addrs,
+                        linktel: res.data.linktel,
+                    });
+                }
             }
         },(res)=>{});
     };
