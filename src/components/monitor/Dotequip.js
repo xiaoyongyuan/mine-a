@@ -527,7 +527,11 @@ class Dotequip extends Component {
                   />
                   文档查看
                 </span>
-                <a className="cotrg block" target="_blank" rel="noopener noreferrer" href={"https://view.officeapps.live.com/op/view.aspx?src="+window.g.filesURL+this.state.filepath}>查看</a>
+                  {
+                      this.state.filepath.lastIndexOf(".pdf") === -1?
+                          <a className="cotrg block" target="_blank" rel="noopener noreferrer" href={"https://view.officeapps.live.com/op/view.aspx?src="+window.g.filesURL+this.state.filepath}>查看</a>:
+                          <a className="cotrg block" target="_blank" rel="noopener noreferrer" href={window.g.filesURL+this.state.filepath}>查看</a>
+                  }
               </span>
             </Col>
           </Row>
