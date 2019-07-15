@@ -36,6 +36,7 @@ import MonitorRepro from './project/MonitorRepro'
 import Monitorprolook from './project/monitorprolook'
 import Treatment from './project/Treatment'
 import CheckAccept from './project/CheckAccept'
+import YearAccept from './project/YearAccept'
 
 //监测数据
 import Dotequip from './monitor/Dotequip'
@@ -57,7 +58,7 @@ export default {
   Datamanage,Projectmanage,MapShow,
   Monitor,ClaaMonitor,Evideo,
   MyPlan,Recommend,Edit,Detailplan,Lookplan,MyLookplan,
-  Scheme,Funds,Monitorpro,AssessRepro,SurveyRepro,ProspectRepro,Supervisor,MonitorRepro,Monitorprolook,Treatment,CheckAccept,
+  Scheme,Funds,Monitorpro,AssessRepro,SurveyRepro,ProspectRepro,Supervisor,MonitorRepro,Monitorprolook,Treatment,CheckAccept,YearAccept,
   Dotequip,Threshold,ThresholdDot,Warning,Dotdetails,
   Companyinfo,Userinfo,DesignRepro,Construction,Equipmanage,Basicdata,companyinfoEdit,ProjectinfoEdit,
     // Test

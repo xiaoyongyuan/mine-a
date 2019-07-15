@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import {Modal, Form, message, Input, Upload, Button, Icon,DatePicker } from 'antd'
+import axios from "../../axios";
 const FormItem = Form.Item;
 const { RangePicker, } = DatePicker;
+let vis=false;
 class UploadModel extends Component {
   constructor(props){
     super(props);
@@ -17,6 +19,42 @@ class UploadModel extends Component {
   componentDidMount(){
 
   }
+    componentWillReceiveProps(nextProps){
+        if( nextProps.newShow !== vis){
+            vis=nextProps.newShow;
+            if(nextProps.newShow){
+                this.setState({
+                    code:nextProps.code
+                }, () => {
+                    console.log("code",this.state.code);
+                    this.requestdata();
+                });
+            }
+        }
+    }
+    requestdata=() => {//取数据
+        if(this.state.code){
+            const data={
+                projectId:this.state.code,
+            };
+            axios.ajax({
+                baseURL:window.g.bizserviceURL,
+                method: 'get',
+                url: '/api/getProjectById',
+                data: data
+            }).then((res)=>{
+                if(res.success){
+                    console.log("res",res);
+                    this.props.form.setFieldsValue({
+                        projectname:res.data.projectname,//项目名称
+                        // doubledata:res.data.begindate,//姓名
+                        // account:res.data.account,//用户名
+                        memo:res.data.memo,//备注
+                    });
+                }
+            },(res)=>{});
+        }
+    };
   reset = ()=>{ //取消表单
       this.fileList={
           filepath:[],

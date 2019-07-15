@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {Button,message} from 'antd'
+import {Button, message, Modal} from 'antd'
 import axios from '../../axios'
 import Utils from "../../utils/utils";
 import BaseForm from "../common/BaseForm"
@@ -68,23 +68,49 @@ class Scheme extends Component {
     };
     uploadOk=(params)=>{ //上传提交
       const _this=this;
-      this.changeState('newShow',false);
-      axios.ajax({
-        baseURL:window.g.bizserviceURL,
-        method: 'post',
-        url: '/api/project',
-        data: params
-      }).then((res)=>{
-        if(res.success){
-          _this.params.projectname='';
-          _this.params.pageindex=1;
-          message.success('操作成功！');
-          _this.requestList()
-        }
-      });
+      console.log("params",params);
+      if(_this.state.type===0){
+          axios.ajax({
+              baseURL:window.g.bizserviceURL,
+              method: 'post',
+              url: '/api/project',
+              data: params
+          }).then((res)=>{
+              if(res.success){
+                  _this.params.projectname='';
+                  _this.params.pageindex=1;
+                  message.success('新增成功！');
+                  _this.requestList()
+              }
+          });
+      }else {
+          params.code=this.state.codetype;
+          console.log("params12",params);
+          axios.ajax({
+              baseURL:window.g.bizserviceURL,
+              method: 'put',
+              url: '/api/project',
+              data: params
+          }).then((res)=>{
+              if(res.success){
+                  _this.params.projectname='';
+                  _this.params.pageindex=1;
+                  message.success('编辑成功！');
+                  _this.requestList()
+              }
+          });
+      }
+
+        // this.changeState('newShow',false,'','type',1);
     };
-    changeState=(key,val)=>{
-      this.setState({[key]:val})
+    changeState=(key,val,record,type,typecode)=>{
+      this.setState(
+          {
+              [key]:val,
+              codetype:record.code,
+              [type]:typecode,
+          }
+      )
     };
     download = (record) =>{
         if(record.filepath.lastIndexOf(".pdf") === -1){
@@ -93,6 +119,39 @@ class Scheme extends Component {
             var strs=record.filepath.split("/");
             window.location.href = window.g.fileURL+"/api/pdf/download?fileName=" + strs[3] + "&delete=" + false + "&access_token=" +localStorage.getItem("token");
         }
+    };
+    showModaldelete = (record,index) =>{ //删除弹层
+        this.setState({
+            deleteshow: true,
+            index:index,
+            code:record.code
+        });
+    };
+    deleteCancel = () =>{ //删除取消
+        this.setState({
+            deleteshow: false,
+        });
+    };
+    deleteOk = () =>{//确认删除
+        const data={
+            ids:this.state.code,
+        };
+        const list=this.state.list;
+        list.splice(this.state.index,1);
+        axios.ajax({
+            baseURL:window.g.bizserviceURL,
+            method: 'delete',
+            url: '/api/project',
+            data: data
+        }).then((res)=>{
+            if(res.success){
+                message.success('删除成功！');
+                this.setState({
+                    list:list,
+                    deleteshow: false,
+                })
+            }
+        },(res)=>{});
     };
     render() {
       const columns=[{
@@ -129,8 +188,18 @@ class Scheme extends Component {
         title: '操作',
         key:'option',
         dataIndex: 'register',
-        render: (text,record) =>{
+        render: (text,record,index) =>{
           return(<div className="tableoption">
+              {
+                  record.states === '0'?
+                      <Button type="primary" onClick={()=>this.changeState('newShow',true,record,'type',1)}>编辑</Button>:
+                      ''
+              }
+              {
+                  record.states === '0'?
+                      <Button type="primary" onClick={()=>this.showModaldelete(record,index)}>删除</Button>:
+                      ''
+              }
               {
                   record.filepath.lastIndexOf(".pdf") === -1?
                       <a className="greencolor" target="_blank" rel="noopener noreferrer" href={"https://view.officeapps.live.com/op/view.aspx?src="+window.g.filesURL+record.filepath}><Button type="primary">预览</Button></a>:
@@ -148,7 +217,7 @@ class Scheme extends Component {
             <BaseForm formList={this.formList} filterSubmit={this.handleFilterSubmit}/>
           </div>
           <div className="rightOpt">
-            <Button type="primary" onClick={()=>this.changeState('newShow',true)}><span className="actionfont action-xinzeng"/>&nbsp;&nbsp;新增</Button>
+            <Button type="primary" onClick={()=>this.changeState('newShow',true,'','type',0)}><span className="actionfont action-xinzeng"/>&nbsp;&nbsp;新增</Button>
           </div>
         </div>
         <Etable
@@ -158,7 +227,13 @@ class Scheme extends Component {
               dataSource={this.state.list}
               pagination={this.state.pagination}
           />
-        <UploadModel newShow={this.state.newShow} filterSubmit={this.uploadOk} uploadreset={()=>this.changeState('newShow',false)} />
+        <UploadModel code={this.state.codetype} newShow={this.state.newShow} filterSubmit={this.uploadOk} uploadreset={()=>this.changeState('newShow',false,'','type',1)} />
+          <Modal title="提示信息" visible={this.state.deleteshow} onOk={this.deleteOk}
+                 width={370}
+                 onCancel={this.deleteCancel} okText="确认" cancelText="取消"
+          >
+              <p>确认删除吗？</p>
+          </Modal>
       </div>
     );
   }

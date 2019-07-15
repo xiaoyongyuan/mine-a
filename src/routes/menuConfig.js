@@ -33,40 +33,82 @@ export default {
           component: "Monitorpro"
         },
         {
-          title: "项目勘察",
-          key: "/main/prospectrepro",
-          component: "ProspectRepro"
-        },
-        {
-          title: "项目设计",
-          key: "/main/designrepro",
-          component: "DesignRepro"
-        },
-        {
-          title: "项目施工",
-          key: "/main/construction",
-          component: "Construction"
-        },
-        {
-          title: "施工监理",
-          key: "/main/supervisor",
-          component: "Supervisor"
-        },
-        {
-          title: "监测报告",
-          key: "/main/monitorrepro",
-          component: "MonitorRepro"
-        },
-        {
-          title: "项目治理",
-          key: "/main/treatment",
-          component: "Treatment"
-        },
-        {
-          title: "项目基金",
+          title: "基金管理",
           key: "/main/funds",
           component: "Funds"
         },
+        {
+          title: "勘察设计",
+          key: "/main/prospectrepro",
+          component: "ProspectRepro"
+        },
+          {
+              title: "治理实施方案",
+              key: "/main/treatmentplan",
+              children: [
+                  {
+                      title: "年度治理计划",
+                      key: "/main/treatment",
+                      component: "Treatment"
+                  },
+                  {
+                      title: "年度施工报告",
+                      key: "/main/construction",
+                      component: "Construction"
+                  },
+                  {
+                      title: "年度监理报告",
+                      key: "/main/supervisor",
+                      component: "Supervisor"
+                  }
+              ]
+          },
+          {
+              title: "监测实施方案",
+              key: "/main/monitorplan",
+              children: [
+                  {
+                      title: "年度监测计划",
+                      key: "/main/designrepro",
+                      component: "DesignRepro"
+                  },
+                  {
+                      title: "年度监测报告",
+                      key: "/main/monitorrepro",
+                      component: "MonitorRepro"
+                  }
+              ]
+          },
+        // {
+        //   title: "项目设计",
+        //   key: "/main/designrepro",
+        //   component: "DesignRepro"
+        // },
+        // {
+        //   title: "项目施工",
+        //   key: "/main/construction",
+        //   component: "Construction"
+        // },
+        // {
+        //   title: "施工监理",
+        //   key: "/main/supervisor",
+        //   component: "Supervisor"
+        // },
+        // {
+        //   title: "监测报告",
+        //   key: "/main/monitorrepro",
+        //   component: "MonitorRepro"
+        // },
+        // {
+        //   title: "项目治理",
+        //   key: "/main/treatment",
+        //   component: "Treatment"
+        // },
+          {
+              title: "年度验收",
+              key: "/main/yearaccept",
+              component: "YearAccept"
+          },
         {
           title: "项目验收",
           key: "/main/checkaccept",

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import {Modal,message, Input, Select, Form, Button, Upload, Icon} from 'antd'
 import ofteraxios from '../../axios/ofter'
+import axios from "../../axios";
 const FormItem = Form.Item;
 const Option = Select.Option;
 let vis=false;
@@ -28,10 +29,39 @@ class ItemModel extends Component {
                       res.data.map(item=>project.push({code:item.code,name:item.projectname}) );
                       this.setState({project,selectp:project.length?project[0].code:''})
                   }
-              },()=>{})
+              },()=>{});
+              this.setState({
+                  code:nextProps.code
+              },()=>{
+                  console.log("code",this.state.code);
+                  this.requestdata();
+              })
           }
       }
   }
+    requestdata=() => {//取数据
+        if(this.state.code){
+            const data={
+                itemfileId:this.state.code,
+            };
+            axios.ajax({
+                baseURL:window.g.bizserviceURL,
+                method: 'get',
+                url: '/api/getItemfileById',
+                data: data
+            }).then((res)=>{
+                if(res.success){
+                    console.log("res",res);
+                    this.props.form.setFieldsValue({
+                        projectid:res.data.projectid,//项目名称
+                        // doubledata:res.data.begindate,//姓名
+                        // account:res.data.account,//用户名
+                        memo:res.data.memo,//备注
+                    });
+                }
+            },(res)=>{});
+        }
+    };
   reset = ()=>{ //取消表单
       this.fileList={
           filepath:[],
@@ -43,6 +73,7 @@ class ItemModel extends Component {
     const _this=this;
       this.props.form.validateFields((err, values) => {
           if (!err) {
+              console.log("values",values);
               var data={};
               data.itemtitle=values.itemtitle;
               data.filepath=values.filepath.fileList[0].url;

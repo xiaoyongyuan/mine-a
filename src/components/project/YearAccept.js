@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {Button, message, Modal} from 'antd'
+import {Button,message} from 'antd'
 import axios from '../../axios'
 import Utils from "../../utils/utils";
 import BaseForm from "../common/BaseForm"
@@ -40,26 +40,26 @@ class SurveyRepro extends Component {
       };
     params={
       pageindex:1,
-      itemtype:5,
+      itemtype:12,
     };
-    constructor(Props){
-        super(Props);
+    
+    componentWillMount(){
+      ofteraxios.projectlist().then(res=>{ //项目列表
+        if(res.success){
+          var project=[{code:'',name:'所有项目'}];
+          res.data.map(item=>project.push({code:item.code,name:item.projectname}) );
+          this.formList.item[0].list=project;
+        }
+      })
     }
-    componentWillMount(){//在组件挂载到DOM前调用，且只会被调用一次
-        ofteraxios.projectlist().then(res=>{ //项目列表
-            if(res.success){
-                var project=[{code:'',name:'所有项目'}];
-                res.data.map(item=>project.push({code:item.code,name:item.projectname}) );
-                this.formList.item[0].list=project;
-            }
-        },()=>{})
-    }
+
     componentDidMount(){
       this.requestList()
     }
+    
     requestList=()=>{
       axios.ajax({
-        baseURL:window.g.bizserviceURL,
+          baseURL:window.g.bizserviceURL,
         method: 'get',
         url: '/api/getItemfileList',
         data: this.params
@@ -76,6 +76,7 @@ class SurveyRepro extends Component {
         }
       });
     };
+
     handleFilterSubmit=(params)=>{ //查询
       this.params.projectid=params.projectid;
       this.params.pageindex=1;
@@ -83,45 +84,22 @@ class SurveyRepro extends Component {
     };
     uploadOk=(params)=>{ //上传提交
       this.setState({newShow:false});
-      params.itemtype=5;
+      params.itemtype=12;
       const _this=this;
-        if(_this.state.type===0){
-            axios.ajax({//新增
-                baseURL:window.g.bizserviceURL,
-                method: 'post',
-                url: '/api/itemfile',
-                data: params
-            }).then((res)=>{
-                if(res.success){
-                    _this.params.itemtype=5;
-                    _this.params.pageindex=1;
-                    _this.requestList();
-                }else{message.warn(res.msg)}
-            });
-        }else {
-            params.code=this.state.codetype;
-            axios.ajax({//编辑
-                baseURL:window.g.bizserviceURL,
-                method: 'put',
-                url: '/api/itemfile',
-                data: params
-            }).then((res)=>{
-                if(res.success){
-                    _this.params.itemtype=5;
-                    _this.params.pageindex=1;
-                    _this.requestList();
-                }else{message.warn(res.msg)}
-            });
-        }
+      axios.ajax({
+        baseURL:window.g.bizserviceURL,
+        method: 'post',
+        url: '/api/itemfile',
+        data: params
+      })
+      .then((res)=>{
+        if(res.success){
+          _this.requestList();
+        }else{message.warn(res.msg)}
+      });
     };
-    changeState=(key,val,record,type,typecode)=>{
-        this.setState(
-            {
-                [key]:val,
-                codetype:record.code,
-                [type]:typecode,
-            }
-        )
+    changeState=(key,val)=>{
+      this.setState({[key]:val})
     };
     download = (record) =>{
         if(record.filepath.lastIndexOf(".pdf") === -1){
@@ -130,40 +108,6 @@ class SurveyRepro extends Component {
             var strs=record.filepath.split("/");
             window.location.href = window.g.fileURL+"/api/pdf/download?fileName=" + strs[3] + "&delete=" + false + "&access_token=" +localStorage.getItem("token");
         }
-
-    };
-    showModaldelete = (record,index) =>{ //删除弹层
-        this.setState({
-            deleteshow: true,
-            index:index,
-            code:record.code
-        });
-    };
-    deleteCancel = () =>{ //删除取消
-        this.setState({
-            deleteshow: false,
-        });
-    };
-    deleteOk = () =>{//确认删除
-        const data={
-            ids:this.state.code,
-        };
-        const list=this.state.list;
-        list.splice(this.state.index,1);
-        axios.ajax({
-            baseURL:window.g.bizserviceURL,
-            method: 'delete',
-            url: '/api/itemfile',
-            data: data
-        }).then((res)=>{
-            if(res.success){
-                message.success('删除成功！');
-                this.setState({
-                    list:list,
-                    deleteshow: false,
-                })
-            }
-        },(res)=>{});
     };
     render() {
       const columns=[{
@@ -189,18 +133,15 @@ class SurveyRepro extends Component {
         title: '操作',
         key:'option',
         dataIndex: 'register',
-        render: (text,record,index) =>{
-            const that = this;
+        render: (text,record) =>{
             return(<div className="tableoption">
-                <Button type="primary" onClick={()=>this.changeState('newShow',true,record,'type',1)}>编辑</Button>
-                <Button type="primary" onClick={()=>this.showModaldelete(record,index)}>删除</Button>
                 {
                     record.filepath.lastIndexOf(".pdf") === -1?
                         <a className="greencolor" target="_blank" rel="noopener noreferrer" href={"https://view.officeapps.live.com/op/view.aspx?src="+window.g.filesURL+record.filepath}><Button type="primary">预览</Button></a>:
                         <a className="greencolor" target="_blank" rel="noopener noreferrer" href={window.g.filesURL+record.filepath}><Button type="primary">预览</Button></a>
 
                 }
-                <Button type="primary" onClick={()=>that.download(record)}>下载</Button>
+                <Button type="primary" onClick={()=>this.download(record)}>下载</Button>
             </div>)
         }
       }];
@@ -211,7 +152,7 @@ class SurveyRepro extends Component {
             <BaseForm formList={this.formList} filterSubmit={this.handleFilterSubmit}/>
           </div>
           <div className="rightOpt">
-            <Button type="primary" onClick={()=>this.changeState('newShow',true,'','type',0)}><span className="actionfont action-xinzeng"/>&nbsp;&nbsp;新增</Button>
+            <Button type="primary" onClick={()=>this.changeState('newShow',true)}><span className="actionfont action-xinzeng"/>&nbsp;&nbsp;新增</Button>
           </div>
         </div>
         <Etable
@@ -221,13 +162,7 @@ class SurveyRepro extends Component {
               dataSource={this.state.list}
               pagination={this.state.pagination}
           />
-        <ItemModel code={this.state.codetype}  newShow={this.state.newShow} filterSubmit={this.uploadOk} uploadreset={()=>this.changeState('newShow',false,'','type',1)} />
-          <Modal title="提示信息" visible={this.state.deleteshow} onOk={this.deleteOk}
-                 width={370}
-                 onCancel={this.deleteCancel} okText="确认" cancelText="取消"
-          >
-              <p>确认删除吗？</p>
-          </Modal>
+        <ItemModel  newShow={this.state.newShow} filterSubmit={this.uploadOk} uploadreset={()=>this.changeState('newShow',false)} />
       </div>
     );
   }
