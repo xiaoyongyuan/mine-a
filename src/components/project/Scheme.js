@@ -6,7 +6,7 @@ import BaseForm from "../common/BaseForm"
 import Etable from "../common/Etable"
 import UploadModel from "../common/UploadModel"
 
-
+const confirm = Modal.confirm;
 class Scheme extends Component {
     state  ={
       newShow:false
@@ -112,13 +112,41 @@ class Scheme extends Component {
           }
       )
     };
+    isstart = (record,states) =>{
+        var that = this;
+        const code = record.code;
+        if(states === 1){
+            confirm({
+                title: "确认启动该项目吗？",
+                okText: "确认",
+                okType: "danger",
+                cancelText: "取消",
+                onOk() {
+                    axios.ajax({
+                        baseURL:window.g.bizserviceURL,
+                        method: 'put',
+                        url: '/api/project',
+                        data: {
+                            states:states,
+                            code:code,
+                        }
+                    }).then((res)=>{
+                        if(res.success){
+                            message.success('项目启动成功！');
+                            that.requestList();
+                        }
+                    });
+                }
+            });
+        }
+    };
     download = (record) =>{
-        if(record.filepath.lastIndexOf(".pdf") === -1){
+        /*if(record.filepath.lastIndexOf(".pdf") === -1){
             window.location.href = window.g.filesURL+record.filepath;
         }else{
-            var strs=record.filepath.split("/");
-            window.location.href = window.g.fileURL+"/api/pdf/download?fileName=" + strs[3] + "&delete=" + false + "&access_token=" +localStorage.getItem("token");
-        }
+
+        }*/
+        window.location.href = window.g.fileURL+"/api/pdf/download?fileName=" + record.filepath + "&delete=" + false + "&access_token=" +localStorage.getItem("token") + "&oldFileName=" +record.oldfilename;
     };
     showModaldelete = (record,index) =>{ //删除弹层
         this.setState({
@@ -190,6 +218,11 @@ class Scheme extends Component {
         dataIndex: 'register',
         render: (text,record,index) =>{
           return(<div className="tableoption">
+              {
+                  record.states === '0'?
+                      <Button type="primary" onClick={()=>this.isstart(record,1)}>启动</Button>:
+                      ''
+              }
               {
                   record.states === '0'?
                       <Button type="primary" onClick={()=>this.changeState('newShow',true,record,'type',1)}>编辑</Button>:

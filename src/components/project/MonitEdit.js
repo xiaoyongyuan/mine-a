@@ -47,8 +47,8 @@ class UploadModel extends Component {
         let switchUp=true;
         let fileList = [...info.fileList];
         fileList = fileList.slice(-1);
-        if( info.file.size / 1024 / 1024 > 20){ //只能上传20M以内的文件
-            message.error('请上传20M以内的文件');
+        if( info.file.size / 1024 / 1024 > 100){ //只能上传100M以内的文件
+            message.error('请上传100M以内的文件');
             switchUp=false;
         }else{
             fileList = fileList.map(file => {

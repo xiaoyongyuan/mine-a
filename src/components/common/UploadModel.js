@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import {Modal, Form, message, Input, Upload, Button, Icon,DatePicker } from 'antd'
 import axios from "../../axios";
+import moment from 'moment';
 const FormItem = Form.Item;
 const { RangePicker, } = DatePicker;
 let vis=false;
@@ -47,9 +48,8 @@ class UploadModel extends Component {
                     console.log("res",res);
                     this.props.form.setFieldsValue({
                         projectname:res.data.projectname,//项目名称
-                        // doubledata:res.data.begindate,//姓名
-                        // account:res.data.account,//用户名
                         memo:res.data.memo,//备注
+                        doubledata:[moment(res.data.begindate),moment(res.data.enddate)],
                     });
                 }
             },(res)=>{});
@@ -66,12 +66,14 @@ class UploadModel extends Component {
     handleFilterSubmit = ()=>{//表单提交
         const _this=this;
         this.props.form.validateFields((err, values) => {
+            console.log("values",values);
             if (!err) {
                 var data={};
                   data.projectname=values.projectname;
                   data.filepath=values.uploader.fileList[0].url;
                   data.begindate=values.doubledata[0].format('YYYY-MM-DD');
                   data.enddate=values.doubledata[1].format('YYYY-MM-DD');
+                  data.oldfilename = values.uploader.file.name;
                 data.memo=values.memo;
                 _this.props.filterSubmit(data);
                 _this.props.form.resetFields();
@@ -84,8 +86,8 @@ class UploadModel extends Component {
         let switchUp=true;
         let fileList = [...info.fileList];
         fileList = fileList.slice(-1);
-        if( info.file.size / 1024 / 1024 > 20){ //只能上传20M以内的文件
-            message.error('请上传20M以内的文件');
+        if( info.file.size / 1024 / 1024 > 100){ //只能上传100M以内的文件
+            message.error('请上传100M以内的文件');
             switchUp=false;
         }else{
             fileList = fileList.map(file => {

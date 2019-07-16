@@ -131,12 +131,13 @@ class monitorpro extends Component {
       });
     };
     download = (record) =>{
-        if(record.filepath.lastIndexOf(".pdf") === -1){
-            window.location.href = window.g.filesURL+record.filepath;
-        }else{
-            var strs=record.filepath.split("/");
-            window.location.href = window.g.fileURL+"/api/pdf/download?fileName=" + strs[3] + "&delete=" + false + "&access_token=" +localStorage.getItem("token");
-        }
+        // if(record.filepath.lastIndexOf(".pdf") === -1){
+        //     window.location.href = window.g.filesURL+record.filepath;
+        // }else{
+        //     var strs=record.filepath.split("/");
+        //     window.location.href = window.g.fileURL+"/api/pdf/download?fileName=" + strs[3] + "&delete=" + false + "&access_token=" +localStorage.getItem("token");
+        // }
+        window.location.href = window.g.fileURL+"/api/pdf/download?fileName=" + record.filepath + "&delete=" + false + "&access_token=" +localStorage.getItem("token") + "&oldFileName=" +record.oldfilename;
     };
     showModaldelete = (record,index) =>{ //删除弹层
         this.setState({
@@ -206,7 +207,7 @@ class monitorpro extends Component {
             render: (text,record,index) =>{
                 if(text==='0') return(
                     <div className='tableoption'>
-                        <span className='yellowcolor' onClick={()=>this.changeguih(record)}><Button type="primary">修改</Button></span>
+                        <span className='yellowcolor' onClick={()=>this.changeguih(record)}><Button type="primary">编辑</Button></span>
                         <Button type="primary" onClick={()=>this.showModaldelete(record,index)}>删除</Button>
                         {
                             record.filepath.lastIndexOf(".pdf") === -1?
@@ -219,7 +220,7 @@ class monitorpro extends Component {
                     </div>);
                 else if(text==='1') return(
                     <div className='tableoption'>
-                        <span className='yellowcolor' onClick={()=>this.changeguih(record)}><Button type="primary">变更</Button></span>
+                        {/*<span className='yellowcolor' onClick={()=>this.changeguih(record)}><Button type="primary">变更</Button></span>*/}
                         {
                             record.filepath.lastIndexOf(".pdf") === -1?
                                 <a className="greencolor" target="_blank" rel="noopener noreferrer" href={"https://view.officeapps.live.com/op/view.aspx?src="+window.g.filesURL+record.filepath}><Button type="primary">预览</Button></a>:

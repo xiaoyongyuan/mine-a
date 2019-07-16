@@ -75,11 +75,13 @@ class ItemModel extends Component {
   handleFilterSubmit = ()=>{//查询提交
     const _this=this;
       this.props.form.validateFields((err, values) => {
+          console.log("values",values);
           if (!err) {
               console.log("values",values);
               var data={};
               data.itemtitle=values.itemtitle;
               data.filepath=values.filepath.fileList[0].url;
+              data.oldfilename = values.filepath.file.name;
               data.memo=values.memo;
               data.projectid=values.projectid;
               _this.props.filterSubmit(data);
@@ -94,9 +96,8 @@ class ItemModel extends Component {
         let switchUp=true;
         let fileList = [...info.fileList];
         fileList = fileList.slice(-1);
-        const isLt2M = info.file.size / 1024 / 1024 < 20;
-        if( info.file.size / 1024 / 1024 > 20){ //只能上传20M以内的文件
-            message.error('请上传20M以内的文件');
+        if( info.file.size / 1024 / 1024 > 100){ //只能上传100M以内的文件
+            message.error('请上传100M以内的文件');
             switchUp=false;
         }else{
             fileList = fileList.map(file => {

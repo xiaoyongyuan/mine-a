@@ -126,12 +126,13 @@ class SurveyRepro extends Component {
         )
     };
     download = (record) =>{
-        if(record.filepath.lastIndexOf(".pdf") === -1){
-            window.location.href = window.g.filesURL+record.filepath;
-        }else{
-            var strs=record.filepath.split("/");
-            window.location.href = window.g.fileURL+"/api/pdf/download?fileName=" + strs[3] + "&delete=" + false + "&access_token=" +localStorage.getItem("token");
-        }
+        // if(record.filepath.lastIndexOf(".pdf") === -1){
+        //     window.location.href = window.g.filesURL+record.filepath;
+        // }else{
+        //     var strs=record.filepath.split("/");
+        //     window.location.href = window.g.fileURL+"/api/pdf/download?fileName=" + strs[3] + "&delete=" + false + "&access_token=" +localStorage.getItem("token");
+        // }
+        window.location.href = window.g.fileURL+"/api/pdf/download?fileName=" + record.filepath + "&delete=" + false + "&access_token=" +localStorage.getItem("token") + "&oldFileName=" +record.oldfilename;
 
     };
     showModaldelete = (record,index) =>{ //删除弹层
