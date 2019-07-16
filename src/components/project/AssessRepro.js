@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {Button,message} from 'antd'
+import {Button, message, Modal} from 'antd'
 import axios from '../../axios'
 import Utils from "../../utils/utils";
 import BaseForm from "../common/BaseForm"
@@ -110,6 +110,39 @@ class SurveyRepro extends Component {
         }
 
     };
+    showModaldelete = (record,index) =>{ //删除弹层
+        this.setState({
+            deleteshow: true,
+            index:index,
+            code:record.code
+        });
+    };
+    deleteCancel = () =>{ //删除取消
+        this.setState({
+            deleteshow: false,
+        });
+    };
+    deleteOk = () =>{//确认删除
+        const data={
+            ids:this.state.code,
+        };
+        const list=this.state.list;
+        list.splice(this.state.index,1);
+        axios.ajax({
+            baseURL:window.g.bizserviceURL,
+            method: 'delete',
+            url: '/api/itemfile',
+            data: data
+        }).then((res)=>{
+            if(res.success){
+                message.success('删除成功！');
+                this.setState({
+                    list:list,
+                    deleteshow: false,
+                })
+            }
+        },(res)=>{});
+    };
     render() {
       const columns=[{
         title: '序号',
@@ -134,8 +167,9 @@ class SurveyRepro extends Component {
         title: '操作',
         key:'option',
         dataIndex: 'register',
-        render: (text,record) =>{
+        render: (text,record,index) =>{
             return(<div className="tableoption">
+                <Button type="primary" onClick={()=>this.showModaldelete(record,index)}>删除</Button>
                 {
                     record.filepath.lastIndexOf(".pdf") === -1?
                         <a className="greencolor" target="_blank" rel="noopener noreferrer" href={"https://view.officeapps.live.com/op/view.aspx?src="+window.g.filesURL+record.filepath}><Button type="primary">预览</Button></a>:
@@ -164,6 +198,12 @@ class SurveyRepro extends Component {
               pagination={this.state.pagination}
           />
         <ItemModel  newShow={this.state.newShow} filterSubmit={this.uploadOk} uploadreset={()=>this.changeState('newShow',false)} />
+          <Modal title="提示信息" visible={this.state.deleteshow} onOk={this.deleteOk}
+                 width={370}
+                 onCancel={this.deleteCancel} okText="确认" cancelText="取消"
+          >
+              <p>确认删除吗？</p>
+          </Modal>
       </div>
     );
   }

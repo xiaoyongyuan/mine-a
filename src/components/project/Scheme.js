@@ -180,7 +180,7 @@ class Scheme extends Component {
         dataIndex: 'createby',
       },{
         title: '上传时间',
-        dataIndex: 'createon',
+        dataIndex: 'updateon',
       },{
         title: '备注',
         dataIndex: 'memo',

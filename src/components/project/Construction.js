@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {Button,message} from 'antd'
+import {Button, message, Modal} from 'antd'
 import axios from '../../axios'
 import Utils from "../../utils/utils";
 import BaseForm from "../common/BaseForm"
@@ -40,7 +40,7 @@ class SurveyRepro extends Component {
       };
     params={
       pageindex:1,
-      itemtype:8,
+      itemtype:15,
     };
     
     componentWillMount(){
@@ -84,7 +84,7 @@ class SurveyRepro extends Component {
     };
     uploadOk=(params)=>{ //上传提交
       this.setState({newShow:false});
-      params.itemtype=8;
+      params.itemtype=15;
       const _this=this;
       axios.ajax({
         baseURL:window.g.bizserviceURL,
@@ -108,6 +108,39 @@ class SurveyRepro extends Component {
             var strs=record.filepath.split("/");
             window.location.href = window.g.fileURL+"/api/pdf/download?fileName=" + strs[3] + "&delete=" + false + "&access_token=" +localStorage.getItem("token");
         }
+    };
+    showModaldelete = (record,index) =>{ //删除弹层
+        this.setState({
+            deleteshow: true,
+            index:index,
+            code:record.code
+        });
+    };
+    deleteCancel = () =>{ //删除取消
+        this.setState({
+            deleteshow: false,
+        });
+    };
+    deleteOk = () =>{//确认删除
+        const data={
+            ids:this.state.code,
+        };
+        const list=this.state.list;
+        list.splice(this.state.index,1);
+        axios.ajax({
+            baseURL:window.g.bizserviceURL,
+            method: 'delete',
+            url: '/api/itemfile',
+            data: data
+        }).then((res)=>{
+            if(res.success){
+                message.success('删除成功！');
+                this.setState({
+                    list:list,
+                    deleteshow: false,
+                })
+            }
+        },(res)=>{});
     };
     render() {
       const columns=[{
@@ -133,8 +166,9 @@ class SurveyRepro extends Component {
         title: '操作',
         key:'option',
         dataIndex: 'register',
-        render: (text,record) =>{
+        render: (text,record,index) =>{
             return(<div className="tableoption">
+                <Button type="primary" onClick={()=>this.showModaldelete(record,index)}>删除</Button>
                 {
                     record.filepath.lastIndexOf(".pdf") === -1?
                         <a className="greencolor" target="_blank" rel="noopener noreferrer" href={"https://view.officeapps.live.com/op/view.aspx?src="+window.g.filesURL+record.filepath}><Button type="primary">预览</Button></a>:
@@ -163,6 +197,12 @@ class SurveyRepro extends Component {
               pagination={this.state.pagination}
           />
         <ItemModel  newShow={this.state.newShow} filterSubmit={this.uploadOk} uploadreset={()=>this.changeState('newShow',false)} />
+          <Modal title="提示信息" visible={this.state.deleteshow} onOk={this.deleteOk}
+                 width={370}
+                 onCancel={this.deleteCancel} okText="确认" cancelText="取消"
+          >
+              <p>确认删除吗？</p>
+          </Modal>
       </div>
     );
   }
