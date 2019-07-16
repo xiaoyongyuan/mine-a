@@ -177,7 +177,7 @@ class Scheme extends Component {
         }
       },{
         title: '上传人',
-        dataIndex: 'createby',
+        dataIndex: 'updateby',
       },{
         title: '上传时间',
         dataIndex: 'updateon',

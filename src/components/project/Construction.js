@@ -86,20 +86,41 @@ class SurveyRepro extends Component {
       this.setState({newShow:false});
       params.itemtype=15;
       const _this=this;
-      axios.ajax({
-        baseURL:window.g.bizserviceURL,
-        method: 'post',
-        url: '/api/itemfile',
-        data: params
-      })
-      .then((res)=>{
-        if(res.success){
-          _this.requestList();
-        }else{message.warn(res.msg)}
-      });
+        if(_this.state.type===0){
+          axios.ajax({
+            baseURL:window.g.bizserviceURL,
+            method: 'post',
+            url: '/api/itemfile',
+            data: params
+          }).then((res)=>{
+            if(res.success){
+              _this.requestList();
+            }else{message.warn(res.msg)}
+          });
+        }else {
+            params.code=this.state.codetype;
+            axios.ajax({//编辑
+                baseURL:window.g.bizserviceURL,
+                method: 'put',
+                url: '/api/itemfile',
+                data: params
+            }).then((res)=>{
+                if(res.success){
+                    _this.params.itemtype=15;
+                    _this.params.pageindex=1;
+                    _this.requestList();
+                }else{message.warn(res.msg)}
+            });
+        }
     };
-    changeState=(key,val)=>{
-      this.setState({[key]:val})
+    changeState=(key,val,record,type,typecode)=>{
+        this.setState(
+            {
+                [key]:val,
+                codetype:record.code,
+                [type]:typecode,
+            }
+        )
     };
     download = (record) =>{
         if(record.filepath.lastIndexOf(".pdf") === -1){
@@ -155,10 +176,10 @@ class SurveyRepro extends Component {
         dataIndex: 'projectname',
       },{
         title: '上传人',
-        dataIndex: 'createby',
+        dataIndex: 'updateby',
       },{
         title: '上传时间',
-        dataIndex: 'createon',
+        dataIndex: 'updateon',
       },{
         title: '备注',
         dataIndex: 'memo',
@@ -168,6 +189,7 @@ class SurveyRepro extends Component {
         dataIndex: 'register',
         render: (text,record,index) =>{
             return(<div className="tableoption">
+                <Button type="primary" onClick={()=>this.changeState('newShow',true,record,'type',1)}>编辑</Button>
                 <Button type="primary" onClick={()=>this.showModaldelete(record,index)}>删除</Button>
                 {
                     record.filepath.lastIndexOf(".pdf") === -1?
@@ -186,7 +208,7 @@ class SurveyRepro extends Component {
             <BaseForm formList={this.formList} filterSubmit={this.handleFilterSubmit}/>
           </div>
           <div className="rightOpt">
-            <Button type="primary" onClick={()=>this.changeState('newShow',true)}><span className="actionfont action-xinzeng"/>&nbsp;&nbsp;新增</Button>
+            <Button type="primary" onClick={()=>this.changeState('newShow',true,'','type',0)}><span className="actionfont action-xinzeng"/>&nbsp;&nbsp;新增</Button>
           </div>
         </div>
         <Etable
@@ -196,7 +218,7 @@ class SurveyRepro extends Component {
               dataSource={this.state.list}
               pagination={this.state.pagination}
           />
-        <ItemModel  newShow={this.state.newShow} filterSubmit={this.uploadOk} uploadreset={()=>this.changeState('newShow',false)} />
+        <ItemModel code={this.state.codetype}  newShow={this.state.newShow} filterSubmit={this.uploadOk} uploadreset={()=>this.changeState('newShow',false,'','type',1)} />
           <Modal title="提示信息" visible={this.state.deleteshow} onOk={this.deleteOk}
                  width={370}
                  onCancel={this.deleteCancel} okText="确认" cancelText="取消"

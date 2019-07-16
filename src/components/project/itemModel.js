@@ -52,12 +52,15 @@ class ItemModel extends Component {
             }).then((res)=>{
                 if(res.success){
                     console.log("res",res);
-                    this.props.form.setFieldsValue({
-                        projectid:res.data.projectid,//项目名称
-                        // doubledata:res.data.begindate,//姓名
-                        // account:res.data.account,//用户名
-                        memo:res.data.memo,//备注
-                    });
+                    if(res.data){
+                        this.props.form.setFieldsValue({
+                            projectid:res.data.projectid,//项目名称
+                            itemtitle:res.data.itemtitle,//名称
+                            // account:res.data.account,//用户名
+                            memo:res.data.memo,//备注
+                        });
+                    }
+
                 }
             },(res)=>{});
         }
