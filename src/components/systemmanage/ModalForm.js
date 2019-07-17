@@ -78,7 +78,6 @@ class ModalForm extends Component{
                 data: data
             }).then((res)=>{
                 if(res.success){
-                    console.log("res",res);
                     this.props.form.setFieldsValue({
                         linktel:res.data.linktel,//电话
                         realanme:res.data.realanme,//姓名

@@ -27,7 +27,6 @@ class UploadModel extends Component {
                 this.setState({
                     code:nextProps.code
                 }, () => {
-                    console.log("code",this.state.code);
                     this.requestdata();
                 });
             }
@@ -45,7 +44,6 @@ class UploadModel extends Component {
                 data: data
             }).then((res)=>{
                 if(res.success){
-                    console.log("res",res);
                     this.props.form.setFieldsValue({
                         projectname:res.data.projectname,//项目名称
                         memo:res.data.memo,//备注
@@ -66,7 +64,6 @@ class UploadModel extends Component {
     handleFilterSubmit = ()=>{//表单提交
         const _this=this;
         this.props.form.validateFields((err, values) => {
-            console.log("values",values);
             if (!err) {
                 var data={};
                   data.projectname=values.projectname;

@@ -31,6 +31,11 @@ class UploadModel extends Component {
                         res.data.map(item=>project.push({code:item.code,name:item.projectname}) );
                         this.setState({project,selectp:''})
                     }
+                });
+                this.setState({
+                    code:nextProps.code
+                },()=>{
+                    this.requestdata();
                 })
             }
         }
@@ -113,6 +118,31 @@ class UploadModel extends Component {
     })
   };
 
+    requestdata=() => {//取数据
+        if(this.state.code){
+            const data={
+                itemfileId:this.state.code,
+            };
+            axios.ajax({
+                baseURL:window.g.bizserviceURL,
+                method: 'get',
+                url: '/api/getItemfileById',
+                data: data
+            }).then((res)=>{
+                if(res.success){
+                    if(res.data){
+                        this.props.form.setFieldsValue({
+                            projectid:res.data.projectid,//项目名称
+                            itemtitle:res.data.itemtitle,//名称
+                            // account:res.data.account,//用户名
+                            memo:res.data.memo,//备注
+                        });
+                    }
+                }
+            },(res)=>{});
+        }
+    };
+
   render() {
       const property={
           showUploadList:true,
@@ -164,7 +194,7 @@ class UploadModel extends Component {
                     })(
                         <Select onChange={this.selectproj}
                         >
-                          <Option key='noselect' value=''>请选择项目</Option>
+                          {/*<Option key='noselect' value=''>请选择项目</Option>*/}
                           {this.state.project.map(city => (
                               <Option key={city.code} value={city.code} disabled={city.disabled}>{city.name}</Option>
                           ))}     

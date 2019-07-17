@@ -358,7 +358,6 @@ class Dotequip extends Component {
   submitBind = () => {
     const _this = this;
     const bindvalue = this.input.state.value;
-   console.log("bindvalue",bindvalue);
    if(bindvalue){
        axios.ajax({
            baseURL:window.g.bizserviceURL,

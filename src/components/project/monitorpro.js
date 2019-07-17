@@ -44,6 +44,7 @@ class monitorpro extends Component {
     uploadOk=(params,id,itemtitle,projectid)=>{ //保存数据
         const _this=this;
         params.itemtype=11;
+        console.log("id",id);
         if(id && this.state.idstates === '1'){//变更
             this.setState({newShow:false});
             params.oldcode=id;
@@ -91,10 +92,13 @@ class monitorpro extends Component {
             }
         }
     };
-    changeState=(key,val)=>{
+    changeState=(key,val,record,type,typecode)=>{
         this.setState(
             {
                 [key]:val,
+                codetype:record.code,
+                [type]:typecode,
+                id:record.code,
             }
         )
     };
@@ -207,7 +211,7 @@ class monitorpro extends Component {
             render: (text,record,index) =>{
                 if(text==='0') return(
                     <div className='tableoption'>
-                        <span className='yellowcolor' onClick={()=>this.changeguih(record)}><Button type="primary">编辑</Button></span>
+                        <span className='yellowcolor' onClick={()=>this.changeState('newShow',true,record,'type',1)}><Button type="primary">编辑</Button></span>
                         <Button type="primary" onClick={()=>this.showModaldelete(record,index)}>删除</Button>
                         {
                             record.filepath.lastIndexOf(".pdf") === -1?
@@ -215,7 +219,7 @@ class monitorpro extends Component {
                                 <a className="greencolor" target="_blank" rel="noopener noreferrer" href={window.g.filesURL+record.filepath}><Button type="primary">预览</Button></a>
                         }
                         <Button type="primary" onClick={()=>this.download(record)}>文档下载</Button>
-                        <a className='bluecolor' href={window.g.filesURL+record.filepathcad} download><Button type="primary">CAD下载</Button></a>
+                        <a className='bluecolor' href={window.g.fileURL+"/api/pdf/download?fileName=" + record.filepathcad + "&delete=" + false + "&access_token=" +localStorage.getItem("token") + "&oldFileName=" +record.oldcadfilename } download><Button type="primary">CAD下载</Button></a>
                         <span className='greencolor'  onClick={()=>this.changestatus(record.code)}><Button type="primary">执行</Button></span>
                     </div>);
                 else if(text==='1') return(
@@ -250,7 +254,7 @@ class monitorpro extends Component {
                     </div>
                     <div className="rightOpt">
                         <a  href="http://www.beidouenv.com/uploadFile/dwdr.xlsx" className="bluecolor"><Button style={{ marginRight:'20px' }} type="primary"><span className="actionfont action-daoru"/> 下载导入模板(点位)</Button></a>
-                        <Button type="primary" onClick={()=>this.changeState('newShow',true)}><span className="actionfont action-xinzeng"/>&nbsp;&nbsp;新增</Button>
+                        <Button type="primary" onClick={()=>this.changeState('newShow',true,'','type',0)}><span className="actionfont action-xinzeng"/>&nbsp;&nbsp;新增</Button>
                     </div>
                 </div>
                 <Etable
@@ -260,8 +264,8 @@ class monitorpro extends Component {
                     dataSource={this.state.list}
                     pagination={this.state.pagination}
                 />
-                <MonitModel newShow={this.state.newShow} filterSubmit={(params)=>this.uploadOk(params)} uploadreset={()=>this.changeState('newShow',false)} />
-                <MonitEdit newShow={this.state.EditShow} changeSubmit={(params)=>this.uploadOk(params,this.state.id,this.state.itemtitle,this.state.projectid)} uploadreset={()=>this.changeState('EditShow',false)} />
+                <MonitModel code={this.state.codetype} newShow={this.state.newShow} filterSubmit={(params)=>this.uploadOk(params,this.state.id)} uploadreset={()=>this.changeState('newShow',false,'','type',1)} />
+                {/*<MonitEdit newShow={this.state.EditShow} changeSubmit={(params)=>this.uploadOk(params,this.state.id,this.state.itemtitle,this.state.projectid)} uploadreset={()=>this.changeState('EditShow',false)} />*/}
                 <Modal title="提示信息" visible={this.state.deleteshow} onOk={this.deleteOk}
                        width={370}
                        onCancel={this.deleteCancel} okText="确认" cancelText="取消"

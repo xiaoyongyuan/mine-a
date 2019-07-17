@@ -33,7 +33,6 @@ class ItemModel extends Component {
               this.setState({
                   code:nextProps.code
               },()=>{
-                  console.log("code",this.state.code);
                   this.requestdata();
               })
           }
@@ -51,7 +50,6 @@ class ItemModel extends Component {
                 data: data
             }).then((res)=>{
                 if(res.success){
-                    console.log("res",res);
                     if(res.data){
                         this.props.form.setFieldsValue({
                             projectid:res.data.projectid,//项目名称
@@ -75,9 +73,7 @@ class ItemModel extends Component {
   handleFilterSubmit = ()=>{//查询提交
     const _this=this;
       this.props.form.validateFields((err, values) => {
-          console.log("values",values);
           if (!err) {
-              console.log("values",values);
               var data={};
               data.itemtitle=values.itemtitle;
               data.filepath=values.filepath.fileList[0].url;

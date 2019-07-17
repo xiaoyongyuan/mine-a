@@ -6,6 +6,7 @@ import BaseForm from "../common/BaseForm"
 import Etable from "../common/Etable"
 import ItemModel from "./itemModel"
 import ofteraxios from '../../axios/ofter'
+const confirm = Modal.confirm;
 class SurveyRepro extends Component {
     state  ={
       newShow:false,
@@ -167,6 +168,35 @@ class SurveyRepro extends Component {
             }
         },(res)=>{});
     };
+    passAccept = (record,states) =>{
+        var that = this;
+        const projectid = record.projectid;
+        if(states === 2){
+            confirm({
+                title: "确认通过验收该项目吗？",
+                okText: "确认",
+                okType: "danger",
+                cancelText: "取消",
+                onOk() {
+                    axios.ajax({
+                        baseURL:window.g.bizserviceURL,
+                        method: 'put',
+                        url: '/api/project',
+                        data: {
+                            states:states,
+                            code:projectid,
+                        }
+                    }).then((res)=>{
+                        if(res.success){
+                            message.success('项目验收通过！');
+                            that.requestList();
+                        }
+                    });
+                }
+            });
+        }
+    };
+
     render() {
       const columns=[{
         title: '序号',
@@ -195,6 +225,7 @@ class SurveyRepro extends Component {
             return(<div className="tableoption">
                 <Button type="primary" onClick={()=>this.changeState('newShow',true,record,'type',1)}>编辑</Button>
                 <Button type="primary" onClick={()=>this.showModaldelete(record,index)}>删除</Button>
+                <Button type="primary" onClick={()=>this.passAccept(record,2)}>验收通过</Button>
                 {
                     record.filepath.lastIndexOf(".pdf") === -1?
                         <a className="greencolor" target="_blank" rel="noopener noreferrer" href={"https://view.officeapps.live.com/op/view.aspx?src="+window.g.filesURL+record.filepath}><Button type="primary">预览</Button></a>:

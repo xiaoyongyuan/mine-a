@@ -68,7 +68,6 @@ class Scheme extends Component {
     };
     uploadOk=(params)=>{ //上传提交
       const _this=this;
-      console.log("params",params);
       if(_this.state.type===0){
           axios.ajax({
               baseURL:window.g.bizserviceURL,
@@ -85,7 +84,6 @@ class Scheme extends Component {
           });
       }else {
           params.code=this.state.codetype;
-          console.log("params12",params);
           axios.ajax({
               baseURL:window.g.bizserviceURL,
               method: 'put',
