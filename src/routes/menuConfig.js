@@ -179,11 +179,11 @@ export default {
           key: "/main/basicdata",
           component: "Basicdata"
         },
-          // {
-          //     title: "ceshi",
-          //     key: "/main/test",
-          //     component: "Test"
-          // }
+          {
+              title: "ceshi",
+              key: "/main/test",
+              component: "Test"
+          }
       ]
     }
   ],
