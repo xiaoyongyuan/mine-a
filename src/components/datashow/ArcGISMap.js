@@ -13,37 +13,33 @@ export default class ArcGISMap extends Component {
   }
   initMap() {
     const mapURL = {
-      url: "https://js.arcgis.com/4.11/"
-      //  url:window.g.mapURL+"/arcgis/arcgis_js_api/library/4.11/dojo/dojo.js"
+      url: "https://js.arcgis.com/4.12/"
+      // url:window.g.mapURL+"/arcgis/arcgis_js_api/library/4.11/dojo/dojo.js"
     };
     esriLoader.loadModules([
       "esri/tasks/Locator",
       "esri/Map",
       "esri/Basemap",
+      "esri/portal/Portal",
       "esri/views/SceneView",
       "esri/layers/FeatureLayer",
       "esri/layers/WebTileLayer",
       "esri/widgets/BasemapToggle",
-      "esri/widgets/Compass",
-      "esri/widgets/NavigationToggle",
+      "esri/layers/MapImageLayer",
+      "esri/layers/ElevationLayer",
       "esri/widgets/Zoom",
-      "esri/Graphic",
-
-      "dojo/domReady!"
     ], mapURL).then(([
       Locator,
       Map,
       Basemap,
+      Portal,
       SceneView,
       FeatureLayer,
       WebTileLayer,
       BasemapToggle,
-      Compass,
-      NavigationToggle,
+      MapImageLayer,
+      ElevationLayer,
       Zoom,
-      Graphic
-
-
     ]) => {
 
       var mapBaseLayer = new WebTileLayer({
@@ -78,11 +74,25 @@ export default class ArcGISMap extends Component {
         url: "https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer"
       });
 
+
+      var portal = new Portal({
+        // url:"https://120b482b.nat123.cc/arcgis"
+        url:"https://beidou.esrichina.com/arcgis"
+      })
+
+
       // Create a Map instance
       let map = new Map({
         basemap: "satellite",
         ground: "world-elevation"
       });
+
+      //   var webscene = new WebScene({
+      //     portalItem: {  // autocasts as new PortalItem()
+      //         portal:portal,
+      //         id: "1fc3141f035d4666a54899ea68d72bb4"
+      //     }
+      // });
 
 
 
@@ -98,20 +108,22 @@ export default class ArcGISMap extends Component {
         // center : [110.3038,39.3027],
         map: map,
         container: "mapDiv",
-        // qualityProfile: "high"
-
-        //camera: initCamera
       });
-      var lng = -111.59568463900906, lat = 40.914345945609;
+      var lng = 110.25197636123258, lat = 39.36945365936541;
+      //var lng = 110.31861554381501, lat = 39.308634009666775;
+      // var lng = -111.848111, lat = 40.713906;
       view.goTo({
         // center: [110.3038,39.3027],
         heading: 246.50443209217798,
         tilt: 73.67726241280418,
         center: [lng, lat],
-        zoom: 16,
-      });// latitude: 40.713906,
+        zoom: 14,
+      });
+      // latitude: 40.713906,
       // longitude: -111.848111,
       //这段主要是为了寻找合适的camera视角，设置好了就注释掉了
+      // 39.36945365936541
+      // longitude: 110.25197636123258
       view.on("click", function (e) {
         console.log(view.center);
       });
@@ -122,14 +134,12 @@ export default class ArcGISMap extends Component {
           nextBasemap: stamen
         });
 
-         
-
 
 
 
         // var featureLayer = new FeatureLayer({
-        //   url:
-        //     "https://services.arcgis.com/V6ZHFr6zdgNZuVG0/arcgis/rest/services/OpenBeerDatabase/FeatureServer/0",
+        //   // url:"https://services.arcgis.com/V6ZHFr6zdgNZuVG0/arcgis/rest/services/OpenBeerDatabase/FeatureServer/0",
+        //   url:"https://beidou.esrichina.com/server/rest/services/Hosted/chengjiang_jiance1/SceneServer/0",
         //   outFields: ["*"],
         //   definitionExpression: "country = 'United States'",
         //   popupTemplate: {
@@ -211,76 +221,120 @@ export default class ArcGISMap extends Component {
         let zoom = new Zoom({
           view: view
         });
-        // view.ui.add([toggle,zoom,navigationToggle,compass], "top-right");
-        // view.ui.add(compass, "bottom-right");
         view.ui._removeComponents(["attribution", "navigation-toggle", "compass", "zoom"]);
         view.ui.add(zoom, "bottom-right");
         view.ui.add(toggle, "top-right");
 
-        var g = new Graphic({
-          "geometry": { "type": "point", "latitude": lat, "longitude": lng, "spatialReference": { "wkid": 4326 } },
-          "symbol": { "type": "simple-marker", "color": [226, 119, 40], },
-          "attributes": { "id": 1, "name": "名称XXXXX", "value": "结果YYYYY" },
-          "popupTemplate": {
-              "content": "<p class='popup-con-title'>点位详情</p>"
-              + "<div class='popup-con-con'>"
-              + "<div>坐标位置.经度：" + lng + "</div>"
-              + "<div>坐标位置.纬度：" + lat + "</div>"
-              + "<div>形变监测网</div>"
-              + "</div>"
-          }
+        //     var g = new Graphic({
+        //       "geometry": { "type": "point", "latitude": lat, "longitude": lng, "spatialReference": { "wkid": 4326 } },
+        //       "symbol": { "type": "simple-marker", "color": [226, 119, 40], },
+        //       "attributes": { "id": 1, "name": "名称XXXXX", "value": "结果YYYYY" },
+        //       "popupTemplate": {
+        //           "content": "<p class='popup-con-title'>点位详情</p>"
+        //           + "<div class='popup-con-con'>"
+        //           + "<div>坐标位置.经度：" + lng + "</div>"
+        //           + "<div>坐标位置.纬度：" + lat + "</div>"
+        //           + "<div>形变监测网</div>"
+        //           + "</div>"
+        //       }
+        //   });
+        //   view.graphics.add(g);
+        //   var g1 = new Graphic({
+        //     "geometry": { "type": "point", "latitude": lat+0.01, "longitude": lng, "spatialReference": { "wkid": 4326 } },
+        //     "symbol": { "type": "simple-marker", "color": [226, 119, 40], },
+        //     "attributes": { "id": 1, "name": "名称XXXXX", "value": "结果YYYYY" },
+        //     "popupTemplate": {
+        //         "content": "<p class='popup-con-title'>点位详情</p>"
+        //         + "<div class='popup-con-con'>"
+        //         + "<div>坐标位置.经度：" + lng + "</div>"
+        //         + "<div>坐标位置.纬度：" + lat + "</div>"
+        //         + "<div>形变监测网</div>"
+        //         + "</div>"
+        //     }
+        // });
+        // view.graphics.add(g1);
+
+        //   view.popup.autoOpenEnabled = false;
+        //   view.on("click", function (event) {
+        //     // Get the coordinates of the click on the view
+        //     // around the decimals to 3 decimals
+
+        //     console.log(event);
+        //     var lat = Math.round(event.mapPoint.latitude * 1000) / 1000;
+        //     var lon = Math.round(event.mapPoint.longitude * 1000) / 1000;
+        //     console.log(lat,lon);
+        //     view.popup.open({
+        //       // Set the popup's title to the coordinates of the clicked location
+        //       title: "Reverse geocode: [" + lon + ", " + lat + "]",
+        //       location: event.mapPoint // Set the location of the popup to the clicked location
+        //     });
+
+        //     locatorTask.locationToAddress(event.mapPoint)
+        //     .then(function (response) {
+        //       // If an address is successfully found, show it in the popup's content
+        //       view.popup.content = response.address;
+        //     })
+        //     .catch(function (error) {
+        //       // If the promise fails and no result is found, show a generic message
+        //       view.popup.content = "No address was found for this location";
+        //     });
+
+        //   });
       });
-      view.graphics.add(g);
-      var g1 = new Graphic({
-        "geometry": { "type": "point", "latitude": lat+0.01, "longitude": lng, "spatialReference": { "wkid": 4326 } },
-        "symbol": { "type": "simple-marker", "color": [226, 119, 40], },
-        "attributes": { "id": 1, "name": "名称XXXXX", "value": "结果YYYYY" },
-        "popupTemplate": {
-            "content": "<p class='popup-con-title'>点位详情</p>"
-            + "<div class='popup-con-con'>"
-            + "<div>坐标位置.经度：" + lng + "</div>"
-            + "<div>坐标位置.纬度：" + lat + "</div>"
-            + "<div>形变监测网</div>"
-            + "</div>"
-        }
-    });
-    view.graphics.add(g1);
 
-      //   view.popup.autoOpenEnabled = false;
-      //   view.on("click", function (event) {
-      //     // Get the coordinates of the click on the view
-      //     // around the decimals to 3 decimals
-
-      //     console.log(event);
-      //     var lat = Math.round(event.mapPoint.latitude * 1000) / 1000;
-      //     var lon = Math.round(event.mapPoint.longitude * 1000) / 1000;
-      //     console.log(lat,lon);
-      //     view.popup.open({
-      //       // Set the popup's title to the coordinates of the clicked location
-      //       title: "Reverse geocode: [" + lon + ", " + lat + "]",
-      //       location: event.mapPoint // Set the location of the popup to the clicked location
-      //     });
-
-      //     locatorTask.locationToAddress(event.mapPoint)
-      //     .then(function (response) {
-      //       // If an address is successfully found, show it in the popup's content
-      //       view.popup.content = response.address;
-      //     })
-      //     .catch(function (error) {
-      //       // If the promise fails and no result is found, show a generic message
-      //       view.popup.content = "No address was found for this location";
-      //     });
-
-      //   });
+      // 添加图层
+      var permitsLayer = new MapImageLayer({
+        // portalItem: {
+        //   // autocasts as new PortalItem()
+        //   portal:portal,
+        //   id: "089bc8d0950c46ca8877902e0bb9dbb4"
+        // }
+        url:"https://beidou.esrichina.com/server/rest/services/hagousssssasss/MapServer",
+        title: "Touristic attractions",
+        elevationInfo: {
+          mode: "relative-to-scene"
+        },
+        outFields: ["*"],
+        featureReduction: {
+          type: "selection"
+        },
       });
+      map.add(permitsLayer);
+      // var elevLyr = new ElevationLayer({
+      //   // Custom elevation service
+      //   url: "https://beidou.esrichina.com/server/rest/services/halagou_30_kuada2_tif/ImageServer"
+      // });
+      // // Add elevation layer to the map's ground.
+      // map.ground.layers.add(elevLyr);
 
-      //添加图层
-      // let featureLayer = new FeatureLayer({
-      //   url: "https://beidou.esrichina.com/server/rest/services/Hosted/test3d_WFL1/FeatureServer"
-      // })
-      // map.add(featureLayer);
+      let featureLayer = new FeatureLayer({
+        url:"https://beidou.esrichina.com/server/rest/services/Hosted/bianjie/FeatureServer",
+        title: "Touristic attractions",
+        elevationInfo: {
+          mode: "relative-to-scene"
+        },
+        outFields: ["*"],
+        featureReduction: {
+          type: "selection"
+        },
+      })
+      map.add(featureLayer);
 
-
+      let featureLayer1 = new FeatureLayer({
+        url:"https://beidou.esrichina.com/server/rest/services/Hosted/chengjiang_jiance/FeatureServer",
+        title: "Touristic attractions",
+          elevationInfo: {
+            mode: "relative-to-scene"
+          },
+          outFields: ["*"],
+          featureReduction: {
+            type: "selection"
+          },
+      })
+      map.add(featureLayer1);
+     
+    
+     
 
     })
   }
