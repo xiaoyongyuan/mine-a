@@ -48,6 +48,12 @@ class Pandect extends Component {
                         <List.Item key='ItemAlilse' onClick={()=>this.leftShowitem('spatialanalyze')}><i className="actionfont action-jichushujuguanli" /> 空间分析</List.Item>
                         <List.Item key='ItemMangeer' onClick={()=>this.leftShowitem('layermanagement')}><i className="actionfont action-guanli1" /> 图层管理</List.Item>
                         <List.Item key='ItemDh' onClick={()=>this.leftShowitem('miningnavigation')}><i className="actionfont action-daohang" /> 矿区导航</List.Item>
+                        {/*<List.Item key='ItemBaseData'><i className="actionfont action-shujuzonglan" /> 基础数据</List.Item>*/}
+                        {/*<List.Item key='ItemEquip'><i className="actionfont action-101" /> 监测设备</List.Item>*/}
+                        {/*<List.Item key='ItemYg'><i className="actionfont action-shebeiguanli" /> 遥感监测</List.Item>*/}
+                        {/*<List.Item key='ItemAlilse'><i className="actionfont action-jichushujuguanli" /> 空间分析</List.Item>*/}
+                        {/*<List.Item key='ItemMangeer'><i className="actionfont action-guanli1" /> 图层管理</List.Item>*/}
+                        {/*<List.Item key='ItemDh'><i className="actionfont action-daohang" /> 矿区导航</List.Item>*/}
                     </List>
                     <dl className="columndl">
                         <dt className="columndt">预警信息<a className="columndtright"></a></dt>
@@ -63,7 +69,6 @@ class Pandect extends Component {
                            <Egraph key='fuk' dataHeight='150' cahrtp='brokenline' /> 
                         </div>
                     </div>
-                    
                 </div>
             </div>
         );

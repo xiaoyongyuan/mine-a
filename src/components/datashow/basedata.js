@@ -10,6 +10,9 @@ class Basedata extends Component {
     componentDidMount(){
         
     }
+    shape = () =>{
+      alert("dd");
+    };
 
 
     render() {
@@ -21,7 +24,7 @@ class Basedata extends Component {
                 <div className="basedata-item">
                     130
                 </div>
-                <div className="basedata-item">
+                <div className="basedata-item" onClick={this.shape}>
                     形变监测网
                 </div>
                 <div className="basedata-item">

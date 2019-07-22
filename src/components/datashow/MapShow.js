@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import moment from 'moment';
-import { Icon} from 'antd'
+import {Icon, message,Modal} from 'antd'
 import ArcGISMap from './ArcGISMap';
 import Pandect from './Pandect';
 import Basedata from './basedata';
@@ -16,7 +16,9 @@ import logo from '../../style/imgs/logo.png';
 import globa from '../../style/imgs/globa.png';
 import pointer from '../../style/imgs/pointer.png';
 import hometitle from '../../style/imgs/hometitle.png';
+import axios from "../../axios";
 import './mapshow.less'
+const confirm = Modal.confirm;
 class MapShow extends Component {
     constructor(props){
         super(props);
@@ -66,15 +68,30 @@ class MapShow extends Component {
             }
         )
     };
+    hanleClose=()=>{
+        const _this=this;
+        confirm({
+            title: '退出',
+            content: '确认退出吗？',
+            onOk() {
+                axios.logout({}).then((res)=>{
+                    if(res.success){
+                        localStorage.removeItem('token');
+                        _this.props.history.push("/login")
+                    }else message.error(res.msg)
+                })
+            },
+        });
+    };
     render() {
         return (
             <div className="MapShow">
                 <div className="hometitle">
                     <img alt="" src={hometitle} width="100%" />
                 </div>
-                {/*<div className="arcgis">*/}
-                    {/*<ArcGISMap />*/}
-                {/*</div>*/}
+                <div className="arcgis">
+                    <ArcGISMap />
+                </div>
                 <div className="leftmove" style={this.state.tigclose?{transform:'translateX(-100%)'}:null} >
                     <div className="leftLayer" style={this.state.tigclose?{transform:'translateX(-100%)'}:null}>
                         <div className="leftmeun" style={{ display:this.state.display }}>
@@ -87,6 +104,9 @@ class MapShow extends Component {
                                 </a>
                                 <a href="#/main/companyinfo" className='filledsty'>
                                     <Icon type="setting" />
+                                </a>
+                                <a className='filledsty' onClick={this.hanleClose}>
+                                    <Icon type="poweroff" />
                                 </a>
                                 <a href="#/main/scheme" className='filledsty'>
                                     <Icon type="ellipsis" />
