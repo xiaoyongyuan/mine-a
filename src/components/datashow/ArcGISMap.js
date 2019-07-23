@@ -108,6 +108,11 @@ export default class ArcGISMap extends Component {
         // center : [110.3038,39.3027],
         map: map,
         container: "mapDiv",
+      //   camera: {
+      //     position: [110.25197636123258, 39.36945365936541, 1346],
+      //     heading: 300,
+      //     tilt: 60
+      // }
       });
       var lng = 110.25197636123258, lat = 39.36945365936541;
       //var lng = 110.31861554381501, lat = 39.308634009666775;
@@ -289,7 +294,7 @@ export default class ArcGISMap extends Component {
         //   portal:portal,
         //   id: "089bc8d0950c46ca8877902e0bb9dbb4"
         // }
-        url:"https://beidou.esrichina.com/server/rest/services/hagousssssasss/MapServer",
+        url:"https://beidou.esrichina.com/server/rest/services/halagou_yingxiang_q/MapServer",
         title: "Touristic attractions",
         elevationInfo: {
           mode: "relative-to-scene"
@@ -300,15 +305,17 @@ export default class ArcGISMap extends Component {
         },
       });
       map.add(permitsLayer);
-      // var elevLyr = new ElevationLayer({
-      //   // Custom elevation service
-      //   url: "https://beidou.esrichina.com/server/rest/services/halagou_30_kuada2_tif/ImageServer"
-      // });
-      // // Add elevation layer to the map's ground.
-      // map.ground.layers.add(elevLyr);
+
+
+      var elevLyr = new ElevationLayer({
+        // Custom elevation service
+        url: "https://120b482b.nat123.cc/server/rest/services/Hosted/DEM_2/ImageServer"
+      });
+      // Add elevation layer to the map's ground.
+      map.ground.layers.add(elevLyr);
 
       let featureLayer = new FeatureLayer({
-        url:"https://beidou.esrichina.com/server/rest/services/Hosted/bianjie/FeatureServer",
+        url:"https://120b482b.nat123.cc/server/rest/services/Hosted/bianjie/FeatureServer",
         title: "Touristic attractions",
         elevationInfo: {
           mode: "relative-to-scene"
@@ -318,10 +325,127 @@ export default class ArcGISMap extends Component {
           type: "selection"
         },
       })
-      map.add(featureLayer);
+      // map.add(featureLayer);
+
+      let featureLayer2 = new FeatureLayer({
+        url:"https://beidou.esrichina.com/server/rest/services/Hosted/cunzhuang/FeatureServer",
+        title: "Touristic attractions",
+        elevationInfo: {
+          mode: "relative-to-scene"
+        },
+        outFields: ["*"],
+        featureReduction: {
+          type: "selection"
+        },
+      })
+      map.add(featureLayer2);
 
       let featureLayer1 = new FeatureLayer({
-        url:"https://beidou.esrichina.com/server/rest/services/Hosted/chengjiang_jiance/FeatureServer",
+        url:"https://120b482b.nat123.cc/server/rest/services/Hosted/chengjiang_jiance5/FeatureServer",
+        popupTemplate: {
+          // autocasts as new PopupTemplate()
+          title: "{name}",
+           content: [
+            {
+              type: "fields", // FieldsContentElement
+              fieldInfos: [
+                {
+                  fieldName: "device_type",
+                  visible: true,
+                  label: "传感器",
+                  format: {
+                    places: 0,
+                    digitSeparator: true
+                  }
+                },
+                {
+                  fieldName: "monitor_network",
+                  visible: true,
+                  label: "监测网",
+                  format: {
+                    places: 0,
+                    digitSeparator: true
+                  },
+                  statisticType: "sum"
+                },
+                {
+                  fieldName: "x",
+                  visible: true,
+                  label: "x"
+                },
+                {
+                  fieldName: "y",
+                  visible: true,
+                  label: "y"
+                },
+                {
+                  fieldName: "z",
+                  visible: true,
+                  label: "z"
+                },
+                {
+                  fieldName: "jichushuju",
+                  visible: true,
+                  label: "基础数据"
+                },
+                {
+                  fieldName: "xianyoushuju",
+                  visible: true,
+                  label: "实时数据"
+                },
+                {
+                  fieldName: "shujuzongshu",
+                  visible: true,
+                  label: "数据总数"
+                }
+              ]
+            },
+            // {
+            //   type: "text", // TextContentElement
+            //   text:
+            //     "监测点"
+            // },
+            // {
+            //   type: "media", // MediaContentElement
+            //   mediaInfos: [
+            //     {
+            //       title: "<b>Count by type</b>",
+            //       type: "pie-chart",
+            //       caption: "",
+            //       value: {
+            //         fields: ["relationships/0/Point_Count_COMMON"],
+            //         normalizeField: null,
+            //         tooltipField: "relationships/0/COMMON"
+            //       }
+            //     },
+            //     {
+            //       title: "<b>Mexican Fan Palm</b>",
+            //       type: "image",
+            //       caption: "tree species",
+            //       value: {
+            //         sourceURL:
+            //           "https://www.sunset.com/wp-content/uploads/96006df453533f4c982212b8cc7882f5-800x0-c-default.jpg"
+            //       }
+            //     },
+            //     {
+            //       title: "<b>Indian Laurel Fig</b>",
+            //       caption: "tree species",
+            //       value: {
+            //         sourceURL:
+            //           "https://selectree.calpoly.edu/images/0600/09/original/ficus-microcarpa-tree-3.jpg"
+            //       }
+            //     }
+            //   ]
+            // },
+            {
+              // You can set a attachment element(s) within the popup as well.
+              // Similar to text and media elements, attachments can only be set
+              // within the content. Any attachmentInfos associated with the feature
+              // will be listed in the popup.
+              type: "attachments" // AttachmentsContentElement
+            }
+          ]
+        },
         title: "Touristic attractions",
           elevationInfo: {
             mode: "relative-to-scene"
@@ -333,6 +457,122 @@ export default class ArcGISMap extends Component {
       })
       map.add(featureLayer1);
      
+      let featureLayer3 = new FeatureLayer({
+        url:"https://120b482b.nat123.cc/server/rest/services/Hosted/xingbian_jiance4/FeatureServer",
+        popupTemplate: {
+          // autocasts as new PopupTemplate()
+          title: "{name}",
+          content: [
+            {
+              type: "fields", // FieldsContentElement
+              fieldInfos: [
+                {
+                  fieldName: "device_type",
+                  visible: true,
+                  label: "传感器",
+                  format: {
+                    places: 0,
+                    digitSeparator: true
+                  }
+                },
+                {
+                  fieldName: "monitor_network",
+                  visible: true,
+                  label: "监测网",
+                  format: {
+                    places: 0,
+                    digitSeparator: true
+                  },
+                  statisticType: "sum"
+                },
+                {
+                  fieldName: "x",
+                  visible: true,
+                  label: "x"
+                },
+                {
+                  fieldName: "y",
+                  visible: true,
+                  label: "y"
+                },
+                {
+                  fieldName: "z",
+                  visible: true,
+                  label: "z"
+                },
+                {
+                  fieldName: "jichushuju",
+                  visible: true,
+                  label: "基础数据"
+                },
+                {
+                  fieldName: "xianyoushuju",
+                  visible: true,
+                  label: "实时数据"
+                },
+                {
+                  fieldName: "shujuzongshu",
+                  visible: true,
+                  label: "数据总数"
+                }
+              ]
+            },
+            // {
+            //   type: "text", // TextContentElement
+            //   text:
+            //     "监测点"
+            // },
+            // {
+            //   type: "media", // MediaContentElement
+            //   mediaInfos: [
+            //     {
+            //       title: "<b>Count by type</b>",
+            //       type: "pie-chart",
+            //       caption: "",
+            //       value: {
+            //         fields: ["relationships/0/Point_Count_COMMON"],
+            //         normalizeField: null,
+            //         tooltipField: "relationships/0/COMMON"
+            //       }
+            //     },
+            //     {
+            //       title: "<b>Mexican Fan Palm</b>",
+            //       type: "image",
+            //       caption: "tree species",
+            //       value: {
+            //         sourceURL:
+            //           "https://www.sunset.com/wp-content/uploads/96006df453533f4c982212b8cc7882f5-800x0-c-default.jpg"
+            //       }
+            //     },
+            //     {
+            //       title: "<b>Indian Laurel Fig</b>",
+            //       caption: "tree species",
+            //       value: {
+            //         sourceURL:
+            //           "https://selectree.calpoly.edu/images/0600/09/original/ficus-microcarpa-tree-3.jpg"
+            //       }
+            //     }
+            //   ]
+            // },
+            {
+              // You can set a attachment element(s) within the popup as well.
+              // Similar to text and media elements, attachments can only be set
+              // within the content. Any attachmentInfos associated with the feature
+              // will be listed in the popup.
+              type: "attachments" // AttachmentsContentElement
+            }
+          ]
+        },
+        title: "Touristic attractions",
+          elevationInfo: {
+            mode: "relative-to-scene"
+          },
+          outFields: ["*"],
+          featureReduction: {
+            type: "selection"
+          },
+      })
+      map.add(featureLayer3);
     
      
 
