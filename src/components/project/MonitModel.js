@@ -53,20 +53,37 @@ class UploadModel extends Component {
   handleFilterSubmit = ()=>{//表单提交
     const _this=this;
       this.props.form.validateFields((err, values) => {
+          console.log("values",values);
+          console.log("code",this.state.code);
           if (!err) {
               var data={};
-              data.projectid=values.projectid;
-              data.itemtitle=values.itemtitle;
-              data.memo=values.memo;
-              data.filepath=values.filepath.fileList[0].url;
-              data.filepathcad=values.filepathcad.fileList[0].url;
-              data.filepathexcel=values.filepathexcel.fileList[0].url;
-              data.oldfilename = values.filepath.file.name;
-              data.oldcadfilename = values.filepathcad.file.name;
-              data.oldexcelfilename = values.filepathexcel.file.name;
-              _this.props.filterSubmit(data);
-              _this.props.form.resetFields();
-              _this.reset();
+              if(this.state.code){
+                  data.projectid=values.projectid;
+                  data.itemtitle=values.itemtitle;
+                  data.memo=values.memo;
+                  data.filepath=values.filepath.fileList[0].url;
+                  data.filepathcad=values.filepathcad.fileListcad[0].url;
+                  data.filepathexcel=values.filepathexcel.fileListexcel[0].url;
+                  data.oldfilename = values.filepath.fileList[0].name;
+                  data.oldcadfilename = values.filepathcad.fileListcad[0].name;
+                  data.oldexcelfilename = values.filepathexcel.fileListexcel[0].name;
+                  _this.props.filterSubmit(data);
+                  _this.props.form.resetFields();
+                  _this.reset();
+              }else {
+                  data.projectid=values.projectid;
+                  data.itemtitle=values.itemtitle;
+                  data.memo=values.memo;
+                  data.filepath=values.filepath.fileList[0].url;
+                  data.filepathcad=values.filepathcad.fileList[0].url;
+                  data.filepathexcel=values.filepathexcel.fileList[0].url;
+                  data.oldfilename = values.filepath.fileList[0].name;
+                  data.oldcadfilename = values.filepathcad.fileList[0].name;
+                  data.oldexcelfilename = values.filepathexcel.fileList[0].name;
+                  _this.props.filterSubmit(data);
+                  _this.props.form.resetFields();
+                  _this.reset();
+              }
           }
       });
   };
@@ -94,7 +111,20 @@ class UploadModel extends Component {
         this.fileList[fileurl]=switchUp?fileList:[]
     };
   removefile=(file,fileurl)=>{ //删除文件
-      this.fileList[fileurl]=[]
+      this.fileList[fileurl]=[];
+      const data={
+          filePath:file.url,
+      };
+      axios.ajax({
+          baseURL:window.g.fileURL,
+          method: 'get',
+          url: '/api/delFile',
+          data: data
+      }).then((res)=>{
+          if(res.success){
+              message.success('删除成功！');
+          }
+      },(res)=>{});
   };
   selectproj=(value)=>{
     const _this=this;
@@ -131,10 +161,65 @@ class UploadModel extends Component {
             }).then((res)=>{
                 if(res.success){
                     if(res.data){
+                        var fileList = [
+                            {
+                                name:res.data.oldfilename,
+                                url:res.data.filepath
+                            }
+                        ];
+                        var fileListcad = [
+                            {
+                                name:res.data.oldcadfilename,
+                                url:res.data.filepathcad
+                            }
+                        ];
+                        var fileListexcel = [
+                            {
+                                name:res.data.oldexcelfilename,
+                                url:res.data.filepathexcel
+                            }
+                        ];
+                        var obj  = {
+                            fileList
+                        };
+                        var objcad  = {
+                            fileListcad
+                        };
+                        var objexcel  = {
+                            fileListexcel
+                        };
+                        this.fileList={
+                            filepath:[
+                                {
+                                    uid: '-1',
+                                    name: res.data.oldfilename,
+                                    status: 'done',
+                                    url: res.data.filepath,
+                                },
+                            ],
+                            filepathcad:[
+                                {
+                                    uid: '-2',
+                                    name: res.data.oldcadfilename,
+                                    status: 'done',
+                                    url: res.data.filepathcad,
+                                },
+                            ],
+                            filepathexcel:[
+                                {
+                                    uid: '-3',
+                                    name: res.data.oldexcelfilename,
+                                    status: 'done',
+                                    url: res.data.filepathexcel,
+                                },
+                            ]
+                        };
                         this.props.form.setFieldsValue({
                             projectid:res.data.projectid,//项目名称
                             itemtitle:res.data.itemtitle,//名称
-                            // account:res.data.account,//用户名
+                            filepath:obj,
+                            filepathcad:objcad,
+                            filepathexcel:objexcel,
                             memo:res.data.memo,//备注
                         });
                     }

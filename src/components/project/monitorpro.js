@@ -44,7 +44,6 @@ class monitorpro extends Component {
     uploadOk=(params,id,itemtitle,projectid)=>{ //保存数据
         const _this=this;
         params.itemtype=11;
-        console.log("id",id);
         if(id && this.state.idstates === '1'){//变更
             this.setState({newShow:false});
             params.oldcode=id;

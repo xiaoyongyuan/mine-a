@@ -44,10 +44,30 @@ class UploadModel extends Component {
                 data: data
             }).then((res)=>{
                 if(res.success){
+                    var fileList = [
+                        {
+                            name:res.data.oldfilename,
+                            url:res.data.filepath
+                        }
+                    ];
+                    var obj  = {
+                        fileList
+                    };
+                    this.fileList={
+                        filepath:[
+                            {
+                                uid: '-1',
+                                name: res.data.oldfilename,
+                                status: 'done',
+                                url: res.data.filepath,
+                            },
+                        ],
+                    };
                     this.props.form.setFieldsValue({
                         projectname:res.data.projectname,//项目名称
                         memo:res.data.memo,//备注
                         doubledata:[moment(res.data.begindate),moment(res.data.enddate)],
+                        uploader:obj
                     });
                 }
             },(res)=>{});
@@ -70,7 +90,7 @@ class UploadModel extends Component {
                   data.filepath=values.uploader.fileList[0].url;
                   data.begindate=values.doubledata[0].format('YYYY-MM-DD');
                   data.enddate=values.doubledata[1].format('YYYY-MM-DD');
-                  data.oldfilename = values.uploader.file.name;
+                  data.oldfilename = values.uploader.fileList[0].name;
                 data.memo=values.memo;
                 _this.props.filterSubmit(data);
                 _this.props.form.resetFields();
@@ -81,6 +101,8 @@ class UploadModel extends Component {
 
     uploadchange=(info,fileurl)=>{ //上传文件
         let switchUp=true;
+        console.log("info",info);
+        console.log("fileurl",fileurl);
         let fileList = [...info.fileList];
         fileList = fileList.slice(-1);
         if( info.file.size / 1024 / 1024 > 100){ //只能上传100M以内的文件
@@ -103,7 +125,20 @@ class UploadModel extends Component {
     };
 
     removefile=(file,fileurl)=>{ //删除文件
-        this.fileList[fileurl]=[]
+        this.fileList[fileurl]=[];
+        const data={
+            filePath:file.url,
+        };
+        axios.ajax({
+            baseURL:window.g.fileURL,
+            method: 'get',
+            url: '/api/delFile',
+            data: data
+        }).then((res)=>{
+            if(res.success){
+                message.success('删除成功！');
+            }
+        },(res)=>{});
     };
 
   render() {
@@ -142,7 +177,7 @@ class UploadModel extends Component {
                                 message: '请输入标题',
                             }],
                         })(
-                            <Input key='montInput' />
+                            <Input key='montInputtitle' />
                         )
                     }
                 </FormItem>
@@ -175,7 +210,7 @@ class UploadModel extends Component {
                 <FormItem label='备注' key='memo'>
                     {
                         getFieldDecorator('memo')(
-                            <Input key='memoInput' />
+                            <Input key='memoInputmemo' />
                         )
                     }
                 </FormItem>

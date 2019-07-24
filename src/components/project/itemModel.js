@@ -51,10 +51,29 @@ class ItemModel extends Component {
             }).then((res)=>{
                 if(res.success){
                     if(res.data){
+                        var fileList = [
+                            {
+                                name:res.data.oldfilename,
+                                url:res.data.filepath
+                            }
+                        ];
+                        var obj  = {
+                            fileList
+                        };
+                        this.fileList={
+                            filepath:[
+                                {
+                                    uid: '-1',
+                                    name: res.data.oldfilename,
+                                    status: 'done',
+                                    url: res.data.filepath,
+                                },
+                            ],
+                        };
                         this.props.form.setFieldsValue({
                             projectid:res.data.projectid,//项目名称
                             itemtitle:res.data.itemtitle,//名称
-                            // account:res.data.account,//用户名
+                            filepath:obj,
                             memo:res.data.memo,//备注
                         });
                     }
@@ -77,7 +96,7 @@ class ItemModel extends Component {
               var data={};
               data.itemtitle=values.itemtitle;
               data.filepath=values.filepath.fileList[0].url;
-              data.oldfilename = values.filepath.file.name;
+              data.oldfilename = values.filepath.fileList[0].name;
               data.memo=values.memo;
               data.projectid=values.projectid;
               _this.props.filterSubmit(data);
@@ -111,7 +130,20 @@ class ItemModel extends Component {
         this.fileList[fileurl]=switchUp?fileList:[]
     };
   removefile=(file,fileurl)=>{ //删除文件
-      this.fileList[fileurl]=[]
+      this.fileList[fileurl]=[];
+      const data={
+          filePath:file.url,
+      };
+      axios.ajax({
+          baseURL:window.g.fileURL,
+          method: 'get',
+          url: '/api/delFile',
+          data: data
+      }).then((res)=>{
+          if(res.success){
+              message.success('删除成功！');
+          }
+      },(res)=>{});
   };
   render() {
       const property={
