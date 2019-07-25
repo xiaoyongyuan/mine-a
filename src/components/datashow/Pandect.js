@@ -42,18 +42,18 @@ class Pandect extends Component {
             <div className="Pandect">
                 <div className="pandectitem">
                     <List className='listitem' style={{marginLeft:'30px',marginRight:'30px'}}>
-                        {/*<List.Item key='ItemBaseData' onClick={()=>this.leftShowitem('basedata')}><i className="actionfont action-shujuzonglan" /> 基础数据</List.Item>*/}
-                        {/*<List.Item key='ItemEquip' onClick={()=>this.leftShowitem('monitorequip')}><i className="actionfont action-101" /> 监测设备</List.Item>*/}
-                        {/*<List.Item key='ItemYg' onClick={()=>this.leftShowitem('remotesensing')}><i className="actionfont action-shebeiguanli" /> 遥感监测</List.Item>*/}
-                        {/*<List.Item key='ItemAlilse' onClick={()=>this.leftShowitem('spatialanalyze')}><i className="actionfont action-jichushujuguanli" /> 空间分析</List.Item>*/}
-                        {/*<List.Item key='ItemMangeer' onClick={()=>this.leftShowitem('layermanagement')}><i className="actionfont action-guanli1" /> 图层管理</List.Item>*/}
-                        {/*<List.Item key='ItemDh' onClick={()=>this.leftShowitem('miningnavigation')}><i className="actionfont action-daohang" /> 矿区导航</List.Item>*/}
-                        <List.Item key='ItemBaseData'><i className="actionfont action-shujuzonglan" /> 基础数据</List.Item>
-                        <List.Item key='ItemEquip'><i className="actionfont action-101" /> 监测设备</List.Item>
-                        <List.Item key='ItemYg'><i className="actionfont action-shebeiguanli" /> 遥感监测</List.Item>
-                        <List.Item key='ItemAlilse'><i className="actionfont action-jichushujuguanli" /> 空间分析</List.Item>
-                        <List.Item key='ItemMangeer'><i className="actionfont action-guanli1" /> 图层管理</List.Item>
-                        <List.Item key='ItemDh'><i className="actionfont action-daohang" /> 矿区导航</List.Item>
+                        <List.Item key='ItemBaseData' onClick={()=>this.leftShowitem('basedata')}><i className="actionfont action-shujuzonglan" /> 基础数据</List.Item>
+                        <List.Item key='ItemEquip' onClick={()=>this.leftShowitem('monitorequip')}><i className="actionfont action-101" /> 监测设备</List.Item>
+                        <List.Item key='ItemYg' onClick={()=>this.leftShowitem('remotesensing')}><i className="actionfont action-shebeiguanli" /> 遥感监测</List.Item>
+                        <List.Item key='ItemAlilse' onClick={()=>this.leftShowitem('spatialanalyze')}><i className="actionfont action-jichushujuguanli" /> 空间分析</List.Item>
+                        <List.Item key='ItemMangeer' onClick={()=>this.leftShowitem('layermanagement')}><i className="actionfont action-guanli1" /> 图层管理</List.Item>
+                        <List.Item key='ItemDh' onClick={()=>this.leftShowitem('miningnavigation')}><i className="actionfont action-daohang" /> 矿区导航</List.Item>
+                        {/*<List.Item key='ItemBaseData'><i className="actionfont action-shujuzonglan" /> 基础数据</List.Item>*/}
+                        {/*<List.Item key='ItemEquip'><i className="actionfont action-101" /> 监测设备</List.Item>*/}
+                        {/*<List.Item key='ItemYg'><i className="actionfont action-shebeiguanli" /> 遥感监测</List.Item>*/}
+                        {/*<List.Item key='ItemAlilse'><i className="actionfont action-jichushujuguanli" /> 空间分析</List.Item>*/}
+                        {/*<List.Item key='ItemMangeer'><i className="actionfont action-guanli1" /> 图层管理</List.Item>*/}
+                        {/*<List.Item key='ItemDh'><i className="actionfont action-daohang" /> 矿区导航</List.Item>*/}
                     </List>
                     <dl className="columndl">
                         <dt className="columndt">预警信息<a className="columndtright"></a></dt>

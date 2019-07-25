@@ -148,7 +148,11 @@ class MapShow extends Component {
                         </div>
                         <div className="basedataShow" style={{ display:this.state.displaybasedata }}>
                             <div className="backup" onClick={()=>this.leftmoveShow('block')}>
-                                <span className="backupWord"><Icon type="rollback" />返回上一层</span>
+                                <div className="backupWord">
+                                    返回上一层
+                                    <Icon className="backupIcon" type="rollback" />
+                                </div>
+                                {/*<span className="backupWord"><Icon type="rollback" />返回上一层</span>*/}
                             </div>
                             {this.state.leftShow === 'basedata' ? <Basedata /> : null}
                             {this.state.leftShow === 'monitorequip' ? <Monitorequip /> : null}
