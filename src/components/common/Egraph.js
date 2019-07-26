@@ -501,9 +501,9 @@ class Egraph extends Component {
   };
   piechart=()=>{
       var val1data2 = [{
-          value: 0.5,
-          // name: '装配完成率',
-      },
+              value: 0.5,
+              // name: '装配完成率',
+          },
           {
               value: 0.3,
               // name: '班检完成率',
