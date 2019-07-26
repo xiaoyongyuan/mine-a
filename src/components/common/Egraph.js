@@ -513,20 +513,24 @@ class Egraph extends Component {
               // name: '初检完成率',
           },
           {
-              value: 0.8,
+              value: 0.2,
               // name: '复检完成率',
           },
           {
               value: 0.1,
               // name: '出厂检完成率',
           },
+          {
+              value: 0.3,
+              // name: '出厂检完成率',
+          },
       ];
 
-      var arr = ['middleLost', 0.6, val1data2, '今日完成进度'];
+      var arr = ['middleLost', 0.6, val1data2, '98%'];
       var option = {
           backgroundColor: 'transparent',
           title: {
-              top: '45%',
+              top: '40%',
               left: 'center',
               text: arr[3],
               textStyle: {
@@ -535,49 +539,36 @@ class Egraph extends Component {
                   fontWeight: 'normal',
                   fontSize: 14
               },
-              subtext: '(占所有数据的的' + (arr[1] * 10000 / 100).toFixed(2) + '%)',
+              subtext:'设备在线率',
               subtextStyle: {
                   color: '#fff',
-                  fontSize: 12
+                  fontSize: 8
               }
           },
-          // tooltip: {
-          //     trigger: 'item',
-          //     formatter: function(res) {
-          //         console.log(res)
-          //
-          //         if (res.componentSubType == 'liquidFill') {
-          //             return res.seriesName + ': ' + (res.value * 10000 / 100).toFixed(2) + '%';
-          //         } else {
-          //             return '<span class="ii" style="background:' + res.color + ' "></span>' + res.name + ':<br/> ' + res.data.value;
-          //         }
-          //     }
-          // },
           series: [{
               type: 'liquidFill',
               itemStyle: {
                   normal: {
                       opacity: 0.4,
                       shadowBlur: 0,
-                      shadowColor: 'blue'
+                      shadowColor: 'blue',
                   }
+              },
+              backgroundStyle: {
+                  color: '#1a2941'//底色
               },
               name: arr[3],
               data: [{
-                  value: 0.6,
+                  value: 0.65,
                   itemStyle: {
                       normal: {
-                          color: '#53d5ff',
-                          opacity: 0.6
+                          color: '#0d6389',
+                          opacity: 0.9//透明度
                       }
                   }
               }],
-              //  background: '#fff',
               color: ['#53d5ff'],
               center: ['50%', '50%'],
-              /*  backgroundStyle: {
-                    color: '#fff'
-                },*/
               label: {
                   normal: {
                       formatter: '',
@@ -594,20 +585,11 @@ class Egraph extends Component {
                   borderDistance: 0
               }
           },
-              {
+          {
                   type: 'pie',
-                  radius: ['42%', '50%'],
-                  color: ['#c487ee', '#deb140','#49dff0', '#034079', '#6f81da', '#00ffb4'],
+                  radius: ['50%', '80%'],
+                  color: ['#d15502', '#fadb14','#34da62', '#0096f3', '#1c459d', '#ad46f3','#bf080d'],
                   hoverAnimation: false, ////设置饼图默认的展开样式
-                  // label: {
-                  //     show: true,
-                  //
-                  //     normal: {
-                  //         formatter: '{b}\n{d}%',
-                  //         show: true,
-                  //         position: ''
-                  //     },
-                  // },
                   labelLine: {
                       normal: {
                           show: false
@@ -615,10 +597,6 @@ class Egraph extends Component {
                   },
 
                   itemStyle: { // 此配置
-                      normal: {
-                          borderWidth: 2,
-                          borderColor: '#fff',
-                      },
                       emphasis: {
                           borderWidth: 0,
                           shadowBlur: 2,
@@ -643,9 +621,6 @@ class Egraph extends Component {
         />
       </div>
     );
-
-
-
   }
 }
 
