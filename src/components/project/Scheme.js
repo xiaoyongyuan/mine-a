@@ -43,6 +43,7 @@ class Scheme extends Component {
       this.requestList()
     }
     handleFilterSubmit=(params)=>{ //查询
+        console.log('hhhhhh',params);
       this.params=params;
       this.params.pageindex=1;
       this.requestList();
@@ -83,7 +84,9 @@ class Scheme extends Component {
               }
           });
       }else {
+
           params.code=this.state.codetype;
+          console.log("hhhh", params.code);
           axios.ajax({
               baseURL:window.g.bizserviceURL,
               method: 'put',
@@ -162,7 +165,9 @@ class Scheme extends Component {
         const data={
             ids:this.state.code,
         };
+        console.log(this.state.code);
         const list=this.state.list;
+        console.log(this.state.list);
         list.splice(this.state.index,1);
         axios.ajax({
             baseURL:window.g.bizserviceURL,
