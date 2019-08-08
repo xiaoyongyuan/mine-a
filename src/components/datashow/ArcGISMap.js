@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import esriLoader from 'esri-loader'
-
 import './mapshow.less'
 
 export default class ArcGISMap extends Component {
@@ -29,16 +28,22 @@ export default class ArcGISMap extends Component {
       "esri/layers/ElevationLayer",
       "esri/widgets/Zoom",
     ], mapURL).then(([
+      // 小部件，没懂
       Locator,
+      // 管理和覆盖2D和3D查看共有的图层的属性和方法。
       Map,
       Basemap,
       Portal,
       SceneView,
       FeatureLayer,
       WebTileLayer,
+      // BasemapToggle允许最终用户在两个底图之间切换。比如实验点
       BasemapToggle,
+      // MapImageLayer允许您显示和分析地图服务中定义的子图层中的数据
       MapImageLayer,
+      // ElevationLayer是用于在SceneView中渲染高程的切片图层。通过将地图的地面属性设置为，可以将默认的世界高程图层添加到地图中。
       ElevationLayer,
+      // Zoom缩放窗口小部件允许用户在视图中放大/缩小。
       Zoom,
     ]) => {
 
@@ -77,7 +82,7 @@ export default class ArcGISMap extends Component {
 
       var portal = new Portal({
         // url:"https://120b482b.nat123.cc/arcgis"
-        url:"https://beidou.esrichina.com/arcgis"
+        url: "https://beidou.esrichina.com/arcgis"
       })
 
 
@@ -108,11 +113,11 @@ export default class ArcGISMap extends Component {
         // center : [110.3038,39.3027],
         map: map,
         container: "mapDiv",
-      //   camera: {
-      //     position: [110.25197636123258, 39.36945365936541, 1346],
-      //     heading: 300,
-      //     tilt: 60
-      // }
+        //   camera: {
+        //     position: [110.25197636123258, 39.36945365936541, 1346],
+        //     heading: 300,
+        //     tilt: 60
+        // }
       });
       var lng = 110.25197636123258, lat = 39.36945365936541;
       //var lng = 110.31861554381501, lat = 39.308634009666775;
@@ -294,7 +299,7 @@ export default class ArcGISMap extends Component {
         //   portal:portal,
         //   id: "089bc8d0950c46ca8877902e0bb9dbb4"
         // }
-        url:"https://beidou.esrichina.com/server/rest/services/halagou_yingxiang_q/MapServer",
+        url: "https://beidou.esrichina.com/server/rest/services/halagou_yingxiang_q/MapServer",
         title: "Touristic attractions",
         elevationInfo: {
           mode: "relative-to-scene"
@@ -315,7 +320,7 @@ export default class ArcGISMap extends Component {
       map.ground.layers.add(elevLyr);
 
       let featureLayer = new FeatureLayer({
-        url:"https://120b482b.nat123.cc/server/rest/services/Hosted/bianjie/FeatureServer",
+        url: "https://120b482b.nat123.cc/server/rest/services/Hosted/bianjie/FeatureServer",
         title: "Touristic attractions",
         elevationInfo: {
           mode: "relative-to-scene"
@@ -328,7 +333,7 @@ export default class ArcGISMap extends Component {
       // map.add(featureLayer);
 
       let featureLayer2 = new FeatureLayer({
-        url:"https://beidou.esrichina.com/server/rest/services/Hosted/cunzhuang/FeatureServer",
+        url: "https://beidou.esrichina.com/server/rest/services/Hosted/cunzhuang/FeatureServer",
         title: "Touristic attractions",
         elevationInfo: {
           mode: "relative-to-scene"
@@ -341,124 +346,7 @@ export default class ArcGISMap extends Component {
       map.add(featureLayer2);
 
       let featureLayer1 = new FeatureLayer({
-        url:"https://120b482b.nat123.cc/server/rest/services/Hosted/chengjiang_jiance5/FeatureServer",
-        popupTemplate: {
-          // autocasts as new PopupTemplate()
-          title: "{name}",
-           content: [
-            {
-              type: "fields", // FieldsContentElement
-              fieldInfos: [
-                {
-                  fieldName: "device_type",
-                  visible: true,
-                  label: "传感器",
-                  format: {
-                    places: 0,
-                    digitSeparator: true
-                  }
-                },
-                {
-                  fieldName: "monitor_network",
-                  visible: true,
-                  label: "监测网",
-                  format: {
-                    places: 0,
-                    digitSeparator: true
-                  },
-                  statisticType: "sum"
-                },
-                {
-                  fieldName: "x",
-                  visible: true,
-                  label: "x"
-                },
-                {
-                  fieldName: "y",
-                  visible: true,
-                  label: "y"
-                },
-                {
-                  fieldName: "z",
-                  visible: true,
-                  label: "z"
-                },
-                {
-                  fieldName: "jichushuju",
-                  visible: true,
-                  label: "基础数据"
-                },
-                {
-                  fieldName: "xianyoushuju",
-                  visible: true,
-                  label: "实时数据"
-                },
-                {
-                  fieldName: "shujuzongshu",
-                  visible: true,
-                  label: "数据总数"
-                }
-              ]
-            },
-            // {
-            //   type: "text", // TextContentElement
-            //   text:
-            //     "监测点"
-            // },
-            // {
-            //   type: "media", // MediaContentElement
-            //   mediaInfos: [
-            //     {
-            //       title: "<b>Count by type</b>",
-            //       type: "pie-chart",
-            //       caption: "",
-            //       value: {
-            //         fields: ["relationships/0/Point_Count_COMMON"],
-            //         normalizeField: null,
-            //         tooltipField: "relationships/0/COMMON"
-            //       }
-            //     },
-            //     {
-            //       title: "<b>Mexican Fan Palm</b>",
-            //       type: "image",
-            //       caption: "tree species",
-            //       value: {
-            //         sourceURL:
-            //           "https://www.sunset.com/wp-content/uploads/96006df453533f4c982212b8cc7882f5-800x0-c-default.jpg"
-            //       }
-            //     },
-            //     {
-            //       title: "<b>Indian Laurel Fig</b>",
-            //       caption: "tree species",
-            //       value: {
-            //         sourceURL:
-            //           "https://selectree.calpoly.edu/images/0600/09/original/ficus-microcarpa-tree-3.jpg"
-            //       }
-            //     }
-            //   ]
-            // },
-            {
-              // You can set a attachment element(s) within the popup as well.
-              // Similar to text and media elements, attachments can only be set
-              // within the content. Any attachmentInfos associated with the feature
-              // will be listed in the popup.
-              type: "attachments" // AttachmentsContentElement
-            }
-          ]
-        },
-        title: "Touristic attractions",
-          elevationInfo: {
-            mode: "relative-to-scene"
-          },
-          outFields: ["*"],
-          featureReduction: {
-            type: "selection"
-          },
-      })
-      map.add(featureLayer1);
-     
-      let featureLayer3 = new FeatureLayer({
-        url:"https://120b482b.nat123.cc/server/rest/services/Hosted/xingbian_jiance4/FeatureServer",
+        url: "https://120b482b.nat123.cc/server/rest/services/Hosted/chengjiang_jiance5/FeatureServer",
         popupTemplate: {
           // autocasts as new PopupTemplate()
           title: "{name}",
@@ -564,17 +452,134 @@ export default class ArcGISMap extends Component {
           ]
         },
         title: "Touristic attractions",
-          elevationInfo: {
-            mode: "relative-to-scene"
-          },
-          outFields: ["*"],
-          featureReduction: {
-            type: "selection"
-          },
+        elevationInfo: {
+          mode: "relative-to-scene"
+        },
+        outFields: ["*"],
+        featureReduction: {
+          type: "selection"
+        },
+      })
+      map.add(featureLayer1);
+
+      let featureLayer3 = new FeatureLayer({
+        url: "https://120b482b.nat123.cc/server/rest/services/Hosted/xingbian_jiance4/FeatureServer",
+        popupTemplate: {
+          // autocasts as new PopupTemplate()
+          title: "{name}",
+          content: [
+            {
+              type: "fields", // FieldsContentElement
+              fieldInfos: [
+                {
+                  fieldName: "device_type",
+                  visible: true,
+                  label: "传感器",
+                  format: {
+                    places: 0,
+                    digitSeparator: true
+                  }
+                },
+                {
+                  fieldName: "monitor_network",
+                  visible: true,
+                  label: "监测网",
+                  format: {
+                    places: 0,
+                    digitSeparator: true
+                  },
+                  statisticType: "sum"
+                },
+                {
+                  fieldName: "x",
+                  visible: true,
+                  label: "x"
+                },
+                {
+                  fieldName: "y",
+                  visible: true,
+                  label: "y"
+                },
+                {
+                  fieldName: "z",
+                  visible: true,
+                  label: "z"
+                },
+                {
+                  fieldName: "jichushuju",
+                  visible: true,
+                  label: "基础数据"
+                },
+                {
+                  fieldName: "xianyoushuju",
+                  visible: true,
+                  label: "实时数据"
+                },
+                {
+                  fieldName: "shujuzongshu",
+                  visible: true,
+                  label: "数据总数"
+                }
+              ]
+            },
+            // {
+            //   type: "text", // TextContentElement
+            //   text:
+            //     "监测点"
+            // },
+            // {
+            //   type: "media", // MediaContentElement
+            //   mediaInfos: [
+            //     {
+            //       title: "<b>Count by type</b>",
+            //       type: "pie-chart",
+            //       caption: "",
+            //       value: {
+            //         fields: ["relationships/0/Point_Count_COMMON"],
+            //         normalizeField: null,
+            //         tooltipField: "relationships/0/COMMON"
+            //       }
+            //     },
+            //     {
+            //       title: "<b>Mexican Fan Palm</b>",
+            //       type: "image",
+            //       caption: "tree species",
+            //       value: {
+            //         sourceURL:
+            //           "https://www.sunset.com/wp-content/uploads/96006df453533f4c982212b8cc7882f5-800x0-c-default.jpg"
+            //       }
+            //     },
+            //     {
+            //       title: "<b>Indian Laurel Fig</b>",
+            //       caption: "tree species",
+            //       value: {
+            //         sourceURL:
+            //           "https://selectree.calpoly.edu/images/0600/09/original/ficus-microcarpa-tree-3.jpg"
+            //       }
+            //     }
+            //   ]
+            // },
+            {
+              // You can set a attachment element(s) within the popup as well.
+              // Similar to text and media elements, attachments can only be set
+              // within the content. Any attachmentInfos associated with the feature
+              // will be listed in the popup.
+              type: "attachments" // AttachmentsContentElement
+            }
+          ]
+        },
+        title: "Touristic attractions",
+        elevationInfo: {
+          mode: "relative-to-scene"
+        },
+        outFields: ["*"],
+        featureReduction: {
+          type: "selection"
+        },
       })
       map.add(featureLayer3);
-    
-     
+
+
 
     })
   }

@@ -10,6 +10,9 @@ import CheckReport from "./CheckReport.js";
 import Utils from "../../utils/utils";
 import "../../style/jhy/css/dotdetails.less";
 
+
+
+
 const { TabPane } = Tabs;
 const realdatalist = [
     {

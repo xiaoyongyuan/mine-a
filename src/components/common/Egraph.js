@@ -17,7 +17,6 @@ class Egraph extends Component {
     };
 
   }
-
   componentDidMount(){
     const cahrtp=this.props.cahrtp;
     const data={ //进度测试数据
