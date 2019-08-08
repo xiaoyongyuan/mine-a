@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Egraph from './../common/Egraph'
-import './mapshow.less'
+// import './mapshow.less'
 class Remotesensing extends Component {
     constructor(props){
         super(props);
@@ -17,7 +17,7 @@ class Remotesensing extends Component {
         
         return (
             <div className="Remotesensing">
-                <div>
+                <div className="RemoteAll">
                     遥感监测
                 </div>
             </div>

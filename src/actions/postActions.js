@@ -1,18 +1,12 @@
-import { TOW_POST, NEW_POST } from './types';
+import { Earth } from './types';
 
 // 分发操作
 
 
-export const createPost = postData => dispatch => {
+export const ChangeEarth = postData => dispatch => {
   dispatch({
-    type: NEW_POST,
+    type: Earth,
     payload: postData
   })
 }
 
-export const goba = postData => dispatch => {
-  dispatch({
-    type: TOW_POST,
-    payload: postData
-  })
-}

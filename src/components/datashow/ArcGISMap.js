@@ -1,18 +1,28 @@
 import React, { Component } from 'react'
 import esriLoader from 'esri-loader'
 import './mapshow.less'
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { isNull } from 'util';
 
-export default class ArcGISMap extends Component {
+class ArcGISMap extends Component {
   constructor(props) {
     super(props);
     // this.tileMapUrl = "http://map.geoq.cn/ArcGIS/rest/services/ChinaOnlineStreetPurplishBlue/MapServer"
+    this.state={
+      view:null,
+      map:null,
+      FeatureLayer:null,
+      taskLayer:null,
+    }
   }
   componentDidMount() {
     this.initMap()
   }
   initMap() {
     const mapURL = {
-      url: "https://js.arcgis.com/4.12/"
+      url: "http://192.168.10.29:8080/arcgis/arcgis_js_api/library/4.11/dojo/dojo.js"
+     // url: "https://js.arcgis.com/4.12/"
       // url:window.g.mapURL+"/arcgis/arcgis_js_api/library/4.11/dojo/dojo.js"
     };
     esriLoader.loadModules([
@@ -46,6 +56,7 @@ export default class ArcGISMap extends Component {
       // Zoom缩放窗口小部件允许用户在视图中放大/缩小。
       Zoom,
     ]) => {
+      this.state.FeatureLayer=FeatureLayer;
 
       var mapBaseLayer = new WebTileLayer({
         urlTemplate:
@@ -75,72 +86,50 @@ export default class ArcGISMap extends Component {
         }
       };
 
-      var locatorTask = new Locator({
-        url: "https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer"
-      });
+    
 
 
       var portal = new Portal({
-        // url:"https://120b482b.nat123.cc/arcgis"
         url: "https://beidou.esrichina.com/arcgis"
       })
 
 
-      // Create a Map instance
-      let map = new Map({
+      // 创建底图
+      this.state.map = new Map({
         basemap: "satellite",
         ground: "world-elevation"
       });
 
-      //   var webscene = new WebScene({
-      //     portalItem: {  // autocasts as new PortalItem()
-      //         portal:portal,
-      //         id: "1fc3141f035d4666a54899ea68d72bb4"
-      //     }
-      // });
 
 
 
-      // map.addLayer(featureLayer,1);
-      // Create a MapView instance (for 2D viewing) and reference the map instance
-      // let view = new MapView({
-      //   center : [120.2, 32.1],
-      //   map: map,
-      //   container : "mapDiv",
-      //   zoom:5
-      // });
-      let view = new SceneView({
+   
+     let  _this = this;
+
+      this.state.view = new SceneView({
         // center : [110.3038,39.3027],
-        map: map,
+        map: _this.state.map,
         container: "mapDiv",
-        //   camera: {
-        //     position: [110.25197636123258, 39.36945365936541, 1346],
-        //     heading: 300,
-        //     tilt: 60
-        // }
       });
+      //清空view组件
+      this.state.view.ui.empty("top-left");
       var lng = 110.25197636123258, lat = 39.36945365936541;
-      //var lng = 110.31861554381501, lat = 39.308634009666775;
-      // var lng = -111.848111, lat = 40.713906;
-      view.goTo({
-        // center: [110.3038,39.3027],
+      //初次加载跳转到地图中心点
+      this.state.view.goTo({
         heading: 246.50443209217798,
         tilt: 73.67726241280418,
         center: [lng, lat],
         zoom: 14,
       });
-      // latitude: 40.713906,
-      // longitude: -111.848111,
-      //这段主要是为了寻找合适的camera视角，设置好了就注释掉了
-      // 39.36945365936541
-      // longitude: 110.25197636123258
-      view.on("click", function (e) {
-        console.log(view.center);
+    
+      this.state.view.on("click", function (e) {
+        //console.log(view.center);
       });
-      view.when(function () {
+      
+      this.state.view.when(function () {
         var toggle = new BasemapToggle({
           titleVisible: true,
-          view: view,
+          view: _this.state.view,
           nextBasemap: stamen
         });
 
@@ -229,11 +218,12 @@ export default class ArcGISMap extends Component {
         //   view: view
         // });
         let zoom = new Zoom({
-          view: view
+          view: _this.state.view
         });
-        view.ui._removeComponents(["attribution", "navigation-toggle", "compass", "zoom"]);
-        view.ui.add(zoom, "bottom-right");
-        view.ui.add(toggle, "top-right");
+        
+        //this.state.view.ui._removeComponents(["attribution", "navigation-toggle", "compass", "zoom"]);
+       // this.state.view.ui.add(zoom, "bottom-right");
+        //this.state.view.ui.add(toggle, "top-right");
 
         //     var g = new Graphic({
         //       "geometry": { "type": "point", "latitude": lat, "longitude": lng, "spatialReference": { "wkid": 4326 } },
@@ -309,7 +299,7 @@ export default class ArcGISMap extends Component {
           type: "selection"
         },
       });
-      map.add(permitsLayer);
+      this.state.map.add(permitsLayer);
 
 
       var elevLyr = new ElevationLayer({
@@ -317,7 +307,7 @@ export default class ArcGISMap extends Component {
         url: "https://120b482b.nat123.cc/server/rest/services/Hosted/DEM_2/ImageServer"
       });
       // Add elevation layer to the map's ground.
-      map.ground.layers.add(elevLyr);
+     // this.state.map.ground.layers.add(elevLyr);
 
       let featureLayer = new FeatureLayer({
         url: "https://120b482b.nat123.cc/server/rest/services/Hosted/bianjie/FeatureServer",
@@ -333,7 +323,7 @@ export default class ArcGISMap extends Component {
       // map.add(featureLayer);
 
       let featureLayer2 = new FeatureLayer({
-        url: "https://beidou.esrichina.com/server/rest/services/Hosted/cunzhuang/FeatureServer",
+        url: "https://beidou.esrichina.com/server/rest/services/Hosted/xingbian_jiance4/FeatureServer",
         title: "Touristic attractions",
         elevationInfo: {
           mode: "relative-to-scene"
@@ -343,245 +333,33 @@ export default class ArcGISMap extends Component {
           type: "selection"
         },
       })
-      map.add(featureLayer2);
+      //this.state.map.add(featureLayer2);
+      //this.state.map.add(featureLayer2);
 
-      let featureLayer1 = new FeatureLayer({
-        url: "https://120b482b.nat123.cc/server/rest/services/Hosted/chengjiang_jiance5/FeatureServer",
-        popupTemplate: {
-          // autocasts as new PopupTemplate()
-          title: "{name}",
-          content: [
-            {
-              type: "fields", // FieldsContentElement
-              fieldInfos: [
-                {
-                  fieldName: "device_type",
-                  visible: true,
-                  label: "传感器",
-                  format: {
-                    places: 0,
-                    digitSeparator: true
-                  }
-                },
-                {
-                  fieldName: "monitor_network",
-                  visible: true,
-                  label: "监测网",
-                  format: {
-                    places: 0,
-                    digitSeparator: true
-                  },
-                  statisticType: "sum"
-                },
-                {
-                  fieldName: "x",
-                  visible: true,
-                  label: "x"
-                },
-                {
-                  fieldName: "y",
-                  visible: true,
-                  label: "y"
-                },
-                {
-                  fieldName: "z",
-                  visible: true,
-                  label: "z"
-                },
-                {
-                  fieldName: "jichushuju",
-                  visible: true,
-                  label: "基础数据"
-                },
-                {
-                  fieldName: "xianyoushuju",
-                  visible: true,
-                  label: "实时数据"
-                },
-                {
-                  fieldName: "shujuzongshu",
-                  visible: true,
-                  label: "数据总数"
-                }
-              ]
-            },
-            // {
-            //   type: "text", // TextContentElement
-            //   text:
-            //     "监测点"
-            // },
-            // {
-            //   type: "media", // MediaContentElement
-            //   mediaInfos: [
-            //     {
-            //       title: "<b>Count by type</b>",
-            //       type: "pie-chart",
-            //       caption: "",
-            //       value: {
-            //         fields: ["relationships/0/Point_Count_COMMON"],
-            //         normalizeField: null,
-            //         tooltipField: "relationships/0/COMMON"
-            //       }
-            //     },
-            //     {
-            //       title: "<b>Mexican Fan Palm</b>",
-            //       type: "image",
-            //       caption: "tree species",
-            //       value: {
-            //         sourceURL:
-            //           "https://www.sunset.com/wp-content/uploads/96006df453533f4c982212b8cc7882f5-800x0-c-default.jpg"
-            //       }
-            //     },
-            //     {
-            //       title: "<b>Indian Laurel Fig</b>",
-            //       caption: "tree species",
-            //       value: {
-            //         sourceURL:
-            //           "https://selectree.calpoly.edu/images/0600/09/original/ficus-microcarpa-tree-3.jpg"
-            //       }
-            //     }
-            //   ]
-            // },
-            {
-              // You can set a attachment element(s) within the popup as well.
-              // Similar to text and media elements, attachments can only be set
-              // within the content. Any attachmentInfos associated with the feature
-              // will be listed in the popup.
-              type: "attachments" // AttachmentsContentElement
-            }
-          ]
-        },
-        title: "Touristic attractions",
-        elevationInfo: {
-          mode: "relative-to-scene"
-        },
-        outFields: ["*"],
-        featureReduction: {
-          type: "selection"
-        },
-      })
-      map.add(featureLayer1);
+      
 
-      let featureLayer3 = new FeatureLayer({
-        url: "https://120b482b.nat123.cc/server/rest/services/Hosted/xingbian_jiance4/FeatureServer",
-        popupTemplate: {
-          // autocasts as new PopupTemplate()
-          title: "{name}",
-          content: [
-            {
-              type: "fields", // FieldsContentElement
-              fieldInfos: [
-                {
-                  fieldName: "device_type",
-                  visible: true,
-                  label: "传感器",
-                  format: {
-                    places: 0,
-                    digitSeparator: true
-                  }
-                },
-                {
-                  fieldName: "monitor_network",
-                  visible: true,
-                  label: "监测网",
-                  format: {
-                    places: 0,
-                    digitSeparator: true
-                  },
-                  statisticType: "sum"
-                },
-                {
-                  fieldName: "x",
-                  visible: true,
-                  label: "x"
-                },
-                {
-                  fieldName: "y",
-                  visible: true,
-                  label: "y"
-                },
-                {
-                  fieldName: "z",
-                  visible: true,
-                  label: "z"
-                },
-                {
-                  fieldName: "jichushuju",
-                  visible: true,
-                  label: "基础数据"
-                },
-                {
-                  fieldName: "xianyoushuju",
-                  visible: true,
-                  label: "实时数据"
-                },
-                {
-                  fieldName: "shujuzongshu",
-                  visible: true,
-                  label: "数据总数"
-                }
-              ]
-            },
-            // {
-            //   type: "text", // TextContentElement
-            //   text:
-            //     "监测点"
-            // },
-            // {
-            //   type: "media", // MediaContentElement
-            //   mediaInfos: [
-            //     {
-            //       title: "<b>Count by type</b>",
-            //       type: "pie-chart",
-            //       caption: "",
-            //       value: {
-            //         fields: ["relationships/0/Point_Count_COMMON"],
-            //         normalizeField: null,
-            //         tooltipField: "relationships/0/COMMON"
-            //       }
-            //     },
-            //     {
-            //       title: "<b>Mexican Fan Palm</b>",
-            //       type: "image",
-            //       caption: "tree species",
-            //       value: {
-            //         sourceURL:
-            //           "https://www.sunset.com/wp-content/uploads/96006df453533f4c982212b8cc7882f5-800x0-c-default.jpg"
-            //       }
-            //     },
-            //     {
-            //       title: "<b>Indian Laurel Fig</b>",
-            //       caption: "tree species",
-            //       value: {
-            //         sourceURL:
-            //           "https://selectree.calpoly.edu/images/0600/09/original/ficus-microcarpa-tree-3.jpg"
-            //       }
-            //     }
-            //   ]
-            // },
-            {
-              // You can set a attachment element(s) within the popup as well.
-              // Similar to text and media elements, attachments can only be set
-              // within the content. Any attachmentInfos associated with the feature
-              // will be listed in the popup.
-              type: "attachments" // AttachmentsContentElement
-            }
-          ]
-        },
-        title: "Touristic attractions",
-        elevationInfo: {
-          mode: "relative-to-scene"
-        },
-        outFields: ["*"],
-        featureReduction: {
-          type: "selection"
-        },
-      })
-      map.add(featureLayer3);
 
 
 
     })
+  }
+  componentWillUpdate(nextProps) {
+    if(this.state.taskLayer){
+      this.state.map.remove(this.state.taskLayer);
+    }
+  let url=nextProps.newPost.url;
+    this.state.taskLayer = new this.state.FeatureLayer({
+      url: url,
+        title: "Touristic attractions",
+        elevationInfo: {
+          mode: "relative-to-scene"
+        },
+        outFields: ["*"],
+        featureReduction: {
+          type: "selection"
+        },
+    });
+    this.state.map.add(this.state.taskLayer);
   }
   render() {
     return (
@@ -590,4 +368,9 @@ export default class ArcGISMap extends Component {
       </div>
     )
   }
+
 }
+const mapStateToProps = state => ({
+  newPost: state.posts.item
+})
+export default connect(mapStateToProps, { })(ArcGISMap);

@@ -13,7 +13,7 @@ export default class BaseEchart extends Component {
                 grid: {
                     left: '5%',
                     top: '12%',
-                    right: '5%',
+                    right: '10%',
                     bottom: '8%',
                     containLabel: true
                 },
