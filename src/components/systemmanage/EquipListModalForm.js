@@ -91,8 +91,8 @@ class EquipListModalForm extends Component{
                                     required: true, message: '请选择设备列表文件!',
                                 }],
                             })(
-                                <Upload fileList={this.fileList.filepath} onChange={(info)=>this.handleChange(info,'filepath')} {...property}>
-                                    <Button>
+                                <Upload fileList={this.fileList.filepath} {...property} accept='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-excel' onChange={(info)=>this.handleChange(info,'filepath')} onRemove={(info)=>this.removefile(info,'filepath')}>
+                                   <Button>
                                         <Icon type="upload" /> 导入设备列表
                                     </Button>
                                 </Upload>

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {Button, message, Modal } from 'antd'
+import {Button, message, Modal,Icon } from 'antd'
 import axios from '../../axios'
 import Utils from "../../utils/utils";
 import BaseForm from "../common/BaseForm"
@@ -25,7 +25,10 @@ class Funds extends Component {
           list:[{id:'0',text:'转入'},{id:'1',text:'转出'}]
         },{
           type: 'InputNumber',
+
           label: '金额',
+          addonAfter:'(万元)',
+
           field:'money',
           rules: [{
                required: true, message: '请输入金额!',
@@ -79,6 +82,8 @@ class Funds extends Component {
                     list:list
                 });
                 this.requestList();
+                // console.log("新增清空",list);
+
             }
         },()=>{});
     };
@@ -150,10 +155,12 @@ class Funds extends Component {
           <Modal
           title="新增"
           visible={this.state.newShow}
+
           onCancel={()=>this.changeState('newShow',false)}
           footer={null}
         >
-            <BaseForm formList={this.formList} filterSubmit={this.layerSubmit} uploadreset={()=>this.changeState('newShow',false)} />
+
+            <BaseForm formList={this.formList}  filterSubmit={this.layerSubmit} uploadreset={()=>this.changeState('newShow',false)} />
         </Modal>
       </div>
     );

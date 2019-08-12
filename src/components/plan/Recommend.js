@@ -14,7 +14,7 @@ class Recommend extends Component {
       list:[],
       page:1,
       pagination:{},
-        recommendtype: '2',
+        recommendtype: '1',
         plantype:[], //类别
         selecttype:'' //选择的类别
     };
@@ -35,11 +35,11 @@ class Recommend extends Component {
   }
   requestList=()=>{
       this.params.recommendtype=this.state.recommendtype;
-      this.params.plantype=this.state.selecttype || 0;
+      this.params.plantype=this.state.selecttype;
       axios.ajax({
         baseURL:window.g.bizserviceURL,
         method: 'get',
-        url: '/api/getPlanByRecommendtype',
+        url: '/api/sysOrEnterprisePlan',
         data:this.params,
       }).then((res)=>{
         if(res.success){
@@ -102,8 +102,8 @@ class Recommend extends Component {
             <Row>
                 <Col span={12}>
                     <Radio.Group value={recommendtype} onChange={this.handleSizeChange}>
-                        <Radio.Button value="2">系统推荐预案</Radio.Button>
-                        <Radio.Button value="1">企业预案</Radio.Button>
+                        <Radio.Button style={{verticalAlign:"middle"}} value="1">系统预案</Radio.Button>
+                        <Radio.Button style={{verticalAlign:"middle"}} value="0">企业预案</Radio.Button>
                     </Radio.Group>
                 </Col>
                 <Col span={12} className="query-col">

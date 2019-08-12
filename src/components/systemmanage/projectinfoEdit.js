@@ -23,7 +23,9 @@ class projectinfoEdit extends Component {
         }).then((res)=>{
             if(res.success){
                 if(res.data !== null) {
+                    console.log(res);
                     this.setState({
+                        code:res.data.code,//編碼
                         projectcname: res.data.projectname,
                         intro: res.data.projectmemo,
                         projectusername: res.data.linkmen,//项目联系人
@@ -91,7 +93,7 @@ class projectinfoEdit extends Component {
             linktel:this.state.linktel,
         });
         const data={
-           code:"1",
+            code:this.state.code,
             projectname:this.state.projectcname,
             projectmemo:this.state.intro,
             location:this.state.addrs,
@@ -227,6 +229,7 @@ class projectinfoEdit extends Component {
                         </Col>
                         <Col span={21} className="t_l">
                            <Input  onChange={this.InputProjectNameOnchange.bind(this)} value={this.state.projectcname} />
+                            <Input  value={this.state.code} type="hidden"/>
                         </Col>
                     </Row>
                     <Row className="equ_row">
