@@ -43,8 +43,10 @@ class Login extends Component {
                   method: 'post',
                   url: '/login/userInfo',
               }).then((res)=>{
+                  console.log(res);
                   localStorage.setItem("username", res.account);
                   localStorage.setItem("userRole",res.power);
+                  localStorage.setItem("companyCode",res.companycode);
               });
           }else{
             message.warn('用户名或密码错误！')

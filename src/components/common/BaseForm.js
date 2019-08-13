@@ -96,6 +96,7 @@ class FilterForm extends React.Component {
     const { getFieldDecorator } = this.props.form;
     const formList = this.props.formList;
     const formItemList = [];
+
     if (formList.item && formList.item.length > 0) {
       formList.item.forEach((item, i) => {
         if (item.type === "RANGPICKER") {
@@ -180,13 +181,13 @@ class FilterForm extends React.Component {
                 rules: item.rules,
                 initialValue: item.initialValue //true | false
               })(
-                <InputNumber
-                  formatter={value =>
-                    `$ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+                <InputNumber style={{ marginRight:"5px" }}
+                  formatter={(value) =>
+                    ` $${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ",")
                   }
                   parser={value => value.replace(/\$\s?|(,*)/g, "")}
                 />
-              )}
+              )}万元
             </FormItem>
           );
           formItemList.push(inputNumber);
@@ -335,7 +336,7 @@ class FilterForm extends React.Component {
             {this.initFormList()}
           </Form>
         ) : (
-          <Form className="baseform" {...formItemLayout}>
+          <Form className="baseform" {...formItemLayout} >
             {this.initFormList()}
           </Form>
         )}

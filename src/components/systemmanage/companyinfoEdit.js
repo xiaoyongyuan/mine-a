@@ -18,17 +18,16 @@ class companyinfoEdit extends Component {
         this.requestList();
     };
     requestList = ()=>{
-        const quparams = {
-            code: 1,
-        };
+
         axios.ajax({
             baseURL:window.g.fileURL,
             method: 'get',
-            url: '/api/companyById',
-            data: quparams,
+            url: '/api/companyByLoginUser',
+
         }).then((res)=>{
             if(res.success){
                 this.setState({
+                    code:res.data.code,//編碼
                     cname:res.data.cname,//企业名称
                     addrs:res.data.location,//企业地址
                     username:res.data.legalperson,//法人
@@ -36,7 +35,6 @@ class companyinfoEdit extends Component {
                     tel:res.data.linktel,//联系电话
                     email:res.data.emailaddress,
                     zcaddrs:res.data.address,//企业注册地址
-                    khdate:res.data.khdate,
                     projectcname:res.data.cname,
                     intro:res.data.currentinfo,
                     projectusername:res.data.linkmen,//项目联系人
@@ -83,7 +81,6 @@ class companyinfoEdit extends Component {
             isEdite:false,
             oldtel:this.state.tel,
             oldemail:this.state.email,
-            oldkhdate:this.state.khdate,
             oldprojectcname:this.state.projectcname,
             oldintro:this.state.intro,
             oldprojectusername:this.state.projectusername,
@@ -119,7 +116,6 @@ class companyinfoEdit extends Component {
             isEdite:true,
             tel:this.state.tel,
             email:this.state.email,
-            khdate:this.state.khdate,
             projectcname:this.state.projectcname,
             intro:this.state.intro,
             projectusername:this.state.projectusername,
@@ -129,7 +125,7 @@ class companyinfoEdit extends Component {
             zcaddrs:this.state.zcaddrs,
         });
         const data={
-            code:"1",
+            code:this.state.code,
             cname:this.state.cname,
             location:this.state.addrs,
             legalperson:this.state.username,
@@ -192,12 +188,6 @@ class companyinfoEdit extends Component {
     InputzcaddrsOnchange = (e) =>{
         this.setState({
             zcaddrs:e.target.value
-        })
-    };
-    //开户时间
-    InputkhdateOnchange = (e) =>{
-        this.setState({
-            khdate:e.target.value
         })
     };
     //项目名称
@@ -271,6 +261,7 @@ class companyinfoEdit extends Component {
                         </Col>
                         <Col span={21} className="t_l">
                              <Input onChange={this.InputonChange.bind(this)} value={this.state.cname} />
+                             <Input  value={this.state.code} type="hidden"/>
                         </Col>
                     </Row>
                     <Row className="equ_row">
@@ -341,14 +332,6 @@ class companyinfoEdit extends Component {
                         </Col>
                         <Col span={21} className="t_l">
                            <Input   onChange={this.InputzcaddrsOnchange.bind(this)} value={this.state.zcaddrs} />
-                        </Col>
-                    </Row>
-                    <Row className="equ_row">
-                        <Col span={3} className="t_r">
-                            开户时间：
-                        </Col>
-                        <Col span={21} className="t_l">
-                           <Input  onChange={this.InputkhdateOnchange.bind(this)} value={this.state.khdate} />
                         </Col>
                     </Row>
                     <Row className="equ_row">

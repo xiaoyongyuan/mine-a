@@ -14,7 +14,7 @@ class MyPlan extends Component {
       list:[],
       pageindex:1,
       pagination:{},
-      plantype:[], //类别
+      code:[], //类别
       selecttype:'' //选择的类别
     };
   }
@@ -35,22 +35,22 @@ class MyPlan extends Component {
           method: 'get',
           url: '/api/dictionary',
           data: {
-              dtype:'PLANTYPE',
+              type:'PLANTYPE',
           }
       }).then((res)=>{
           if(res.success){
               this.setState({
-                  plantype:res.data
+                  code:res.data
               })
           }
       });
   };
   getPlanByPlantype=()=>{
-      this.params.plantype=this.state.selecttype || 0;
+      this.params.code=this.state.selecttype || 0;
       axios.ajax({
           baseURL:window.g.bizserviceURL,
           method: 'get',
-          url: '/api/getPlanByPlantype',
+          url: 'api/plan',
           data: this.params
       }).then((res)=>{
           if(res.success){
@@ -74,7 +74,7 @@ class MyPlan extends Component {
                   <Select defaultValue={this.state.selecttype} style={{ width: 120 }} onChange={this.selectopt}>
                       <Option value='' key='ss'>所有</Option>
                       {
-                        this.state.plantype.map((el)=>(
+                        this.state.code.map((el)=>(
                           <Option value={el.dvalue} key={el.dvalue}>{el.dname}</Option>
                         ))
                       }

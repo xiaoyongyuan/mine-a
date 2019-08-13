@@ -8,23 +8,34 @@ class Companyinfo extends Component {
     super(props);
     this.state={
       str:'北斗环境',
-        isEdite:true
+      isEdite:true,
+      isToggleOn: true,
+      dispaly: 'block'
+
     };
+      this.handleClick = this.handleClick.bind(this);
   }
+
+//显隐
+  handleClick(){
+      this.setState(prevState=>({
+          isToggle:!prevState.isToggle,
+          display:!prevState.isToggle?'none':'block'
+      }))
+  }
+
     componentDidMount(){
         this.requestList();
         this.requestListproject();
     };
     requestList = ()=>{
-        const quparams = {
-            code: 1,
-        };
+
         axios.ajax({
             baseURL:window.g.fileURL,
             method:'get',
-            url:'/api/companyById',
-            data:quparams,
+            url:'/api/companyByLoginUser'
         }).then((res)=>{
+            console.log(res);
             if(res.success){
                 this.setState({
                     cname:res.data.cname,//企业名称
@@ -55,6 +66,8 @@ class Companyinfo extends Component {
                         projectemail:res.data.emailaddress,
                         projectaddrs:res.data.addrs
                     });
+                }else{
+                    this.handleClick();
                 }
             }
         },(res)=>{});
@@ -70,7 +83,7 @@ class Companyinfo extends Component {
                   <span className="iconLittle"/><span className="comSystem">系统设置&nbsp;&nbsp;<i style={{color:"#2463A1"}}>&gt;</i>&nbsp;&nbsp;企业信息</span>
               </div>
               <a href="#/main/companyinfoEdit">
-                  <Button className="canclebtn" type="primary"><span className="actionfont action-bianji"/>&nbsp;&nbsp;编辑</Button>
+                  <Button className="canclebtn"  type="primary"><span className="actionfont action-bianji"/>&nbsp;&nbsp;编辑</Button>
               </a>
           </div>
           <div className="CompanyinfoTop">
@@ -119,7 +132,10 @@ class Companyinfo extends Component {
                   </Col>
                   <Col span={12} className="projectinfo">
                       <a href="#/main/projectinfoEdit">
-                          <Button className="canclebtn" type="primary"><span className="actionfont action-bianji"/>&nbsp;&nbsp;编辑</Button>
+                          <Button  className="canclebtn"  type="primary"
+                                   style={{display: this.state.display}}
+                          >
+                              <span className="actionfont action-bianji"/>&nbsp;&nbsp;编辑</Button>
                       </a>
                   </Col>
               </Row>
