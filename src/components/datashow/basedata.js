@@ -52,6 +52,10 @@ class Basedata extends Component {
 
     render() {
         var _this=this;
+        // 背景图
+        var bgdata=[whitebg,redbg,orangebg,yellowbg,greenbg,bluebg,Navybluebg,purplebg]
+        // 字体和背景颜色一致
+        var wddata=['white','#e62920','#d15705','#f9da15','#1c9544','#037ffe','#1c459d','#552967']
         return (
             <div className="Basedata">
                 <div className="BasedataAll" id="BasedataAll">
@@ -59,11 +63,6 @@ class Basedata extends Component {
                     </div>
                     {
                         this.state.responsedata.map(function(item,keys){
-                        // 背景图
-                        var bgdata=[whitebg,redbg,orangebg,yellowbg,greenbg,bluebg,Navybluebg,purplebg]
-                        // 字体和背景颜色一致
-                        var wddata=['white','#e62920','#d15705','#f9da15','#1c9544','#037ffe','#1c459d','#552967']
-                        
                           return (
                                 <div className="Basedata-item-sbsl" 
                                 onClick={_this.Changeglobe.bind(_this,item)}

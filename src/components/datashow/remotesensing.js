@@ -1,10 +1,13 @@
 import React, { Component } from 'react';
-import Egraph from './../common/Egraph'
-// import './mapshow.less'
+import RemoteEchart from "../common/RemoteEchart";
+import RemoteEchart1 from "../common/RemoteEchart1";
+import './Remotesensing.less';
+
 class Remotesensing extends Component {
     constructor(props){
         super(props);
-        this.state={   
+        this.state={
+            
         };
     }
 
@@ -18,7 +21,9 @@ class Remotesensing extends Component {
         return (
             <div className="Remotesensing">
                 <div className="RemoteAll">
-                    遥感监测
+
+                <RemoteEchart1 />
+                <RemoteEchart />
                 </div>
             </div>
         );
