@@ -15,7 +15,7 @@ window.g = {
     bizserviceURL:'http://192.168.10.11:8001/bizservice', //bizservice
     deviceURL:'http://192.168.10.11:8001/device', //设备
     fileURL:'http://192.168.10.11:8001/sys', //查看文件
-    filesURL:'http://www.beidouenv.com', //文件服务
+    filesURL:'http://info.beidouenv.com', //文件服务
     loginURL:'http://192.168.10.11:8001', //登录
     sysURL:'http://192.168.10.11:8001',//企業用戶
     exitURL:'http://192.168.10.11:8006', //退出

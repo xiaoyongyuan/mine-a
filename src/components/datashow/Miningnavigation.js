@@ -85,6 +85,9 @@ export default class Miningnavigation extends Component {
         
         return (
             <div className="Miningnavigation">
+                <p className="myiconfont">
+                    <span class="actionfont action-daohang"></span><span>矿区导航</span>
+                </p>
                 <div className="MiniAll"> 
                 <div className="miniEcharts">
                     <div className="num">{ this.state.responsedata.length }</div>
@@ -93,11 +96,12 @@ export default class Miningnavigation extends Component {
 
 
                 {/* 上一页下一页按钮 */}
-                <div className="Basedata-item-zw" id="Basedata-item-zw">
-                <div className="page"  onClick={this.prev.bind(this)}>上一页</div>
-                <div className="news">路网信息</div>
-                <div className="page" onClick={this.next.bind(this)}>下一页</div>
-                {/* <Pagination total={ this.state.pagetotal } itemRender={ this.itemRender } /> */}
+                <div className="columndl" style={{marginBottom:'10px'}}>
+                    <div className="columndt Basedata-item-zw" id="Basedata-item-zw">
+                        <div className="page"  onClick={this.prev.bind(this)}>上一页</div>
+                        <div className="news">路网信息</div>
+                        <div className="page" onClick={this.next.bind(this)}>下一页</div>
+                    </div>
                 </div>
                 
                 {/* 内容 */}

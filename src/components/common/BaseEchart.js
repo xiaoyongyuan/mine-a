@@ -2,150 +2,146 @@ import React, { Component } from 'react'
 import ReactEcharts from 'echarts-for-react';
 import echarts from 'echarts';
 import 'echarts-liquidfill';
+import homeSystemMonitoring from "../../axios/homeSystemMonitoring";
 
-var myColor = ['#552967', '#1c459d', '#037ffe', '#1c9544', '#f9da15', '#d15705', '#e62920'];
+import menubg from '../../style/imgs/menubg.png'
+
 export default class BaseEchart extends Component {
     constructor(props){
         super(props);
         this.state={
-            option:{
-                backgroundColor:'rgba(0,0,0,.3)',
-                grid: {
-                    left: '5%',
-                    top: '12%',
-                    right: '10%',
-                    bottom: '8%',
-                    containLabel: true
-                },
-                xAxis: [{
-                    show: false,
-                }],
-                yAxis: [{
-                    axisTick: 'none',
-                    axisLine: 'none',
-                    offset: '10',
-                    axisLabel: {
-                        textStyle: {
-                            color: '#ffffff',
-                            fontSize: '12',
-                        }
-                    },
-                    
-                    data: ['南坪', '工贸', '石桥铺', '沙坪坝', '嘉州路', '红旗河沟', '两路口']
-                }, {
-                    axisTick: 'none',
-                    axisLine: 'none',
-                    axisLabel: {
-                        textStyle: {
-                            color: '#ffffff',
-                            fontSize: '0',
-                        }
-                    },
-                    data:[10,9,8,7,6,5,4]
-                }, {
-                    name: '',
-                    nameGap: '30',
-                    nameTextStyle: {
-                        color: '#ffffff',
-                        fontSize: '20',
-                    },
-                    axisLine: {
-                        lineStyle: {
-                            color: 'rgba(0,0,0,0)'
-                        }
-                    },
-                    data: [],
-                }],
-                series: [{
-                        name: '条',
-                        type: 'bar',
-                        yAxisIndex: 0,
-                        data: [6647, 7473, 8190, 8488, 9491, 11726, 12745],
-                        label: {
-                            normal: {
-                                show: true,
-                                position: 'right',
-                                textStyle: {
-                                    color: '#ffffff',
-                                    fontSize: '12',
-                                }
-                            }
-                        },
-                        barWidth: 8,
-                        itemStyle: {
-                            normal: {
-                                color: function(params) {
-                                    var num = myColor.length;
-                                    return myColor[params.dataIndex % num]
-                                },
-                            }
-                        },
-                        z: 2
-                    }, {
-                        name: '白框',
-                        type: 'bar',
-                        yAxisIndex: 1,
-                        barGap: '-100%',
-                        data: [99, 99.5, 99.5, 99.5, 99.5, 99.5, 99.5],
-                        barWidth: 10,
-                        itemStyle: {
-                            normal: {
-                                color: '#0e2147',
-                                barBorderRadius: 2,
-                            }
-                        },
-                        z: 1
-                    }, {
-                        name: '外框',
-                        type: 'bar',
-                        yAxisIndex: 2,
-                        barGap: '-100%',
-                        data: [100, 100, 100, 100, 100, 100, 100],
-                        barWidth: 14,
-                        itemStyle: {
-                            normal: {
-                                color: function(params) {
-                                    var num = myColor.length;
-                                    return myColor[params.dataIndex % num]
-                                },
-                                barBorderRadius: 2,
-                            }
-                        },
-                        z: 0
-                    },
-                    {
-                        name: '外圆',
-                        type: 'scatter',
-                        hoverAnimation: false,
-                        data: [0, 0, 0, 0, 0, 0, 0],
-                        yAxisIndex: 1,
-                        // 圆圆大小
-                        symbolSize: 15,
-                        itemStyle: {
-                            normal: {
-                                color: function(params) {
-                                    var num = myColor.length;
-                                    return myColor[params.dataIndex % num]
-                                },
-                                opacity: 1,
-                            }
-                        },
-                        z: 2
-                    }
-                ]
-            }
+            chartData:[],
+            chartName:[],
+            option:{}
         };
     }
     componentWillMount(){
+       var _this=this;
+        // 请求数据
+        homeSystemMonitoring.basedatalist()
+        .then(res => {
+            console.log(res);
+            var chartData = [];
+            var chartName = [];
+            res.data.forEach(function(al,index){
+                chartData.push(parseInt(al.netnum));
+                chartName.push(al.netname);
+            })
+            var myColor = ['#E9261C','#D25400','#F7DA16','#189542','#0480FE','#1C459D','#512465']
+
+            var option = {
+            
+                backgroundColor: 'rgba(0,0,0,0)',
+                grid: {
+                    left: '10%',
+                    right: '22%',
+                    bottom: '10%',
+                    top: '2%',
+                    containLabel: true
+                },
+                xAxis: [{
+                        show: false,
+                    },
+                    {
+                        show: false,
+                    }
+                ],
+                yAxis: {
+                    type: 'category',
+                    inverse: true,
+                    show: false
+                },
+            
+                series: [
+            
+                    //亮色条 百分比
+                    {
+                        show: true,
+                        type: 'bar',
+                        barGap: '-100%',
+                        barWidth: '20%',
+                        z: 2,
+                        itemStyle: {
+                            normal: {
+                                color: function(params) {
+                                    var num = myColor.length;
+                                    return myColor[params.dataIndex % num]
+                                }
+                            }
+                        },
+                        label: {
+                            normal: {
+                                show: true,
+                                textStyle: {
+                                    color: 'white',
+                                    fontSize: 16
+                                },
+                                position: 'right',
+                                formatter: function(data) {
+                                    return (chartData[data.dataIndex]);
+                                }
+                            }
+                        },
+                        data: chartData,
+                    },
+                    //年份
+                    {
+                        show: true,
+                        type: 'bar',
+                        xAxisIndex: 1, //代表使用第二个X轴刻度
+                        barGap: '-100%',
+                        barWidth: '10%',
+                        itemStyle: {
+                            normal: {
+                                barBorderRadius: 200,
+                                color: 'transparent'
+                            }
+                        },
+                        label: {
+                            normal: {
+                                show: true,
+                                position: [0, '-20'],
+                                textStyle: {
+                                    fontSize:14,
+                                    color: 'white',
+                                },
+                                formatter: function(data) {
+                                    
+                                    return chartName[data.dataIndex];
+                                }
+                            }
+                        },
+                        data: chartData
+                    }
+                ]
+            };
+            _this.setState({
+                option:option
+            })
+
+
+
+
+
+        });
+          
+
+        
+
+
+
+
 
     }
     render() {
         return (
-            <div>
+            <div
+            // 
+            style={{width:"200px",height:"400px",background:`url('${ menubg }') 100% 100% / cover no-repeat`}}>
                 <ReactEcharts 
-                 option={this.state.option}
-                 style={{width:"100%",height:"300px"}}
-                 />
+                 option={this.state.option} 
+                style={{width:"200px",height:"450px"}}
+                  /> 
             </div>
         )
     }

@@ -1,29 +1,71 @@
 import React, { Component } from 'react';
-import Egraph from './../common/Egraph'
-import './mapshow.less'
-import './monitorequip.less'
+import MonitorequipEcharts from './../common/MonitorequipEcharts';
+import homeSystemMonitoring from '../../axios/homeSystemMonitoring'
+import './mapshow.less';
+import './monitorequip.less';
+
+// 背景颜色
+import redbg from '../../style/imgs/xbjcw.png';
+import orangebg from '../../style/imgs/cjjcw.png';
+import yellowbg from '../../style/imgs/dlfjcw.png';
+import greenbg from '../../style/imgs/dxsjcw.png';
+import bluebg from '../../style/imgs/dbsjcw.png';
+import Navybluebg from '../../style/imgs/trhjjcw.png';
+import purplebg from '../../style/imgs/yljcw.png';
+// redux需要
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { Monitoring } from '../../actions/postActions';
 
 class Monitorequip extends Component {
     constructor(props){
         super(props);
-        this.state={   
+        this.state={  
+            online:0, 
+            total:0,
+            monitoringdata:[]
         };
     }
 
-    componentDidMount(){
-        
+    componentWillMount(){
+        homeSystemMonitoring.monitoring()
+        .then(res=>{
+            //   算监测设备总数
+            let sums1 = this.totalnums(res.data,'totalnum');
+            // 算监测设备在线数 On-line
+            let sums2 = this.totalnums(res.data,'onlinenum');
+            this.setState({
+                monitoringdata:res.data,
+                total:sums1,
+                online:sums2
+            })
+        })
     }
-    shape = () =>{
-      alert("dd");
-    };
 
+    //   算监测设备总数,算监测设备在线数
+    totalnums(arr,some){
+        var s = 0;
+        arr.forEach(function(val, idx, arr) {
+          s +=  parseInt(val[some]);
+        }, 0);
+        return s;
+    }
 
+    // 点击各个监测网,触发redux
+    monitoringfun(val){
+        this.props.Monitoring(val);
+    }
     render() {
+        var _this=this;
+        // 背景图 whitebg
+        var bgdata=[redbg,orangebg,yellowbg,greenbg,bluebg,Navybluebg,purplebg];
+
         return (
             <div className="monitorequip">
+                <p className="myiconfont">
+                    <span className="actionfont action-101"></span><span>监测设备</span>
+                </p>
                 <div className="BasedataAll">
-                    <div className="Basedata-item-zw">
-                    </div>
                     <div className="Basedata-item-sbsl">
                         <div className="jcwname">
                             <div className="jcwword">
@@ -34,104 +76,36 @@ class Monitorequip extends Component {
                             </div>
                         </div>
                         <div className="jcwnum">
-                            <span>131/132</span>
+                            <span>{ this.state.online }/{ this.state.total }</span>
                         </div>
                     </div>
-                    <div className="Basedata-item-xbjcw">
-                        <div className="jcwname">
-                            <div className="jcwword">
-                                <span>形变监测网</span>
+
+                    {
+                        this.state.monitoringdata.map(function(item,keys){
+                            return (
+                            <div className="Basedata-item-xbjcw" 
+                            key={keys} 
+                            onClick={ _this.monitoringfun.bind(_this,item) } 
+                            style={{ background:`url('${ bgdata[keys%6] }') 100% 100% / cover no-repeat`}}>
+                                <div className="jcwname">
+                                    <div className="jcwword">
+                                        <span>{ item.netname }</span>
+                                    </div>
+                                    <div className="jcwnumword">
+                                        在线数/总数
+                                    </div>
+                                </div>
+                                <div className="jcwnum">
+                                    <span>{ item.onlinenum }/{ item.totalnum }</span>
+                                </div>
                             </div>
-                            <div className="jcwnumword">
-                                在线数/总数
-                            </div>
-                        </div>
-                        <div className="jcwnum">
-                            <span>3/50</span>
-                        </div>
-                    </div>
-                    <div className="Basedata-item-cjjcw">
-                        <div className="jcwname">
-                            <div className="jcwword">
-                                <span>沉降监测网</span>
-                            </div>
-                            <div className="jcwnumword">
-                                在线数/总数
-                            </div>
-                        </div>
-                        <div className="jcwnum">
-                            <span>6/68</span>
-                        </div>
-                    </div>
-                    <div className="Basedata-item-dlfjcw">
-                        <div className="jcwname">
-                            <div className="jcwword">
-                                <span>地裂缝监测网</span>
-                            </div>
-                            <div className="jcwnumword">
-                                在线数/总数
-                            </div>
-                        </div>
-                        <div className="jcwnum">
-                            <span>13/21</span>
-                        </div>
-                    </div>
-                    <div className="Basedata-item-dxsjcw">
-                        <div className="jcwname">
-                            <div className="jcwword">
-                                <span>地下水监测网</span>
-                            </div>
-                            <div className="jcwnumword">
-                                在线数/总数
-                            </div>
-                        </div>
-                        <div className="jcwnum">
-                            <span>6/58</span>
-                        </div>
-                    </div>
-                    <div className="Basedata-item-dbsjcw">
-                        <div className="jcwname">
-                            <div className="jcwword">
-                                <span>地表水监测网</span>
-                            </div>
-                            <div className="jcwnumword">
-                                在线数/总数
-                            </div>
-                        </div>
-                        <div className="jcwnum">
-                            <span>21/64</span>
-                        </div>
-                    </div>
-                    <div className="Basedata-item-trhjjcw">
-                        <div className="jcwname">
-                            <div className="jcwword">
-                                <span>土壤环境监测网</span>
-                            </div>
-                            <div className="jcwnumword">
-                                在线数/总数
-                            </div>
-                        </div>
-                        <div className="jcwnum">
-                            <span>3/57</span>
-                        </div>
-                    </div>
-                    <div className="Basedata-item-yljcw">
-                        <div className="jcwname">
-                            <div className="jcwword">
-                                <span>雨量监测网</span>
-                            </div>
-                            <div className="jcwnumword">
-                                在线数/总数
-                            </div>
-                        </div>
-                        <div className="jcwnum">
-                            <span>18/34</span>
-                        </div>
-                    </div>
+                            )
+                        })
+                    }
                     <div className="columndl" style={{marginBottom:'10px'}}>
                         <div className="columndt">在线率及设备占比</div>
-                        <div className="echartbj">
-                            <Egraph key='fuk' dataHeight='200' cahrtp='piechart' />
+                        <div style={{width:'100%'}}>
+                            <MonitorequipEcharts />
                         </div>
                     </div>
                 </div>
@@ -139,4 +113,9 @@ class Monitorequip extends Component {
         );
     }
 }
-export default Monitorequip
+
+Monitorequip.propTypes = {
+    Monitoring: PropTypes.func.isRequired
+}
+
+export default connect(null, { Monitoring })(Monitorequip); 

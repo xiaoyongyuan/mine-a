@@ -136,11 +136,11 @@ export default class RemoteEchart1 extends Component {
         
         return (
             <div
-            style={{width:"160px",height:"160px",margin:"10%"}}>
+            style={{width:"150px",height:"150px",margin:"10%"}}>
                 {/* ,background:`url('${ RemoteEchartgd }') 100% 100% / cover no-repeat` */}
                 <ReactEcharts 
                  option={this.state.option} 
-                style={{width:"160px",height:"160px"}}
+                style={{width:"150px",height:"150px"}}
                   /> 
             </div>
         )

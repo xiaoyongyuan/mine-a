@@ -16,10 +16,10 @@ export default class RemoteEchart extends Component {
                 {name: '装备制造',value: 54},
                 {name: '现代材料',value: 44},
                 {name: '新能源',value: 35},
-                {name: '新一代信息技术',value: 30},
-                {name: '商贸物流',value: 20}
+                {name: '新一代信息技术',value: 30}
             ]
-            var colors=[['#f043ac', '#00addf'],['#8e49ff', '#00addf'],['#ffdb15', '#00addf'], ['#00df93', '#00addf'],['#f043ac', '#00addf']]
+            var colors=[['#f043ac', '#00addf'],['#8e49ff', '#00addf'],['#ffdb15', '#00addf'], ['#00df93', '#00addf']]
+
             var total = 0;
             var titleArr= [], seriesArr=[];
             data.map((sum,i) => {total+=sum.value});
@@ -46,7 +46,7 @@ export default class RemoteEchart extends Component {
                             }
                         },
                         hoverAnimation: false,
-                        center: [ '50%',index * 20 + 10 +'%'],
+                        center: [ '50%',index * 18 + 10 +'%'],
                         data: [{
                             value: item.value,
                             label: {

@@ -22,13 +22,16 @@ class Layermanagement extends Component {
     render() {
         
         return (
-            <div
-            style={{width:"280px",height:"900px",padding:"0 0 0 75px"}}
-            >
+            <div className="Layermanagement" style={{width:"100%"}}>
+                <p className="myiconfont">
+                    <span className="actionfont action-guanli1"></span><span>图层管理</span>
+                </p>
+                <div className="LayerAll" style={{height: '100%',paddingLeft: '75px'}}>
                 <LayerEcharts1 data={this.state.data}  />
                 <LayerEcharts1 data={this.state.data1} two='2' />
                 <LayerEcharts1 data={this.state.data2} two='2' />
                 <LayerEcharts2 />
+                </div>
             </div>
         );
     }

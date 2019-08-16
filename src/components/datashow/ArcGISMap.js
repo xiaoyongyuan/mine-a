@@ -4,6 +4,7 @@ import './mapshow.less'
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { isNull } from 'util';
+import homeSystemMonitoring from "../../axios/homeSystemMonitoring";
 
 class ArcGISMap extends Component {
   constructor(props) {
@@ -14,6 +15,8 @@ class ArcGISMap extends Component {
       map:null,
       FeatureLayer:null,
       taskLayer:null,
+      Graphic:null,
+      MapImageLayer:null
     }
   }
   componentDidMount() {
@@ -37,6 +40,7 @@ class ArcGISMap extends Component {
       "esri/layers/MapImageLayer",
       "esri/layers/ElevationLayer",
       "esri/widgets/Zoom",
+      "esri/Graphic"
     ], mapURL).then(([
       // 小部件，没懂
       Locator,
@@ -55,8 +59,11 @@ class ArcGISMap extends Component {
       ElevationLayer,
       // Zoom缩放窗口小部件允许用户在视图中放大/缩小。
       Zoom,
+      Graphic
     ]) => {
       this.state.FeatureLayer=FeatureLayer;
+      this.state.Graphic=Graphic;
+      this.state.MapImageLayer=MapImageLayer;
 
       var mapBaseLayer = new WebTileLayer({
         urlTemplate:
@@ -283,7 +290,7 @@ class ArcGISMap extends Component {
       });
 
       // 添加图层
-      var permitsLayer = new MapImageLayer({
+      var permitsLayer = new this.state.MapImageLayer({
         // portalItem: {
         //   // autocasts as new PortalItem()
         //   portal:portal,
@@ -344,22 +351,125 @@ class ArcGISMap extends Component {
     })
   }
   componentWillUpdate(nextProps) {
-    if(this.state.taskLayer){
-      this.state.map.remove(this.state.taskLayer);
+    var _this=this;
+    // 遥感监测:
+    if(nextProps.identify=="remote"){
+      // INSAR
+      if( nextProps.remotedata=='INSAR'){
+       let newMapImageLayer = new this.state.MapImageLayer({
+          url: "https://39.97.188.225/server/rest/services/insar/MapServer"
+        });
+        this.state.map.add(newMapImageLayer);
+      }
+     
+
     }
-  let url=nextProps.newPost.url;
-    this.state.taskLayer = new this.state.FeatureLayer({
-      url: url,
-        title: "Touristic attractions",
-        elevationInfo: {
-          mode: "relative-to-scene"
-        },
-        outFields: ["*"],
-        featureReduction: {
-          type: "selection"
-        },
-    });
-    this.state.map.add(this.state.taskLayer);
+
+
+
+
+    // 系统总揽:监测设备
+    if(nextProps.identify=="monit"){
+      homeSystemMonitoring.MonitoringOne({"netid":nextProps.monitdata.netid})
+      .then(res=>{
+        console.log(res);
+        if(_this.state.view.graphics){
+          _this.state.view.graphics.removeAll();
+        }
+        //添加图层标注
+        var mapdata=res.data;
+        let newview=this.state.view;
+        for(var i=0;i<=mapdata.length-1;i++){
+          var x=mapdata[i].lnglat.split(',')[0];
+          var y=mapdata[i].lnglat.split(',')[1];
+          //将点的样式和位置放在Graphic里面
+           let Graphic1 = new _this.state.Graphic({
+             geometry: {
+                type: 'point',
+                longitude: x,
+                latitude: y,
+             },
+              symbol: {
+                 type: 'picture-marker',
+                  url: 'http://info.beidouenv.com/UploadFile/Img/point_blue.png',
+                  width: '32px',
+                  height: '32px',
+               },
+              popupTemplate:{
+                  content: "<p class='popup-con-title'>点位详情</p>"
+                  + "<div class='popup-con-con'>"
+                  + "<div>坐标位置.经度：" + x + "</div>"
+                  + "<div>坐标位置.纬度：" + y + "</div>"
+                  + "<div>形变监测网</div>"
+                  + "</div>"
+              }
+           });
+            //显示图标
+            _this.state.view.graphics.add(Graphic1);
+        }
+      })
+
+    }
+
+    // 系统总揽:基础数据
+    if(nextProps.identify=="database"){
+      homeSystemMonitoring.groundFissure({"netid":nextProps.newPost.netid})
+        .then(res => {
+            if(_this.state.view.graphics){
+              _this.state.view.graphics.removeAll();
+            }
+            //添加图层标注
+            var mapdata=res.data;
+            let newview=this.state.view;
+            for(var i=0;i<=mapdata.length-1;i++){
+              var x=mapdata[i].lnglat.split(',')[0];
+              var y=mapdata[i].lnglat.split(',')[1];
+              //将点的样式和位置放在Graphic里面
+               let Graphic1 = new _this.state.Graphic({
+                 geometry: {
+                    type: 'point',
+                    longitude: x,
+                    latitude: y,
+                 },
+                  symbol: {
+                     type: 'picture-marker',
+                      url: 'http://info.beidouenv.com/UploadFile/Img/point_blue.png',
+                      width: '32px',
+                      height: '32px',
+                   },
+                  popupTemplate:{
+                      content: "<p class='popup-con-title'>点位详情</p>"
+                      + "<div class='popup-con-con'>"
+                      + "<div>坐标位置.经度：" + x + "</div>"
+                      + "<div>坐标位置.纬度：" + y + "</div>"
+                      + "<div>形变监测网</div>"
+                      + "</div>"
+                  }
+               });
+                //显示图标
+                _this.state.view.graphics.add(Graphic1);
+            }
+        });
+    }
+    
+    
+    
+  //   if(this.state.taskLayer){
+  //     this.state.map.remove(this.state.taskLayer);
+  //   }
+  // let url=nextProps.newPost.url;
+    // this.state.taskLayer = new this.state.FeatureLayer({
+    //   url: url,
+    //     title: "Touristic attractions",
+    //     elevationInfo: {
+    //       mode: "relative-to-scene"
+    //     },
+    //     outFields: ["*"],
+    //     featureReduction: {
+    //       type: "selection"
+    //     },
+    // });
+    // this.state.map.add(this.state.taskLayer);
   }
   render() {
     return (
@@ -371,6 +481,9 @@ class ArcGISMap extends Component {
 
 }
 const mapStateToProps = state => ({
-  newPost: state.posts.item
+  newPost: state.posts.item,
+  monitdata: state.posts.monitdata,
+  identify: state.posts.identify,
+  remotedata: state.posts.remotedata,
 })
 export default connect(mapStateToProps, { })(ArcGISMap);
