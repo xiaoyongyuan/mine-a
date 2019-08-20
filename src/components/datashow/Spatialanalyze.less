@@ -29,7 +29,7 @@
             text-align: center;
             line-height: 40px;
             font-size: 18px;
-            
+            // display: block;
         }
         // 下拉导航s
         #leftside-navigation{
@@ -39,40 +39,35 @@
               li{
                 list-style-type: none;
                 border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-                a{
-                    color: #aeb2b7;
+                .onetitle{
+                    width: 100%;
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                    color: white;
                     text-decoration: none;
                     display: block;
-                    padding: 18px 0 18px 25px;
-                    font-size: 12px;
+                    padding: 10px 0 10px 25px;
+                    font-size: 16px;
                     outline: 0;
                     -webkit-transition: all 200ms ease-in;
                     -moz-transition: all 200ms ease-in;
                     -o-transition: all 200ms ease-in;
                     -ms-transition: all 200ms ease-in;
                     transition: all 200ms ease-in;
-                    span {
+                    div {
                         display: inline-block;
                     }
-                    i{
-                        width: 20px;
+                    .titlecontent{
+                        width: 65%;
+                        padding: 0 10px;
                     }
-                    .fa-angle-right {
-                        padding-top: 3px;
+                    img{
+                        width: 20%;
+                        display: inline-block;
+                        width: 11px;
+                        height: 11px;
                     }
-                    .fa-angle-left {
-                        padding-top: 3px;
-                      }
-                }
-              }
-              li.active{
-                  a{
-                    color: #1abc9c;
-                  }
-              }
-              li.active{
-                ul{
-                    display: block;
                 }
               }
               ul{
@@ -84,12 +79,13 @@
                     margin-left: 0;
                     margin-right: 0;
                     border-bottom: none;
-                    a {
-                        font-size: 12px;
-                        padding-top: 13px;
-                        padding-bottom: 13px;
-                        color: #aeb2b7;
-                      }
+                    div {
+                        padding: 10px 0 10px 25px;
+                        text-align: center;
+                        font-size: 16px;
+                        color: white;
+                        
+                    }
                 }
               }
             }

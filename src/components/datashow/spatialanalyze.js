@@ -2,6 +2,8 @@ import React, { Component } from 'react'
 import SpatiEcharts from '../common/SpatiEcharts'
 import './Spatialanalyze.less'
 import menubg from '../../style/imgs/menubg.png';
+import triangleR from '../../style/imgs/triangleR.png';
+import triangleL from '../../style/imgs/triangleL.png';
 import { Menu, Icon } from 'antd';
 const { SubMenu } = Menu;
 
@@ -12,6 +14,8 @@ export default class Spatialanalyze extends Component {
     constructor(props){
         super(props);
         this.state={
+            ifshow:-1,
+            show:true,
             spatidata:[
                 {id:1,titlename:"矢量空间分析",MenuChildren:[
                     {id:11,titlename:"1空间分析",url:"setdryugijosercvnj"},
@@ -47,12 +51,49 @@ export default class Spatialanalyze extends Component {
     // handleClick = e => {
     //     console.log('click ', e);
     // }
-    shrink(tal,val){
+    shrink(val,tal){
+        
+        // 所以受点击的li
+        var doc = document.querySelectorAll("li.sub-menu");
+        // 方向
+        var direction = document.querySelectorAll("img.directionimg");
+        // 第二层ul(控制其他ul不显示)
+        var twoul = document.querySelectorAll("ul.twoul");
+        for(var i=0;i<twoul.length;i++){
+            twoul[i].setAttribute('style','display: none');
+            direction[i].setAttribute('src',triangleR);
+        }
+        
+        // 获取受点击的li下面的方向
+        var thisdirection = doc[val].children[0].children[2];
+        // 获取受点击的li下面的ul
+        var thisul = doc[val].children[1];
+        // 控制是否是第二次点击
+        if(val==this.state.ifshow){
+            thisdirection.setAttribute('src',triangleR);
+            thisul.setAttribute('style','display: none');
+        }else{
+            thisdirection.setAttribute('src',triangleL);
+            thisul.setAttribute('style','display: block');
+        }
 
-        console.log("val",val);
-        console.log("tal",tal);
-        console.log("this",this);
+        
+        this.setState({
+            ifshow:val
+        })
+    }
+    menucont(val){
+        // 获取第几个大li被点击了
+        let ifshow = this.state.ifshow;
+        // 所有第二层li
+        let docli = document.querySelectorAll("li.twoli");
+        for(var i=0;i<docli.length;i++){
+            docli[i].setAttribute('style','background-color: none;');
+        }
 
+        // 改变受点击的li的背景颜色
+        var doc = document.querySelectorAll("li.sub-menu")[ifshow].children[1].children[val].setAttribute('style','background-color: rgba(12,62,94,1);')
+        
     }
 
     render() {
@@ -72,22 +113,24 @@ export default class Spatialanalyze extends Component {
 
                     {/* 下拉导航 */}
                     <div id="leftside-navigation">
-                        <ul className="nano-content" id="nano-content">
+                        <ul className="nano-content" id="nano-content"
+                         style={{ background:`url('${ menubg }') 100% 100% / cover no-repeat`,border:'none'}}>
                             { this.state.spatidata.map(function(spatidata,keys){
                                 return (
-                                    <li className="sub-menu" 
-                                    onClick={_this.shrink.bind(_this,keys)}
-                                    key={keys}>
-                                        <a href="javascript:;">
-                                            <span className="num">{ spatidata.MenuChildren.length }</span>
-                                            <span>{ spatidata.titlename }</span>
-                                            <i className="arrow fa fa-angle-right pull-right"></i>
-                                        </a>
-                                        <ul>
+                                    <li className="sub-menu" key={keys}>
+                                        <div className="onetitle"
+                                        onClick={_this.shrink.bind(_this,keys)}>
+                                            <div className="num">{ spatidata.MenuChildren.length }</div>
+                                            <div className="titlecontent">{ spatidata.titlename }</div>
+                                            <img className="directionimg" src={ triangleR } />
+                                        </div>
+                                        <ul className="twoul">
                                             {spatidata.MenuChildren.map(function(item2,key2){
                                                 return (
-                                                    <li key={key2}>
-                                                        <a href="javascript:;">{item2.titlename}</a>
+                                                    <li key={key2} className="twoli">
+                                                        <div onClick={_this.menucont.bind(_this,key2)}>
+                                                        {item2.titlename}
+                                                        </div>
                                                     </li>
                                                 )
                                             })}
