@@ -1,20 +1,23 @@
 .Spatialanalyze{
-    width: 100%;
+    width: calc(100%-56px);
     .SpatialanalyzeAll{
         height: 100%;
-        padding-left: 75px;
+        padding-left: 59px;
         .spatiaTitle{
-            height: 60px;
+            height: 61px;
             display: flex;
             justify-content: space-around;
             align-items: center;
-            margin: 30px 0;
+            margin: 34px 0 12px 0;
             padding: 0 0 5px 0;
             background:url('../../style/imgs/title.png') 100% 100% / cover no-repeat;
-            
-            div{
-                color: rgb(167, 210, 248);
+            .titlename{
+                color: #50D1FD;
                 font-size: 16px;
+            }
+            .num{
+                color: rgba(80,209,253,1);
+                font-size: 18px;
             }
         }
         // 圆圈
@@ -22,43 +25,104 @@
             width: 40px;
             height: 40px;
             background:url('../../style/imgs/box.png') 100% 100% / cover no-repeat;
-            color: rgb(167, 210, 248);
+            color: rgba(80,209,253,1);
             text-align: center;
             line-height: 40px;
+            font-size: 18px;
             
         }
         // 下拉导航s
-        .Menucont{
-            width: 100%;
-            .titleMenu{
-                padding-left: 0;
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-                .titlename{
-                    color: white;
-                    font-size: 16px;
+        #leftside-navigation{
+            ul{
+              margin: -2px 0 0;
+              padding: 0;
+              li{
+                list-style-type: none;
+                border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+                a{
+                    color: #aeb2b7;
+                    text-decoration: none;
+                    display: block;
+                    padding: 18px 0 18px 25px;
+                    font-size: 12px;
+                    outline: 0;
+                    -webkit-transition: all 200ms ease-in;
+                    -moz-transition: all 200ms ease-in;
+                    -o-transition: all 200ms ease-in;
+                    -ms-transition: all 200ms ease-in;
+                    transition: all 200ms ease-in;
+                    span {
+                        display: inline-block;
+                    }
+                    i{
+                        width: 20px;
+                    }
+                    .fa-angle-right {
+                        padding-top: 3px;
+                    }
+                    .fa-angle-left {
+                        padding-top: 3px;
+                      }
                 }
-            }
-            .ant-menu-item{
-                margin: 0;
+              }
+              li.active{
+                  a{
+                    color: #1abc9c;
+                  }
+              }
+              li.active{
+                ul{
+                    display: block;
+                }
+              }
+              ul{
+                margin: -2px 0 0;
                 padding: 0;
-                border: none;
-            } 
-            .ant-menu-item-selected{
-                background-color: rgb(5, 7, 8);
+                display: none;
+                li{
+                    margin-bottom: 0;
+                    margin-left: 0;
+                    margin-right: 0;
+                    border-bottom: none;
+                    a {
+                        font-size: 12px;
+                        padding-top: 13px;
+                        padding-bottom: 13px;
+                        color: #aeb2b7;
+                      }
+                }
+              }
             }
-            
-        }
-        // .echartstitle{
+          } 
+
+
+
+
+
+
+
+
+        // .Menucont{
         //     width: 100%;
-        //     height: 35px;
-        //     text-align: center;
-        //     font-size: 16px;
-        //     padding-top: 5px;
-        //     margin: 40px 0;
-        //     color: rgb(167, 210, 248);
-        //     background:url('../../style/imgs/echartstitle.png') 100% 100% / cover no-repeat;
+        //     .titleMenu{
+        //         padding-left: 0;
+        //         display: flex;
+        //         justify-content: space-between;
+        //         align-items: center;
+        //         .titlename{
+        //             color: white;
+        //             font-size: 16px;
+        //         }
+        //     }
+        //     .ant-menu-item{
+        //         margin: 0;
+        //         padding: 0;
+        //         border: none;
+        //     } 
+        //     .ant-menu-item-selected{
+        //         background-color: rgb(5, 7, 8);
+        //     }
+            
         // }
     }
 }

@@ -11,14 +11,14 @@
 
 window.g = {
     easyURL:'https://www.easy-mock.com/mock/5ce208b85fa13b1e54d26e06/mainapi',   //模拟api
-    mapURL:'http://192.168.10.11:8080', //地图
-    bizserviceURL:'http://192.168.10.11:8001/bizservice', //bizservice
-    deviceURL:'http://192.168.10.11:8001/device', //设备
-    fileURL:'http://192.168.10.11:8001/sys', //查看文件
+    mapURL:'http://192.168.10.15:8080', //地图
+    bizserviceURL:'http://192.168.10.15:8001/bizservice', //bizservice
+    deviceURL:'http://192.168.10.15:8001/device', //设备
+    fileURL:'http://192.168.10.15:8001/sys', //查看文件
     filesURL:'http://info.beidouenv.com', //文件服务
-    loginURL:'http://192.168.10.11:8001', //登录
-    sysURL:'http://192.168.10.11:8001',//企業用戶
-    exitURL:'http://192.168.10.11:8006', //退出
+    loginURL:'http://192.168.10.15:8001', //登录
+    sysURL:'http://192.168.10.15:8001',//企業用戶
+    exitURL:'http://192.168.10.15:8006', //退出
 };
 
 

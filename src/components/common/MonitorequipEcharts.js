@@ -25,6 +25,7 @@ export default class MonitorequipEcharts extends Component {
         homeSystemMonitoring.monitoring()
         .then(res=>{
             console.log(res);
+            // #0E2147
 
             //   算监测设备总数
             let sums1 = this.totalnums(res.data,'totalnum');
@@ -48,14 +49,14 @@ export default class MonitorequipEcharts extends Component {
                     left: 'center',
                     text: arr[3],
                     textStyle: {
-                        color: '#fff',
+                        color: '#0C3E5E',
                         fontStyle: 'normal',
                         fontWeight: 'normal',
                         fontSize: 14
                     },
                     subtext: (arr[1] * 10000 / 100).toFixed(2) + '%',
                     subtextStyle: {
-                        color: '#fff',
+                        color: '#0C3E5E',
                         fontSize: 12
                     }
                 },

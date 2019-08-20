@@ -24,7 +24,7 @@ class Remotesensing extends Component {
                     <span className="actionfont action-shebeiguanli"></span><span>遥感监测</span>
                 </p>
                 <div className="RemoteAll">
-
+    
                 <RemoteEchart1 />
                 <RemoteEchart />
                 </div>

@@ -44,11 +44,19 @@ export default class Spatialanalyze extends Component {
             ]
         };
     }
-    handleClick = e => {
-        console.log('click ', e);
+    // handleClick = e => {
+    //     console.log('click ', e);
+    // }
+    shrink(tal,val){
+
+        console.log("val",val);
+        console.log("tal",tal);
+        console.log("this",this);
+
     }
 
     render() {
+        const _this=this;
         return (
             <div className="Spatialanalyze">
                 <p className="myiconfont">
@@ -58,12 +66,47 @@ export default class Spatialanalyze extends Component {
                     {/* 标题 */}
                     <div className="spatiaTitle">
                         <div className="num">82</div>
-                        <div>空间分析</div>
+                        <div className="titlename">空间分析</div>
                     </div>
 
 
                     {/* 下拉导航 */}
-                    <div className="Menucont">
+                    <div id="leftside-navigation">
+                        <ul className="nano-content" id="nano-content">
+                            { this.state.spatidata.map(function(spatidata,keys){
+                                return (
+                                    <li className="sub-menu" 
+                                    onClick={_this.shrink.bind(_this,keys)}
+                                    key={keys}>
+                                        <a href="javascript:;">
+                                            <span className="num">{ spatidata.MenuChildren.length }</span>
+                                            <span>{ spatidata.titlename }</span>
+                                            <i className="arrow fa fa-angle-right pull-right"></i>
+                                        </a>
+                                        <ul>
+                                            {spatidata.MenuChildren.map(function(item2,key2){
+                                                return (
+                                                    <li key={key2}>
+                                                        <a href="javascript:;">{item2.titlename}</a>
+                                                    </li>
+                                                )
+                                            })}
+                                        </ul>
+                                    </li>
+                                )
+                            }) }
+                        </ul>
+                    </div>
+
+
+
+
+
+
+
+
+
+                    {/* <div className="Menucont">
                         <Menu
                             onClick={this.handleClick.bind(this)}
                             style={{ width: '100%',background:`url('${ menubg }') 100% 100% / cover no-repeat`,border:'none'}}
@@ -95,7 +138,7 @@ export default class Spatialanalyze extends Component {
                             )
                         })}
                         </Menu>
-                    </div>
+                    </div> */}
 
 
                     {/* 空间分析成果占比 */}

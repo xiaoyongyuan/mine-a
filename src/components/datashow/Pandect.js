@@ -30,13 +30,7 @@ class Pandect extends Component {
             text:"3xx",
         },{
             code:4,
-            text:"4xx4xx4xx4xx4xx",
-        },{
-            code:5,
-            text:"5xx",
-        },{
-            code:6,
-            text:"6xx",
+            text:"4xx",
         }];
         return (
             <div className="Pandect">

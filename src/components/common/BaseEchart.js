@@ -137,10 +137,10 @@ export default class BaseEchart extends Component {
         return (
             <div
             // 
-            style={{width:"200px",height:"400px",background:`url('${ menubg }') 100% 100% / cover no-repeat`}}>
+            style={{width:"100%",height:"400px",background:`url('${ menubg }') 100% 100% / cover no-repeat`}}>
                 <ReactEcharts 
                  option={this.state.option} 
-                style={{width:"200px",height:"450px"}}
+                style={{width:"100%",height:"450px"}}
                   /> 
             </div>
         )

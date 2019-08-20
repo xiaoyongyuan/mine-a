@@ -45,13 +45,9 @@ class Itemshow extends Component {
         },{
             code:4,
             text:"4xx点超过预警值",
-        },{
-            code:5,
-            text:"5xx点超过预警值",
-        },{
-            code:6,
-            text:"6xx点超过预警值",
-        },]
+        }]
+
+
         const netlist=[{
             code:1,
             text:"形变沉降监测网",
@@ -132,9 +128,9 @@ class Itemshow extends Component {
                     <dl className="columndl">
                         <dt className="columndt">预警信息<a className="columndtright">更多<Icon type="right" /></a></dt>
                         <div className="carouselcol">
-                        <div className="carouselpart" id="carouselpart">
-                        {warnlist.map((item)=>(<dd className="columndd" key={'warn'+item.code}><Paragraph ellipsis><span className={this.warnico(item.code)}>[警]</span>{item.text}</Paragraph></dd>))}
-                        </div>
+                            <div className="carouselpart" id="carouselpart">
+                            {warnlist.map((item)=>(<dd className="columndd" key={'warn'+item.code}><Paragraph ellipsis><span className={this.warnico(item.code)}>[警]</span>{item.text}</Paragraph></dd>))}
+                            </div>
                         </div>
                     </dl>
                     // <Card title="矿区雨量">

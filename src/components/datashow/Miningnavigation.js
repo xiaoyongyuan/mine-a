@@ -46,9 +46,13 @@ export default class Miningnavigation extends Component {
     // 上一页
     prev(){
         var pagenum=this.state.pagenum-1;
-        
+        let div1=document.getElementById('pageone'); 
+        div1.style.color='white'; 
+        let div2=document.getElementById('pagetwo'); 
+        div2.style.color='white'; 
         if(pagenum<=0){
-            pagenum=0
+            pagenum=0;
+            div1.style.color='gray'; 
         }
         this.setState({
             pagenum:pagenum
@@ -57,9 +61,13 @@ export default class Miningnavigation extends Component {
     // 下一页
     next(){
         var pagenum=this.state.pagenum+1;
-        
+        let div1=document.getElementById('pageone'); 
+        div1.style.color='white'; 
+        let div2=document.getElementById('pagetwo'); 
+        div2.style.color='white'; 
         if(pagenum>=this.state.pagetotal){
-            pagenum=this.state.pagetotal-1
+            pagenum=this.state.pagetotal-1;
+            div2.style.color='gray'; 
         }
         this.setState({
             pagenum:pagenum
@@ -97,10 +105,11 @@ export default class Miningnavigation extends Component {
 
                 {/* 上一页下一页按钮 */}
                 <div className="columndl" style={{marginBottom:'10px'}}>
-                    <div className="columndt Basedata-item-zw" id="Basedata-item-zw">
-                        <div className="page"  onClick={this.prev.bind(this)}>上一页</div>
+                {/* id="Basedata-item-zw"   columndt */}
+                    <div className="Basedata-item-zw" >
+                        <div className="page" onClick={this.prev.bind(this)} id="pageone">上一页</div>
                         <div className="news">路网信息</div>
-                        <div className="page" onClick={this.next.bind(this)}>下一页</div>
+                        <div className="page" onClick={this.next.bind(this)} id="pagetwo">下一页</div>
                     </div>
                 </div>
                 

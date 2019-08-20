@@ -8,8 +8,8 @@ export default class homeSystemMonitoring {
         return new Promise((resolve, reject) => {
             axios.ajax({
               baseURL: window.g.sysURL,
-            //   baseURL:'http://192.168.10.11:9001',
-              url: '/bizservice/api/indexNetList',
+                // baseURL: 'http://192.168.10.15:8001',
+                url: '/bizservice/api/indexNetList',
             }).then((res)=>{
                 resolve(res) 
             },(res)=>reject(res))  
@@ -21,7 +21,7 @@ export default class homeSystemMonitoring {
             axios.ajax({
                 method:'post',
                 baseURL: window.g.sysURL,
-                // baseURL: 'http://192.168.10.11:9001',
+                // baseURL: 'http://192.168.10.15:8001',
                 url: '/bizservice/api/indexNetDeviceList',
                 data:netid
             }).then((res)=>{
@@ -37,7 +37,7 @@ export default class homeSystemMonitoring {
         return new Promise((resolve, reject) => {
             axios.ajax({
                 baseURL: window.g.sysURL,
-                // baseURL: 'http://192.168.10.11:9001',
+                // baseURL: 'http://192.168.10.15:8001',
                 url: '/bizservice/api/findMonitorDeviceNum',
             }).then((res)=>{
                 resolve(res) 
@@ -51,8 +51,21 @@ export default class homeSystemMonitoring {
             axios.ajax({
                 method:'post',
                 baseURL: window.g.sysURL,
+                // baseURL: 'http://192.168.10.15:8001',
                 url: '/bizservice/api/getMonitordeviceAllList',
                 data:netid
+            }).then((res)=>{
+                resolve(res) 
+            },(res)=>reject(res))  
+        })
+    }
+
+    // 查询首页遥感监测下遥感监测图层数量
+    static remotesensing() {
+        return new Promise((resolve, reject) => {
+            axios.ajax({
+                baseURL: window.g.sysURL,
+                url: '/device/api/layerRemoteType',
             }).then((res)=>{
                 resolve(res) 
             },(res)=>reject(res))  

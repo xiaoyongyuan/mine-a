@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import ReactEcharts from 'echarts-for-react';
 import echarts from 'echarts';
 import 'echarts-liquidfill';
+import homeSystemMonitoring from "../../axios/homeSystemMonitoring";
 
 export default class RemoteEchart extends Component {
     constructor(props){
@@ -12,12 +13,16 @@ export default class RemoteEchart extends Component {
     }
 
     componentWillMount(){
-            var data = [
-                {name: '装备制造',value: 54},
-                {name: '现代材料',value: 44},
-                {name: '新能源',value: 35},
-                {name: '新一代信息技术',value: 30}
-            ]
+        homeSystemMonitoring.remotesensing()
+        .then(res => {
+            console.log(res);
+            var data = [];
+            res.data.forEach(function(al,index){
+                data.push({
+                    name:al.dname,
+                    value:parseInt(al.layerremotetypenum)
+                });
+            })
             var colors=[['#f043ac', '#00addf'],['#8e49ff', '#00addf'],['#ffdb15', '#00addf'], ['#00df93', '#00addf']]
 
             var total = 0;
@@ -46,7 +51,7 @@ export default class RemoteEchart extends Component {
                             }
                         },
                         hoverAnimation: false,
-                        center: [ '50%',index * 18 + 10 +'%'],
+                        center: [ '50%',index * 22 + 10 +'%'],
                         data: [{
                             value: item.value,
                             label: {
@@ -81,26 +86,22 @@ export default class RemoteEchart extends Component {
             });
            
             
-        let option = {
-            backgroundColor: "rgba(0,0,0,0)",
-            title:titleArr,
-            series: seriesArr
-        }
-        this.setState({  
-            option:option
-        });
+            let option = {
+                backgroundColor: "rgba(0,0,0,0)",
+                title:titleArr,
+                series: seriesArr
+            }
+            this.setState({  
+                option:option
+            });
+        })
+            
     }
     render() {
         
         return (
-            <div
-            style={{width:"100%",height:"100%"}}
-            >
-            
-                <ReactEcharts 
-                 option={this.state.option} 
-                style={{width:"100%",height:"100%"}}
-                  /> 
+            <div style={{width:"100%",height:"85%"}}>
+                <ReactEcharts option={this.state.option} style={{width:"100%",height:"100%"}} /> 
             </div>
         )
     }

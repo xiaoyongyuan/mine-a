@@ -24,7 +24,8 @@ class ArcGISMap extends Component {
   }
   initMap() {
     const mapURL = {
-      url: "http://192.168.10.29:8080/arcgis/arcgis_js_api/library/4.11/dojo/dojo.js"
+      // url: "http://192.168.10.29:8080/arcgis/arcgis_js_api/library/4.11/dojo/dojo.js"
+      url: "http://39.97.238.216:9999/arcgis_js_v412_api/arcgis_js_api/library/4.12/init.js"
      // url: "https://js.arcgis.com/4.12/"
       // url:window.g.mapURL+"/arcgis/arcgis_js_api/library/4.11/dojo/dojo.js"
     };
