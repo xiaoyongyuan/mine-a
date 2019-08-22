@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component,Fragment } from 'react';
 import {Button, message, Modal} from 'antd'
 import axios from '../../axios'
 import Utils from "../../utils/utils";
@@ -220,29 +220,25 @@ class Scheme extends Component {
         key:'option',
         dataIndex: 'register',
         render: (text,record,index) =>{
-          return(<div className="tableoption">
-              {
-                  record.states === '0'?
-                      <Button type="primary" onClick={()=>this.isstart(record,1)}>启动</Button>:
-                      ''
+          return(
+          <div className="tableoption">
+            <Button type="primary" onClick={()=>this.download(record)}>下载</Button>
+            {
+                  record.states == '0'?
+                    <Fragment>
+                      <Button type="primary" onClick={()=>this.isstart(record,1)}>启动</Button>
+                      <Button type="primary" onClick={()=>this.changeState('newShow',true,record,'type',1)}>编辑</Button>
+                      <Button type="primary" onClick={()=>this.showModaldelete(record,index)}>删除</Button>
+                    </Fragment>
+                    :
+                    ''
               }
-              {
-                  record.states === '0'?
-                      <Button type="primary" onClick={()=>this.changeState('newShow',true,record,'type',1)}>编辑</Button>:
-                      ''
-              }
-              {
-                  record.states === '0'?
-                      <Button type="primary" onClick={()=>this.showModaldelete(record,index)}>删除</Button>:
-                      ''
-              }
-              {
-                  record.filepath.lastIndexOf(".pdf") === -1?
+            {
+                  record.filepath&&record.filepath.lastIndexOf(".pdf") === -1?
                       <a className="greencolor" target="_blank" rel="noopener noreferrer" href={"https://view.officeapps.live.com/op/view.aspx?src="+window.g.filesURL+record.filepath}><Button type="primary">预览</Button></a>:
                       <a className="greencolor" target="_blank" rel="noopener noreferrer" href={window.g.filesURL+record.filepath}><Button type="primary">预览</Button></a>
 
               }
-              <Button type="primary" onClick={()=>this.download(record)}>下载</Button>
           </div>)
         }
       }];
