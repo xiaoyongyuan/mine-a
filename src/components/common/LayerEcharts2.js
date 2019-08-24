@@ -11,7 +11,7 @@ export default class LayerEcharts2 extends Component {
             option:{}
         };
     }
-    componentWillMount(){
+    componentDidMount(){
         var val1data2 = [{
             value: 0.2,
             name: '装配完成率',
@@ -56,8 +56,6 @@ export default class LayerEcharts2 extends Component {
         tooltip: {
             trigger: 'item',
             formatter: function(res) {
-                console.log(res)
-    
                 if (res.componentSubType == 'liquidFill') {
                     return res.seriesName + ': ' + (res.value * 10000 / 100).toFixed(2) + '%';
                 } else {
@@ -84,12 +82,11 @@ export default class LayerEcharts2 extends Component {
                         }
                     }
                 }],
-              //  background: '#fff',
                 color: ['rgba(0,0,0,0)'],
                 center: ['50%', '50%'],
-              /*  backgroundStyle: {
-                    color: '#fff'
-                },*/
+                backgroundStyle: {
+                    color: 'rgba(0,0,0,0)'
+                },
                 label: {
                     normal: {
                         formatter: '',
@@ -109,7 +106,7 @@ export default class LayerEcharts2 extends Component {
             {
                 type: 'pie',
                 radius: ['70%', '85%'],
-                     color: ['#b71c1c', '#bf360c','#49dff0', '#034079', '#6f81da', '#00ffb4'],
+                color: ['#B71C1C', '#BF360C','#F29312', '#33691E', '#01579B', '#1A237E','#791EB8'],
                 hoverAnimation: false, ////设置饼图默认的展开样式
                 label: {
                     show: false,

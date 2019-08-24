@@ -4,9 +4,10 @@ import echarts from 'echarts';
 import 'echarts-liquidfill';
 import homeSystemMonitoring from "../../axios/homeSystemMonitoring";
 
+
 import menubg from '../../style/imgs/menubg.png'
 
-export default class BaseEchart extends Component {
+class BaseEchart extends Component {
     constructor(props){
         super(props);
         this.state={
@@ -15,12 +16,11 @@ export default class BaseEchart extends Component {
             option:{}
         };
     }
-    componentWillMount(){
+    componentDidMount(){
        var _this=this;
         // 请求数据
         homeSystemMonitoring.basedatalist()
         .then(res => {
-            console.log(res);
             var chartData = [];
             var chartName = [];
             res.data.forEach(function(al,index){
@@ -118,25 +118,12 @@ export default class BaseEchart extends Component {
             _this.setState({
                 option:option
             })
-
-
-
-
-
         });
-          
-
-        
-
-
-
-
 
     }
     render() {
         return (
             <div
-            // 
             style={{width:"100%",height:"400px",background:`url('${ menubg }') 100% 100% / cover no-repeat`}}>
                 <ReactEcharts 
                  option={this.state.option} 
@@ -146,3 +133,5 @@ export default class BaseEchart extends Component {
         )
     }
 }
+
+export default BaseEchart; 

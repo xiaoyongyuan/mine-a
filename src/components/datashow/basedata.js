@@ -26,17 +26,17 @@ class Basedata extends Component {
         };
     }
     componentWillMount(){
-        // 请求数据
+        var _this=this;
         homeSystemMonitoring.basedatalist()
         .then(res => {
-            console.log(res)
-            //   算基础数据总数
-            let sums = this.sum(res.data);
-            this.setState({ 
-                responsedata: res.data,
-                total:sums
-             });
-          });
+            var sun=_this.sum(res.data);
+            _this.setState({
+                responsedata:res.data,
+                total:sun
+            })
+        })
+        
+        
     }
     //   算基础数据总数
     sum(arr){
@@ -95,6 +95,7 @@ class Basedata extends Component {
                             )})
                     }
 
+                   
                     
                     <div className="columndl" style={{marginBottom:'10px'}}>
                         <div className="columndt">各网基础数据对比</div>
@@ -110,5 +111,6 @@ class Basedata extends Component {
 Basedata.propTypes = {
     ChangeEarth: PropTypes.func.isRequired
 }
+
 
 export default connect(null, { ChangeEarth })(Basedata); 

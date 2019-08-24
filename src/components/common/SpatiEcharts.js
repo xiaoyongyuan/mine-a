@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import ReactEcharts from 'echarts-for-react';
 import echarts from 'echarts';
 import 'echarts-liquidfill';
+import homeSystemMonitoring from "../../axios/homeSystemMonitoring";
 import menubg from '../../style/imgs/menubg.png'
 
 
@@ -12,207 +13,144 @@ export default class SpatiEcharts extends Component {
             option:{}
         };
     }
-    componentWillMount(){
-        var option = {
-            backgroundColor:"rgba(0,0,0,0)",
-            color: ["#EAEA26", "#906BF9", "#FE5656", "#01E17E", "#3DD1F9", "#FFAD05"],
-            // title: {
-            //     text: '网络/安全设备',
-            //     left: '60',
-            //     top: 0,
-            //     textAlign: 'center',
-            //     textStyle: {
-            //         color: '#fff',
-            //         fontSize: 14,
-            //         fontWeight: 0
-            //     }
-            // },
-            grid: {
-                left: -100,
-                top: 10,
-                bottom: 10,
-                right: 10,
-                containLabel: true
-            },
-            tooltip: {
-                trigger: 'item',
-                formatter: "{b} : {c} ({d}%)"
-            },
-            legend: {
-                type: "scroll",
-                orient: "vartical",
-                show: false,
-                // x: "right",
-                top: "center",
-                // right: "15",
-                // bottom: "0%",
-                // itemWidth: 0,
-                // itemHeight: 0,
-                // itemGap: 0,
-                // textStyle: {
-                //     color: '#A3E2F4',
-                //     fontSize: 12,
-                //     fontWeight: 0
-                // },
-                data: ['IDS', 'VPN', '交换机', '防火墙', 'WAF', '堡垒机']
-            },
-            polar: {},
-            angleAxis: {
-                interval: 1,
-                type: 'category',
-                data: [],
-                z: 10,
-                axisLine: {
-                    show: true,
-                    lineStyle: {
-                        color: "rgb(67, 241, 218)",
-                        width: 1,
-                        type: "solid"
-                    },
+    componentDidMount(){
+        homeSystemMonitoring.spatialan()
+        .then(res => {
+            console.log("空间分析",res);
+            var data1 = [];
+            var data2 = [];
+            res.data.forEach(function(al,index){
+                data1.push(al.DNAME);
+                data2.push({
+                    value: al.LAYERITEMTYPENUM,
+                    name: al.DNAME
+                });
+            })
+            
+            var option = {
+                backgroundColor:"rgba(0,0,0,0)",
+                color: ["#EAEA26", "#906BF9", "#FE5656", "#01E17E", "#3DD1F9", "#FFAD05"],
+                grid: {
+                    left: -100,
+                    top: 10,
+                    bottom: 10,
+                    right: 10,
+                    containLabel: true
                 },
-                axisLabel: {
-                    interval: 0,
-                    show: true,
-                    color: "rgb(67, 241, 218)",
-                    margin: 5,
-                    fontSize: 16
+                tooltip: {
+                    trigger: 'item',
+                    formatter: "{b} : {c} ({d}%)"
                 },
-            },
-            radiusAxis: {
-                min: 40,
-                max: 120,
-                interval: 20,
-                axisLine: {
-                    show: true,
-                    lineStyle: {
-                        color: "rgb(67, 241, 218)",
-                        width: 1,
-                        type: "solid"
-                    },
-                },
-                axisLabel: {
-                    formatter: '{value} %',
+                legend: {
+                    type: "scroll",
+                    orient: "vartical",
                     show: false,
-                    padding: [0, 0, 0, 0],
-                    color: "#0B3E5E",
-                    fontSize: 16
+                    top: "center",
+                    data: data1
                 },
-                splitLine: {
-                    lineStyle: {
-                        color: "rgb(67, 241, 218)",
-                        width: 1,
-                        type: "solid"
-                    }
-                }
-            },
-            calculable: true,
-            series: [{
-                type: 'pie',
-                radius: ["5%", "6%"],
-                hoverAnimation: false,
-                // labelLine: {
-                //     normal: {
-                //         show: false,
-                //         length: 30,
-                //         length2: 55
-                //     },
-                //     emphasis: {
-                //         show: false
-                //     }
-                // },
-                data: [{
-                    name: '',
-                    value: 0,
-                    itemStyle: {
-                        normal: {
-                            color: "rgb(67, 241, 218)"
-                        }
-                    }
-                }]
-            }, {
-                type: 'pie',
-                radius: ["80%", "81%"],
-                hoverAnimation: true,
-                // labelLine: {
-                //     normal: {
-                //         show: false,
-                //         length: 30,
-                //         length2: 55
-                //     },
-                //     emphasis: {
-                //         show: false
-                //     }
-                // },
-                name: "",
-                data: [{
-                    name: '',
-                    value: 0,
-                    itemStyle: {
-                        normal: {
-                            color: "rgb(67, 241, 218)"
-                        }
-                    }
-                }]
-            },{
-                stack: 'a',
-                type: 'pie',
-                radius: ['0%', '80%'],
-                roseType: 'area',
-                zlevel:0,
-                label: {
-                    normal: {
+                polar: {},
+                angleAxis: {
+                    interval: 1,
+                    type: 'category',
+                    data: [],
+                    z: 10,
+                    axisLine: {
                         show: true,
-                        formatter: "{c}",
-                        textStyle: {
-                            fontSize: 12,
+                        lineStyle: {
+                            color: "rgb(67, 241, 218)",
+                            width: 1,
+                            type: "solid"
                         },
-                        // position: 'inside'
-                        position: 'inside'
                     },
-                    // emphasis: {
-                    //     show: false
-                    // }
+                    axisLabel: {
+                        interval: 0,
+                        show: true,
+                        color: "rgb(67, 241, 218)",
+                        margin: 5,
+                        fontSize: 16
+                    },
                 },
-                // labelLine: {
-                //     normal: {
-                //         show: false,
-                //         length: 20,
-                //         length2: 55
-                //     },
-                //     emphasis: {
-                //         show: false
-                //     }
-                // },
-                data: [{
-                        value: 10,
-                        name: 'IDS'
+                radiusAxis: {
+                    min: 40,
+                    max: 120,
+                    interval: 20,
+                    axisLine: {
+                        show: true,
+                        lineStyle: {
+                            color: "rgb(67, 241, 218)",
+                            width: 1,
+                            type: "solid"
+                        },
                     },
-                    {
-                        value: 5,
-                        name: 'VPN'
+                    axisLabel: {
+                        formatter: '{value} %',
+                        show: false,
+                        padding: [0, 0, 0, 0],
+                        color: "#0B3E5E",
+                        fontSize: 16
                     },
-                    {
-                        value: 15,
-                        name: '交换机'
-                    },
-                    {
-                        value: 25,
-                        name: '防火墙'
-                    },
-                    {
-                        value: 20,
-                        name: 'WAF'
-                    },
-                    {
-                        value: 35,
-                        name: '堡垒机'
+                    splitLine: {
+                        lineStyle: {
+                            color: "rgb(67, 241, 218)",
+                            width: 1,
+                            type: "solid"
+                        }
                     }
-                ]
-            }, ]
-        }
-        this.setState({
-            option:option
+                },
+                calculable: true,
+                series: [{
+                    type: 'pie',
+                    radius: ["5%", "6%"],
+                    hoverAnimation: false,
+                    data: [{
+                        name: '',
+                        value: 0,
+                        itemStyle: {
+                            normal: {
+                                color: "rgb(67, 241, 218)"
+                            }
+                        }
+                    }]
+                }, {
+                    type: 'pie',
+                    radius: ["80%", "81%"],
+                    hoverAnimation: true,
+                    name: "",
+                    data: [{
+                        name: '',
+                        value: 0,
+                        itemStyle: {
+                            normal: {
+                                color: "rgb(67, 241, 218)"
+                            }
+                        }
+                    }]
+                },{
+                    stack: 'a',
+                    type: 'pie',
+                    radius: ['20%', '80%'],
+                    roseType: 'area',
+                    zlevel:0,
+                    label: {
+                        normal: {
+                            show: true,
+                            formatter: "{c}",
+                            textStyle: {
+                                fontSize: 12,
+                            },
+                            position: 'inside'
+                        },
+                    },
+                    data: data2
+                }, ]
+            }
+            this.setState({
+                option:option
+            })
+            
         })
+
+        
     }
     render() {
         return (

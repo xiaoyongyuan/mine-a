@@ -11,7 +11,7 @@ export default class LayerEcharts1 extends Component {
             option:{}
         };
     }
-    componentWillMount(){
+    componentDidMount(){
         // 道路
         var tilte=this.props.data.tilte;
         // 百分比
@@ -37,7 +37,7 @@ export default class LayerEcharts1 extends Component {
                 data: data,
                 backgroundStyle: {
                     borderWidth: 0,
-                    borderColor: '#1daaeb',
+                    borderColor: '#00ADDF',
                     color: '#00000000'
                 },
                 label: {
@@ -46,7 +46,8 @@ export default class LayerEcharts1 extends Component {
                             return two?tilte+'\n'+all+'\n'+(value * 100).toFixed(2) + '%':all+'\n'+'\n'+tilte;
                         },
                         textStyle: {
-                            fontSize: 20
+                            fontSize: 20,
+                            color: '#00ADDF',
                         }
                     }
                 }

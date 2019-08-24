@@ -33,6 +33,7 @@ class Login extends Component {
           data: {
             passWord:values.passWord,
             userName:values.userName,
+            loginType:"0"
           }
         }).then((res)=>{
           if(res.access_token){

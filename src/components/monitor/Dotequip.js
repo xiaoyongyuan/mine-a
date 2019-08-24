@@ -428,8 +428,7 @@ class Dotequip extends Component {
       okType: "success",
       cancelText: "取消",
       onOk() {
-        axios
-          .ajax({
+        axios.ajax({
             baseURL:window.g.bizserviceURL,
             method: "put",
             url: "/api/enabledMonitorDevice",

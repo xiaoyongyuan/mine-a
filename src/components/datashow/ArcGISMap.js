@@ -1,10 +1,14 @@
 import React, { Component } from 'react'
 import esriLoader from 'esri-loader'
 import './mapshow.less'
+// redux需要
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { isNull } from 'util';
+import { AllroadGobai } from '../../actions/postActions';
+
 import homeSystemMonitoring from "../../axios/homeSystemMonitoring";
+import { isNull } from 'util';
+
 
 class ArcGISMap extends Component {
   constructor(props) {
@@ -16,7 +20,19 @@ class ArcGISMap extends Component {
       FeatureLayer:null,
       taskLayer:null,
       Graphic:null,
-      MapImageLayer:null
+      MapImageLayer:null,
+      TileLayer:null,
+      newMapImageLayer:null,
+      sunhui1:null,
+      caikuangqu:null,
+      gongchang:null,
+      bianjie:null,
+      VectorTileLayer:null,
+      permitsLayer:null,
+      featureLayer3:null,
+      featureLayer1:null,
+      featureLayer2:null,
+      kqdhLayer:null,
     }
   }
   componentDidMount() {
@@ -40,6 +56,8 @@ class ArcGISMap extends Component {
       "esri/widgets/BasemapToggle",
       "esri/layers/MapImageLayer",
       "esri/layers/ElevationLayer",
+      "esri/layers/TileLayer",
+      "esri/layers/VectorTileLayer",
       "esri/widgets/Zoom",
       "esri/Graphic"
     ], mapURL).then(([
@@ -59,12 +77,16 @@ class ArcGISMap extends Component {
       // ElevationLayer是用于在SceneView中渲染高程的切片图层。通过将地图的地面属性设置为，可以将默认的世界高程图层添加到地图中。
       ElevationLayer,
       // Zoom缩放窗口小部件允许用户在视图中放大/缩小。
+      TileLayer,
+      VectorTileLayer,
       Zoom,
       Graphic
     ]) => {
       this.state.FeatureLayer=FeatureLayer;
       this.state.Graphic=Graphic;
       this.state.MapImageLayer=MapImageLayer;
+      this.state.TileLayer=TileLayer;
+      this.state.VectorTileLayer=VectorTileLayer;
 
       var mapBaseLayer = new WebTileLayer({
         urlTemplate:
@@ -133,7 +155,10 @@ class ArcGISMap extends Component {
       this.state.view.on("click", function (e) {
         //console.log(view.center);
       });
+
       
+      
+
       this.state.view.when(function () {
         var toggle = new BasemapToggle({
           titleVisible: true,
@@ -353,18 +378,272 @@ class ArcGISMap extends Component {
   }
   componentWillUpdate(nextProps) {
     var _this=this;
-    // 遥感监测:
-    if(nextProps.identify=="remote"){
-      // INSAR
-      if( nextProps.remotedata=='INSAR'){
-       let newMapImageLayer = new this.state.MapImageLayer({
-          url: "https://39.97.188.225/server/rest/services/insar/MapServer"
-        });
-        this.state.map.add(newMapImageLayer);
+    // 返回上一层，清理地球图层
+    if(nextProps.identify==0){
+      // this.state.map.removeAll();
+      // 清理 矿区导航-路网,首页系统总览_空间分析
+      if(this.state.taskLayer){
+        this.state.map.remove(this.state.taskLayer);
       }
-     
+      // 清理 系统总揽:监测设备,基础数据
+      if(_this.state.view.graphics){
+        _this.state.view.graphics.removeAll();
+      }
+      // 清理 遥感监测:INSAR,高光谱,土地损毁与复垦 ,地形地貌
+      if(this.state.newMapImageLayer||this.state.permitsLayer ||this.state.bianjie ||this.state.caikuangqu ||this.state.gongchang ||this.state.sunhui1||this.state.featureLayer1||this.state.featureLayer2||this.state.featureLayer3){
+        this.state.map.remove(this.state.newMapImageLayer);
+        this.state.map.remove(this.state.permitsLayer);
+        this.state.map.remove(this.state.bianjie);
+        this.state.map.remove(this.state.caikuangqu);
+        this.state.map.remove(this.state.gongchang);
+        this.state.map.remove(this.state.sunhui1);
+        this.state.map.remove(this.state.featureLayer1);
+        this.state.map.remove(this.state.featureLayer2);
+        this.state.map.remove(this.state.featureLayer3);
+      }
+      // 清理 矿区导航
+      if(this.state.kqdhLayer){
+        this.state.map.remove(this.state.kqdhLayer);
+      }
+    }
+
+
+
+
+    // 首页系统总览_矿区导航-总路网
+    if(nextProps.identify=="Allroad"){
+      if(this.state.kqdhLayer){
+        this.state.map.remove(this.state.kqdhLayer);
+      }
+      var popupTemplate = {
+        "title": "展示信息",
+        "content":"道路名称为:{daolu_name},起点是:{start},终点是:{end},长度为:{length}" 
+      } 
+       this.state.kqdhLayer = new this.state.FeatureLayer({
+          url: nextProps.Allroad,
+          popupTemplate: popupTemplate
+      });
+      this.state.map.add(this.state.kqdhLayer);
+
+ 
+
+
+      _this.state.view.when(function() {
+        return _this.state.kqdhLayer.when(function() {
+          var query = _this.state.kqdhLayer.createQuery();
+          query.where = "1=1";
+          return _this.state.kqdhLayer.queryFeatures(query);
+        });
+      }).then(getValues);
+    
+      function getValues(response) {
+        // 促发redux,把数据返回
+        _this.props.AllroadGobai(response);
+      }
+    }
+
+
+
+    // 矿区导航-各个路网
+    if(nextProps.identify=="network"){
+          var feature = nextProps.network;
+          _this.state.view.goTo(feature.geometry.extent.expand(2)).then(function() {
+            _this.state.view.popup.open({
+              features: [feature],
+              location: feature.geometry.centroid
+            });
+          });
 
     }
+
+
+
+    // 首页系统总览_空间分析
+    if(nextProps.identify=="Spatia"){
+      if(this.state.taskLayer){
+        this.state.map.remove(this.state.taskLayer);
+      }
+      console.log(nextProps.Spatiadata);
+       this.state.taskLayer = new this.state.TileLayer({
+        url: nextProps.Spatiadata.layerurl,
+        title: "Touristic attractions",
+        elevationInfo: {
+          mode: "relative-to-scene"
+        },
+        outFields: ["*"],
+        featureReduction: {
+          type: "selection"
+        },
+      });
+      this.state.map.add(this.state.taskLayer);
+    }
+
+
+
+    
+
+
+
+    // 首页数据监测
+    if(nextProps.identify=="Monitoringdata"){
+      if(this.state.taskLayer){
+        this.state.map.remove(this.state.taskLayer);
+      }
+       this.state.taskLayer = new this.state.FeatureLayer({
+          url: nextProps.Monitorings.layerurl,
+          title: "Touristic attractions",
+          elevationInfo: {
+            mode: "relative-to-scene"
+          },
+          outFields: ["*"],
+          featureReduction: {
+            type: "selection"
+          },
+      });
+      this.state.map.add(this.state.taskLayer);
+      
+    }
+
+
+
+
+
+
+
+
+    // 遥感监测:
+    if(nextProps.identify=="remote"){
+      if(this.state.newMapImageLayer||this.state.permitsLayer ||this.state.bianjie ||this.state.caikuangqu ||this.state.gongchang ||this.state.sunhui1||this.state.featureLayer1||this.state.featureLayer2||this.state.featureLayer3){
+        this.state.map.remove(this.state.newMapImageLayer);
+        this.state.map.remove(this.state.permitsLayer);
+        this.state.map.remove(this.state.bianjie);
+        this.state.map.remove(this.state.caikuangqu);
+        this.state.map.remove(this.state.gongchang);
+        this.state.map.remove(this.state.sunhui1);
+        this.state.map.remove(this.state.featureLayer1);
+        this.state.map.remove(this.state.featureLayer2);
+        this.state.map.remove(this.state.featureLayer3);
+      }
+      // 地形地貌
+      if( nextProps.remotedata=='topographic'){
+        //矿区边界
+        this.state.bianjie = new this.state.VectorTileLayer({
+          url: "https://www.beidouhj.com/server/rest/services/Hosted/hualagou_bianjie/VectorTileServer"
+        });
+        // 地形地貌1
+        this.state.featureLayer3 = new this.state.VectorTileLayer({
+          url: "https://www.beidouhj.com/server/rest/services/Hosted/halagou_denggaoxian1/VectorTileServer",
+          title: "Touristic attractions",
+          elevationInfo: {
+            mode: "relative-to-scene"
+          },
+          outFields: ["*"],
+          featureReduction: {
+            type: "selection"
+          },
+        });
+        // 地形地貌2
+        this.state.featureLayer1 = new this.state.TileLayer({
+          url: "https://www.beidouhj.com/server/rest/services/Hosted/halagou_shade1/MapServer",
+          title: "Touristic attractions",
+          elevationInfo: {
+            mode: "relative-to-scene"
+          },
+          outFields: ["*"],
+          featureReduction: {
+            type: "selection"
+          },
+        });
+        // 地形地貌3
+        this.state.featureLayer2 = new this.state.TileLayer({
+          url: "https://www.beidouhj.com/server/rest/services/Hosted/halagou_dixing_xuanran/MapServer",
+          title: "Touristic attractions",
+          elevationInfo: {
+            mode: "relative-to-scene"
+          },
+          outFields: ["*"],
+          featureReduction: {
+            type: "selection"
+          },
+        });
+
+        this.state.map.add(this.state.bianjie);
+        this.state.map.add(this.state.featureLayer1);
+        this.state.map.add(this.state.featureLayer2);
+        this.state.map.add(this.state.featureLayer3);
+       }
+      // INSAR
+      if( nextProps.remotedata=='INSAR'){
+       this.state.newMapImageLayer = new this.state.TileLayer({
+          url: "https://www.beidouhj.com/server/rest/services/Hosted/halagou_chenjiang_dem/MapServer"
+        });
+        this.state.map.add(this.state.newMapImageLayer);
+      }
+      // 高光谱
+      if( nextProps.remotedata=='gaoguangpu'){
+        this.state.newMapImageLayer = new this.state.TileLayer({
+           url: "https://www.beidouhj.com/server/rest/services/Hosted/halagou_NDVI/MapServer"
+         });
+         this.state.map.add(this.state.newMapImageLayer);
+       }
+
+      //  土地损毁与复垦
+      if( nextProps.remotedata=='land'){
+         // 添加图层
+         this.state.permitsLayer = new this.state.TileLayer({
+          url: "https://www.beidouhj.com/server/rest/services/Hosted/HAG_yingxiang_meihua1/MapServer",
+          title: "Touristic attractions",
+          elevationInfo: {
+            mode: "relative-to-scene"
+          },
+          outFields: ["*"],
+          featureReduction: {
+            type: "selection"
+          },
+        });
+        
+        // 土地损毁与复垦1
+        this.state.sunhui1 = new this.state.VectorTileLayer({
+          url: "https://www.beidouhj.com/server/rest/services/Hosted/gongyequ/VectorTileServer"
+        });
+        // 土地损毁与复垦2
+        this.state.caikuangqu = new this.state.FeatureLayer({
+          url: "https://www.beidouhj.com/server/rest/services/Hosted/caikuanqu_dian/FeatureServer",
+          title: "Touristic attractions",
+          elevationInfo: {
+            mode: "relative-to-scene"
+          },
+          outFields: ["*"],
+          featureReduction: {
+            type: "selection"
+          }
+        });
+        // 土地损毁与复垦3
+        this.state.gongchang = new this.state.FeatureLayer({
+          url: "https://www.beidouhj.com/server/rest/services/Hosted/gongchang_dian/FeatureServer",
+          title: "Touristic attractions",
+          elevationInfo: {
+            mode: "relative-to-scene"
+          },
+          outFields: ["*"],
+          featureReduction: {
+            type: "selection"
+          }
+        });
+        //矿区边界
+        this.state.bianjie = new this.state.VectorTileLayer({
+          url: "https://www.beidouhj.com/server/rest/services/Hosted/hualagou_bianjie/VectorTileServer"
+        });
+        this.state.map.add(this.state.permitsLayer)
+        this.state.map.add(this.state.bianjie);
+        this.state.map.add(this.state.gongchang);
+        this.state.map.add(this.state.caikuangqu);
+        this.state.map.add(this.state.sunhui1);
+       }
+    }
+
+
+    
 
 
 
@@ -412,6 +691,8 @@ class ArcGISMap extends Component {
 
     }
 
+
+
     // 系统总揽:基础数据
     if(nextProps.identify=="database"){
       homeSystemMonitoring.groundFissure({"netid":nextProps.newPost.netid})
@@ -452,25 +733,6 @@ class ArcGISMap extends Component {
             }
         });
     }
-    
-    
-    
-  //   if(this.state.taskLayer){
-  //     this.state.map.remove(this.state.taskLayer);
-  //   }
-  // let url=nextProps.newPost.url;
-    // this.state.taskLayer = new this.state.FeatureLayer({
-    //   url: url,
-    //     title: "Touristic attractions",
-    //     elevationInfo: {
-    //       mode: "relative-to-scene"
-    //     },
-    //     outFields: ["*"],
-    //     featureReduction: {
-    //       type: "selection"
-    //     },
-    // });
-    // this.state.map.add(this.state.taskLayer);
   }
   render() {
     return (
@@ -486,5 +748,12 @@ const mapStateToProps = state => ({
   monitdata: state.posts.monitdata,
   identify: state.posts.identify,
   remotedata: state.posts.remotedata,
+  network: state.posts.network,
+  Monitorings: state.posts.Monitorings,
+  Spatiadata: state.posts.Spatiadata,
+  Allroad: state.posts.Allroad,
 })
-export default connect(mapStateToProps, { })(ArcGISMap);
+ArcGISMap.propTypes = {
+  AllroadGobai: PropTypes.func.isRequired,
+}
+export default connect(mapStateToProps, { AllroadGobai })(ArcGISMap);

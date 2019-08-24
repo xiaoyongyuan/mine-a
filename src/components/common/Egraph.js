@@ -55,7 +55,7 @@ class Egraph extends Component {
     }
   }
   
-  //已复垦仪表盘
+  //土地复垦 仪表盘
   meter=()=>{
     const _this=this;
     var option= {
@@ -63,7 +63,7 @@ class Egraph extends Component {
     };
     this.setState({option})
   };
-    //已损毁仪表盘
+    //土地损毁 仪表盘
     shmeter=()=>{
         const _this=this;
         var option= {
@@ -231,7 +231,7 @@ class Egraph extends Component {
                         },
                         data: [
                             {
-                                x: "50%",
+                                x: "90%",
                                 y: "55%"
                             }
                         ]

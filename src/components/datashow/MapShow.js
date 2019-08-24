@@ -17,6 +17,11 @@ import globa from '../../style/imgs/globa.png';
 import pointer from '../../style/imgs/pointer.png';
 import hometitle from '../../style/imgs/hometitle.png';
 import axios from "../../axios";
+// redux需要
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { CleanLayers } from '../../actions/postActions';
+
 import './mapshow.less'
 const confirm = Modal.confirm;
 class MapShow extends Component {
@@ -67,6 +72,9 @@ class MapShow extends Component {
                 console.log("display",this.state.display);
             }
         )
+        // 促发redux
+        this.props.CleanLayers(0);
+
     };
     hanleClose=()=>{
         const _this=this;
@@ -166,4 +174,9 @@ class MapShow extends Component {
         );
     }
 }
-export default MapShow
+MapShow.propTypes = {
+    CleanLayers: PropTypes.func.isRequired
+}
+
+
+export default connect(null, { CleanLayers })(MapShow); 

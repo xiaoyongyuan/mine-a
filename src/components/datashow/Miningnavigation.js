@@ -1,48 +1,48 @@
 import React, { Component } from 'react'
+import homeSystemMonitoring from "../../axios/homeSystemMonitoring";
 import './Miningnavigation.less'
+// redux需要
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { Networks,Allroad } from '../../actions/postActions';
 
-export default class Miningnavigation extends Component {
+class Miningnavigation extends Component {
     constructor(props){
         super(props);
         this.state={   
-            // 当前页-1
-            pagenum:0,
-            // 总页数
-            pagetotal:1,
-            // 每页显示多少条
-            everypage:7,
-            responsedata:[
-                {"id":1,"name":"一路网","begin":"矿区一","end":"矿区二","distance":232,"url":"https://beidou.esrichina.com/server/rest/services/Hosted/xingbian_jiance4/FeatureServer"},
-                {"id":2,"name":"二路网","begin":"矿区二","end":"矿区三","distance":60,"url":"https://beidou.esrichina.com/server/rest/services/Hosted/chengjiang_jiance5/FeatureServer"},
-                {"id":3,"name":"三路网","begin":"矿区四","end":"矿区五","distance":20,"url":"https://beidou.esrichina.com/server/rest/services/Hosted/chengjiang_jiance5/FeatureServer"},
-                {"id":4,"name":"四路网","begin":"矿区六","end":"矿区七","distance":10,"url":"https://beidou.esrichina.com/server/rest/services/Hosted/chengjiang_jiance5/FeatureServer"},
-                {"id":5,"name":"五路网","begin":"矿区八","end":"矿区九","distance":10,"url":"https://beidou.esrichina.com/server/rest/services/Hosted/chengjiang_jiance5/FeatureServer"},
-                {"id":6,"name":"六路网","begin":"矿区十","end":"矿区十一","distance":75,"url":"https://beidou.esrichina.com/server/rest/services/Hosted/chengjiang_jiance5/FeatureServer"},
-                {"id":7,"name":"七路网","begin":"矿区十二","end":"矿区十三","distance":25,"url":"https://beidou.esrichina.com/server/rest/services/Hosted/chengjiang_jiance5/FeatureServer"},
-                {"id":8,"name":"一路网","begin":"2矿区一","end":"矿区二","distance":232,"url":"https://beidou.esrichina.com/server/rest/services/Hosted/xingbian_jiance4/FeatureServer"},
-                {"id":9,"name":"二路网","begin":"2矿区二","end":"矿区三","distance":60,"url":"https://beidou.esrichina.com/server/rest/services/Hosted/chengjiang_jiance5/FeatureServer"},
-                {"id":10,"name":"三路网","begin":"2矿区四","end":"矿区五","distance":20,"url":"https://beidou.esrichina.com/server/rest/services/Hosted/chengjiang_jiance5/FeatureServer"},
-                {"id":11,"name":"四路网","begin":"2矿区六","end":"矿区七","distance":10,"url":"https://beidou.esrichina.com/server/rest/services/Hosted/chengjiang_jiance5/FeatureServer"},
-                {"id":12,"name":"五路网","begin":"2矿区八","end":"矿区九","distance":10,"url":"https://beidou.esrichina.com/server/rest/services/Hosted/chengjiang_jiance5/FeatureServer"},
-                {"id":13,"name":"六路网","begin":"2矿区十","end":"矿区十一","distance":75,"url":"https://beidou.esrichina.com/server/rest/services/Hosted/chengjiang_jiance5/FeatureServer"},
-                {"id":14,"name":"七路网","begin":"2矿区十二","end":"矿区十三","distance":25,"url":"https://beidou.esrichina.com/server/rest/services/Hosted/chengjiang_jiance5/FeatureServer"},
-                {"id":15,"name":"一路网","begin":"3矿区一","end":"矿区二","distance":232,"url":"https://beidou.esrichina.com/server/rest/services/Hosted/xingbian_jiance4/FeatureServer"},
-                {"id":16,"name":"二路网","begin":"3矿区二","end":"矿区三","distance":60,"url":"https://beidou.esrichina.com/server/rest/services/Hosted/chengjiang_jiance5/FeatureServer"},
-                {"id":17,"name":"三路网","begin":"3矿区四","end":"矿区五","distance":20,"url":"https://beidou.esrichina.com/server/rest/services/Hosted/chengjiang_jiance5/FeatureServer"},
-                {"id":18,"name":"四路网","begin":"3矿区六","end":"矿区七","distance":10,"url":"https://beidou.esrichina.com/server/rest/services/Hosted/chengjiang_jiance5/FeatureServer"},
-                {"id":19,"name":"五路网","begin":"3矿区八","end":"矿区九","distance":10,"url":"https://beidou.esrichina.com/server/rest/services/Hosted/chengjiang_jiance5/FeatureServer"},
-                {"id":20,"name":"六路网","begin":"3矿区十","end":"矿区十一","distance":75,"url":"https://beidou.esrichina.com/server/rest/services/Hosted/chengjiang_jiance5/FeatureServer"},
-                {"id":21,"name":"七路网","begin":"3矿区十二","end":"矿区十三","distance":25,"url":"https://beidou.esrichina.com/server/rest/services/Hosted/chengjiang_jiance5/FeatureServer"},
-            ],
-            
+           // 当前页-1
+           pagenum:1,
+           // 总页数
+           pagetotal:1,
+           // 每页显示多少条
+           everypage:7,
+            // 路网总数
+            totalcount:0,
+            responsedata:[]
         };
     }
-    componentWillMount(nextProps,nextState){
-        var pagetotal=this.state.responsedata.length/this.state.everypage;
-        this.setState({
-            pagetotal:pagetotal
+    componentDidMount(){
+        homeSystemMonitoring.miniNavigationlist({layertype:2,pageindex:this.state.pagenum,pagesize:this.state.everypage})
+        .then(res=>{
+            // 总路网信息resux
+            this.props.Allroad(res.data[0].layerurl);
         })
     }
+    componentWillUpdate(nextProps) {
+        this.state.responsedata = nextProps.AllroadGobai.features;
+        var pagetotal=nextProps.AllroadGobai.features.length/this.state.everypage;
+        this.state.pagetotal=pagetotal;
+        if(this.state.pagenum==1){
+            let div1=document.getElementById('pageone'); 
+            div1.style.color='gray'; 
+        }
+        if(this.state.pagenum==pagetotal){
+            let div2=document.getElementById('pagetwo');  
+            div2.style.color='gray'; 
+        }
+        
+    }
+
     // 上一页
     prev(){
         var pagenum=this.state.pagenum-1;
@@ -50,28 +50,35 @@ export default class Miningnavigation extends Component {
         div1.style.color='white'; 
         let div2=document.getElementById('pagetwo'); 
         div2.style.color='white'; 
-        if(pagenum<=0){
-            pagenum=0;
+        if(pagenum<=1){
+            pagenum=1;
             div1.style.color='gray'; 
         }
         this.setState({
             pagenum:pagenum
         })
+
+        
     }
+
     // 下一页
     next(){
         var pagenum=this.state.pagenum+1;
+        var pageindex=this.state.pageindex;
         let div1=document.getElementById('pageone'); 
         div1.style.color='white'; 
         let div2=document.getElementById('pagetwo'); 
         div2.style.color='white'; 
+
         if(pagenum>=this.state.pagetotal){
-            pagenum=this.state.pagetotal-1;
+            pagenum=this.state.pagetotal;
             div2.style.color='gray'; 
         }
         this.setState({
             pagenum:pagenum
         })
+
+        
     }
     // 上一页,下一页
     itemRender(current, type, originalElement) {
@@ -83,9 +90,9 @@ export default class Miningnavigation extends Component {
         }
         return originalElement;
     }
-    // 点击路网信息
+    // 点击路网信息resux
     Changeglobe(val){
-
+        this.props.Networks(val);
     }
 
     render() {
@@ -94,7 +101,7 @@ export default class Miningnavigation extends Component {
         return (
             <div className="Miningnavigation">
                 <p className="myiconfont">
-                    <span class="actionfont action-daohang"></span><span>矿区导航</span>
+                    <span className="actionfont action-daohang"></span><span>矿区导航</span>
                 </p>
                 <div className="MiniAll"> 
                 <div className="miniEcharts">
@@ -112,22 +119,22 @@ export default class Miningnavigation extends Component {
                         <div className="page" onClick={this.next.bind(this)} id="pagetwo">下一页</div>
                     </div>
                 </div>
-                
+
                 {/* 内容 */}
                 {
-                    this.state.responsedata.slice(this.state.pagenum * this.state.everypage, this.state.everypage * (this.state.pagenum + 1)).map(function(item,keys){
+                        this.state.responsedata.slice((this.state.pagenum - 1) * this.state.everypage, this.state.everypage * this.state.pagenum).map(function(item,keys){
                         return (
                             <div className="Basedata-item-sbsl" 
                             onClick={_this.Changeglobe.bind(_this,item)}
-                            key={item.id}>
-                                <div className="itemname">{item.name}---{item.id}</div>
+                            key={ item.uid }>
+                                <div className="itemname">{ item.attributes.daolu_name }</div>
                                 <div className="jcwname">
                                     <div className="jcwword">
-                                        <div>起点: {item.begin}</div>
-                                        <div>终点: {item.begin}</div>
+                                        <div>起点: { item.attributes.start }</div>
+                                        <div>终点: { item.attributes.end_ }</div>
                                     </div>
                                     <div className="distance">
-                                        {item.distance} KM
+                                        {item.attributes.length}M
                                     </div>
                                 </div>
                             </div>
@@ -140,3 +147,15 @@ export default class Miningnavigation extends Component {
         )
     }
 }
+
+const mapStateToProps = state => ({
+    AllroadGobai: state.posts.AllroadGobai,
+})
+
+Miningnavigation.propTypes = {
+    Networks: PropTypes.func.isRequired,
+    Allroad: PropTypes.func.isRequired,
+}
+
+
+export default connect(mapStateToProps, { Networks,Allroad })(Miningnavigation); 

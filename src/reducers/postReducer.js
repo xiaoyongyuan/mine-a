@@ -1,4 +1,4 @@
-import { Earth,Monit_Type,Remote_Type } from '../actions/types';
+import { Earth,Monit_Type,Remote_Type,Network_Type,CleanLayers_Type,Monitoring_Type,Spatia_Type,Allroad_Type,AllroadGobai_Type } from '../actions/types';
 // reducer的作用: 返回新的状态
 
 const initialState = {
@@ -6,7 +6,12 @@ const initialState = {
   item: {},
   monitdata:{},
   identify:'',
-  remotedata:''
+  remotedata:'',
+  network:{},
+  Monitorings:{},
+  Spatiadata:{},
+  Allroad:'',
+  AllroadGobai:{}
 }
 
 export default function (state = initialState, action) {
@@ -31,6 +36,46 @@ export default function (state = initialState, action) {
         ...state,
         identify:"remote",
         remotedata: action.payload
+      }
+    // 矿区导航-各个路网
+    case Network_Type:
+      return {
+        ...state,
+        identify:"network",
+        network: action.payload
+      }
+    // 矿区导航-总路网
+    case Allroad_Type:
+      return {
+        ...state,
+        identify:"Allroad",
+        Allroad: action.payload
+      }
+    // 矿区导航_总路网_数据回原组件
+    case AllroadGobai_Type:
+      return {
+        ...state,
+        AllroadGobai: action.payload
+      }
+    // 返回上一层，清理地球图层
+    case CleanLayers_Type:
+      return {
+        ...state,
+        identify:action.payload
+      }
+    // 首页数据监测
+    case Monitoring_Type:
+      return {
+        ...state,
+        identify:"Monitoringdata",
+        Monitorings:action.payload
+      }
+    // 首页系统总览_空间分析
+    case Spatia_Type:
+      return {
+        ...state,
+        identify:"Spatia",
+        Spatiadata:action.payload
       }
     default:
       return state;

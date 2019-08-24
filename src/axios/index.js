@@ -113,10 +113,7 @@ export default class Axios {
             loading.style.display = 'block';
         }
         return new Promise((resolve,reject)=>{
-            axios.post(
-                // window.g.loginURL+'/oauth/login/login',
-                'http://192.168.10.15:8001/oauth/login/login',
-                options.data)
+            axios.post(window.g.loginURL+'/oauth/login/login',options.data)
                 .then((response)=>{
                     if (options.isShowLoading !== false) {
                         loading = document.getElementById('ajaxLoading');
@@ -128,8 +125,6 @@ export default class Axios {
                     }else reject(response.msg);
 
                 })
-
-
         })
     }
     static logout(options){
