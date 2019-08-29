@@ -1,3 +1,4 @@
+
 .Login{
 	position:relative;
 	height: 100%;
@@ -19,20 +20,31 @@
 }
 .Loginx{
 	width: 100%;
-	height: 100%;
-	position: absolute;
-	background: url("../../style/imgs/bg.png") no-repeat;
+	height:100%;
+	position: fixed;
+	background: url("../../style/imgs/login_bg.png") no-repeat;
 	background-size: 100% 100%;
 	.loginLogo{
 		width: 100%;
 		height: 104px;
-		margin-top: 35px;
+		z-index: 999;
+		// margin-top: 35px;
 		.loginLogo-img{
 			width: 339px;
 			height: 100%;
-			margin-left: 30px;
+			// margin-left: 30px;
+			.login_logo_img{
+				width: 300px;
+			}
 		}
 	}
+	.login_xian{
+		width: 416px;
+		position: absolute;
+		bottom:200px;
+		left: 302px;
+		z-index: 1000;
+	  }
 	.logincont{
 		margin-top: 200px;
 		background-color: #00c3ff;
@@ -45,30 +57,38 @@
 			background-color: #1ECD6E;
 			width: 50%;
 			float: left;
+			.mydi{
+				z-index: 111;
+			}
 			/*大屏幕*/
 			@media screen and (min-width: 1600px) {
 				.loginsj{
-					width: 657px;
-					height: 449px;
-					position: fixed;
-					right: 230px;
-					top: 320px;
-					background: url("../../style/imgs/loginsj.png") no-repeat;
 					background-size: 100% 100%;
-					display: flex;
-					justify-content: center;
-					align-items: center;
+					width: 513px;
+					height: 358px;
+					position: absolute;
+					top: 160px;
+					right: 63px;
+					z-index: 99;
+					background-image: url("../../style/imgs/login_right_baba.png") ;
 					.logindk{
-						width: 622px;
-						height: 413px;
-						background: url("../../style/imgs/logindk.png") no-repeat;
+						background-image: url("../../style/imgs/login_right_bg.jpg");
 						background-size: 100% 100%;
-						display: flex;
-						align-items: center;
-						justify-content: center;
-						.loginformx{
-							width: 70%;
-							height: 86%;
+						width: 491px;
+						height: 340px;
+						position: absolute;
+						top: 10px;
+						right: 10px;
+						z-index: 99;
+							.loginformx{
+								width: 260px;
+								height: 275px;
+								background:#fff;
+								border-radius: 10px;
+								position: absolute;
+								right: 40px;
+								top: 38px;
+								opacity: 0.9;
 							.ant-input-affix-wrapper{
 								width: 70%!important;
 							}
@@ -80,7 +100,7 @@
 									float: left;
 									font-size: 20px;
 									font-weight: bold;
-									color: #fff;
+									// color: #fff;
 									display: flex;
 									justify-content: center;
 								}
@@ -89,7 +109,7 @@
 									float: left;
 									font-size: 20px;
 									font-weight: bold;
-									color: #fff;
+									// color: #fff;
 									display: flex;
 									justify-content: center;
 								}
@@ -97,12 +117,12 @@
 							.line{
 								width: 100%;
 								height: 5px;
-								margin-top: 10px;
-								border: 1px solid #fff;
+								margin-top: 30px;
+								border: 1px solid #064974;
 								.line-select{
 									width: 50%;
 									height: 100%;
-									background: #fff;
+									background: #064974;
 									float: left;
 								}
 								.line-noselect{
@@ -117,30 +137,43 @@
 								.rember-user{
 									color: #fff;
 								}
-								.getAuthCode{
-									background: #1c7aad;
-									text-align: center;
-									width: 100px;
-									float: right;
-									color: #fff;
-									height: 30px;
-									margin-top: 5px;
-									line-height: 30px;
-									font-size: 13px;
-									border-radius: 5px;
+								.myflex{
+									width: 100%;
+									display: flex;
+									justify-content: space-around;
+									align-items: center;
+									input{
+										width: 60%;
+									}
+									.getAuthCode{
+										width: 30%;
+										background: #064974;
+										text-align: center;
+										width: 100px;
+										float: right;
+										color: #fff;
+										height: 30px;
+										margin-top: 5px;
+										margin-left: 5px;
+										line-height: 30px;
+										font-size: 13px;
+										border-radius: 5px;
+									}
+									.timeer{
+										width: 30%;
+										background: #064974;
+										text-align: center;
+										width: 100px;
+										float: right;
+										color: #fff;
+										height: 30px;
+										margin-top: 5px;
+										line-height: 30px;
+										font-size: 13px;
+										border-radius: 5px;
+									}
 								}
-								.timeer{
-									background: #1c7aad;
-									text-align: center;
-									width: 100px;
-									float: right;
-									color: #fff;
-									height: 30px;
-									margin-top: 5px;
-									line-height: 30px;
-									font-size: 13px;
-									border-radius: 5px;
-								}
+								
 							}
 						}
 					}
@@ -149,27 +182,34 @@
 			/*平板电脑与小屏电脑之间的分辨率*/
 			@media screen and (min-width: 768px) and (max-width:1600px) {
 				.loginsj{
-					width: 657px;
-					height: 449px;
-					background: url("../../style/imgs/loginsj.png") no-repeat;
 					background-size: 100% 100%;
-					position: fixed;
-					right: 90px;
-					top: 200px;
-					display: flex;
-					justify-content: center;
-					align-items: center;
+					width: 513px;
+					height: 358px;
+					position: absolute;
+					top: 160px;
+					right: 63px;
+					z-index: 99;
+					background-image: url("../../style/imgs/login_right_baba.png");
 					.logindk{
-						width: 622px;
-						height: 413px;
-						background: url("../../style/imgs/logindk.png") no-repeat;
+						background-image: url("../../style/imgs/login_right_bg.jpg");
 						background-size: 100% 100%;
-						display: flex;
-						align-items: center;
-						justify-content: center;
+						width: 491px;
+						height: 340px;
+						position: absolute;
+						top: 10px;
+						right: 10px;
+						z-index: 99;
 						.loginformx{
-							width: 70%;
-							height: 86%;
+							width: 260px;
+							height: 275px;
+							background: #ffffff;
+							// color: #000000 !important;
+							border-radius: 10px;
+							position: absolute;
+							right: 40px;
+							top: 38px;
+							opacity: 0.9;
+							padding: 0 20px;
 							.ant-input-affix-wrapper{
 								width: 70%!important;
 							}
@@ -179,37 +219,40 @@
 								.login-user{
 									width: 50%;
 									float: left;
-									font-size: 20px;
+									font-size: 16px;
 									font-weight: bold;
-									color: #fff;
+									// color: #fff;
 									display: flex;
 									justify-content: center;
+									margin-top: 25px
 								}
 								.login-authcode{
 									width: 50%;
 									float: left;
-									font-size: 20px;
+									font-size: 16px;
 									font-weight: bold;
-									color: #fff;
+									// color: #fff;
 									display: flex;
 									justify-content: center;
+									margin-top: 25px
 								}
 							}
 							.line{
 								width: 100%;
 								height: 5px;
-								margin-top: 10px;
-								border: 1px solid #fff;
+								margin-top: 30px;
+								border: 1px solid #064974;
 								.line-select{
 									width: 50%;
 									height: 100%;
-									background: #fff;
+									background:#064974;
 									float: left;
 								}
 								.line-noselect{
 									width: 50%;
 									height: 100%;
 									float: left;
+									
 								}
 							}
 							.form-select{
@@ -220,7 +263,7 @@
 								.getAuthCode{
 									background: #1c7aad;
 									text-align: center;
-									width: 100px;
+									width: 60px;
 									float: right;
 									color: #fff;
 									height: 30px;
@@ -232,7 +275,7 @@
 								.timeer{
 									background: #1c7aad;
 									text-align: center;
-									width: 100px;
+									width: 60px;
 									float: right;
 									color: #fff;
 									height: 30px;
@@ -253,7 +296,7 @@
 		color: #fff;
 		text-align: center;
 		position: fixed;
-		bottom: 10px;
+		bottom: 30px;
 		left: 45%;
 	}
 }

@@ -1,0 +1,37 @@
+@keyframes loop {
+    from {
+      background-position: 0 0;
+    }
+    to {
+      background-position: -900px 0;
+    }
+}
+
+.earth {
+    // background: url(../../components/map/collada/earthmap1k.jpg) repeat-x 0 0; /* 背景图片在水平方向复制*/
+    /*background: url(../../components/map/collada/earth_atmos_4096.jpg) repeat-x 0 0; !* 背景图片在水平方向复制*!*/
+    border: 1px solid rgba(26, 18, 101, 0.3); /*形成圆边效果，视觉效果更好，不用也行*/
+    border-radius: 225px; /*使地球形成圆形效果*/
+    box-shadow: -8px 0 25px rgba(256, 256, 256, 0.3), -1px -2px 14px rgba(256, 256, 256, 0.5) inset; /*形成圆形外面的模糊月晕效果*/
+    /*下面的属性可使地球位于浏览器窗口垂直水平居中国*/
+    height: 300px;
+    background-size: 280% 100%;
+    margin: -203px 0 0 -203px;
+    position: absolute;
+    bottom: 10px;
+    left: 326px;
+    width: 300px;
+    // -webkit-animation: loop 50s linear infinite;
+    opacity: 1;
+    
+}
+.earth:before {
+    content: "";
+    border-radius: 225px;
+    box-shadow: -150px -6px 25px rgba(0, 0, 0, 0) inset; /*形成弧形阴影*/
+    left: 0;
+    position: absolute;
+    top: 0;
+    height: 340px;
+    width: 340px;
+}
