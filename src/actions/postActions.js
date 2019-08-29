@@ -11,6 +11,7 @@ export const ChangeEarth = postData => dispatch => {
 
 //  一,系统总览——+2监测设备
 export const Monitoring = postData => dispatch => {
+  
   dispatch({
     type: Monit_Type,
     payload: postData

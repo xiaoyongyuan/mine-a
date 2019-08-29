@@ -8,11 +8,15 @@ class CheckReportModel extends Component {
     };
 
     this.property={
+      headers:{
+        ContentType:'application/json;charset=UTF-8',
+        AUTHORIZATION: 'Bearer '+localStorage.getItem("token")
+      },
       accept:"application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document",
       showUploadList:true,
       multiple:false,
       name:"file",
-      action:window.g.fileURL+"/sys/api/uploadFile", //上传地址
+      action:window.g.fileURL+"/api/uploadFile", //上传地址
     }
     
   }
@@ -25,8 +29,9 @@ class CheckReportModel extends Component {
   reset = ()=>{ //取消表单
     this.setState({
       excel:'',
-      filepath:'',
-      filename_cad:''
+      filename:'',
+      fileurl:"",
+      cad:""
     })
       this.props.form.resetFields();
       this.props.uploadreset()
@@ -36,9 +41,8 @@ class CheckReportModel extends Component {
       this.props.form.validateFields((err, values) => {
           if (!err) {
               var data=values;
-              data.filename_cad=_this.state.cad
-              data.itemtype=2
-              data.filepath=_this.state.filepath
+              data.filename=_this.state.cad
+              data.fileurl=_this.state.fileurl
               data.excel=_this.state.excel
               _this.props.filterSubmit(data);
               _this.props.form.resetFields();
@@ -55,7 +59,11 @@ class CheckReportModel extends Component {
         if (info.file.status === 'done') {
           const resp=info.file.response;
           if(resp.success){
-            this.setState({[fileurl]:resp.data.url},()=>{
+            console.log("上传文件",info);
+            this.setState({
+              [fileurl]:resp.data.url,
+              cad:info.file.name
+            },()=>{
             })
           }else{
             message.error(resp.msg)
@@ -65,7 +73,12 @@ class CheckReportModel extends Component {
         }
     }
   removefile=(file,fileurl)=>{ //删除文件
-    this.setState({[fileurl]:''})
+    this.setState({
+      [fileurl]:'',
+      excel:'',
+      filename:'',
+      cad:""
+    })
 
   } 
   render() {
@@ -90,17 +103,17 @@ class CheckReportModel extends Component {
         >
           <Form className='baseform' {...formItemLayout} >
               <FormItem label='选择文件' key='modoc'>
-                  {getFieldDecorator('filepath', {
+                  {getFieldDecorator('fileurl', {
                       rules: [{
                             required: true,
                             message: '请上传文件',
                           }],
                     })(
-                      <Upload {...this.property} onChange={(info)=>this.uploadchange(info,'filepath')} onRemove={(info)=>this.removefile(info,'filepath')}>
+                      <Upload {...this.property} onChange={(info)=>this.uploadchange(info,'fileurl')} onRemove={(info)=>this.removefile(info,'fileurl')}>
                         <Button>
                           <Icon type="upload" /> 选择文件
                         </Button>
-                      </Upload>,
+                      </Upload>
                   )}
               </FormItem>
               <FormItem key="buts">

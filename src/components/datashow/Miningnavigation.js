@@ -18,15 +18,15 @@ class Miningnavigation extends Component {
            everypage:7,
             // 路网总数
             totalcount:0,
-            responsedata:[]
+            responsedata:[],
         };
     }
     componentDidMount(){
-        homeSystemMonitoring.miniNavigationlist({layertype:2,pageindex:this.state.pagenum,pagesize:this.state.everypage})
-        .then(res=>{
-            // 总路网信息resux
-            this.props.Allroad(res.data[0].layerurl);
-        })
+        // homeSystemMonitoring.miniNavigationlist({layertype:2,pageindex:this.state.pagenum,pagesize:this.state.everypage})
+        // .then(res=>{
+        //     // 总路网信息resux
+        //     this.props.Allroad(res.data[0].layerurl);
+        // })
     }
     componentWillUpdate(nextProps) {
         this.state.responsedata = nextProps.AllroadGobai.features;

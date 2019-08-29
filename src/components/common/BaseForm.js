@@ -27,6 +27,7 @@ class FilterForm extends React.Component {
   handleFilterSubmit = () => {
     //查询提交
     let fieldsValue = this.props.form.getFieldsValue();
+    console.log(fieldsValue);
     this.props.filterSubmit(fieldsValue);
   };
   layerSubmit = () => {
@@ -117,6 +118,7 @@ class FilterForm extends React.Component {
             </FormItem>
           );
           formItemList.push(RANGPICKER);
+          console.log(formItemList);
         } else if (item.type === "datePicker") {
           const datePicker = (
             <FormItem label={item.label} key={item.field}>

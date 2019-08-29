@@ -100,7 +100,7 @@ export default class RemoteEchart extends Component {
     render() {
         
         return (
-            <div style={{width:"100%",height:"85%"}}>
+            <div style={{width:"100%",height:"800px"}}>
                 <ReactEcharts option={this.state.option} style={{width:"100%",height:"100%"}} /> 
             </div>
         )

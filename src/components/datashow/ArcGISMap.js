@@ -753,6 +753,7 @@ const mapStateToProps = state => ({
   Spatiadata: state.posts.Spatiadata,
   Allroad: state.posts.Allroad,
 })
+
 ArcGISMap.propTypes = {
   AllroadGobai: PropTypes.func.isRequired,
 }

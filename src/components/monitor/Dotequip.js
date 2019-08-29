@@ -130,79 +130,96 @@ class Dotequip extends Component {
       {
         title: "操作",
         key: "option",
-        dataIndex: "states",
-        render: (text, record, index) => {
-          switch (text) {
-            case "0":
-              {
-                return (
-                  <Button
-                    type="primary"
-                    className="btn-binding"
-                    onClick={() => {
-                      this.handBind(record.code, record.devicecode);
-                    }}
-                  >
-                    绑定
-                  </Button>
-                );
-              }
-            case "1":
-              {
-                return (
-                  <div>
-                    <Button
-                      type="link"
-                      onClick={() => {
-                        this.handDetail(record);
-                      }}
-                    >
-                      查看
-                    </Button>
-                    <Button
-                      type="danger"
-                      style={{ marginLeft: "5px" }}
-                      className="btn-abandoning"
-                      onClick={() => {
-                        this.handAbandon(record.code);
-                      }}
-                    >
-                      弃用
-                    </Button>
-                  </div>
-                );
-              }
-            case "2":
-              {
-                return (
-                  <div>
-                    <Button
-                      type="link"
-                      className="btn-look"
-                      onClick={() => {
-                        this.handDetail(record);
-                      }}
-                    >
-                      查看
-                    </Button>
-                    <Button
-                      type="dashed"
-                      className="btn-use"
-                      style={{ marginLeft: "5px" }}
-                      onClick={() => {
-                        this.handUnseal(record.code);
-                      }}
-                    >
-                      启用
-                    </Button>
-                  </div>
-                );
-              }
+        // dataIndex: "states",
+        // render: (text, record, index) => {
+        render: (record, index) => {
+          return (
+            <Button
+              type="link"
+              className="btn-look"
+              onClick={() => {
+                this.handDetail(record);
+              }}
+            >
+              查看
+            </Button>
+          )
 
-            default:
-              {
-              }
-          }
+
+
+
+          // switch (text) {
+          //   case "0":
+          //     {
+          //       return (
+          //         <div></div>
+          //         // <Button
+          //         //   type="primary"
+          //         //   className="btn-binding"
+          //         //   onClick={() => {
+          //         //     this.handBind(record.code, record.devicecode);
+          //         //   }}
+          //         // >
+          //         //   绑定
+          //         // </Button>
+          //       );
+          //     }
+          //   case "1":
+          //     {
+          //       return (
+          //         <div>
+          //           <Button
+          //             type="link"
+          //             onClick={() => {
+          //               this.handDetail(record);
+          //             }}
+          //           >
+          //             查看
+          //           </Button>
+          //           <Button
+          //             type="danger"
+          //             style={{ marginLeft: "5px" }}
+          //             className="btn-abandoning"
+          //             onClick={() => {
+          //               this.handAbandon(record.code);
+          //             }}
+          //           >
+          //             弃用
+          //           </Button>
+          //         </div>
+          //       );
+          //     }
+          //   case "2":
+          //     {
+          //       return (
+          //         <div>
+          //           <Button
+          //             type="link"
+          //             className="btn-look"
+          //             onClick={() => {
+          //               this.handDetail(record);
+          //             }}
+          //           >
+          //             查看
+          //           </Button>
+          //           <Button
+          //             type="dashed"
+          //             className="btn-use"
+          //             style={{ marginLeft: "5px" }}
+          //             onClick={() => {
+          //               this.handUnseal(record.code);
+          //             }}
+          //           >
+          //             启用
+          //           </Button>
+          //         </div>
+          //       );
+          //     }
+
+          //   default:
+          //     {
+          //     }
+          // }
         }
       }
     ];
@@ -221,6 +238,7 @@ class Dotequip extends Component {
       .then(res => {
         if (res.success) {
           if (res.data.length > 0) {
+            console.log(res.data);
             localStorage.setItem("prolist", res.data);
             var plist = [];
             res.data.map(v => {
@@ -299,6 +317,7 @@ class Dotequip extends Component {
         data:quparams
       }).then(res => {
         if (res.success) {
+          
           this.setState({
             tableData: res.data,
             total: res.totalcount,
@@ -308,6 +327,8 @@ class Dotequip extends Component {
             }),
             deviceCount: res.totalcount
           });
+          console.log('tableData',res.data);
+          console.log('pagination',this.state.pagination);
         }
       });
   };
@@ -355,43 +376,43 @@ class Dotequip extends Component {
       () => {}
     );
   };
-  submitBind = () => {
-    const _this = this;
-    const bindvalue = this.input.state.value;
-   if(bindvalue){
-       axios.ajax({
-           baseURL:window.g.bizserviceURL,
-           method: "put",
-           url: "/api/bindMonitorDevice",
-           data: {
-               code: this.state.bindCodeId,
-               devicecode: this.input.state.value,
-               states: 1
-           }
-       })
-           .then(res => {
-               if (res.success) {
-                   message.success("绑定成功");
-                   this.setState({
-                       bindmodalshow: false
-                   });
-                   _this.getDeviceList();
-               } else {
-                   // message.error("绑定失败");
-                   this.setState({
-                       bindmodalshow: false
-                   });
-               }
-           });
-   }else {
-       message.warning('请输入要绑定的设备ID');
-   }
+  // submitBind = () => {
+  //   const _this = this;
+  //   const bindvalue = this.input.state.value;
+  //  if(bindvalue){
+  //      axios.ajax({
+  //          baseURL:window.g.bizserviceURL,
+  //          method: "put",
+  //          url: "/api/bindMonitorDevice",
+  //          data: {
+  //              code: this.state.bindCodeId,
+  //              devicecode: this.input.state.value,
+  //              states: 1
+  //          }
+  //      })
+  //          .then(res => {
+  //              if (res.success) {
+  //                  message.success("绑定成功");
+  //                  this.setState({
+  //                      bindmodalshow: false
+  //                  });
+  //                  _this.getDeviceList();
+  //              } else {
+  //                  // message.error("绑定失败");
+  //                  this.setState({
+  //                      bindmodalshow: false
+  //                  });
+  //              }
+  //          });
+  //  }else {
+  //      message.warning('请输入要绑定的设备ID');
+  //  }
 
-  };
+  // };
   handDetail = record => {
     window.location.href = `/#/main/dotdetails?deviceId=${
       record.code
-    }&&companyCode=${record.companycode}&&deviceType=${record.devicetype}`;
+    }&&companyCode=${record.companycode}&&deviceType=${record.devicetype}&&ifreport=${record.ifreport}`;
   };
 
   handAbandon = id => {
@@ -541,7 +562,7 @@ class Dotequip extends Component {
             pagination={this.state.pagination}
           />
         </div>
-        <Modal
+        {/* <Modal
           centered={true}
           destroyOnClose={true}
           visible={this.state.bindmodalshow}
@@ -570,7 +591,7 @@ class Dotequip extends Component {
             id="idnum"
             style={{ width: "70%", marginLeft: "5px" }}
           />
-        </Modal>
+        </Modal> */}
       </div>
     );
   }

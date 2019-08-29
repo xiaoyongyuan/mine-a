@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import ReactEcharts from 'echarts-for-react';
+import axios from "../axios";
+
 class DataOverviewEcharts extends Component {
     constructor(props){
         super(props);
@@ -224,6 +226,7 @@ class DataOverviewEcharts extends Component {
 
     //含水层在线监测
     qualityonline=()=>{
+
         let option = {
             // title:{
             //     text:this.props.name + '监测点'
@@ -385,6 +388,7 @@ class DataOverviewEcharts extends Component {
 
     //点位设备曲线图
     dotdetails=()=>{
+
       let option = {
           title: {
               text: 'GNSS监测点1#',
@@ -412,7 +416,7 @@ class DataOverviewEcharts extends Component {
               type: 'category',//坐标轴类型。'value' 数值轴，适用于连续数据。'category' 类目轴，适用于离散的类目数据，'time' 时间轴，
               boundaryGap: false ,//坐标轴两边留白策略，类目轴和非类目轴的设置和表现不一样。
               // data:this.props.xdata
-              data:["2019-05-15", "2019-05-16", "2019-05-17", "2019-05-18", "2019-05-19", "2019-05-20", "2019-05-21", "2019-05-22", "2019-05-23", "2019-05-24", "2019-05-25", "2019-05-26", "2019-05-27", "2019-05-28","2019-05-29", "2019-05-30", "2019-05-31", "2019-06-01", "2019-06-02", "2019-06-03", "2019-06-04", "2019-06-05", "2019-06-06", "2019-06-07", "2019-06-08", "2019-06-09", "2019-06-10", "2019-06-11"]
+              data:this.props.xdata
           },
           yAxis: {
               type: 'value',
@@ -437,7 +441,7 @@ class DataOverviewEcharts extends Component {
               {
                   name:'水平位移',
                   type:'line',
-                  data:[11, 7, 15, 13, 12, 13, 10,22,12,12,32,15,12,12,-1, 7, 15, 13, 12, 13, 10,22,12,12,32,45,12,12],
+                  data:this.props.levelvalue,
                   // data:this.props.levelvalue,
                   // markPoint: {
                   //     data: [
@@ -454,8 +458,7 @@ class DataOverviewEcharts extends Component {
               {
                   name:'垂直位移',
                   type:'line',
-                  data:[-1, -12, -2, -5, -3, -2, -10,-12,-23,-9,-10,-18,-22,-10,-1, -12, -2, -5, -3, -2, -10,-12,-23,-9,-10,-18,-22,-10],
-                  // data:this.props.vertical,
+                  data:this.props.vertical,
                   // markPoint: {
                   //     data: [
                   //         {name: '周最低', value: -2, xAxis: 1, yAxis: -1.5}

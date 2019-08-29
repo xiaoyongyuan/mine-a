@@ -20,7 +20,8 @@ import axios from "../../axios";
 // redux需要
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { CleanLayers } from '../../actions/postActions';
+import { CleanLayers,Allroad } from '../../actions/postActions';
+import homeSystemMonitoring from "../../axios/homeSystemMonitoring";
 
 import './mapshow.less'
 const confirm = Modal.confirm;
@@ -60,6 +61,15 @@ class MapShow extends Component {
                 leftShow:params,
             },()=>{
                 console.log("display",this.state.display,params);
+                if(params=='miningnavigation'){
+                    homeSystemMonitoring.miniNavigationlist({layertype:2,pageindex:this.state.pagenum,pagesize:this.state.everypage})
+                    .then(res=>{
+                        // 总路网信息resux
+                        this.props.Allroad(res.data[0].layerurl);
+                    })
+
+                }
+                
             }
         )
     };
@@ -175,8 +185,9 @@ class MapShow extends Component {
     }
 }
 MapShow.propTypes = {
-    CleanLayers: PropTypes.func.isRequired
+    CleanLayers: PropTypes.func.isRequired,
+    Allroad: PropTypes.func.isRequired,
 }
 
 
-export default connect(null, { CleanLayers })(MapShow); 
+export default connect(null, { CleanLayers,Allroad })(MapShow); 
