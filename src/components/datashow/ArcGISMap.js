@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import esriLoader from 'esri-loader'
-import './mapshow.less'
+
 // redux需要
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
@@ -33,6 +33,7 @@ class ArcGISMap extends Component {
       featureLayer1:null,
       featureLayer2:null,
       kqdhLayer:null,
+      permitsLayer2:null
     }
   }
   componentDidMount() {
@@ -41,7 +42,8 @@ class ArcGISMap extends Component {
   initMap() {
     const mapURL = {
       // url: "http://192.168.10.29:8080/arcgis/arcgis_js_api/library/4.11/dojo/dojo.js"
-      url: "http://39.97.238.216:9999/arcgis_js_v412_api/arcgis_js_api/library/4.12/init.js"
+      // url: "http://39.97.238.216:9999/arcgis_js_v412_api/arcgis_js_api/library/4.12/init.js"
+      url: "http://39.97.238.216:9999/file/arcgis_js_v412_api/arcgis_js_api/library/4.12/init.js"
      // url: "https://js.arcgis.com/4.12/"
       // url:window.g.mapURL+"/arcgis/arcgis_js_api/library/4.11/dojo/dojo.js"
     };
@@ -58,8 +60,21 @@ class ArcGISMap extends Component {
       "esri/layers/ElevationLayer",
       "esri/layers/TileLayer",
       "esri/layers/VectorTileLayer",
+      "esri/widgets/Expand",
+      "esri/widgets/Legend",
       "esri/widgets/Zoom",
-      "esri/Graphic"
+      "esri/Graphic",
+      "esri/widgets/Compass"
+
+
+
+
+      //       "esri/widgets/Bookmarks",
+      //       "dojo/query",
+      //       "dojo/on",
+      //       "dojo/_base/connect"
+      // "esri/dijit/OverviewMap",
+
     ], mapURL).then(([
       // 小部件，没懂
       Locator,
@@ -79,8 +94,11 @@ class ArcGISMap extends Component {
       // Zoom缩放窗口小部件允许用户在视图中放大/缩小。
       TileLayer,
       VectorTileLayer,
+      Expand,
+      Legend,
       Zoom,
-      Graphic
+      Graphic,
+      Compass
     ]) => {
       this.state.FeatureLayer=FeatureLayer;
       this.state.Graphic=Graphic;
@@ -141,17 +159,19 @@ class ArcGISMap extends Component {
         map: _this.state.map,
         container: "mapDiv",
       });
-      //清空view组件
+      //清空view组件 小工具
       this.state.view.ui.empty("top-left");
-      var lng = 110.25197636123258, lat = 39.36945365936541;
+      let lng = 110.21661767900059, lat = 39.322323289229026;
       //初次加载跳转到地图中心点
       this.state.view.goTo({
-        heading: 246.50443209217798,
+        heading: 0,
         tilt: 73.67726241280418,
         center: [lng, lat],
         zoom: 14,
       });
-    
+      // 正北方向
+      this.state.view.rotation = 0;
+
       this.state.view.on("click", function (e) {
         //console.log(view.center);
       });
@@ -159,12 +179,15 @@ class ArcGISMap extends Component {
       
       
 
-      this.state.view.when(function () {
-        var toggle = new BasemapToggle({
-          titleVisible: true,
-          view: _this.state.view,
-          nextBasemap: stamen
-        });
+      // this.state.view.when(function () {
+      //   var toggle = new BasemapToggle({
+      //     titleVisible: true,
+      //     view: _this.state.view,
+      //     nextBasemap: stamen
+      //   });
+         // let zoom = new Zoom({
+        //   view: _this.state.view
+        // });
 
 
 
@@ -250,9 +273,8 @@ class ArcGISMap extends Component {
         // let navigationToggle = new NavigationToggle({
         //   view: view
         // });
-        let zoom = new Zoom({
-          view: _this.state.view
-        });
+
+       
         
         //this.state.view.ui._removeComponents(["attribution", "navigation-toggle", "compass", "zoom"]);
        // this.state.view.ui.add(zoom, "bottom-right");
@@ -313,7 +335,7 @@ class ArcGISMap extends Component {
         //     });
 
         //   });
-      });
+      // });
 
       // 添加图层
       var permitsLayer = new this.state.MapImageLayer({
@@ -373,7 +395,59 @@ class ArcGISMap extends Component {
 
 
 
+      //矿区边界
+      this.state.bianjie = new this.state.VectorTileLayer({
+        url: "https://www.beidouhj.com/server/rest/services/Hosted/hualagou_bianjie/VectorTileServer"
+      });
+      this.state.map.add(this.state.bianjie);
+      // 添加图层
+      this.state.permitsLayer2 = new this.state.TileLayer({
+        url: "https://www.beidouhj.com/server/rest/services/Hosted/HAG_yingxiang_meihua1/MapServer",
+              title: "Touristic attractions",
+              elevationInfo: {
+                mode: "relative-to-scene"
+              },
+              outFields: ["*"],
+              featureReduction: {
+                type: "selection"
+              },
+      });
+      this.state.map.add(this.state.permitsLayer2);
+     
 
+      // 地图小工具
+      this.state.view.ui._removeComponents(["attribution", "navigation-toggle", "compass", "zoom"]);
+      this.state.view.ui.add(
+        [
+          new BasemapToggle({
+            titleVisible: true,
+            view: this.state.view,
+            nextBasemap: stamen,
+            group: "top-right"
+          }),
+          new Expand({
+            view: this.state.view,
+            content: new Legend({view: this.state.view}),
+            group: "top-right",
+            // expanded: true
+          }),
+          new Zoom({
+            view: this.state.view,
+            group: "bottom-right"
+          }),
+          new Compass({
+              view: this.state.view,
+              group: "top-right",
+            })
+        ],
+        "top-right"
+      );
+
+
+     
+
+      
+      
     })
   }
   componentWillUpdate(nextProps) {
@@ -390,10 +464,10 @@ class ArcGISMap extends Component {
         _this.state.view.graphics.removeAll();
       }
       // 清理 遥感监测:INSAR,高光谱,土地损毁与复垦 ,地形地貌
-      if(this.state.newMapImageLayer||this.state.permitsLayer ||this.state.bianjie ||this.state.caikuangqu ||this.state.gongchang ||this.state.sunhui1||this.state.featureLayer1||this.state.featureLayer2||this.state.featureLayer3){
+      if(this.state.newMapImageLayer||this.state.permitsLayer ||this.state.caikuangqu ||this.state.gongchang ||this.state.sunhui1||this.state.featureLayer1||this.state.featureLayer2||this.state.featureLayer3){
         this.state.map.remove(this.state.newMapImageLayer);
         this.state.map.remove(this.state.permitsLayer);
-        this.state.map.remove(this.state.bianjie);
+        // this.state.map.remove(this.state.bianjie);
         this.state.map.remove(this.state.caikuangqu);
         this.state.map.remove(this.state.gongchang);
         this.state.map.remove(this.state.sunhui1);
@@ -489,8 +563,72 @@ class ArcGISMap extends Component {
       if(this.state.taskLayer){
         this.state.map.remove(this.state.taskLayer);
       }
+      console.log(nextProps.Monitorings.layerurl);
        this.state.taskLayer = new this.state.FeatureLayer({
           url: nextProps.Monitorings.layerurl,
+          popupTemplate: {
+            // autocasts as new PopupTemplate()
+            title: "{name}",
+            content: [
+              {
+                type: "fields", // FieldsContentElement
+                fieldInfos: [
+                  {
+                    fieldName: "device_type",
+                    visible: true,
+                    label: "传感器",
+                    format: {
+                      places: 0,
+                      digitSeparator: true
+                    }
+                  },
+                  {
+                    fieldName: "monitor_network",
+                    visible: true,
+                    label: "监测网",
+                    format: {
+                      places: 0,
+                      digitSeparator: true
+                    },
+                    statisticType: "sum"
+                  },
+                  {
+                    fieldName: "x",
+                    visible: true,
+                    label: "x"
+                  },
+                  {
+                    fieldName: "y",
+                    visible: true,
+                    label: "y"
+                  },
+                  {
+                    fieldName: "z",
+                    visible: true,
+                    label: "z"
+                  },
+                  {
+                    fieldName: "jichushuju",
+                    visible: true,
+                    label: "基础数据"
+                  },
+                  {
+                    fieldName: "xianyoushuju",
+                    visible: true,
+                    label: "实时数据"
+                  },
+                  {
+                    fieldName: "shujuzongshu",
+                    visible: true,
+                    label: "数据总数"
+                  }
+                ]
+              },
+              {
+                type: "attachments" // AttachmentsContentElement
+              }
+            ]
+          },
           title: "Touristic attractions",
           elevationInfo: {
             mode: "relative-to-scene"
@@ -513,10 +651,10 @@ class ArcGISMap extends Component {
 
     // 遥感监测:
     if(nextProps.identify=="remote"){
-      if(this.state.newMapImageLayer||this.state.permitsLayer ||this.state.bianjie ||this.state.caikuangqu ||this.state.gongchang ||this.state.sunhui1||this.state.featureLayer1||this.state.featureLayer2||this.state.featureLayer3){
+      if(this.state.newMapImageLayer||this.state.permitsLayer ||this.state.caikuangqu ||this.state.gongchang ||this.state.sunhui1||this.state.featureLayer1||this.state.featureLayer2||this.state.featureLayer3){
         this.state.map.remove(this.state.newMapImageLayer);
         this.state.map.remove(this.state.permitsLayer);
-        this.state.map.remove(this.state.bianjie);
+        // this.state.map.remove(this.state.bianjie);
         this.state.map.remove(this.state.caikuangqu);
         this.state.map.remove(this.state.gongchang);
         this.state.map.remove(this.state.sunhui1);
@@ -526,10 +664,7 @@ class ArcGISMap extends Component {
       }
       // 地形地貌
       if( nextProps.remotedata=='topographic'){
-        //矿区边界
-        this.state.bianjie = new this.state.VectorTileLayer({
-          url: "https://www.beidouhj.com/server/rest/services/Hosted/hualagou_bianjie/VectorTileServer"
-        });
+        
         // 地形地貌1
         this.state.featureLayer3 = new this.state.VectorTileLayer({
           url: "https://www.beidouhj.com/server/rest/services/Hosted/halagou_denggaoxian1/VectorTileServer",
@@ -567,7 +702,7 @@ class ArcGISMap extends Component {
           },
         });
 
-        this.state.map.add(this.state.bianjie);
+        // this.state.map.add(this.state.bianjie);
         this.state.map.add(this.state.featureLayer1);
         this.state.map.add(this.state.featureLayer2);
         this.state.map.add(this.state.featureLayer3);
@@ -630,12 +765,12 @@ class ArcGISMap extends Component {
             type: "selection"
           }
         });
-        //矿区边界
-        this.state.bianjie = new this.state.VectorTileLayer({
-          url: "https://www.beidouhj.com/server/rest/services/Hosted/hualagou_bianjie/VectorTileServer"
-        });
+        // //矿区边界
+        // this.state.bianjie = new this.state.VectorTileLayer({
+        //   url: "https://www.beidouhj.com/server/rest/services/Hosted/hualagou_bianjie/VectorTileServer"
+        // });
         this.state.map.add(this.state.permitsLayer)
-        this.state.map.add(this.state.bianjie);
+        // this.state.map.add(this.state.bianjie);
         this.state.map.add(this.state.gongchang);
         this.state.map.add(this.state.caikuangqu);
         this.state.map.add(this.state.sunhui1);
@@ -662,6 +797,7 @@ class ArcGISMap extends Component {
         for(var i=0;i<=mapdata.length-1;i++){
           var x=mapdata[i].lnglat.split(',')[0];
           var y=mapdata[i].lnglat.split(',')[1];
+          var pointname = mapdata[i].pointname;
           //将点的样式和位置放在Graphic里面
            let Graphic1 = new _this.state.Graphic({
              geometry: {
@@ -676,12 +812,11 @@ class ArcGISMap extends Component {
                   height: '32px',
                },
               popupTemplate:{
-                  content: "<p class='popup-con-title'>点位详情</p>"
-                  + "<div class='popup-con-con'>"
-                  + "<div>坐标位置.经度：" + x + "</div>"
-                  + "<div>坐标位置.纬度：" + y + "</div>"
-                  + "<div>形变监测网</div>"
-                  + "</div>"
+                  title:pointname,
+                  content:"<table class='esri-widget__table' summary='属性和值列表'><tbody>"
+                    +"<tr><th class='esri-feature__field-header'>点位名称</th><td class='esri-feature__field-data'>"+pointname+"</td></tr>"
+                    +"<tr><th class='esri-feature__field-header'>坐标位置.经度</th><td class='esri-feature__field-data'>"+x+"</td></tr>"
+                    +"<tr><th class='esri-feature__field-header'>坐标位置.纬度</th><td class='esri-feature__field-data'>"+y+"</td></tr></tbody></table>"
               }
            });
             //显示图标
@@ -702,10 +837,15 @@ class ArcGISMap extends Component {
             }
             //添加图层标注
             var mapdata=res.data;
+            console.log(mapdata);
             let newview=this.state.view;
+            var mapdata=res.data;
+            
+            
             for(var i=0;i<=mapdata.length-1;i++){
               var x=mapdata[i].lnglat.split(',')[0];
               var y=mapdata[i].lnglat.split(',')[1];
+              var pointname = mapdata[i].pointname;
               //将点的样式和位置放在Graphic里面
                let Graphic1 = new _this.state.Graphic({
                  geometry: {
@@ -719,14 +859,13 @@ class ArcGISMap extends Component {
                       width: '32px',
                       height: '32px',
                    },
-                  popupTemplate:{
-                      content: "<p class='popup-con-title'>点位详情</p>"
-                      + "<div class='popup-con-con'>"
-                      + "<div>坐标位置.经度：" + x + "</div>"
-                      + "<div>坐标位置.纬度：" + y + "</div>"
-                      + "<div>形变监测网</div>"
-                      + "</div>"
-                  }
+                  popupTemplate: {
+                    title:pointname,
+                    content:"<table class='esri-widget__table' summary='属性和值列表'><tbody>"
+                    +"<tr><th class='esri-feature__field-header'>点位名称</th><td class='esri-feature__field-data'>"+pointname+"</td></tr>"
+                    +"<tr><th class='esri-feature__field-header'>坐标位置.经度</th><td class='esri-feature__field-data'>"+x+"</td></tr>"
+                    +"<tr><th class='esri-feature__field-header'>坐标位置.纬度</th><td class='esri-feature__field-data'>"+y+"</td></tr></tbody></table>"
+                  },
                });
                 //显示图标
                 _this.state.view.graphics.add(Graphic1);

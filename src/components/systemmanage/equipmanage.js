@@ -192,7 +192,7 @@ class Equipmanage extends Component {
                             <BaseForm formList={this.formList} filterSubmit={this.handleFilterSubmit}/>
                         </div>
                         <div className="rightOpt">
-                            <a  href="http://www.beidouenv.com/uploadFile/sbrk.xlsx" className="bluecolor"><Button type="primary"><span className="actionfont action-daoru"/> 下载导入模板</Button></a>
+                            <a  href="http://info.beidouenv.com/uploadFile/sbrk.xlsx" className="bluecolor"><Button type="primary"><span className="actionfont action-daoru"/> 下载导入模板</Button></a>
                             <Button type="primary" style={{ marginLeft:'20px', }} onClick={()=>this.changeState('newShow',true)}><span className="actionfont action-daoru"/>&nbsp;&nbsp;导入</Button>
                             <Button type="primary" style={{ marginLeft:'20px', }} onClick={this.export} ><span className="actionfont action-daochu1"/>&nbsp;&nbsp;导出</Button>
                         </div>

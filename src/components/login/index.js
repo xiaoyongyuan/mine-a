@@ -52,7 +52,20 @@ class Login extends Component {
                   localStorage.setItem("userRole",res.power);
                   localStorage.setItem("companyCode",res.companycode);
               });
-          }else{
+          }
+          else if(res.error=== "unauthorized"){
+            message.warn('用户名不存在');
+        }
+        else if(res.error==="invalid_grant"&&res.error_description==="Bad credentials"){
+            message.warn('密码输入错误，请重新输入');
+        }
+        else if(res.error==="unauthorized"&&res.error_description==="当前企业服务已到期，请联系管理员"){
+            message.warn('当前企业服务已到期，请联系管理员');
+        }
+        else if(res.error==="unauthorized"&&res.error_description==="当前用户权限不足，请联系管理员"){
+            message.warn('当前用户权限不足，请联系管理员');
+        }
+          else{
             message.warn('用户名或密码错误！')
           }
         },(res)=>{console.log('错误返回',res)})
@@ -81,7 +94,9 @@ class Login extends Component {
                             }).then((res)=>{
                                 localStorage.setItem("username", res.account);
                             });
-                        }else{
+                        }
+                        
+                        else{
                             message.warn('验证码不正确，请重新输入正确验证码！')
                         }
                     },(res)=>{console.log('错误返回',res)})
@@ -202,8 +217,8 @@ class Login extends Component {
                                           <div className="form-select">
                                               <Form
                                                   onSubmit={this.handleSubmit}
-                                                  style={{ maxWidth: "100%", margin: "0 auto" }}>
-                                                  <FormItem style={{width:"300px",margin:"10px 0"}}>
+                                                  style={{ maxWidth: "200%", margin: "0 auto" }}>
+                                                  <FormItem style={{width:"100%",margin:"10px 0"}}>
                                                       {getFieldDecorator("userName", {
                                                           rules: [{ required: true, message: "请输入用户名!" }]
                                                       })(
@@ -213,7 +228,7 @@ class Login extends Component {
                                                           />
                                                       )}
                                                   </FormItem>
-                                                  <FormItem style={{width:"300px",margin:"0 0"}}>
+                                                  <FormItem style={{width:"100%",margin:"0 0"}}>
                                                       {getFieldDecorator("passWord", {
                                                           rules: [{ required: true, message: "请输入密码!" }]
                                                       })(
@@ -245,7 +260,7 @@ class Login extends Component {
                                              <Form
                                                  onSubmit={this.handleSubmitbyAuthcode}
                                                  style={{ maxWidth: "100%", margin: "0 auto" }}>
-                                                 <FormItem style={{width:"300px",margin:"10px 0"}}>
+                                                 <FormItem style={{width:"100%",margin:"10px 0"}}>
                                                      {getFieldDecorator("phone", {
                                                          rules: [{
                                                              required: true, message: "请输入正确的手机号码!" ,
@@ -266,10 +281,11 @@ class Login extends Component {
                                                             // rules: [{ required: true, message: "请输入短信验证码!" }]
                                                         })(
                                                             <Input
+                                                                className="myinput"
                                                                 style={{width:"70%"}}
                                                                 placeholder="输入验证码"
                                                                 prefix={<Icon type="lock" style={{ fontSize: 13 }} />}
-                                                                type="password"
+                                                                // type="text"
                                                             />
                                                         )}
                                                             {

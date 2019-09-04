@@ -64,9 +64,10 @@
 			@media screen and (min-width: 1600px) {
 				.loginsj{
 					background-size: 100% 100%;
-					width: 513px;
-					height: 358px;
+					width: 648px;
+					height: 440px;
 					position: absolute;
+					border-radius:10px;
 					top: 160px;
 					right: 63px;
 					z-index: 99;
@@ -74,24 +75,27 @@
 					.logindk{
 						background-image: url("../../style/imgs/login_right_bg.jpg");
 						background-size: 100% 100%;
-						width: 491px;
-						height: 340px;
+						width: 623px;
+						height: 423px;
 						position: absolute;
+						border-radius:10px;
 						top: 10px;
 						right: 10px;
 						z-index: 99;
 							.loginformx{
-								width: 260px;
-								height: 275px;
+								width: 269px;
+								height: 80%;
 								background:#fff;
 								border-radius: 10px;
 								position: absolute;
 								right: 40px;
 								top: 38px;
 								opacity: 0.9;
-							.ant-input-affix-wrapper{
-								width: 70%!important;
-							}
+								padding: 20px;
+								margin: auto 0;
+							// .ant-input-affix-wrapper{
+							// 	width: 70%!important;
+							// }
 							.login-type{
 								width: 100%;
 								height: 30px;
@@ -137,16 +141,25 @@
 								.rember-user{
 									color: #fff;
 								}
+								.ant-form-item-children{
+									width: 100%;
+									.ant-input-affix-wrapper{
+										width: 100%;
+										.ant-input-prefix{
+											width: 100%;
+										}
+									}
+								}
 								.myflex{
 									width: 100%;
 									display: flex;
 									justify-content: space-around;
 									align-items: center;
-									input{
-										width: 60%;
+									.myinput{
+										width: 80%;
 									}
 									.getAuthCode{
-										width: 30%;
+										width: 20%;
 										background: #064974;
 										text-align: center;
 										width: 100px;
@@ -160,7 +173,7 @@
 										border-radius: 5px;
 									}
 									.timeer{
-										width: 30%;
+										width: 20%;
 										background: #064974;
 										text-align: center;
 										width: 100px;
@@ -210,9 +223,9 @@
 							top: 38px;
 							opacity: 0.9;
 							padding: 0 20px;
-							.ant-input-affix-wrapper{
-								width: 70%!important;
-							}
+							// .ant-input-affix-wrapper{
+							// 	width: 70%!important;
+							// }
 							.login-type{
 								width: 100%;
 								height: 30px;

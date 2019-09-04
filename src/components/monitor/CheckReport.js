@@ -200,13 +200,13 @@ class CheckReport extends Component {
       },{
           title: '操作',
           key:'option',
-          dataIndex: 'register',
+          dataIndex: 'register', 
           render: (text,record) =>{
               return(<div className="tableoption">
-                  {/*<a className="greencolor" target="_blank" rel="noopener noreferrer" href={"https://view.officeapps.live.com/op/view.aspx?src="+window.g.filesURL+record.filepath}><Button type="primary">预览</Button></a>*/}
+                  <a className="greencolor" target="_blank" rel="noopener noreferrer" href={"https://view.officeapps.live.com/op/view.aspx?src="+window.g.filesURL+record.fileurl}><Button type="primary">预览</Button></a>
                 {/*<a  href={window.g.filesURL+record.filepath} className="bluecolor"><Button type="primary">下载</Button></a>*/}
-                  <a className="greencolor" target="_blank" rel="noopener noreferrer" href={"http://www.beidouenv.com/UploadFile/Office/1149502537314615296.pdf"}><Button type="primary">预览</Button></a>
-                  <a  href={`http://192.168.10.15:8001/sys/api/pdf/download?oldFileName=${record.filename}&fileName=${record.fileurl}&delete=false`} className="bluecolor">
+                  {/* <a className="greencolor" target="_blank" rel="noopener noreferrer" href={"http://www.beidouenv.com/UploadFile/Office/1149502537314615296.pdf"}><Button type="primary">预览</Button></a> */}
+                  <a  href={`${ window.g.fileURL }/api/pdf/download?oldFileName=${record.filename}&fileName=${record.fileurl}&delete=false`} className="bluecolor">
                     <Button type="primary" >下载</Button>
                   </a>
               </div>)

@@ -37,6 +37,7 @@ class Companyinfo extends Component {
         }).then((res)=>{
             console.log(res);
             if(res.success){
+
                 this.setState({
                     cname:res.data.cname,//企业名称
                     addrs:res.data.location,//企业地址
@@ -92,7 +93,8 @@ class Companyinfo extends Component {
                       <Row>
                           <Col span={6} className="com-enterprise">企业LOGO</Col>
                           <Col span={18} className="enterprise-context">
-                              <img className="img-logo" alt="logo" src={window.g.filesURL+this.state.logo}/>
+                          {this.state.logo!=null?<img className="img-logo" alt="logo" src={window.g.filesURL+"/"+this.state.logo}/>:<img className="img-logo" alt="logo" src={window.g.filesURL+"/uploadFile/Img/logo.png"}/>}
+                              
                           </Col>
                       </Row>
                   </Col>

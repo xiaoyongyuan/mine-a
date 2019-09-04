@@ -225,6 +225,7 @@ class Userinfo extends Component {
     render() {
         const userRole = localStorage.getItem("userRole");
         var userStr = localStorage.getItem("username");
+        console.log(userRole);
         const _this=this;
         const columns=[{
             title: '序号',
