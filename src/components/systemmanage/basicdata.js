@@ -5,7 +5,7 @@ import Etable from "../common/Etable";
 import axios from "../../axios";
 import Utils from "../../utils/utils";
 import ofteraxios from "../../axios/ofter";
-
+import PageBreadcrumb from "../common/PageBreadcrumb";
 
 class Basicdata extends Component {
     constructor(props){
@@ -14,6 +14,10 @@ class Basicdata extends Component {
             visible:false,
             page: 1,
             equiptypeArr:[],
+            routes:[
+                {path: '', breadcrumbName: '系统管理'},
+                {path: '/main/basicdata', breadcrumbName: '基础数据'},
+              ]
         };
         this.formList={
             type:'inline',
@@ -167,6 +171,7 @@ class Basicdata extends Component {
         },];
         return (
             <div className="Basicdata">
+                <PageBreadcrumb routes={this.state.routes} />
                 <div className="simple">
                     <div className="selectForm">
                         <div className="leftForm">

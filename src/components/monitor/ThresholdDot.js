@@ -1,15 +1,18 @@
 import React, { Component } from 'react';
-import Etable from "../common/Etable"
-import { message, Modal} from "antd";
+import Etable from "../common/Etable";
+import { message, Modal, Tooltip} from "antd";
 import axios from "../../axios";
 import Utils from "../../utils/utils";
 import ItemModel from "./ThresholdDotModel";
+
+
 const confirm = Modal.confirm;
 class Threshold extends Component {
     constructor(props){
         super(props);
         this.state={
-            newShow:false
+            newShow:false,
+            
         };
     }
     params={
@@ -162,6 +165,9 @@ class Threshold extends Component {
         },{
             title: '备注',
             dataIndex: 'memo',
+            render: (text,record,index) =>{
+                return (<Tooltip placement="topLeft" title={record.memo} arrowPointAtCenter><p style={{width:"100px",overflow:"hidden",textOverflow:"ellipsis",whiteSpace:"nowrap"}}>{record.memo}</p> </Tooltip>)
+            }
         },{
             title: '操作',
             dataIndex: 'ifsys',
@@ -184,6 +190,7 @@ class Threshold extends Component {
         },];
         return (
             <div className="Threshold">
+                
                 <div className="selectForm">
                     <div className="leftForm">
                         {/*<BaseForm formList={this.formList} filterSubmit={this.handleFilterSubmit}/>*/}

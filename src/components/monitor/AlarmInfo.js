@@ -147,31 +147,32 @@ class AlarmInfo extends Component {
     this.getList();
   }
   getList = () => {
-    axios
-      .ajax({
-        baseURL:window.g.easyURL,
-        method: "get",
-        url:"/alarmlist",
-        data: {
-          id: this.props.cid,
-          type: this.props.netid,
-          alarmtype: this.state.alarmtype,
-          createonbegin: this.state.begintime,
-          createonend: this.state.endtime
-        }
-      })
-      .then(res => {
-        if (res.success) {
-          this.setState(
-            {
-              datalist: res.data,
-              pagination: Utils.pagination(res, current => {
-                this.params.pageindex=current;
-                this.getList();
-              })
-            });
-        }
-      },()=>{});
+    // 后面直接对真实接口
+    // axios
+    //   .ajax({
+    //     baseURL:window.g.easyURL,
+    //     method: "get",
+    //     url:"/alarmlist",
+    //     data: {
+    //       id: this.props.cid,
+    //       type: this.props.netid,
+    //       alarmtype: this.state.alarmtype,
+    //       createonbegin: this.state.begintime,
+    //       createonend: this.state.endtime
+    //     }
+    //   })
+    //   .then(res => {
+    //     if (res.success) {
+    //       this.setState(
+    //         {
+    //           datalist: res.data,
+    //           pagination: Utils.pagination(res, current => {
+    //             this.params.pageindex=current;
+    //             this.getList();
+    //           })
+    //         });
+    //     }
+    //   },()=>{});
   };
   handleFilterSubmit = data => {
     this.setState(

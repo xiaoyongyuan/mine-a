@@ -7,7 +7,20 @@ import MenuRoutes from '../../routes/MenuRoutes';
 
 import './index.less';
 const {Header, Footer, Sider, Content} = Layout;
+
 class Main extends Component {
+  constructor(props){
+    super(props);
+    this.state={  
+      collapsed: false,
+    };
+  }
+
+  onCollapse = collapsed => {
+    console.log(collapsed);
+    this.setState({ collapsed });
+  }
+
   render() {
     return (
       <div className="Main">
@@ -16,7 +29,7 @@ class Main extends Component {
           <Layout>
             <Sider className="Sider" width='220px'><LayerSider /></Sider>
             <Content className="Content">
-              {/*<LayerCrumb />*/}
+             
               <MenuRoutes/>
             </Content>
           </Layout>

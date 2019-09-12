@@ -3,6 +3,7 @@ import axios from '../../axios'
 import {Typography,Button,Modal,Row,message} from "antd";
 import "./index.less";
 import {Link} from "react-router-dom";
+import PageBreadcrumb from "../common/PageBreadcrumb";
 const confirm = Modal.confirm;
 const { Title } = Typography;
 class Lookplan extends Component {
@@ -10,7 +11,13 @@ class Lookplan extends Component {
     super(props);
     this.state={
       page:1,
-      detail:{}
+      detail:{},
+      routes:[
+        {path: '', breadcrumbName: '项目管理'},
+        {path: '', breadcrumbName: '系统预案'},
+        {path: '/main/recommend', breadcrumbName: '推荐预案'},
+        {path: '', breadcrumbName: '预案详情'},
+      ]
     };
     this.params = {
         page:1,   
@@ -25,7 +32,7 @@ class Lookplan extends Component {
       baseURL:window.g.bizserviceURL,
       method: 'get',
       url: '/api/getPlanById',
-      data: {planId:this.state.code}
+      data: {code:this.state.code}
     }).then((res)=>{
       if(res.success){
         this.setState({detail:res.data})
@@ -60,13 +67,14 @@ class Lookplan extends Component {
       const detail=this.state.detail;
     return (
       <div className="Lookplan">
-        <Title className="titlelab" level={2}>{detail.title}</Title>
-        <p className="titlelab">分类：<b>{detail.zcaddrs}</b></p>
+      <PageBreadcrumb routes={this.state.routes} />
+        <Title className="titlelab" level={2}>{detail.plantitle}</Title>
+        <p className="titlelab">分类：<b>{detail.dname}</b></p>
 
         <div className="selectForm">
             <div className="leftForm">
-                <span className="greencolor">{detail.cname} </span>
-                <span> {detail.khdate}</span>
+                <span className="greencolor">{detail.createby} </span>
+                <span> {detail.createon}</span>
             </div>
             {
               detail.states?<div className="rightOpt">

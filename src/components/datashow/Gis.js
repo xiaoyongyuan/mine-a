@@ -8,6 +8,9 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { RemoteSensing,CleanLayers } from '../../actions/postActions';
 
+import "animate.css";
+import ReactCSSTransitionGroup from "react-addons-css-transition-group";
+
 import './mapshow.less'
 class Gis extends Component {
     constructor(props){
@@ -23,10 +26,24 @@ class Gis extends Component {
     insar(val){
         this.props.RemoteSensing(val);
     }
+    // componentWillReceiveProps(nextProps){
+    //     console.log(nextProps);
+    //     // this.setState({
+    //     //     animationName:"animated fadeOutRight"
+    //     // })
+    // }
     render() {       
         return (
             <div className="Gis">
-                <List className='listitem'>
+             <ReactCSSTransitionGroup
+          transitionEnter={true}
+          transitionLeave={true}
+          transitionEnterTimeout={500}
+          transitionLeaveTimeout={500}
+          transitionName="left"
+  >
+              <div key="amache" className="animated fadeInLeftBig">
+              <List className='listitem'>
                     <List.Item key='ItemLandform' onClick={()=>this.insar('topographic')}>地形地貌</List.Item>
                     <List.Item key='ItemInsar' onClick={()=>this.insar('INSAR')}>INSAR</List.Item>
                     <List.Item key='ItemHyperspectral' onClick={()=>this.insar('gaoguangpu')}>高光谱</List.Item>
@@ -44,6 +61,9 @@ class Gis extends Component {
                         <Egraph key='fuk' dataHeight='150' cahrtp='meter' />    
                     </div>
                 </dl>
+              </div>
+        </ReactCSSTransitionGroup>
+                
             </div>
         );
     }

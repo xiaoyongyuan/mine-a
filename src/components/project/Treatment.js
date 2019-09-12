@@ -1,15 +1,22 @@
 import React, { Component } from 'react';
-import {Button, message, Modal} from 'antd'
-import axios from '../../axios'
+import {Button, message, Modal, Tooltip} from 'antd';
+import axios from '../../axios';
 import Utils from "../../utils/utils";
-import BaseForm from "../common/BaseForm"
-import Etable from "../common/Etable"
-import ItemModel from "./itemModel"
-import ofteraxios from '../../axios/ofter'
+import BaseForm from "../common/BaseForm";
+import Etable from "../common/Etable";
+import ItemModel from "./itemModel";
+import ofteraxios from '../../axios/ofter';
+import PageBreadcrumb from "../common/PageBreadcrumb";
+
 class SurveyRepro extends Component {
     state  ={
       newShow:false,
       okupdate:1,
+      routes:[
+        {path: '', breadcrumbName: '项目管理'},
+        {path: '', breadcrumbName: '治理实施方案'},
+        {path: '/main/treatment', breadcrumbName: '年度治理计划'},
+      ]
     };
     formList={
       type:'inline',
@@ -185,6 +192,9 @@ class SurveyRepro extends Component {
       },{
         title: '备注',
         dataIndex: 'memo',
+        render: (text,record,index) =>{
+          return (<Tooltip placement="topLeft" title={record.memo} arrowPointAtCenter><p style={{width:"100px",overflow:"hidden",textOverflow:"ellipsis",whiteSpace:"nowrap"}}>{record.memo}</p> </Tooltip>)
+        }
       },{
         title: '操作',
         key:'option',
@@ -205,6 +215,7 @@ class SurveyRepro extends Component {
       }];
     return (
       <div className="SurveyRepro">
+        <PageBreadcrumb routes={this.state.routes} />
         <div className="selectForm">
           <div className="leftForm"> 
             <BaseForm formList={this.formList} filterSubmit={this.handleFilterSubmit}/>

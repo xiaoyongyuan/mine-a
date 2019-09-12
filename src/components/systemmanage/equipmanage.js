@@ -4,6 +4,7 @@ import {Button, message} from "antd";
 import Etable from "../common/Etable";
 import EquipListModalForm from './EquipListModalForm.js';
 import axios from "../../axios";
+import PageBreadcrumb from "../common/PageBreadcrumb";
 import Utils from "../../utils/utils";
 import ofteraxios from "../../axios/ofter";
 import logoimg from "../../style/imgs/logo.png";
@@ -14,7 +15,11 @@ class Equipmanage extends Component {
             visible:false,
             page: 1,
             equiptypeArr:[],
-            newShow:false
+            newShow:false,
+            routes:[
+                {path: '', breadcrumbName: '系统管理'},
+                {path: '/main/equipmanage', breadcrumbName: '设备列表'},
+              ]
         };
         this.formList={
             type:'inline',
@@ -99,7 +104,7 @@ class Equipmanage extends Component {
         axios.ajax({
             baseURL:window.g.deviceURL,
             method: 'get',
-            url: '/api/equipment',
+            url: 'api/equipmentinfo',
             data: _this.params
         }).then((res)=>{
             if(res.success){
@@ -186,6 +191,7 @@ class Equipmanage extends Component {
 
         return (
             <div className="Equipmanage">
+                <PageBreadcrumb routes={this.state.routes} />
                 <div className="simple">
                     <div className="selectForm">
                         <div className="leftForm">

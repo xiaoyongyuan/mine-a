@@ -5,6 +5,7 @@ import ModalForm from './ModalForm.js';
 import Etable from "../common/Etable";
 import axios from "../../axios";
 import Utils from "../../utils/utils";
+import PageBreadcrumb from "../common/PageBreadcrumb";
 
 class Userinfo extends Component {
   constructor(props){
@@ -12,6 +13,10 @@ class Userinfo extends Component {
     this.state={
         visible:false,
         page: 1,
+        routes:[
+            {path: '', breadcrumbName: '系统管理'},
+            {path: '/main/userinfo', breadcrumbName: '用户管理'},
+        ]
     };
       this.formList={
           type:'inline',
@@ -314,6 +319,7 @@ class Userinfo extends Component {
         }];
     return (
       <div className="Userinfo">
+        <PageBreadcrumb routes={this.state.routes} />
           <div className="simple">
               <div className="selectForm">
                   <div className="leftForm">

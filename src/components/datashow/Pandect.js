@@ -1,7 +1,10 @@
 import React, { Component } from 'react';
-import { List } from 'antd'
-import Egraph from './../common/Egraph'
-import './mapshow.less'
+import { List } from 'antd';
+import Egraph from './../common/Egraph';
+import './mapshow.less';
+import "animate.css";
+import ReactCSSTransitionGroup from "react-addons-css-transition-group";
+
 class Pandect extends Component {
     constructor(props){
         super(props);
@@ -9,10 +12,12 @@ class Pandect extends Component {
         };
     }
 
-    componentDidMount(){
-
-
-    }
+    // componentWillReceiveProps(nextProps){
+    //     console.log(nextProps);
+    //     // this.setState({
+    //     //     animationName:"animated fadeOutRight"
+    //     // })
+    // }
 
     leftShowitem = (params) =>{
         const _this=this;
@@ -33,7 +38,16 @@ class Pandect extends Component {
             text:"4xx",
         }];
         return (
+            
             <div className="Pandect">
+            <ReactCSSTransitionGroup
+          transitionEnter={true}
+          transitionLeave={true}
+          transitionEnterTimeout={500}
+          transitionLeaveTimeout={500}
+          transitionName="left"
+  >
+              <div key="amache" className="animated fadeInLeftBig" >
                 <div className="pandectitem">
                     <List className='listitem' style={{marginLeft:'30px',marginRight:'30px'}}>
                         <List.Item key='ItemBaseData' onClick={()=>this.leftShowitem('basedata')}><i className="actionfont action-shujuzonglan" /> 基础数据</List.Item>
@@ -64,6 +78,17 @@ class Pandect extends Component {
                         </div>
                     </div>
                 </div>
+              
+                   
+
+
+
+
+
+               </div>
+             </ReactCSSTransitionGroup>
+
+                
             </div>
         );
     }

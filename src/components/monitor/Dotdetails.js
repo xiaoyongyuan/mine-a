@@ -8,6 +8,7 @@ import CurveChart from "./CurveChart";
 import AlarmInfo from "./AlarmInfo";
 import CheckReport from "./CheckReport.js";
 import Utils from "../../utils/utils";
+import PageBreadcrumb from "../common/PageBreadcrumb";
 import "../../style/jhy/css/dotdetails.less";
 
 
@@ -284,7 +285,12 @@ class Dotdetails extends Component {
       // 当前页
       pageindex: 1,
       // 每页显示条数
-      pagesize: 10
+      pagesize: 10,
+      routes:[
+        {path: '', breadcrumbName: '监测数据'},
+        {path: '/main/dotequip', breadcrumbName: '点位设备'},
+        {path: '', breadcrumbName: '预点位设备详情'},
+      ]
     };
     this.params = {
       pageindex: 1,
@@ -387,7 +393,7 @@ class Dotdetails extends Component {
             // pointid: "1161106204249886720"
           }
         }).then(res=>{
-          if(res.success){
+          if(res.success&&res.data.length>0){
             let daydata1=res.data[0].CREATEON.split(",")
             let x_data=res.data[0].DATAINFO_X.split(",")
             let y_data=res.data[0].DATAINFO_Y.split(",")
@@ -732,6 +738,7 @@ class Dotdetails extends Component {
   render() {
     return (
       <div className="dotdetails">
+      <PageBreadcrumb routes={this.state.routes} />
         <Tabs type="card">
           <TabPane tab="数据列表" key="1">
             <BaseForm

@@ -2,10 +2,13 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import moment from 'moment';
 import {Row, Col, Select, Pagination, Button, Empty} from "antd";
-import axios from '../../axios'
+import axios from '../../axios';
+import PageBreadcrumb from "../common/PageBreadcrumb";
+
 import icon from "../../style/ztt/imgs/icon.png";
 import Utils from "../../utils/utils";
-import './index.less'
+import './index.less';
+
 const Option = Select.Option;
 class MyPlan extends Component {
   constructor(props){
@@ -15,7 +18,12 @@ class MyPlan extends Component {
       pageindex:1,
       pagination:{},
       code:[], //类别
-      selecttype:'' //选择的类别
+      selecttype:'', //选择的类别
+      routes:[
+        {path: '', breadcrumbName: '项目管理'},
+        {path: '', breadcrumbName: '系统预案'},
+        {path: '/main/myplan', breadcrumbName: '我的预案'},
+      ]
     };
   }
     params = {
@@ -35,7 +43,7 @@ class MyPlan extends Component {
           method: 'get',
           url: '/api/dictionary',
           data: {
-              type:'PLANTYPE',
+              dtype:'PLANTYPE',
           }
       }).then((res)=>{
           if(res.success){
@@ -47,6 +55,7 @@ class MyPlan extends Component {
   };
   getPlanByPlantype=()=>{
       this.params.code=this.state.selecttype || 0;
+      
       axios.ajax({
           baseURL:window.g.bizserviceURL,
           method: 'get',
@@ -69,8 +78,10 @@ class MyPlan extends Component {
       const isempty = this.state.isempty;
     return (
       <div className="MyPlan">
+            <PageBreadcrumb routes={this.state.routes} />
           <Row>
               <Col span={24} className="query-col">
+                    <p style={{marginBottom:"0",paddingTop:"5px"}}>分类：</p>
                   <Select defaultValue={this.state.selecttype} style={{ width: 120 }} onChange={this.selectopt}>
                       <Option value='' key='ss'>所有</Option>
                       {
@@ -104,6 +115,9 @@ class MyPlan extends Component {
                                       <div className="planMore">更多&gt;&gt;&gt;</div>
                                   </div>
                                 </div>
+                                <div className="editbtn">
+                                  <span style={{color:'#fff'}}>已发布</span>
+                                </div>
                                 </Link>
                                 :
                               <Link className="detmain" to={'/main/edit?id='+v.code}>
@@ -120,7 +134,7 @@ class MyPlan extends Component {
                                   </div>
                                 </div>
                                 <div className="editbtn">
-                                  <span style={{color:'#fff'}}>编辑</span>
+                                  <span style={{color:'#fff'}}>草稿</span>
                                 </div>
                                 </Link>
                                 }

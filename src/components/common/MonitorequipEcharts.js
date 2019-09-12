@@ -24,7 +24,7 @@ export default class MonitorequipEcharts extends Component {
     componentWillMount(){
         homeSystemMonitoring.monitoring()
         .then(res=>{
-            console.log(res);
+            // console.log(res);
             // #0E2147
 
             //   算监测设备总数
@@ -110,8 +110,8 @@ export default class MonitorequipEcharts extends Component {
                     {
                         type: 'pie',
                         radius: ['50%', '85%'],
-                        // 00f8ff中间透明度
-                        color: ['#E35D68', '#D15502','#FADB14', '#34DA62', '#0096F3', '#1C459D','#AD46F3'],
+                        // 00f8ff中间透明度,'#AD46F3'
+                        color: ['#E35D68', '#D15502','#FADB14', '#34DA62', '#0096F3', '#1C459D'],
                         hoverAnimation: false, ////设置饼图默认的展开样式
                         label: {
                             show: false,

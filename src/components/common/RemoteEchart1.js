@@ -15,7 +15,7 @@ export default class RemoteEchart1 extends Component {
     componentWillMount(){
         homeSystemMonitoring.remotesensing()
         .then(res=>{
-            console.log(res);
+            // console.log(res);
             var num = 0;
             res.data.forEach(function(al,index){
                 num+=parseInt(al.layerremotetypenum)
@@ -118,7 +118,7 @@ export default class RemoteEchart1 extends Component {
                                         },
                                         a: {
                                             align: 'center',
-                                            // color: 'white',
+                                            color: 'white',
                                             fontSize: 15,
                                             height: 25,
                                         },

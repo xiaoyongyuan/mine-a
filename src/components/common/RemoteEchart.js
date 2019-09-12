@@ -15,7 +15,7 @@ export default class RemoteEchart extends Component {
     componentWillMount(){
         homeSystemMonitoring.remotesensing()
         .then(res => {
-            console.log(res);
+            // console.log(res);
             var data = [];
             res.data.forEach(function(al,index){
                 data.push({

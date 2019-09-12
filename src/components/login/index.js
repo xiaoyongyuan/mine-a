@@ -3,7 +3,7 @@ import { Form, Icon, Input, Button, Checkbox,message } from "antd";
 import axios from '../../axios';
 import Earthrolling from './Earthrolling'
 import './index.less';
-import login_logo from '../../style/imgs/login_logo.png'
+import login_logo from '../../style/imgs/logonew.png'
 import login_xian from '../../style/imgs/login_xian.png'
 import Utils from "../../utils/utils";
 import { isMoment } from 'moment';
@@ -39,7 +39,7 @@ class Login extends Component {
             loginType:"0"
           }
         }).then((res)=>{
-          if(res.access_token){
+        if(res.access_token){
             localStorage.setItem("token", res.access_token);
             this.props.history.push("/pandect/mapshow");
               axios.user({
@@ -47,27 +47,17 @@ class Login extends Component {
                   method: 'post',
                   url: '/login/userInfo',
               }).then((res)=>{
-                  console.log(res);
+                //   console.log(res);
                   localStorage.setItem("username", res.account);
                   localStorage.setItem("userRole",res.power);
                   localStorage.setItem("companyCode",res.companycode);
               });
-          }
-          else if(res.error=== "unauthorized"){
-            message.warn('用户名不存在');
         }
-        else if(res.error==="invalid_grant"&&res.error_description==="Bad credentials"){
-            message.warn('密码输入错误，请重新输入');
-        }
-        else if(res.error==="unauthorized"&&res.error_description==="当前企业服务已到期，请联系管理员"){
-            message.warn('当前企业服务已到期，请联系管理员');
-        }
-        else if(res.error==="unauthorized"&&res.error_description==="当前用户权限不足，请联系管理员"){
-            message.warn('当前用户权限不足，请联系管理员');
-        }
-          else{
-            message.warn('用户名或密码错误！')
-          }
+        else if(res.error=== "unauthorized"){
+             message.warn(res.error_description);
+        }else if(res.error=== "invalid_grant"){
+             message.warn("密码错误");
+        }
         },(res)=>{console.log('错误返回',res)})
       }
     });
@@ -95,7 +85,6 @@ class Login extends Component {
                                 localStorage.setItem("username", res.account);
                             });
                         }
-                        
                         else{
                             message.warn('验证码不正确，请重新输入正确验证码！')
                         }

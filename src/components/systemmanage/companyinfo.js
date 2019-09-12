@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import {Button,Row,Col} from "antd";
 import "../../style/yal/css/compantinfo.less";
 import axios from "../../axios";
+import PageBreadcrumb from "../common/PageBreadcrumb";
 
 class Companyinfo extends Component {
   constructor(props){
@@ -10,7 +11,11 @@ class Companyinfo extends Component {
       str:'北斗环境',
       isEdite:true,
       isToggleOn: true,
-      dispaly: 'block'
+      dispaly: 'block',
+      routes:[
+        {path: '', breadcrumbName: '系统管理'},
+        {path: '/main/companyinfo', breadcrumbName: '企业信息'},
+      ]
 
     };
       this.handleClick = this.handleClick.bind(this);
@@ -79,6 +84,7 @@ class Companyinfo extends Component {
     render() {
     return (
       <div className="companyinfo">
+        <PageBreadcrumb routes={this.state.routes} />
           <div className="companyinfoHeader">
               <div className="com-header">
                   <span className="iconLittle"/><span className="comSystem">系统设置&nbsp;&nbsp;<i style={{color:"#2463A1"}}>&gt;</i>&nbsp;&nbsp;企业信息</span>

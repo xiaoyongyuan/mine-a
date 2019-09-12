@@ -46,6 +46,18 @@ class companyinfoEdit extends Component {
         },(res)=>{});
     };
 
+    beforeUpload=(file)=> {
+        const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png';
+        if (!isJpgOrPng) {
+          message.error('请上传JPG/PNG图片!');
+        }
+        const isLt2M = file.size / 1024 / 1024 < 2;
+        if (!isLt2M) {
+          message.error('图片大小在2MB内!');
+        }
+        return isJpgOrPng && isLt2M;
+      }
+
     getBase64 = (img, callback) => {
         const reader = new FileReader();
         reader.addEventListener('load', () => callback(reader.result));
@@ -275,7 +287,8 @@ class companyinfoEdit extends Component {
                                 className="avatar-uploader"
                                 showUploadList={false}
                                 action={window.g.fileURL+"/api/uploadFile"}
-                                headers={token }
+                                beforeUpload={this.beforeUpload}
+                                headers={token}
                                 onChange={this.handleChange}
                             >
                                 {imageUrl ? <img src={imageUrl} alt="logo" /> : uploadButton}

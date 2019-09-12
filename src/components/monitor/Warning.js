@@ -4,12 +4,25 @@ import { message, Modal} from "antd";
 import Etable from "../common/Etable";
 import Utils from "../../utils/utils";
 import axios from "../../axios";
+import PageBreadcrumb from "../common/PageBreadcrumb";
 import "../../style/ztt/css/warning.less";
 import WarningModel from "./WarningModel";
+
+
 class Warning extends Component {
-    state  ={
-        newShow:false
-    };
+    constructor(props){
+        super(props);
+        this.state={
+            newShow:false,
+            routes:[
+                {path: '', breadcrumbName: '监测数据'},
+                {path: '/main/warning', breadcrumbName: '预警设置'},
+            ],
+            list:[],
+            visible:false,
+        };
+        this.codeArr=[];
+    }
     params={
         pageindex:1,
     };
@@ -61,14 +74,7 @@ class Warning extends Component {
             }
         ]
     };
-    constructor(props){
-        super(props);
-        this.state={
-            list:[],
-            visible:false
-        };
-        this.codeArr=[];
-    }
+    
     componentDidMount() {
         this.requestList();
     }
@@ -79,23 +85,24 @@ class Warning extends Component {
         this.requestList();
     };
     requestList=()=>{
-        axios.ajax({
-            baseURL:window.g.easyURL,
-            method: 'get',
-            url: '/warnlist',
-            data: this.params
-        })
-            .then((res)=>{
-                if(res.success){
-                    this.setState({
-                        list:res.data,
-                        pagination:Utils.pagination(res,(current)=>{
-                            this.params.pageindex=current;
-                            this.requestList();
-                        })
-                    })
-                }
-            });
+        // 获取列表，以后真实数据直接改baseURL
+        // axios.ajax({
+        //     baseURL:window.g.easyURL,
+        //     method: 'get',
+        //     url: '/warnlist',
+        //     data: this.params
+        // })
+        //     .then((res)=>{
+        //         if(res.success){
+        //             this.setState({
+        //                 list:res.data,
+        //                 pagination:Utils.pagination(res,(current)=>{
+        //                     this.params.pageindex=current;
+        //                     this.requestList();
+        //                 })
+        //             })
+        //         }
+        //     });
     };
     changeState=(key,val)=>{
         this.setState({[key]:val})
@@ -123,21 +130,22 @@ class Warning extends Component {
         }
     };
     handleOkApplication=()=>{
-        axios.ajax({
-            baseURL:window.g.easyURL,
-            method: 'put',
-            url: '/warnlist',
-            data:{
-                code:this.codeArr.toString()
-            }
-        }).then((res)=>{
-            if(res.success){
-                this.setState({
-                    visible:false
-                });
-                message.success("应用成功！")
-            }
-        });
+        // // ，以后真实数据直接改baseURL
+        // axios.ajax({
+        //     baseURL:window.g.easyURL,
+        //     method: 'put',
+        //     url: '/warnlist',
+        //     data:{
+        //         code:this.codeArr.toString()
+        //     }
+        // }).then((res)=>{
+        //     if(res.success){
+        //         this.setState({
+        //             visible:false
+        //         });
+        //         message.success("应用成功！")
+        //     }
+        // });
     };
     handleCancelApplication=()=>{
         this.setState({
@@ -203,6 +211,7 @@ class Warning extends Component {
         };
         return (
            <div className="Warning">
+           <PageBreadcrumb routes={this.state.routes} />
                <div className="selectForm">
                    <div className="leftForm">
                        <BaseForm formList={this.formList} filterSubmit={this.handleFilterSubmit} />

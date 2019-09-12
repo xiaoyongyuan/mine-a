@@ -4,6 +4,7 @@ import axios from "../../axios";
 import moment from "moment";
 import Table from "../common/Etable";
 import Utils from "../../utils/utils";
+import PageBreadcrumb from "../common/PageBreadcrumb";
 import "../../style/jhy/css/dotequip.less";
 const confirm = Modal.confirm;
 const FormItem = Form.Item;
@@ -24,7 +25,11 @@ class Dotequip extends Component {
       bindCodeId: "", //绑定code
       deviceCount: "",
       detcode: "",
-      filepath: ""
+      filepath: "",
+      routes:[
+        {path: '', breadcrumbName: '监测数据'},
+        {path: '/main/dotequip', breadcrumbName: '点位设备'},
+      ]
     };
     this.params = {
       pageindex: 1,
@@ -227,6 +232,7 @@ class Dotequip extends Component {
   componentWillMount() {}
   componentDidMount() {
     this.getProjectList();
+
   }
   getProjectList = () => {
     axios
@@ -254,8 +260,7 @@ class Dotequip extends Component {
                 projdefsel: res.data[0].code,
                 filepath: res.data[0].filepath,
                 detcode: res.data[0].code
-              },
-              () => {
+              },() => {
                 this.getTypeList();
               }
             );
@@ -264,8 +269,8 @@ class Dotequip extends Component {
       });
   };
   getTypeList = () => {
-    axios
-      .ajax({
+    console.log(1111);
+    axios.ajax({
         baseURL:window.g.deviceURL,
         method: "get",
         url: "/api/monitorNetAll",
@@ -277,6 +282,7 @@ class Dotequip extends Component {
       })
       .then(res => {
         if (res.success) {
+          console.log(res);
           if (res.data.length > 0) {
             var tlist = [];
             res.data.map(v => {
@@ -289,8 +295,7 @@ class Dotequip extends Component {
               {
                 typeList: tlist,
                 monintdefsel: res.data[0].code
-              },
-              () => {
+              },() => {
                 this.getDeviceList();
               }
             );
@@ -507,11 +512,17 @@ class Dotequip extends Component {
           {option}
         </Select>
       );
+    }else{
+      return (
+        <Select>
+        </Select>
+      );
     }
   };
   render() {
     return (
       <div className="dotequip">
+        <PageBreadcrumb routes={this.state.routes} />
         <div className="optbox">
           <Row type="flex" gutter={16} align="middle">
             <Col span={6}>
@@ -526,7 +537,7 @@ class Dotequip extends Component {
                   />
                   监测设备
                 </span>
-                <span className="cotrg block">{this.state.deviceCount}/个</span>
+                <span className="cotrg block">{this.state.deviceCount?this.state.deviceCount:0}/个</span>
               </span>
             </Col>
           </Row>
@@ -542,14 +553,14 @@ class Dotequip extends Component {
                 <span className="tit block">
                   <Icon
                     type="cluster"
-                    style={{ display: "inline-block", marginRight: "2px",fontSize:" 16px" }}
+                    style={{ display: "inline-block", marginRight: "2px",fontSize:"16px" }}
                   />
                   文档查看
                 </span>
                   {
-                      this.state.filepath.lastIndexOf(".pdf") === -1?
+                      this.state.filepath!=null && this.state.filepath.lastIndexOf(".pdf") === -1?
                           <a className="cotrg block" target="_blank" rel="noopener noreferrer" href={"https://view.officeapps.live.com/op/view.aspx?src="+window.g.filesURL+this.state.filepath}>查看</a>:
-                          <a className="cotrg block" target="_blank" rel="noopener noreferrer" href={window.g.filesURL+this.state.filepath}>查看</a>
+                          <a className="cotrg block" target="_blank" rel="noopener noreferrer" href={window.g.filesURL+this.state.filepath}>{this.state.filepath!=null?"查看":""}</a>
                   }
               </span>
             </Col>

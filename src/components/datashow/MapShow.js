@@ -12,7 +12,7 @@ import Miningnavigation from './Miningnavigation';
 import Monitor from './Monitor';
 import Gis from './Gis';
 import Prodect from './Prodect';
-import logo from '../../style/imgs/logo.png';
+import logo from '../../style/imgs/logonew.png';
 import globa from '../../style/imgs/globa.png';
 import pointer from '../../style/imgs/pointer.png';
 import hometitle from '../../style/imgs/hometitle.png';
@@ -22,6 +22,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { CleanLayers,Allroad } from '../../actions/postActions';
 import homeSystemMonitoring from "../../axios/homeSystemMonitoring";
+
 
 import './mapshow.less'
 const confirm = Modal.confirm;

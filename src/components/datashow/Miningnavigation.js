@@ -32,11 +32,11 @@ class Miningnavigation extends Component {
         this.state.responsedata = nextProps.AllroadGobai.features;
         var pagetotal=nextProps.AllroadGobai.features.length/this.state.everypage;
         this.state.pagetotal=pagetotal;
-        if(this.state.pagenum==1){
+        if(this.state.pagenum==1||this.state.responsedata==[]){
             let div1=document.getElementById('pageone'); 
             div1.style.color='gray'; 
         }
-        if(this.state.pagenum==pagetotal){
+        if(this.state.pagenum==pagetotal ||this.state.responsedata==[]){
             let div2=document.getElementById('pagetwo');  
             div2.style.color='gray'; 
         }
@@ -53,6 +53,10 @@ class Miningnavigation extends Component {
         if(pagenum<=1){
             pagenum=1;
             div1.style.color='gray'; 
+        }
+        if(this.state.responsedata==[]){
+            div1.style.color='gray'; 
+            div2.style.color='gray'; 
         }
         this.setState({
             pagenum:pagenum
@@ -72,6 +76,10 @@ class Miningnavigation extends Component {
 
         if(pagenum>=this.state.pagetotal){
             pagenum=this.state.pagetotal;
+            div2.style.color='gray'; 
+        }
+        if(this.state.responsedata==[]){
+            div1.style.color='gray'; 
             div2.style.color='gray'; 
         }
         this.setState({

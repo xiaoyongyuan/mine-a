@@ -4,12 +4,16 @@ import axios from '../../axios'
 import Utils from "../../utils/utils";
 import BaseForm from "../common/BaseForm"
 import Etable from "../common/Etable"
-
+import PageBreadcrumb from "../common/PageBreadcrumb";
 
 
 class Funds extends Component {
     state  ={
-      newShow:false
+      newShow:false,
+      routes:[
+        {path: '', breadcrumbName: '项目管理'},
+        {path: '/main/funds', breadcrumbName: '基金管理'},
+      ]
     };
     params={
     	pageindex:1,
@@ -139,6 +143,7 @@ class Funds extends Component {
       }];
     return (
       <div className="Funds">
+      <PageBreadcrumb routes={this.state.routes} />
         <div className="selectForm">
           <div className="leftForm" />
           <div className="rightOpt" style={{marginBottom:'10px'}}>

@@ -93,6 +93,12 @@ class ItemModel extends Component {
     const _this=this;
       this.props.form.validateFields((err, values) => {
           if (!err) {
+            console.log(values);
+            // if(values.filepath.fileList.length == 0){
+            //     console.log(66666);
+            //     message.error('请重新上传文件');
+            //     return;
+            // }
               var data={};
               data.itemtitle=values.itemtitle;
               data.filepath=values.filepath.fileList[0].url;
@@ -147,7 +153,7 @@ class ItemModel extends Component {
   };
   render() {
       const property={
-          accept:"application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+          accept:"application/pdf",
           showUploadList:true,
           multiple:false,
           name:"file" ,
@@ -213,7 +219,7 @@ class ItemModel extends Component {
                     })(
                       <Upload fileList={this.fileList.filepath} {...property} onChange={(info)=>this.uploadchange(info,'filepath')} onRemove={(info)=>this.removefile(info,'filepath')}>
                         <Button>
-                          <Icon type="upload" /> 选择文件
+                          <Icon type="upload" /> 选择pdf文件
                         </Button>
                       </Upload>,
                   )}

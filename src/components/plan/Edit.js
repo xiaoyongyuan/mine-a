@@ -8,6 +8,8 @@ import htmltod from 'html-to-draftjs'
 import {Input,Row,Col,Select,Button,message } from "antd";
 import "./index.less";
 import {Link} from "react-router-dom";
+import PageBreadcrumb from "../common/PageBreadcrumb";
+
 const Option = Select.Option;
 const { TextArea } = Input;
 class Edit extends Component {
@@ -18,7 +20,13 @@ class Edit extends Component {
       editorState:EditorState.createEmpty(),
       plantype:[], //类别
       selecttype:'', //选择的类别
-      abstract:'' //摘要
+      abstract:'', //摘要
+      routes:[
+        {path: '', breadcrumbName: '项目管理'},
+        {path: '', breadcrumbName: '系统预案'},
+        {path: '/main/myplan', breadcrumbName: '我的预案'},
+        {path: '', breadcrumbName: '编辑预案'},
+      ]
     };
     this.params = {
         page:1,   
@@ -57,7 +65,7 @@ class Edit extends Component {
       baseURL:window.g.bizserviceURL,
       method: 'get',
       url: '/api/getPlanById',
-      data: {planId:this.state.code}
+      data: {code:this.state.code}
     }).then((res)=>{
       if(res.success){
         const planinfo = res.data.planinfo;
@@ -110,7 +118,9 @@ class Edit extends Component {
         plantype:this.state.selecttype, //类别
         summary:this.state.abstract,//摘要
     };
-    if(!params.planinfo || !params.plantitle || !params.plantype || !params.summary) message.warn('请填写完整！');
+    if(!params.planinfo || !params.plantitle || !params.plantype || !params.summary){
+        message.warn('请填写完整！');
+    }else{
       const ids=this.props.query.id;
      if(ids === undefined){
          axios.ajax({
@@ -136,13 +146,14 @@ class Edit extends Component {
              }
          });
      }
-
+    }
   };
   render() {
     const { editorState } = this.state;
       
     return (
       <div className="Edit">
+      <PageBreadcrumb routes={this.state.routes} />
         <Row className="plantit">
             <Col span={2} className="leftlabel" >标题：</Col>
             <Col span={10}><Input placeholder="请输入标题" onChange={this.InputvalOnchange.bind(this)} value={this.state.inputval}/></Col>

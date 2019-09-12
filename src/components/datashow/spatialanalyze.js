@@ -29,11 +29,14 @@ class Spatialanalyze extends Component {
     componentDidMount(){
         homeSystemMonitoring.spatialan()
         .then(res => {
+            if(res.success){
+                this.setState({
+                    spatialanalysis:res.data,
+                    total:res.total
+                })
+            }
             console.log(res);
-            this.setState({
-                spatialanalysis:res.data,
-                total:res.total
-            })
+            
         })
     }
     shrink(val,tal){
@@ -117,7 +120,7 @@ class Spatialanalyze extends Component {
                                         </div>
                                         
                                         <ul className="twoul">
-                                            {spatidata.MenuChildren.map(function(item2,key2){
+                                            {spatidata.MenuChildren?spatidata.MenuChildren.map(function(item2,key2){
                                                 return ( 
                                                     <li key={key2} className="twoli">
                                                         <div onClick={_this.menucont.bind(_this,item2,key2)}>
@@ -125,7 +128,7 @@ class Spatialanalyze extends Component {
                                                         </div>
                                                     </li>
                                                 )
-                                            })}
+                                            }):""}
                                         </ul>
                                     </li>
                                 )

@@ -6,12 +6,18 @@ import Utils from "../../utils/utils";
 import {Link} from "react-router-dom";
 import ThresholdModel from "./ThresholdModel.js"
 import ThresholdEditModelModel from "./ThresholdEditModel.js"
+import PageBreadcrumb from "../common/PageBreadcrumb";
+
 const confirm = Modal.confirm;
 class Threshold extends Component {
   constructor(props){
       super(props);
       this.state={
-          newShow:false
+          newShow:false,
+          routes:[
+            {path: '', breadcrumbName: '监测数据'},
+            {path: '/main/threshold', breadcrumbName: '阈值设置'},
+          ]
       };
   }
   componentDidMount() {
@@ -202,6 +208,7 @@ class Threshold extends Component {
         }];
     return (
       <div className="Threshold">
+      <PageBreadcrumb routes={this.state.routes} />
           <div className="selectForm">
               <div className="leftForm">
                   {/*<BaseForm formList={this.formList} filterSubmit={this.handleFilterSubmit}/>*/}

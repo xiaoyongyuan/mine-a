@@ -3,10 +3,14 @@ import { Link } from 'react-router-dom';
 import {Row, Col, Select, Pagination, Modal, Radio,Empty } from "antd";
 import axios from '../../axios'
 import Utils from "../../utils/utils";
+import PageBreadcrumb from "../common/PageBreadcrumb";
+
 import './index.less';
 import icon from "../../style/ztt/imgs/icon.png";
 const confirm = Modal.confirm;
 const Option = Select.Option;
+
+
 class Recommend extends Component {
   constructor(props){
     super(props);
@@ -16,7 +20,12 @@ class Recommend extends Component {
       pagination:{},
         recommendtype: '1',
         plantype:[], //类别
-        selecttype:'' //选择的类别
+        selecttype:'', //选择的类别
+        routes:[
+            {path: '', breadcrumbName: '项目管理'},
+            {path: '', breadcrumbName: '系统预案'},
+            {path: '/main/recommend', breadcrumbName: '推荐预案'},
+          ]
     };
     this.params = {
         pageindex:1,
@@ -99,6 +108,7 @@ class Recommend extends Component {
         const isempty = this.state.isempty;
       return (
         <div className="MyPlan">
+        <PageBreadcrumb routes={this.state.routes} />
             <Row>
                 <Col span={12}>
                     <Radio.Group value={recommendtype} onChange={this.handleSizeChange}>

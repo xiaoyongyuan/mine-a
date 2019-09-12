@@ -84,7 +84,16 @@ class UploadModel extends Component {
     handleFilterSubmit = ()=>{//表单提交
         const _this=this;
         this.props.form.validateFields((err, values) => {
+            
+            
             if (!err) {
+                console.log(values);
+                // if(values.uploader.fileList.length == 0){
+                //     message.error('请重新上传文件');
+                //     return;
+                // }
+               
+
                 var data={};
                   data.projectname=values.projectname;
                   data.filepath=values.uploader.fileList[0].url;
@@ -200,9 +209,10 @@ class UploadModel extends Component {
                             message: '请上传文件',
                         }],
                     })(
-                        <Upload fileList={this.fileList.filepath} {...property} accept='application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document' onChange={(info)=>this.uploadchange(info,'filepath')} onRemove={(info)=>this.removefile(info,'filepath')}>
+                        <Upload fileList={this.fileList.filepath} {...property} accept='application/pdf' onChange={(info)=>this.uploadchange(info,'filepath')} onRemove={(info)=>this.removefile(info,'filepath')}>
+                            {/* 只上传pdf文件，所以不需要了: ,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document */}
                             <Button>
-                                <Icon type="upload" /> 选择文件
+                                <Icon type="upload" /> 选择pdf文件
                             </Button>
                         </Upload>,
                     )}

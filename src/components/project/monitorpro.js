@@ -1,17 +1,22 @@
 import React, { Component } from 'react';
-import {Button,message,Modal} from 'antd'
+import {Button,message,Modal,Tooltip} from 'antd'
 import axios from '../../axios'
 import Utils from "../../utils/utils";
 import Etable from "../common/Etable"
 import MonitModel from "./MonitModel"
 import MonitEdit from "./MonitEdit"
+import PageBreadcrumb from "../common/PageBreadcrumb";
 
 const confirm = Modal.confirm;
 class monitorpro extends Component {
     state  ={
         newShow:false,
         EditShow:false,
-        toparams:{}
+        toparams:{},
+        routes:[
+            {path: '', breadcrumbName: '项目管理'},
+            {path: '/main/monitorpro', breadcrumbName: '监测规划'},
+        ]
     };
     params={
         pageindex:1,
@@ -23,6 +28,7 @@ class monitorpro extends Component {
     }
 
     requestList=()=>{
+        // console.log(this.params);
         axios.ajax({
             baseURL:window.g.bizserviceURL,
             method: 'get',
@@ -31,6 +37,7 @@ class monitorpro extends Component {
         })
             .then((res)=>{
                 if(res.success){
+                    // console.log(res.data);
                     this.setState({
                         list:res.data,
                         pagination:Utils.pagination(res,(current)=>{
@@ -155,6 +162,7 @@ class monitorpro extends Component {
         });
     };
     deleteOk = () =>{//确认删除
+        
         const data={
             ids:this.state.code,
         };
@@ -203,6 +211,9 @@ class monitorpro extends Component {
         },{
             title: '备注',
             dataIndex: 'memo',
+            render: (text,record,index) =>{
+                return (<Tooltip placement="topLeft" title={record.memo} arrowPointAtCenter><p style={{width:"100px",overflow:"hidden",textOverflow:"ellipsis",whiteSpace:"nowrap"}}>{record.memo}</p> </Tooltip>)
+            }
         },{
             title: '操作',
             key:'option',
@@ -213,7 +224,7 @@ class monitorpro extends Component {
                         <span className='yellowcolor' onClick={()=>this.changeState('newShow',true,record,'type',1)}><Button type="primary">编辑</Button></span>
                         <Button type="primary" onClick={()=>this.showModaldelete(record,index)}>删除</Button>
                         {
-                            record.filepath.lastIndexOf(".pdf") === -1?
+                            record.filepath && record.filepath.lastIndexOf(".pdf") === -1?
                                 <a className="greencolor" target="_blank" rel="noopener noreferrer" href={"https://view.officeapps.live.com/op/view.aspx?src="+window.g.filesURL+record.filepath}><Button type="primary">预览</Button></a>:
                                 <a className="greencolor" target="_blank" rel="noopener noreferrer" href={window.g.filesURL+record.filepath}><Button type="primary">预览</Button></a>
                         }
@@ -225,7 +236,7 @@ class monitorpro extends Component {
                     <div className='tableoption'>
                         {/*<span className='yellowcolor' onClick={()=>this.changeguih(record)}><Button type="primary">变更</Button></span>*/}
                         {
-                            record.filepath.lastIndexOf(".pdf") === -1?
+                            record.filepath && record.filepath.lastIndexOf(".pdf") === -1?
                                 <a className="greencolor" target="_blank" rel="noopener noreferrer" href={"https://view.officeapps.live.com/op/view.aspx?src="+window.g.filesURL+record.filepath}><Button type="primary">预览</Button></a>:
                                 <a className="greencolor" target="_blank" rel="noopener noreferrer" href={window.g.filesURL+record.filepath}><Button type="primary">预览</Button></a>
                         }
@@ -248,11 +259,12 @@ class monitorpro extends Component {
         }];
         return (
             <div className="monitorpro">
+                <PageBreadcrumb routes={this.state.routes} />
                 <div className="selectForm">
                     <div className="leftForm">
                     </div>
                     <div className="rightOpt">
-                        <a  href="http://www.beidouenv.com/uploadFile/dwdr.xlsx" className="bluecolor"><Button style={{ marginRight:'20px' }} type="primary"><span className="actionfont action-daoru"/> 下载导入模板(点位)</Button></a>
+                        {/* <a  href="http://www.beidouenv.com/uploadFile/dwdr.xlsx" className="bluecolor"><Button style={{ marginRight:'20px' }} type="primary"><span className="actionfont action-daoru"/> 下载导入模板(点位)</Button></a> */}
                         <Button type="primary" onClick={()=>this.changeState('newShow',true,'','type',0)}><span className="actionfont action-xinzeng"/>&nbsp;&nbsp;新增</Button>
                     </div>
                 </div>

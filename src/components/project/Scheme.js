@@ -1,15 +1,20 @@
 import React, { Component,Fragment } from 'react';
-import {Button, message, Modal} from 'antd'
-import axios from '../../axios'
+import {Button, message, Modal, Tooltip} from 'antd';
+import axios from '../../axios';
 import Utils from "../../utils/utils";
-import BaseForm from "../common/BaseForm"
-import Etable from "../common/Etable"
-import UploadModel from "../common/UploadModel"
+import BaseForm from "../common/BaseForm";
+import Etable from "../common/Etable";
+import UploadModel from "../common/UploadModel";
+import PageBreadcrumb from "../common/PageBreadcrumb";
 
 const confirm = Modal.confirm;
 class Scheme extends Component {
     state  ={
-      newShow:false
+      newShow:false,
+      routes:[
+        {path: '', breadcrumbName: '项目管理'},
+        {path: '/main/scheme', breadcrumbName: '项目方案'},
+      ]
     };
     params={
       pageindex:1,
@@ -86,7 +91,7 @@ class Scheme extends Component {
       }else {
 
           params.code=this.state.codetype;
-          console.log("hhhh", params.code);
+          // console.log("hhhh", params.code);
           axios.ajax({
               baseURL:window.g.bizserviceURL,
               method: 'put',
@@ -215,6 +220,9 @@ class Scheme extends Component {
       },{
         title: '备注',
         dataIndex: 'memo',
+        render: (text,record,index) =>{
+          return (<Tooltip placement="topLeft" title={record.memo} arrowPointAtCenter><p style={{width:"100px",overflow:"hidden",textOverflow:"ellipsis",whiteSpace:"nowrap"}}>{record.memo}</p> </Tooltip>)
+        }
       },{
         title: '操作',
         key:'option',
@@ -244,6 +252,7 @@ class Scheme extends Component {
       }];
     return (
       <div className="Scheme">
+        <PageBreadcrumb routes={this.state.routes} />
         <div className="selectForm">
           <div className="leftForm"> 
             <BaseForm formList={this.formList} filterSubmit={this.handleFilterSubmit}/>

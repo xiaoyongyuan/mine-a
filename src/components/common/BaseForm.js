@@ -140,7 +140,7 @@ class FilterForm extends React.Component {
               {getFieldDecorator(`${item.field}`, {
                 rules: item.rules,
                 initialValue: item.initialValue
-              })(<Input key={item.field} />)}
+              })(<Input key={item.field}  maxLength="100" />)}
             </FormItem>
           );
           formItemList.push(INPUT);

@@ -425,12 +425,12 @@ class ArcGISMap extends Component {
             nextBasemap: stamen,
             group: "top-right"
           }),
-          new Expand({
-            view: this.state.view,
-            content: new Legend({view: this.state.view}),
-            group: "top-right",
-            // expanded: true
-          }),
+          // new Expand({//植被覆盖率
+          //   view: this.state.view,
+          //   content: new Legend({view: this.state.view}),
+          //   group: "top-right",
+          //   // expanded: true
+          // }),
           new Zoom({
             view: this.state.view,
             group: "bottom-right"
@@ -553,12 +553,93 @@ class ArcGISMap extends Component {
     }
 
 
-
+    // 首页数据监测——山水
+    if(nextProps.identify=="shanshui"){
+      if(this.state.taskLayer){
+        this.state.map.remove(this.state.taskLayer);
+      }
+      console.log(nextProps.mountain);
+       this.state.taskLayer = new this.state.FeatureLayer({
+          url: nextProps.mountain,
+          popupTemplate: {
+            // autocasts as new PopupTemplate()
+            title: "{name}",
+            content: [
+              {
+                type: "fields", // FieldsContentElement
+                fieldInfos: [
+                  {
+                    fieldName: "device_type",
+                    visible: true,
+                    label: "传感器",
+                    format: {
+                      places: 0,
+                      digitSeparator: true
+                    }
+                  },
+                  {
+                    fieldName: "monitor_network",
+                    visible: true,
+                    label: "监测网",
+                    format: {
+                      places: 0,
+                      digitSeparator: true
+                    },
+                    statisticType: "sum"
+                  },
+                  {
+                    fieldName: "x",
+                    visible: true,
+                    label: "x"
+                  },
+                  {
+                    fieldName: "y",
+                    visible: true,
+                    label: "y"
+                  },
+                  {
+                    fieldName: "z",
+                    visible: true,
+                    label: "z"
+                  },
+                  {
+                    fieldName: "jichushuju",
+                    visible: true,
+                    label: "基础数据"
+                  },
+                  {
+                    fieldName: "xianyoushuju",
+                    visible: true,
+                    label: "实时数据"
+                  },
+                  {
+                    fieldName: "shujuzongshu",
+                    visible: true,
+                    label: "数据总数"
+                  }
+                ]
+              },
+              {
+                type: "attachments" // AttachmentsContentElement
+              }
+            ]
+          },
+          title: "Touristic attractions",
+          elevationInfo: {
+            mode: "relative-to-scene"
+          },
+          outFields: ["*"],
+          featureReduction: {
+            type: "selection"
+          },
+      });
+      this.state.map.add(this.state.taskLayer);
+    }
     
 
 
 
-    // 首页数据监测
+    // 首页数据监测——监测网
     if(nextProps.identify=="Monitoringdata"){
       if(this.state.taskLayer){
         this.state.map.remove(this.state.taskLayer);
@@ -815,8 +896,12 @@ class ArcGISMap extends Component {
                   title:pointname,
                   content:"<table class='esri-widget__table' summary='属性和值列表'><tbody>"
                     +"<tr><th class='esri-feature__field-header'>点位名称</th><td class='esri-feature__field-data'>"+pointname+"</td></tr>"
+                    +"<tr><th class='esri-feature__field-header'>监测网</th><td class='esri-feature__field-data'></td></tr>"
                     +"<tr><th class='esri-feature__field-header'>坐标位置.经度</th><td class='esri-feature__field-data'>"+x+"</td></tr>"
-                    +"<tr><th class='esri-feature__field-header'>坐标位置.纬度</th><td class='esri-feature__field-data'>"+y+"</td></tr></tbody></table>"
+                    +"<tr><th class='esri-feature__field-header'>坐标位置.纬度</th><td class='esri-feature__field-data'>"+y+"</td></tr>"
+                    +"<tr><th class='esri-feature__field-header'>基础数据</th><td class='esri-feature__field-data'></td></tr>"
+                    +"<tr><th class='esri-feature__field-header'>实时数据</th><td class='esri-feature__field-data'></td></tr>"
+                    +"<tr><th class='esri-feature__field-header'>数据总数</th><td class='esri-feature__field-data'></td></tr></tbody></table>"
               }
            });
             //显示图标
@@ -863,8 +948,12 @@ class ArcGISMap extends Component {
                     title:pointname,
                     content:"<table class='esri-widget__table' summary='属性和值列表'><tbody>"
                     +"<tr><th class='esri-feature__field-header'>点位名称</th><td class='esri-feature__field-data'>"+pointname+"</td></tr>"
+                    +"<tr><th class='esri-feature__field-header'>监测网</th><td class='esri-feature__field-data'></td></tr>"
                     +"<tr><th class='esri-feature__field-header'>坐标位置.经度</th><td class='esri-feature__field-data'>"+x+"</td></tr>"
-                    +"<tr><th class='esri-feature__field-header'>坐标位置.纬度</th><td class='esri-feature__field-data'>"+y+"</td></tr></tbody></table>"
+                    +"<tr><th class='esri-feature__field-header'>坐标位置.纬度</th><td class='esri-feature__field-data'>"+y+"</td></tr>"
+                    +"<tr><th class='esri-feature__field-header'>基础数据</th><td class='esri-feature__field-data'></td></tr>"
+                    +"<tr><th class='esri-feature__field-header'>实时数据</th><td class='esri-feature__field-data'></td></tr>"
+                    +"<tr><th class='esri-feature__field-header'>数据总数</th><td class='esri-feature__field-data'></td></tr></tbody></table>"
                   },
                });
                 //显示图标
@@ -891,6 +980,7 @@ const mapStateToProps = state => ({
   Monitorings: state.posts.Monitorings,
   Spatiadata: state.posts.Spatiadata,
   Allroad: state.posts.Allroad,
+  mountain: state.posts.mountain,
 })
 
 ArcGISMap.propTypes = {

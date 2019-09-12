@@ -7,3 +7,4 @@ export const Monitoring_Type = "Monitoring_Type";
 export const Spatia_Type = "Spatia_Type";
 export const Allroad_Type = "Allroad_Type";
 export const AllroadGobai_Type = "AllroadGobai_Type";
+export const Changelayers_Type = "Changelayers_Type";

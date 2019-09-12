@@ -1,16 +1,22 @@
 import React, { Component } from 'react';
-import {Button, message, Modal} from 'antd'
-import axios from '../../axios'
+import {Button, message, Modal, Tooltip} from 'antd';
+import axios from '../../axios';
 import Utils from "../../utils/utils";
-import BaseForm from "../common/BaseForm"
-import Etable from "../common/Etable"
-import ItemModel from "./itemModel"
-import ofteraxios from '../../axios/ofter'
+import BaseForm from "../common/BaseForm";
+import Etable from "../common/Etable";
+import ItemModel from "./itemModel";
+import ofteraxios from '../../axios/ofter';
+import PageBreadcrumb from "../common/PageBreadcrumb";
+
 const confirm = Modal.confirm;
 class SurveyRepro extends Component {
     state  ={
       newShow:false,
       okupdate:1,
+      routes:[
+        {path: '', breadcrumbName: '项目管理'},
+        {path: '/main/checkaccept', breadcrumbName: '项目验收'},
+      ]
     };
     formList={
       type:'inline',
@@ -67,6 +73,7 @@ class SurveyRepro extends Component {
       })
       .then((res)=>{
         if(res.success){
+            console.log(res);
           this.setState({
               list:res.data,
               pagination:Utils.pagination(res,(current)=>{
@@ -215,8 +222,23 @@ class SurveyRepro extends Component {
         title: '上传时间',
         dataIndex: 'updateon',
       },{
+        title: '状态',
+        dataIndex: 'projectstates',
+        render: (text,record,index) =>{
+            if(record.projectstates=="0"){
+                return (<div className="state-bg-not">规划中</div>)
+            }else if(record.projectstates=="1"){
+                return (<div className="state-bg-not">执行中</div>)
+            }else if(record.projectstates=="2"){
+                return (<div className="state-bg-normal">已验收</div>)
+            }
+        }
+      },,{
         title: '备注',
         dataIndex: 'memo',
+        render: (text,record,index) =>{
+            return (<Tooltip placement="topLeft" title={record.memo} arrowPointAtCenter><p style={{width:"100px",overflow:"hidden",textOverflow:"ellipsis",whiteSpace:"nowrap"}}>{record.memo}</p> </Tooltip>)
+        }
       },{
         title: '操作',
         key:'option',
@@ -225,7 +247,11 @@ class SurveyRepro extends Component {
             return(<div className="tableoption">
                 <Button type="primary" onClick={()=>this.changeState('newShow',true,record,'type',1)}>编辑</Button>
                 <Button type="primary" onClick={()=>this.showModaldelete(record,index)}>删除</Button>
-                <Button type="primary" onClick={()=>this.passAccept(record,2)}>验收通过</Button>
+                {/* 0规划中    1执行中  2已完成 */}
+                {record.projectstates!="2"?
+                <Button type="primary" onClick={()=>this.passAccept(record,2)}>验收通过</Button>:
+                <Button type="primary" disabled="disabled">验收通过</Button>}
+                
                 {
                     record.filepath.lastIndexOf(".pdf") === -1?
                         <a className="greencolor" target="_blank" rel="noopener noreferrer" href={"https://view.officeapps.live.com/op/view.aspx?src="+window.g.filesURL+record.filepath}><Button type="primary">预览</Button></a>:
@@ -238,6 +264,7 @@ class SurveyRepro extends Component {
       }];
     return (
       <div className="SurveyRepro">
+        <PageBreadcrumb routes={this.state.routes} />
         <div className="selectForm">
           <div className="leftForm"> 
             <BaseForm formList={this.formList} filterSubmit={this.handleFilterSubmit}/>

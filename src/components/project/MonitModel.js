@@ -63,10 +63,10 @@ class UploadModel extends Component {
                   data.memo=values.memo;
                   data.filepath=values.filepath.fileList[0].url;
                   data.filepathcad=values.filepathcad.fileListcad[0].url;
-                  data.filepathexcel=values.filepathexcel.fileListexcel[0].url;
+                //   data.filepathexcel=values.filepathexcel.fileListexcel[0].url;
                   data.oldfilename = values.filepath.fileList[0].name;
                   data.oldcadfilename = values.filepathcad.fileListcad[0].name;
-                  data.oldexcelfilename = values.filepathexcel.fileListexcel[0].name;
+                //   data.oldexcelfilename = values.filepathexcel.fileListexcel[0].name;
                   _this.props.filterSubmit(data);
                   _this.props.form.resetFields();
                   _this.reset();
@@ -76,10 +76,10 @@ class UploadModel extends Component {
                   data.memo=values.memo;
                   data.filepath=values.filepath.fileList[0].url;
                   data.filepathcad=values.filepathcad.fileList[0].url;
-                  data.filepathexcel=values.filepathexcel.fileList[0].url;
+                //   data.filepathexcel=values.filepathexcel.fileList[0].url;
                   data.oldfilename = values.filepath.fileList[0].name;
                   data.oldcadfilename = values.filepathcad.fileList[0].name;
-                  data.oldexcelfilename = values.filepathexcel.fileList[0].name;
+                //   data.oldexcelfilename = values.filepathexcel.fileList[0].name;
                   _this.props.filterSubmit(data);
                   _this.props.form.resetFields();
                   _this.reset();
@@ -294,9 +294,9 @@ class UploadModel extends Component {
                             message: '请上传word或pdf文件',
                           }],
                     })(
-                      <Upload fileList={this.fileList.filepath} accept='application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document' {...property}  onChange={(info)=>this.uploadchange(info,'filepath')} onRemove={(info)=>this.removefile(info,'filepath')}>
+                      <Upload fileList={this.fileList.filepath} accept='application/pdf' {...property}  onChange={(info)=>this.uploadchange(info,'filepath')} onRemove={(info)=>this.removefile(info,'filepath')}>
                         <Button>
-                          <Icon type="upload" /> 选择word或pdf文件
+                          <Icon type="upload" /> 选择pdf文件
                         </Button>
                       </Upload>,
                   )}
@@ -312,10 +312,10 @@ class UploadModel extends Component {
                         <Button>
                           <Icon type="upload" /> 选择CAD文件
                         </Button>
-                      </Upload>,
+                      </Upload>
                   )}
               </FormItem>
-              <FormItem label='Excel' key='moExcel'>
+              {/* <FormItem label='Excel' key='moExcel'>
                   {getFieldDecorator('filepathexcel', {
                       rules: [{
                             required: true,
@@ -326,9 +326,9 @@ class UploadModel extends Component {
                         <Button>
                           <Icon type="upload" /> 选择Excel文件
                         </Button>
-                      </Upload>,
+                      </Upload>
                   )}
-              </FormItem>
+              </FormItem> */}
               <FormItem label='备注' key='memo'>
                   {
                       getFieldDecorator('memo')(
