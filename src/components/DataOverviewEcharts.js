@@ -516,8 +516,8 @@ class DataOverviewEcharts extends Component {
             xAxis: {
                 type: 'category',
                 boundaryGap: false ,
-                // data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
-                data:this.props.xdata
+                data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+                // data:this.props.xdata
             },
             yAxis: {
                 type: 'value',

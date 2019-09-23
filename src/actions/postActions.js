@@ -1,5 +1,22 @@
-import { Earth,Monit_Type,Remote_Type,Network_Type,CleanLayers_Type,Monitoring_Type,Spatia_Type,Allroad_Type,AllroadGobai_Type,Changelayers_Type } from './types';
+import { Core_Type,Earth,Monit_Type,Remote_Type,Network_Type,CleanLayers_Type,
+  Monitoring_Type,Spatia_Type,Allroad_Type,AllroadGobai_Type,Changelayers_Type,
+  Camera_Type
+ } from './types';
 // 分发操作
+// 点击小地球回到中心点
+export const Core = postData => dispatch => {
+  dispatch({
+    type: Core_Type,
+    payload: postData
+  })
+}
+// 点击小地球回到中心点
+export const Cameras = postData => dispatch => {
+  dispatch({
+    type: Camera_Type,
+    payload: postData
+  })
+}
 // 一,系统总览——1基础数据
 export const ChangeEarth = postData => dispatch => {
   dispatch({

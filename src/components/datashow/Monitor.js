@@ -26,8 +26,9 @@ class Monitor extends Component {
             netlist:[],
             iconlist:["red","orange","yellow","green","blue","indigo","purple","gray"],
             changetype:"1",
-            ecologylist:["青山","绿水","丰林","良田","平湖","芳草"],
+            ecologylist:["山","水","林","田","湖","草"],
             ecologycolo:["#037ffe","#e62920","#d15705","#1c9544"," #3671ec","#ac4ed3"],
+            showdata:"1"
             
         };
     }
@@ -49,11 +50,6 @@ class Monitor extends Component {
     monitoring(val){
         this.props.Monitoringdatas(val);
     }
-    changeshow(val){
-        this.setState({
-            changetype:val
-        })
-    }
     // 山水。。。
     changelayer(val){
         // console.log(val);
@@ -65,6 +61,11 @@ class Monitor extends Component {
     //     //     animationName:"animated fadeOutRight"
     //     // })
     // }
+    showfun(val){
+        this.setState({
+            showdata:val
+        })
+    }
 
 
     render() {
@@ -82,17 +83,56 @@ class Monitor extends Component {
         return (
             <div className="Monitor">
             <ReactCSSTransitionGroup
-          transitionEnter={true}
-          transitionLeave={true}
-          transitionEnterTimeout={500}
-          transitionLeaveTimeout={500}
-          transitionName="left"
+            transitionEnter={true}
+            transitionLeave={true}
+            transitionEnterTimeout={500}
+            transitionLeaveTimeout={500}
+            transitionName="left"
             >
+
               <div key="amache" className="animated fadeInLeftBig" >
-                   
-                   {this.state.changetype == "1"?
+
+                <dl className="columndl">
+                    <dt className="columndt">
+                        {this.state.showdata=="1"?<span style={{color:"white"}}>生态监测</span>:<span onClick={_this.showfun.bind(_this,1)}>生态监测</span>}
+                        <span className="columndtright"></span>
+                    </dt>
+                    <dt className="columndt">
+                        {this.state.showdata=="2"?<span style={{color:"white"}}>地质监测网</span>:<span onClick={_this.showfun.bind(_this,2)}>地质监测网</span>}
+                        <span className="columndtright"></span>
+                    </dt>
+                    <dt className="columndt">
+                        {this.state.showdata=="3"?<span style={{color:"white"}}>环境监测</span>:<span onClick={_this.showfun.bind(_this,3)}>环境监测</span>}
+                        <span className="columndtright"></span>
+                    </dt>
+                </dl>
+
+
+                
+                {this.state.showdata=="1"?
                     <dl className="columndl">
-                        <dt className="columndt" onClick={_this.changeshow.bind(_this,"2")}>监测网<span className="columndtright"></span></dt>
+                        <List className='listitem'>
+                            {
+                                this.state.ecologylist.map(function(item,i){
+                                    return (
+                                        <List.Item 
+                                        style={{position:'relative',display:'flex',justifyContent:"space-around",alignItems:"center"}} key={'Item'+i}>
+                                            <div style={{display:'flex',justifyContent:"space-around",alignItems:"center"}}
+                                            onClick={_this.changelayer.bind(_this,url[i])}>
+                                                <img style={{width:"50px",height:"50px",display:"block"}} src={imglist[i]} alt=""/>
+                                                <div style={{width:"50px",marginLeft:"20px",color:`${ecologycolo[i]}`,fontSize:"16px",fontWeight:"bold"}}>{item}</div>
+                                            </div>
+                                        </List.Item>
+                                    )
+                                })
+                            }
+                        </List>
+                    </dl>
+                :null
+                }
+                
+                {this.state.showdata=="2"?
+                    <dl className="columndl">
                         <List className='listitem'>
                             {
                                 this.state.netlist.map(function(item,i){
@@ -107,27 +147,37 @@ class Monitor extends Component {
                             }
                         </List>
                     </dl>
-                    :
+                :null
+                }
+
+                {this.state.showdata=="3"?
                     <dl className="columndl">
-                        <dt className="columndt" onClick={_this.changeshow.bind(_this,"1")}>生态监测<span className="columndtright"></span></dt>
                         <List className='listitem'>
-                            {
-                                this.state.ecologylist.map(function(item,i){
-                                    return (
-                                        <List.Item 
-                                        style={{textAlign:'left',paddingLeft:'10px',position:'relative'}} key={'Item'+i}>
-                                            <div style={{display:'flex',justifyContent:"space-around",alignItems:"center"}}
-                                            onClick={_this.changelayer.bind(_this,url[i])}>
-                                                <img style={{width:"50px",height:"50px",display:"block"}} src={imglist[i]} alt=""/>
-                                                <div style={{width:"50px",marginLeft:"20px",color:`${ecologycolo[i]}`,fontSize:"16px",fontWeight:"bold"}}>{item}</div>
-                                            </div>
-                                        </List.Item>
-                                    )
-                                })
-                            }
+                            <List.Item 
+                            style={{textAlign:'center',position:'relative'}}>
+                            空 气
+                            </List.Item>
+                            <List.Item 
+                            style={{textAlign:'center',position:'relative'}}>
+                            气 象
+                            </List.Item>
+                            <List.Item 
+                            style={{textAlign:'center',position:'relative'}}>
+                            植 被
+                            </List.Item>
+                            <List.Item 
+                            style={{textAlign:'center',position:'relative'}}>
+                            防 火
+                            </List.Item>
                         </List>
                     </dl>
+                :null
                 }
+
+                    
+
+
+
                 <dl className="columndl">
                     <dt className="columndt">监测设备</dt>
                     <div className="egraph">
@@ -145,6 +195,7 @@ class Monitor extends Component {
         );
     }
 }
+
 Monitor.propTypes = {
     Monitoringdatas: PropTypes.func.isRequired,
     CleanLayers: PropTypes.func.isRequired

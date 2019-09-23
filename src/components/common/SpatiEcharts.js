@@ -17,7 +17,8 @@ export default class SpatiEcharts extends Component {
         homeSystemMonitoring.spatialan()
         .then(res => {
             console.log("空间分析",res);
-            var data1 = [];
+            if(res.success){
+                var data1 = [];
             var data2 = [];
             res.data.forEach(function(al,index){
                 data1.push(al.DNAME);
@@ -147,6 +148,9 @@ export default class SpatiEcharts extends Component {
             this.setState({
                 option:option
             })
+
+            }
+            
             
         })
 

@@ -6,6 +6,7 @@ import Etable from "../common/Etable"
 import MonitModel from "./MonitModel"
 import MonitEdit from "./MonitEdit"
 import PageBreadcrumb from "../common/PageBreadcrumb";
+import "./index.less";
 
 const confirm = Modal.confirm;
 class monitorpro extends Component {
@@ -221,39 +222,39 @@ class monitorpro extends Component {
             render: (text,record,index) =>{
                 if(text==='0') return(
                     <div className='tableoption'>
-                        <span className='yellowcolor' onClick={()=>this.changeState('newShow',true,record,'type',1)}><Button type="primary">编辑</Button></span>
-                        <Button type="primary" onClick={()=>this.showModaldelete(record,index)}>删除</Button>
+                        <span className='yellowcolor' onClick={()=>this.changeState('newShow',true,record,'type',1)}><Button className='distance' type="primary">编辑</Button></span>
+                        <Button className='distance' type="primary" onClick={()=>this.showModaldelete(record,index)}>删除</Button>
                         {
                             record.filepath && record.filepath.lastIndexOf(".pdf") === -1?
-                                <a className="greencolor" target="_blank" rel="noopener noreferrer" href={"https://view.officeapps.live.com/op/view.aspx?src="+window.g.filesURL+record.filepath}><Button type="primary">预览</Button></a>:
-                                <a className="greencolor" target="_blank" rel="noopener noreferrer" href={window.g.filesURL+record.filepath}><Button type="primary">预览</Button></a>
+                                <a className="greencolor" target="_blank" rel="noopener noreferrer" href={"https://view.officeapps.live.com/op/view.aspx?src="+window.g.filesURL+record.filepath}><Button className='distance' type="primary">预览</Button></a>:
+                                <a className="greencolor" target="_blank" rel="noopener noreferrer" href={window.g.filesURL+record.filepath}><Button className='distance' type="primary">预览</Button></a>
                         }
-                        <Button type="primary" onClick={()=>this.download(record)}>文档下载</Button>
-                        <a className='bluecolor' href={window.g.fileURL+"/api/pdf/download?fileName=" + record.filepathcad + "&delete=" + false + "&access_token=" +localStorage.getItem("token") + "&oldFileName=" +record.oldcadfilename } download><Button type="primary">CAD下载</Button></a>
-                        <span className='greencolor'  onClick={()=>this.changestatus(record.code)}><Button type="primary">执行</Button></span>
+                        <Button className='distance' type="primary" onClick={()=>this.download(record)}>文档下载</Button>
+                        <a className='bluecolor' href={window.g.fileURL+"/api/pdf/download?fileName=" + record.filepathcad + "&delete=" + false + "&access_token=" +localStorage.getItem("token") + "&oldFileName=" +record.oldcadfilename } download><Button className='distance' type="primary">CAD下载</Button></a>
+                        <span className='greencolor'  onClick={()=>this.changestatus(record.code)}><Button className='distance' type="primary">执行</Button></span>
                     </div>);
                 else if(text==='1') return(
                     <div className='tableoption'>
                         {/*<span className='yellowcolor' onClick={()=>this.changeguih(record)}><Button type="primary">变更</Button></span>*/}
                         {
                             record.filepath && record.filepath.lastIndexOf(".pdf") === -1?
-                                <a className="greencolor" target="_blank" rel="noopener noreferrer" href={"https://view.officeapps.live.com/op/view.aspx?src="+window.g.filesURL+record.filepath}><Button type="primary">预览</Button></a>:
-                                <a className="greencolor" target="_blank" rel="noopener noreferrer" href={window.g.filesURL+record.filepath}><Button type="primary">预览</Button></a>
+                                <a className="greencolor" target="_blank" rel="noopener noreferrer" href={"https://view.officeapps.live.com/op/view.aspx?src="+window.g.filesURL+record.filepath}><Button className='distance' type="primary">预览</Button></a>:
+                                <a className="greencolor" target="_blank" rel="noopener noreferrer" href={window.g.filesURL+record.filepath}><Button className='distance' type="primary">预览</Button></a>
                         }
-                        <Button type="primary" onClick={()=>this.download(record)}>文档下载</Button>
-                        <a className='bluecolor' href={window.g.filesURL+record.filepathcad} download><Button type="primary">CAD下载</Button></a>
-                        <a className='greencolor' href={'#/main/monitorprolook?id='+record.code}><Button type="primary">查看</Button></a>
+                        <Button className='distance' type="primary" onClick={()=>this.download(record)}>文档下载</Button>
+                        <a className='bluecolor' href={window.g.filesURL+record.filepathcad} download><Button className='distance' type="primary">CAD下载</Button></a>
+                        <a className='greencolor' href={'#/main/monitorprolook?id='+record.code}><Button className='distance' type="primary">查看</Button></a>
                     </div>);
               else return(
                 <div className='tableoption'>
                     {
                         record.filepath.lastIndexOf(".pdf") === -1?
-                            <a className="greencolor" target="_blank" rel="noopener noreferrer" href={"https://view.officeapps.live.com/op/view.aspx?src="+window.g.filesURL+record.filepath}><Button type="primary">预览</Button></a>:
-                            <a className="greencolor" target="_blank" rel="noopener noreferrer" href={window.g.filesURL+record.filepath}><Button type="primary">预览</Button></a>
+                            <a className="greencolor" target="_blank" rel="noopener noreferrer" href={"https://view.officeapps.live.com/op/view.aspx?src="+window.g.filesURL+record.filepath}><Button className='distance' type="primary">预览</Button></a>:
+                            <a className="greencolor" target="_blank" rel="noopener noreferrer" href={window.g.filesURL+record.filepath}><Button className='distance' type="primary">预览</Button></a>
                     }
-                    <Button type="primary" onClick={()=>this.download(record)}>文档下载</Button>
-                    <a className='bluecolor'href={window.g.filesURL+record.filepathcad} download><Button type="primary">CAD下载</Button></a>
-                    <a className='greencolor' href={'#/main/monitorprolook?id='+record.code}><Button type="primary">查看</Button></a>
+                    <Button className='distance' type="primary" onClick={()=>this.download(record)}>文档下载</Button>
+                    <a className='bluecolor'href={window.g.filesURL+record.filepathcad} download><Button className='distance' type="primary">CAD下载</Button></a>
+                    <a className='greencolor' href={'#/main/monitorprolook?id='+record.code}><Button className='distance' type="primary">查看</Button></a>
                 </div>)
             }
         }];

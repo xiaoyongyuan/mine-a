@@ -1,13 +1,15 @@
-import React, { Component } from 'react'
-import esriLoader from 'esri-loader'
+import React, { Component } from 'react';
+import esriLoader from 'esri-loader';
 
 // redux需要
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { AllroadGobai } from '../../actions/postActions';
+import { AllroadGobai,Core,Cameras } from '../../actions/postActions';
 
 import homeSystemMonitoring from "../../axios/homeSystemMonitoring";
 import { isNull } from 'util';
+
+import { Modal } from 'antd';
 
 
 class ArcGISMap extends Component {
@@ -15,6 +17,9 @@ class ArcGISMap extends Component {
     super(props);
     // this.tileMapUrl = "http://map.geoq.cn/ArcGIS/rest/services/ChinaOnlineStreetPurplishBlue/MapServer"
     this.state={
+      visible: false,
+      bof:0,
+
       view:null,
       map:null,
       FeatureLayer:null,
@@ -33,7 +38,8 @@ class ArcGISMap extends Component {
       featureLayer1:null,
       featureLayer2:null,
       kqdhLayer:null,
-      permitsLayer2:null
+      permitsLayer2:null,
+      camera:null
     }
   }
   componentDidMount() {
@@ -64,7 +70,9 @@ class ArcGISMap extends Component {
       "esri/widgets/Legend",
       "esri/widgets/Zoom",
       "esri/Graphic",
-      "esri/widgets/Compass"
+      "esri/widgets/Compass",
+      "esri/widgets/LayerList",
+      // "app/Recenter"
 
 
 
@@ -98,7 +106,8 @@ class ArcGISMap extends Component {
       Legend,
       Zoom,
       Graphic,
-      Compass
+      Compass,
+      LayerList,
     ]) => {
       this.state.FeatureLayer=FeatureLayer;
       this.state.Graphic=Graphic;
@@ -140,6 +149,7 @@ class ArcGISMap extends Component {
       var portal = new Portal({
         url: "https://beidou.esrichina.com/arcgis"
       })
+      
 
 
       // 创建底图
@@ -172,22 +182,19 @@ class ArcGISMap extends Component {
       // 正北方向
       this.state.view.rotation = 0;
 
-      this.state.view.on("click", function (e) {
-        //console.log(view.center);
+
+      // 地球被拖动
+      this.state.view.on("drag", function(event){
+        if(event.action=="end"){
+          // console.log(event);
+          _this.props.Core("1");
+        }
       });
 
-      
+
       
 
-      // this.state.view.when(function () {
-      //   var toggle = new BasemapToggle({
-      //     titleVisible: true,
-      //     view: _this.state.view,
-      //     nextBasemap: stamen
-      //   });
-         // let zoom = new Zoom({
-        //   view: _this.state.view
-        // });
+      
 
 
 
@@ -425,12 +432,13 @@ class ArcGISMap extends Component {
             nextBasemap: stamen,
             group: "top-right"
           }),
-          // new Expand({//植被覆盖率
-          //   view: this.state.view,
-          //   content: new Legend({view: this.state.view}),
-          //   group: "top-right",
-          //   // expanded: true
-          // }),
+
+          new Expand({//图例
+            view: this.state.view,
+            content: new Legend({view: this.state.view,style: "card"}),
+            group: "top-right",
+            expanded: false
+          }),
           new Zoom({
             view: this.state.view,
             group: "bottom-right"
@@ -438,10 +446,40 @@ class ArcGISMap extends Component {
           new Compass({
               view: this.state.view,
               group: "top-right",
-            })
+            }),
         ],
         "top-right"
       );
+    
+
+      // var _this=this;
+      this.state.view.on("click", function(event) {
+        var screenPoint = {
+         x: event.x,
+         y: event.y
+        };
+        //  Search for graphics at the clicked location
+         _this.state.view.hitTest(screenPoint).then(function(response) {
+           var result = response.results[0];
+           if (result) {
+             var lon = result.mapPoint.longitude;
+             var lat = result.mapPoint.latitude;
+       
+             console.log("Hit surface at (" + lon + ", " + lat + "), graphic:", result.graphic || "none");
+             _this.setState({
+              visible: true,
+            })
+            
+            let myPlayer=document.getElementById('myPlayer')
+            var player = new window.EZUIKit.EZUIPlayer("myPlayer");
+
+             
+           }
+         });
+       });
+       
+
+  
 
 
      
@@ -450,6 +488,20 @@ class ArcGISMap extends Component {
       
     })
   }
+  // 模态框
+  handleOk = e => {
+    console.log(e);
+    this.setState({
+      visible: false,
+    });
+  };
+ // 模态框
+  handleCancel = e => {
+    console.log(e);
+    this.setState({
+      visible: false,
+    });
+  };
   componentWillUpdate(nextProps) {
     var _this=this;
     // 返回上一层，清理地球图层
@@ -481,8 +533,115 @@ class ArcGISMap extends Component {
       }
     }
 
+    // 点击小地球回到中心点
+    if(nextProps.core=="core"){
+      let lng = 110.21661767900059, lat = 39.322323289229026;
+      this.state.view.goTo({
+        heading: 0,
+        tilt: 73.67726241280418,
+        center: [lng, lat],
+        zoom: 14,
+      });
+    }
 
+    // 摄像头
+    if(nextProps.camera=="camera"){
+      if(this.state.camera){
+        this.state.map.remove(this.state.camera);
+      }
+      // console.log(nextProps.Monitorings.layerurl);
+       this.state.camera = new this.state.FeatureLayer({
+          url: "https://www.beidouhj.com/server/rest/services/Hosted/%E6%91%84%E5%83%8F%E5%A4%B4%E7%9B%91%E6%8E%A7%E7%BD%91/FeatureServer",
+          popupTemplate: {
+            // autocasts as new PopupTemplate()
+            title: "{name}",
+            content: [
+              {
+                type: "fields", // FieldsContentElement
+                fieldInfos: [
+                  // { 
+                  //   fieldName: "wnagzhi",
+                  //   visible: true,
+                  //   label: "直播地址"
+                  // },
+                  {
+                    fieldName: "OBJECTID",
+                    visible: true,
+                    label: "OBJECTID",
+                    format: {
+                      places: 0,
+                      digitSeparator: true
+                    }
+                  },
+                  {
+                    fieldName: "Shape",
+                    visible: true,
+                    label: "Shape",
+                    format: {
+                      places: 0,
+                      digitSeparator: true
+                    },
+                    statisticType: "sum"
+                  },
+                  {
+                    fieldName: "shebei",
+                    visible: true,
+                    label: "设备"
+                  },
+                  {
+                    fieldName: "suozai_weizhi",
+                    visible: true,
+                    label: "所在位置"
+                  },
+                  {
+                    fieldName: "zuobiao_X",
+                    visible: true,
+                    label: "经度"
+                  },
+                  {
+                    fieldName: "zuobiao_Y",
+                    visible: true,
+                    label: "纬度"
+                  },
+                  
+                ]
+              },
+              {
+                type: "attachments" // AttachmentsContentElement
+              },
+            ]
+          },
 
+        //   popupTemplate:{
+        //     title:"直播",
+        //     content:"<table class='esri-widget__table' summary='属性和值列表'><tbody>"
+        //     //   +"<tr><td class='esri-feature__field-data'>"
+        //       +"</td></tr></tbody></table>"
+        // },
+          title: "Touristic attractions",
+          elevationInfo: {
+            mode: "relative-to-scene"
+          },
+          outFields: ["*"],
+          featureReduction: {
+            type: "selection"
+          },
+      });
+      this.state.map.add(this.state.camera);
+
+      // this.state.camera.on("mouse-over",function(evt){
+      //   console.log(evt);
+      //   // var scrPt = map.toScreen(evt.graphic.geometry);
+      //   // var statName = evt.graphic.attributes.stationName;
+      //   //     map.setMapCursor("pointer");
+      // });
+      // this.state.camera.on("mouse-out",function(evt){
+      //   console.log(evt);
+      //       // $("#stopName").remove();
+      //       // map.setMapCursor("default");
+      // });   
+      
+    }
 
     // 首页系统总览_矿区导航-总路网
     if(nextProps.identify=="Allroad"){
@@ -795,13 +954,6 @@ class ArcGISMap extends Component {
         });
         this.state.map.add(this.state.newMapImageLayer);
       }
-      // 高光谱
-      if( nextProps.remotedata=='gaoguangpu'){
-        this.state.newMapImageLayer = new this.state.TileLayer({
-           url: "https://www.beidouhj.com/server/rest/services/Hosted/halagou_NDVI/MapServer"
-         });
-         this.state.map.add(this.state.newMapImageLayer);
-       }
 
       //  土地损毁与复垦
       if( nextProps.remotedata=='land'){
@@ -966,6 +1118,16 @@ class ArcGISMap extends Component {
     return (
       <div className="ArcGISMap">
         <div className="mapDiv" id="mapDiv"></div>
+        <Modal
+              title="Basic Modal"
+              visible={this.state.visible}
+              onOk={this.handleOk}
+              onCancel={this.handleCancel}
+            >
+              <video className="myPlayer" id="myPlayer" autoPlay src="http://hls01open.ys7.com/openlive/72b0e54e4e4047edb0e8d3827dc98db0.m3u8" controls playsInline webkit-playsinline={this.state.bof ? 1 : 0}></video>
+              {/* <video className="myPlayer" id="myPlayer" autoplay src="http://win.web.nf03.sycdn.kuwo.cn/daa86d4e2734736c33cdca2c004bd980/5d888495/resource/m2/11/53/2004502093.mp4" controls playsInline webkit-playsinline></video> */}
+
+            </Modal>
       </div>
     )
   }
@@ -981,9 +1143,14 @@ const mapStateToProps = state => ({
   Spatiadata: state.posts.Spatiadata,
   Allroad: state.posts.Allroad,
   mountain: state.posts.mountain,
+  core: state.posts.core,
+  camera: state.posts.camera,
 })
 
 ArcGISMap.propTypes = {
   AllroadGobai: PropTypes.func.isRequired,
+  Core: PropTypes.func.isRequired,
+  Cameras: PropTypes.func.isRequired,
 }
-export default connect(mapStateToProps, { AllroadGobai })(ArcGISMap);
+
+export default connect(mapStateToProps, { AllroadGobai,Core,Cameras })(ArcGISMap);

@@ -451,26 +451,91 @@
   }
 }
 
+// 下拉导航s
+#leftside-navigation{
 
-// .left-enter {
-//   opacity: 0;
-//   -webkit-transform: translate(-100%, 0);
-//   transform: translate(-100%, 0);
-// }
-// .left-enter-active {
-// -webkit-animation-name: fadeInLeft;
-// animation-name: fadeInLeft;
-// -webkit-animation-duration: 500ms;
-// animation-duration: 500ms;
-// }
-// .left-leave {
-// opacity: 1;
-// -webkit-transform: translate(100, 0);
-// transform: translate(100, 0);
-// }
-// .left-leave-active {
-// -webkit-animation-name: fadeOutLeft;
-// animation-name: fadeOutLeft;
-// -webkit-animation-duration: 500ms;
-// animation-duration: 500ms;
-// }
+    ul{
+      margin: -2px 0 0;
+      padding: 0;
+      li{
+        list-style-type: none;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        .onetitle{
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: white;
+            text-decoration: none;
+            display: block;
+            padding: 10px 0 10px 25px;
+            font-size: 16px;
+            outline: 0;
+            -webkit-transition: all 200ms ease-in;
+            -moz-transition: all 200ms ease-in;
+            -o-transition: all 200ms ease-in;
+            -ms-transition: all 200ms ease-in;
+            transition: all 200ms ease-in;
+            div {
+                display: inline-block;
+            }
+            .titlecontent{
+                width: 65%;
+                padding: 0 10px;
+            }
+            img{
+                width: 20%;
+                display: inline-block;
+                width: 11px;
+                height: 11px;
+            }
+        }
+      }
+      ul{
+        margin: -2px 0 0;
+        padding: 0;
+        display: none;
+        li{
+            margin-bottom: 0;
+            margin-left: 0;
+            margin-right: 0;
+            border-bottom: none;
+            div {
+                padding: 10px 0 10px 25px;
+                text-align: center;
+                font-size: 16px;
+                color: white;
+                
+            }
+        }
+      }
+    }
+    // 圆圈
+    .num{
+      width: 40px;
+      height: 40px;
+      background:url('../../style/imgs/box.png') 100% 100% / cover no-repeat;
+      color: rgba(80,209,253,1);
+      text-align: center;
+      line-height: 40px;
+      font-size: 18px;
+      // display: block;
+    }
+  } 
+
+
+
+// 摄像头
+  .camerafa{
+    width: 50px;
+    height: 50px;
+    position: fixed;
+    top:250px;
+    right: 15px;
+    background-color: white;
+    padding:10px;
+    img{
+      width: 100%;
+      height: 100%;
+    }
+  }

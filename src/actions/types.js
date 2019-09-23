@@ -1,3 +1,4 @@
+export const Core_Type = "Core_Type";
 export const Earth = "Earth";
 export const Monit_Type = "Monit_Type";
 export const Remote_Type = "Remote_Type";
@@ -8,3 +9,4 @@ export const Spatia_Type = "Spatia_Type";
 export const Allroad_Type = "Allroad_Type";
 export const AllroadGobai_Type = "AllroadGobai_Type";
 export const Changelayers_Type = "Changelayers_Type";
+export const Camera_Type = "Camera_Type";

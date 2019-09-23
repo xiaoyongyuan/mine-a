@@ -14,6 +14,11 @@ class CurveChart extends Component {
       var vertical = this.props.vertical;
       var typeid = this.props.typeid;
       var deviceType = this.props.deviceType;
+      console.log("xdata",xdata);
+      console.log("levelvalue",levelvalue);
+      console.log("vertical",vertical);
+      console.log("typeid",typeid);
+      console.log("deviceType",deviceType);
 
       this.setState({
           xdata:xdata,
@@ -30,6 +35,12 @@ class CurveChart extends Component {
       var EchaetsType;
       if(type === '1'){
           EchaetsType = "dotdetails";
+      }else if(type === 'rain01'){
+        EchaetsType = "dotdetailtwo";
+      }else if(type === 'env01'){
+        EchaetsType = "dotdetailtwo";
+      }else if(type === 'rope01'){
+        EchaetsType = "dotdetailtwo";
       }
       else {
           EchaetsType = "dotdetails2";

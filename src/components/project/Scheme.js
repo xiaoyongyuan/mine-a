@@ -268,7 +268,7 @@ class Scheme extends Component {
               dataSource={this.state.list}
               pagination={this.state.pagination}
           />
-        <UploadModel code={this.state.codetype} newShow={this.state.newShow} filterSubmit={this.uploadOk} uploadreset={()=>this.changeState('newShow',false,'','type',1)} />
+          <UploadModel code={this.state.codetype} newShow={this.state.newShow} filterSubmit={this.uploadOk} uploadreset={()=>this.changeState('newShow',false,'','type',1)} />
           <Modal title="提示信息" visible={this.state.deleteshow} onOk={this.deleteOk}
                  width={370}
                  onCancel={this.deleteCancel} okText="确认" cancelText="取消"

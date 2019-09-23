@@ -16,11 +16,12 @@ import logo from '../../style/imgs/logonew.png';
 import globa from '../../style/imgs/globa.png';
 import pointer from '../../style/imgs/pointer.png';
 import hometitle from '../../style/imgs/hometitle.png';
+import camera from '../../style/imgs/camera.png';
 import axios from "../../axios";
 // redux需要
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { CleanLayers,Allroad } from '../../actions/postActions';
+import { CleanLayers,Allroad,Core,Cameras } from '../../actions/postActions';
 import homeSystemMonitoring from "../../axios/homeSystemMonitoring";
 
 
@@ -66,11 +67,11 @@ class MapShow extends Component {
                     homeSystemMonitoring.miniNavigationlist({layertype:2,pageindex:this.state.pagenum,pagesize:this.state.everypage})
                     .then(res=>{
                         // 总路网信息resux
-                        this.props.Allroad(res.data[0].layerurl);
+                        if(res.success && res.data.length>0){
+                            this.props.Allroad(res.data[0].layerurl);
+                        }
                     })
-
                 }
-                
             }
         )
     };
@@ -102,6 +103,14 @@ class MapShow extends Component {
             },
         });
     };
+    // 点击小地球回到中心点（redux）
+    globa=(val)=>{
+        this.props.Core(val);
+    }
+    // 摄像头
+    camerafa=(val)=>{
+        this.props.Cameras(val)
+    }
     render() {
         return (
             <div className="MapShow">
@@ -148,10 +157,10 @@ class MapShow extends Component {
                             </div>
                             <div className="roundBtn">
                                 <div className="roundline">
-                                    <div className='centericon'><img alt="" src={globa}  /></div>
+                                    <div className='centericon'><img alt="" src={globa} onClick={()=>this.globa("core")} /></div>
                                     <div className={'pointer '+this.state.activepointer }><img alt="" src={pointer}  /></div>
                                     <div className={this.state.showitem==='pandect'?'showitem rounditem pandect':'rounditem pandect'} onClick={()=>this.clickbtn('pandect')}>系统总览</div>
-                                    <div className={this.state.showitem==='monitor'?'showitem rounditem monitor':'rounditem monitor'} onClick={()=>this.clickbtn('monitor')}>监测数据</div>
+                                    <div className={this.state.showitem==='monitor'?'showitem rounditem monitor':'rounditem monitor'} onClick={()=>this.clickbtn('monitor')}>生态监测</div>
                                     <div className={this.state.showitem==='gis'?'showitem rounditem gis':'rounditem gis'} onClick={()=>this.clickbtn('gis')}>遥感监测</div>
                                     <div className={this.state.showitem==='prodect'?'showitem rounditem prodect':'rounditem prodect'} onClick={()=>this.clickbtn('prodect')}>项目管理</div>
                                 </div>
@@ -181,14 +190,24 @@ class MapShow extends Component {
                         </div>
                     </div>
                 </div>
+
+
+                {/* 摄像头 */}
+                <div className="camerafa" onClick={()=>this.camerafa('camera')}>
+                    <img src={camera} alt=""/>
+                </div>
             </div>
         );
     }
 }
+
 MapShow.propTypes = {
     CleanLayers: PropTypes.func.isRequired,
     Allroad: PropTypes.func.isRequired,
+    Core: PropTypes.func.isRequired,
+    Cameras: PropTypes.func.isRequired,
 }
 
 
-export default connect(null, { CleanLayers,Allroad })(MapShow); 
+
+export default connect(null, { CleanLayers,Allroad,Core,Cameras })(MapShow); 

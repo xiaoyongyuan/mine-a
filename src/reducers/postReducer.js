@@ -1,4 +1,7 @@
-import { Earth,Monit_Type,Remote_Type,Network_Type,CleanLayers_Type,Monitoring_Type,Spatia_Type,Allroad_Type,AllroadGobai_Type,Changelayers_Type } from '../actions/types';
+import { Core_Type,Earth,Monit_Type,Remote_Type,Network_Type,CleanLayers_Type,
+  Monitoring_Type,Spatia_Type,Allroad_Type,AllroadGobai_Type,Changelayers_Type,
+  Camera_Type
+ } from '../actions/types';
 // reducer的作用: 返回新的状态
 
 const initialState = {
@@ -12,11 +15,25 @@ const initialState = {
   Spatiadata:{},
   Allroad:'',
   AllroadGobai:{},
-  mountain:""
+  mountain:"",
+  core:"",
+  camera:""
 }
 
 export default function (state = initialState, action) {
   switch (action.type) {
+    // 点击小地球回到中心点
+    case Core_Type:
+      return {
+        ...state,
+        core: action.payload
+      }
+    // 摄像头
+    case Camera_Type:
+      return {
+        ...state,
+        camera: action.payload
+      }
     // 首页系统总览,基础数据
     case Earth:
       return {

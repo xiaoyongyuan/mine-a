@@ -15,6 +15,7 @@ import {
 import moment from "moment";
 import ofterajax from "../../axios/ofter";
 import "./index.less";
+
 const FormItem = Form.Item;
 const { Option } = Select;
 const { RangePicker } = DatePicker;
@@ -140,7 +141,7 @@ class FilterForm extends React.Component {
               {getFieldDecorator(`${item.field}`, {
                 rules: item.rules,
                 initialValue: item.initialValue
-              })(<Input key={item.field}  maxLength="100" />)}
+              })(<Input key={item.field}  maxLength={100} />)}
             </FormItem>
           );
           formItemList.push(INPUT);
@@ -299,7 +300,7 @@ class FilterForm extends React.Component {
         } else if (item.type === "button") {
           //button
           const Buttons = (
-            <FormItem key="buts">
+            <FormItem key="buts" style={{display:'flex',justifyContent:'flex-end'}}>
               {item.button.map((el, ind) => (
                 <Button
                   key={"but" + ind}
@@ -334,12 +335,13 @@ class FilterForm extends React.Component {
     return (
       <div>
         {formList.type ? (
-          <Form className="baseform" layout="inline">
+          <Form className="baseform" layout="inline" style={{display:'flex'}}>
             {this.initFormList()}
           </Form>
         ) : (
-          <Form className="baseform" {...formItemLayout} >
+          <Form className="baseform" {...formItemLayout}>
             {this.initFormList()}
+            {/* style={{display:'flex'}} */}
           </Form>
         )}
       </div>

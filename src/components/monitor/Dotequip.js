@@ -136,19 +136,29 @@ class Dotequip extends Component {
         title: "操作",
         key: "option",
         // dataIndex: "states",
-        // render: (text, record, index) => {
         render: (record, index) => {
-          return (
-            <Button
-              type="link"
-              className="btn-look"
-              onClick={() => {
-                this.handDetail(record);
-              }}
-            >
-              查看
-            </Button>
-          )
+          // console.log(record, index);
+          switch (record.states) {
+            case "1": {
+              return <Button
+                type="link"
+                className="btn-look"
+                onClick={() => {
+                  this.handDetail(record);
+                }}
+              >
+                查看
+              </Button>
+            }
+            default:
+            return <Button
+            type="link"
+            className="btn-look"
+            disabled
+          >
+            查看
+          </Button>
+          }
 
 
 
@@ -220,7 +230,6 @@ class Dotequip extends Component {
           //         </div>
           //       );
           //     }
-
           //   default:
           //     {
           //     }
@@ -229,10 +238,11 @@ class Dotequip extends Component {
       }
     ];
   }
-  componentWillMount() {}
+  componentWillMount() {
+   
+  }
   componentDidMount() {
     this.getProjectList();
-
   }
   getProjectList = () => {
     axios
@@ -269,6 +279,7 @@ class Dotequip extends Component {
       });
   };
   getTypeList = () => {
+    // http://39.97.238.216:8001/device/api/monitorNetAll?itemid=1173495218001641472
     console.log(1111);
     axios.ajax({
         baseURL:window.g.deviceURL,
@@ -340,7 +351,8 @@ class Dotequip extends Component {
   handSelectP = val => {
     this.setState(
       {
-        projSelected: val
+        projSelected: val,
+        typeList:[]
       },
       () => {
         this.getTypeList();
@@ -478,11 +490,10 @@ class Dotequip extends Component {
           {item.label}
         </Select.Option>
       ));
-
       return (
         <Select
           defaultValue={this.state.projectList[0].value}
-          placeholder="请选择规划"
+          placeholder = "请选择规划"
           dropdownClassName="dotselect"
           onChange={val => {
             this.handSelectP(val);
@@ -491,10 +502,18 @@ class Dotequip extends Component {
           {option}
         </Select>
       );
+    }else{
+      return (
+        <Select>
+        </Select>
+      );
     }
   };
+
   seltyperender = () => {
+    // console.log(this.state.typeList);
     if (this.state.typeList.length > 0) {
+      console.log(this.state.typeList);
       const option = this.state.typeList.map((item, key) => (
         <Select.Option key={key} value={item.value} title={item.label}>
           {item.label}
@@ -524,11 +543,15 @@ class Dotequip extends Component {
       <div className="dotequip">
         <PageBreadcrumb routes={this.state.routes} />
         <div className="optbox">
-          <Row type="flex" gutter={16} align="middle">
-            <Col span={6}>
-                <span style={{ marginRight:'10px' }} className="label block">监测规划</span> {this.selprorender()}
+          <Row type="flex" 
+          gutter={8} 
+          align="bottom">
+
+            <Col span={7}>
+                <span style={{ marginRight:'10px' }} className="label block">监测规划</span> 
+                {this.selprorender()}
             </Col>
-            <Col span={4}>
+            <Col span={5}>
               <span className="cont block">
                 <span className="tit block">
                   <Icon
@@ -541,19 +564,23 @@ class Dotequip extends Component {
               </span>
             </Col>
           </Row>
+
           <Row
             type="flex"
-            gutter={16}
-            align="middle"
+            gutter={8}
+            align="bottom"
             style={{ marginTop: "10px" }}
           >
-            <Col span={6}><span style={{ marginRight:'10px' }} className="label block">监测网</span> {this.seltyperender()}</Col>
-            <Col span={4}>
+            <Col span={7}><span style={{ marginRight:'10px' }} className="label block">监测网</span> 
+              {this.seltyperender()}
+            </Col>
+            <Col span={5}>
               <span className="cont block">
                 <span className="tit block">
+                {/* ,fontSize:"16px" */}
                   <Icon
                     type="cluster"
-                    style={{ display: "inline-block", marginRight: "2px",fontSize:"16px" }}
+                    style={{ display: "inline-block", marginRight: "2px" }}
                   />
                   文档查看
                 </span>

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import BaseForm from "../common/BaseForm";
-import {Button, message} from "antd";
+import {Button, message, Icon, Menu, Dropdown,Radio} from "antd";
 import Etable from "../common/Etable";
 import EquipListModalForm from './EquipListModalForm.js';
 import axios from "../../axios";
@@ -188,7 +188,13 @@ class Equipmanage extends Component {
                 )
             }
         },];
-
+        const menu = (
+            <Menu>
+              <Menu.Item>
+              <a  href="http://info.beidouenv.com/uploadFile/sbrk.xlsx" className="bluecolor">下载导入模板</a>
+              </Menu.Item>
+            </Menu>
+          );
         return (
             <div className="Equipmanage">
                 <PageBreadcrumb routes={this.state.routes} />
@@ -198,9 +204,19 @@ class Equipmanage extends Component {
                             <BaseForm formList={this.formList} filterSubmit={this.handleFilterSubmit}/>
                         </div>
                         <div className="rightOpt">
-                            <a  href="http://info.beidouenv.com/uploadFile/sbrk.xlsx" className="bluecolor"><Button type="primary"><span className="actionfont action-daoru"/> 下载导入模板</Button></a>
-                            <Button type="primary" style={{ marginLeft:'20px', }} onClick={()=>this.changeState('newShow',true)}><span className="actionfont action-daoru"/>&nbsp;&nbsp;导入</Button>
-                            <Button type="primary" style={{ marginLeft:'20px', }} onClick={this.export} ><span className="actionfont action-daochu1"/>&nbsp;&nbsp;导出</Button>
+                            <Radio.Group>
+                                <Radio.Button onClick={()=>this.changeState('newShow',true)} style={{verticalAlign:"bottom",backgroundColor: "#0062A1",color:" #fff",border:"none",borderRight:"1px solid white"}} value="1"> 
+                                    <span className="actionfont action-daoru"/>
+                                    <span>导入</span>
+                                </Radio.Button>
+                                <Dropdown overlay={menu}>
+                                    <Radio.Button style={{verticalAlign:"bottom",backgroundColor: "#0062A1",color:" #fff",border:"none",borderLeft:"1px solid white"}} value="0">
+                                        <Icon type="down" />
+                                    </Radio.Button>
+                                </Dropdown>
+                            </Radio.Group>
+                            
+                            <Button type="primary" style={{ verticalAlign:"bottom",marginLeft:'20px', }} onClick={this.export} ><span className="actionfont action-daochu1"/>&nbsp;&nbsp;导出</Button>
                         </div>
                     </div>
 

@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
-import { Form, Icon, Input, Button, Checkbox,message } from "antd";
+import { Form, Icon, Input, Button, Checkbox,message, Row, Col } from "antd";
 import axios from '../../axios';
-import Earthrolling from './Earthrolling'
+import Earthrolling from './Earthrolling';
 import './index.less';
-import login_logo from '../../style/imgs/logonew.png'
-import login_xian from '../../style/imgs/login_xian.png'
+import login_logo from '../../style/imgs/logonew.png';
+import login_xian from '../../style/imgs/login_xian.png';
 import Utils from "../../utils/utils";
 import { isMoment } from 'moment';
 
@@ -160,7 +160,15 @@ class Login extends Component {
                 <img className="login_logo_img" src={login_logo} alt="" />
               </div>
           </div>
-          <img className="login_xian" src={login_xian} alt=""/>
+
+          {/* <div className="connection"> */}
+                <Row gutter={12}>
+                        <Col xs={2} sm={4} md={6} lg={8} xl={10}>
+                            <img className="login_xian" src={login_xian} alt=""/>
+                        </Col>
+                </Row>
+          {/* </div> */}
+
           <div className="logincont">
               <div className="login-formnew">
                   {/* 旋转地球 */}

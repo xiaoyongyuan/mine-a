@@ -708,10 +708,152 @@ class Dotdetails extends Component {
             }
           ];
         }
+
         
+        case "rain01":
+        {
+          return columns = [
+            {
+              title: "编号",
+              dataIndex: "code",
+              align: "center"
+            },
+            {
+              title: "数据时间",
+              dataIndex: "createon",
+              align: "center"
+            },
+            {
+              title: "雨量值",
+              dataIndex: "datainfo",
+              align: "center"
+            },
+            {
+              title: "雨量差值",
+              dataIndex: "lastdata",
+              align: "center"
+            },
+            {
+              title: "统计时长",
+              dataIndex: "",
+              align: "center",
+              render: () => {
+                return 1;
+              }
+            }
+          ];
+        }
+
+
+        case "env01":
+        {
+          return columns = [
+            {
+              title: "编号",
+              dataIndex: "code",
+              align: "center"
+            },
+            {
+              title: "数据时间",
+              dataIndex: "createon",
+              align: "center"
+            },
+            {
+              title: "温度值",
+              dataIndex: "datainfo",
+              align: "center"
+            },
+            {
+              title: "温度差值",
+              dataIndex: "lastdata",
+              align: "center"
+            },
+            {
+              title: "统计时长",
+              dataIndex: "",
+              align: "center",
+              render: () => {
+                return 1;
+              }
+            }
+          ];
+        }
+
+        case "rope01":
+        {
+          return columns = [
+            {
+              title: "编号",
+              dataIndex: "code",
+              align: "center"
+            },
+            {
+              title: "数据时间",
+              dataIndex: "createon",
+              align: "center"
+            },
+            {
+              title: "裂缝值",
+              dataIndex: "datainfo",
+              align: "center"
+            },
+            {
+              title: "裂缝差值",
+              dataIndex: "lastdata",
+              align: "center"
+            },
+            {
+              title: "统计时长",
+              dataIndex: "",
+              align: "center",
+              render: () => {
+                return 1;
+              }
+            }
+          ];
+        }
+
+        case "ph01":
+        {
+          return columns = [
+            {
+              title: "编号",
+              dataIndex: "code",
+              align: "center"
+            },
+            {
+              title: "数据时间",
+              dataIndex: "createon",
+              align: "center"
+            },
+            {
+              title: "PH值",
+              dataIndex: "datainfo",
+              align: "center"
+            },
+            {
+              title: "PH差值",
+              dataIndex: "lastdata",
+              align: "center"
+            },
+            {
+              title: "统计时长",
+              dataIndex: "",
+              align: "center",
+              render: () => {
+                return 1;
+              }
+            }
+          ];
+        }
 
       default:
         break;
+//         sunctrl01 太阳能控制板
+// ph01 PH值检测仪
+// rope01 裂缝计
+// rain01 雨量计
+// env01 温湿度测量仪
     }
     return columns;
   };

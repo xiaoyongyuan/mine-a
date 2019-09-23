@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
-import {Button, message, Modal,Icon } from 'antd'
-import axios from '../../axios'
+import {Modal, Form,message,Button} from 'antd';
+// ,, Input, Select, Button, Upload, Icon
+import axios from '../../axios';
 import Utils from "../../utils/utils";
-import BaseForm from "../common/BaseForm"
-import Etable from "../common/Etable"
+import BaseForm from "../common/BaseForm";
+import Etable from "../common/Etable";
 import PageBreadcrumb from "../common/PageBreadcrumb";
-
+const FormItem = Form.Item;
 
 class Funds extends Component {
     state  ={
@@ -50,7 +51,8 @@ class Funds extends Component {
           field: 'memo',
           placeholder: '',
           // initialValue: 'sss',
-        },{
+        },
+        {
           type:'button',
           button:[
             {
@@ -141,6 +143,7 @@ class Funds extends Component {
         title: '说明',
         dataIndex: 'memo',
       }];
+      // const { getFieldDecorator } = this.props.form;
     return (
       <div className="Funds">
       <PageBreadcrumb routes={this.state.routes} />
@@ -157,14 +160,13 @@ class Funds extends Component {
               dataSource={this.state.list}
               pagination={this.state.pagination}
           />
+
           <Modal
           title="新增"
           visible={this.state.newShow}
-
           onCancel={()=>this.changeState('newShow',false)}
           footer={null}
-        >
-
+          >
             <BaseForm formList={this.formList}  filterSubmit={this.layerSubmit} uploadreset={()=>this.changeState('newShow',false)} />
         </Modal>
       </div>
