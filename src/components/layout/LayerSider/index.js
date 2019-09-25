@@ -61,7 +61,12 @@ class LayerSider extends Component {
   render() {
     return (
       <div className="LayerSider">
-        <Menu mode="inline" onClick={this.handleClick}>
+        <Menu mode="inline"
+        // SubMenu
+        // defaultOpenKeys={["/project"]}
+        // // Menu.Item
+        // selectedKeys={["/main/scheme"]}
+        onClick={this.handleClick}>
           { this.state.menuTreeNode }
         </Menu>      
       </div>

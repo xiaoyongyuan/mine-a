@@ -29,7 +29,9 @@ class Dotequip extends Component {
       routes:[
         {path: '', breadcrumbName: '监测数据'},
         {path: '/main/dotequip', breadcrumbName: '点位设备'},
-      ]
+      ],
+      defaultValue1:"",//监测规划下拉框默认值   北斗环境监测规划
+      defaultValue2:"",//监测网下拉框默认值   地表水监测网
     };
     this.params = {
       pageindex: 1,
@@ -239,10 +241,12 @@ class Dotequip extends Component {
     ];
   }
   componentWillMount() {
-   
+    // console.log(this);
+    let pathname=this.props.location.pathname;
+    this.getProjectList();
   }
   componentDidMount() {
-    this.getProjectList();
+    // this.getProjectList();
   }
   getProjectList = () => {
     axios
@@ -254,7 +258,7 @@ class Dotequip extends Component {
       .then(res => {
         if (res.success) {
           if (res.data.length > 0) {
-            console.log(res.data);
+            // console.log(res.data);
             localStorage.setItem("prolist", res.data);
             var plist = [];
             res.data.map(v => {
@@ -269,7 +273,8 @@ class Dotequip extends Component {
                 projectList: plist,
                 projdefsel: res.data[0].code,
                 filepath: res.data[0].filepath,
-                detcode: res.data[0].code
+                detcode: res.data[0].code,
+                defaultValue1:plist[0].label
               },() => {
                 this.getTypeList();
               }
@@ -280,7 +285,7 @@ class Dotequip extends Component {
   };
   getTypeList = () => {
     // http://39.97.238.216:8001/device/api/monitorNetAll?itemid=1173495218001641472
-    console.log(1111);
+    // console.log(1111);
     axios.ajax({
         baseURL:window.g.deviceURL,
         method: "get",
@@ -293,7 +298,7 @@ class Dotequip extends Component {
       })
       .then(res => {
         if (res.success) {
-          console.log(res);
+          // console.log(res);
           if (res.data.length > 0) {
             var tlist = [];
             res.data.map(v => {
@@ -305,7 +310,8 @@ class Dotequip extends Component {
             this.setState(
               {
                 typeList: tlist,
-                monintdefsel: res.data[0].code
+                monintdefsel: res.data[0].code,
+                defaultValue2:tlist[0].label
               },() => {
                 this.getDeviceList();
               }
@@ -314,7 +320,6 @@ class Dotequip extends Component {
         }
       });
   };
-
   getDeviceList = () => {
       const quparams = {
           pagesize: 10,
@@ -343,8 +348,8 @@ class Dotequip extends Component {
             }),
             deviceCount: res.totalcount
           });
-          console.log('tableData',res.data);
-          console.log('pagination',this.state.pagination);
+          // console.log('tableData',res.data);
+          // console.log('pagination',this.state.pagination);
         }
       });
   };
@@ -483,17 +488,20 @@ class Dotequip extends Component {
       }
     });
   };
+
   selprorender = () => {
     if (this.state.projectList.length > 0) {
+      // console.log(this.state.projectList);
       const option = this.state.projectList.map((item, key) => (
-        <Select.Option key={key} value={item.value} title={item.label}>
+        <Select.Option key={item.value} value={item.value} title={item.label}>
           {item.label}
         </Select.Option>
       ));
       return (
         <Select
-          defaultValue={this.state.projectList[0].value}
-          placeholder = "请选择规划"
+          defaultValue={this.state.defaultValue1}
+          // placeholder = "请选择规划"
+          placeholder={this.state.projectList[0].label}
           dropdownClassName="dotselect"
           onChange={val => {
             this.handSelectP(val);
@@ -513,16 +521,15 @@ class Dotequip extends Component {
   seltyperender = () => {
     // console.log(this.state.typeList);
     if (this.state.typeList.length > 0) {
-      console.log(this.state.typeList);
       const option = this.state.typeList.map((item, key) => (
-        <Select.Option key={key} value={item.value} title={item.label}>
+        <Select.Option key={item.value} value={item.value} title={item.label}>
           {item.label}
         </Select.Option>
       ));
       return (
         <Select
-          defaultValue={this.state.typeList[0].value}
-          placeholder="请选择监测网"
+          defaultValue={this.state.defaultValue2}
+          placeholder={this.state.typeList[0].label}
           dropdownClassName="dotselect"
           onChange={val => {
             this.handSelectM(val);
@@ -539,6 +546,7 @@ class Dotequip extends Component {
     }
   };
   render() {
+    let _this=this;
     return (
       <div className="dotequip">
         <PageBreadcrumb routes={this.state.routes} />

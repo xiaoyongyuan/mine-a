@@ -49,7 +49,12 @@ class MapShow extends Component {
         },30000)
     }
     clickbtn=(val)=>{
-        this.setState({showitem:val,activepointer:'active'+val})
+        this.props.CleanLayers(0);
+
+        this.setState({showitem:val,activepointer:'active'+val});
+        console.log(this);
+
+        
     };
     trigger=()=>{
         const tigclose=this.state.tigclose;
@@ -75,6 +80,7 @@ class MapShow extends Component {
             }
         )
     };
+    
     leftmoveShow=(val)=>{
         this.setState(
             {
@@ -84,6 +90,7 @@ class MapShow extends Component {
                 console.log("display",this.state.display);
             }
         )
+        console.log(this);
         // 促发redux
         this.props.CleanLayers(0);
 
@@ -111,6 +118,7 @@ class MapShow extends Component {
     camerafa=(val)=>{
         this.props.Cameras(val)
     }
+
     render() {
         return (
             <div className="MapShow">

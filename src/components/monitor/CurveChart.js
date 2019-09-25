@@ -9,50 +9,45 @@ class CurveChart extends Component {
     }
   }
   componentWillMount(){
-      var xdata = this.props.xdata;
-      var levelvalue = this.props.levelvalue;
-      var vertical = this.props.vertical;
+
+        //   数据
+      var datainfo = this.props.datainfo;
+        //   时间
+      var createon = this.props.createon;
+        // 点位id
       var typeid = this.props.typeid;
+        // 类型 
       var deviceType = this.props.deviceType;
-      console.log("xdata",xdata);
-      console.log("levelvalue",levelvalue);
-      console.log("vertical",vertical);
+        // 单位
+      var units = this.props.units;
+
+      console.log("数据",datainfo);
+      console.log("时间",createon);
       console.log("typeid",typeid);
       console.log("deviceType",deviceType);
+      console.log("单位",units);
 
       this.setState({
-          xdata:xdata,
-          levelvalue:levelvalue,
-          vertical,
-          deviceType,
-          typeid
+        datainfo,
+        createon,
+        deviceType,
+        typeid,
+        units
       });
   }
   componentDidMount(){
 
   }
     test = (id,type) => {
-      var EchaetsType;
-      if(type === '1'){
-          EchaetsType = "dotdetails";
-      }else if(type === 'rain01'){
-        EchaetsType = "dotdetailtwo";
-      }else if(type === 'env01'){
-        EchaetsType = "dotdetailtwo";
-      }else if(type === 'rope01'){
-        EchaetsType = "dotdetailtwo";
-      }
-      else {
-          EchaetsType = "dotdetails2";
-      }
+        // 地表水监测网：ph01 雨量监测网：rain01 土壤环境监测网：env01 地裂缝监测网：rope01
        return(
            <DataOverviewEcharts
-            type={EchaetsType}
+            type={type}
             typeid={this.state.typeid}
             deviceType={this.state.deviceType}
-            xdata={this.state.xdata}
-            levelvalue={this.state.levelvalue}
-            vertical={this.props.vertical}
+            datainfo={this.state.datainfo}
+            createon={this.state.createon}
+            units={this.state.units}
         />
        )
     };

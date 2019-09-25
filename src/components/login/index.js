@@ -160,10 +160,11 @@ class Login extends Component {
                 <img className="login_logo_img" src={login_logo} alt="" />
               </div>
           </div>
+            
 
           {/* <div className="connection"> */}
                 <Row gutter={12}>
-                        <Col xs={2} sm={4} md={6} lg={8} xl={10}>
+                        <Col xs={2} sm={4} md={6} lg={6} xl={10}>
                             <img className="login_xian" src={login_xian} alt=""/>
                         </Col>
                 </Row>

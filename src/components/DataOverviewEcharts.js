@@ -11,6 +11,12 @@ class DataOverviewEcharts extends Component {
         };
     }
     componentWillMount(){
+        // 
+        // 地表水监测网：ph01
+        // 雨量监测网：rain01
+        // 土壤环境监测网：env01
+        // 地裂缝监测网：rope01
+
         this.setState({
             type:this.props.type,
         });
@@ -18,7 +24,416 @@ class DataOverviewEcharts extends Component {
     componentDidMount(){
         this[this.state.type]()
     }
-    //地裂缝数据
+    // 地表水监测网：ph01
+    ph01=()=>{
+        let titles="";
+        if(this.props.type=="ph01"){
+            titles="地表水监测网"
+        }
+
+        let option={
+            title: {
+                text: titles
+            },
+            tooltip: {
+                trigger: 'axis'
+            },
+            xAxis: {
+                name:"时间",
+                // data:['2014-01-01','2014-01-02','2014-01-03','2014-01-04','2014-01-05','2014-01-06','2014-01-07','2014-01-08']
+                data:this.props.createon
+                // data: data.map(function (item) {
+                //     return item[0];
+                // })
+            },
+            yAxis: {
+                name:"单位："+this.props.units,
+                splitLine: {
+                    show: false
+                }
+            },
+            toolbox: {
+                left: 'center',
+                feature: {
+                    dataZoom: {
+                        yAxisIndex: 'none'
+                    },
+                    restore: {},
+                    saveAsImage: {}
+                }
+            },
+            dataZoom: [{
+                startValue: '2014-06-01'
+            }, {
+                type: 'inside'
+            }],
+            visualMap: {
+                top: 10,
+                right: 10,
+                pieces: [{
+                    gt: 0,
+                    lte: 50,
+                    color: '#096'
+                }, {
+                    gt: 50,
+                    lte: 100,
+                    color: '#ffde33'
+                }, {
+                    gt: 100,
+                    lte: 150,
+                    color: '#ff9933'
+                }, {
+                    gt: 150,
+                    lte: 200,
+                    color: '#cc0033'
+                }, {
+                    gt: 200,
+                    lte: 300,
+                    color: '#660099'
+                }, {
+                    gt: 300,
+                    color: '#7e0023'
+                }],
+                outOfRange: {
+                    color: '#999'
+                }
+            },
+            series: {
+                name: titles,
+                type: 'line',
+                // data:[100,222,333,444,666],
+                data:this.props.datainfo,
+                // data: data.map(function (item) {
+                //     return item[1];
+                // }),
+                // markLine: {
+                //     silent: true,
+                //     // data: [{
+                //     //     yAxis: 30
+                //     // }, {
+                //     //     yAxis: 100
+                //     // }, {
+                //     //     yAxis: 150
+                //     // }, {
+                //     //     yAxis: 200
+                //     // }, {
+                //     //     yAxis: 300
+                //     // }]
+                // }
+            }
+        };
+        this.setState({option});
+    };
+    // 雨量监测网：rain01 
+    rain01=()=>{
+        let titles="";
+        if(this.props.type=="rain01 "){
+            titles="雨量监测网"
+        }
+
+        let option={
+            title: {
+                text: titles
+            },
+            tooltip: {
+                trigger: 'axis'
+            },
+            xAxis: {
+                name:"时间",
+                // data:['2014-01-01','2014-01-02','2014-01-03','2014-01-04','2014-01-05','2014-01-06','2014-01-07','2014-01-08']
+                data:this.props.createon
+                // data: data.map(function (item) {
+                //     return item[0];
+                // })
+            },
+            yAxis: {
+                name:"单位："+this.props.units,
+                splitLine: {
+                    show: false
+                }
+            },
+            toolbox: {
+                left: 'center',
+                feature: {
+                    dataZoom: {
+                        yAxisIndex: 'none'
+                    },
+                    restore: {},
+                    saveAsImage: {}
+                }
+            },
+            dataZoom: [{
+                startValue: '2014-06-01'
+            }, {
+                type: 'inside'
+            }],
+            visualMap: {
+                top: 10,
+                right: 10,
+                pieces: [{
+                    gt: 0,
+                    lte: 50,
+                    color: '#096'
+                }, {
+                    gt: 50,
+                    lte: 100,
+                    color: '#ffde33'
+                }, {
+                    gt: 100,
+                    lte: 150,
+                    color: '#ff9933'
+                }, {
+                    gt: 150,
+                    lte: 200,
+                    color: '#cc0033'
+                }, {
+                    gt: 200,
+                    lte: 300,
+                    color: '#660099'
+                }, {
+                    gt: 300,
+                    color: '#7e0023'
+                }],
+                outOfRange: {
+                    color: '#999'
+                }
+            },
+            series: {
+                name: titles,
+                type: 'line',
+                // data:[100,222,333,444,666],
+                data:this.props.datainfo,
+                // data: data.map(function (item) {
+                //     return item[1];
+                // }),
+                // markLine: {
+                //     silent: true,
+                //     // data: [{
+                //     //     yAxis: 30
+                //     // }, {
+                //     //     yAxis: 100
+                //     // }, {
+                //     //     yAxis: 150
+                //     // }, {
+                //     //     yAxis: 200
+                //     // }, {
+                //     //     yAxis: 300
+                //     // }]
+                // }
+            }
+        };
+        this.setState({option});
+    };
+    // 土壤环境监测网：env01 
+    env01=()=>{
+        let titles="";
+        if(this.props.type=="env01"){
+            titles="土壤环境监测网"
+        }
+
+        let option={
+            title: {
+                text: titles
+            },
+            tooltip: {
+                trigger: 'axis'
+            },
+            xAxis: {
+                name:"时间",
+                // data:['2014-01-01','2014-01-02','2014-01-03','2014-01-04','2014-01-05','2014-01-06','2014-01-07','2014-01-08']
+                data:this.props.createon
+                // data: data.map(function (item) {
+                //     return item[0];
+                // })
+            },
+            yAxis: {
+                name:"单位："+this.props.units,
+                splitLine: {
+                    show: false
+                }
+            },
+            toolbox: {
+                left: 'center',
+                feature: {
+                    dataZoom: {
+                        yAxisIndex: 'none'
+                    },
+                    restore: {},
+                    saveAsImage: {}
+                }
+            },
+            dataZoom: [{
+                startValue: '2014-06-01'
+            }, {
+                type: 'inside'
+            }],
+            visualMap: {
+                top: 10,
+                right: 10,
+                pieces: [{
+                    gt: 0,
+                    lte: 50,
+                    color: '#096'
+                }, {
+                    gt: 50,
+                    lte: 100,
+                    color: '#ffde33'
+                }, {
+                    gt: 100,
+                    lte: 150,
+                    color: '#ff9933'
+                }, {
+                    gt: 150,
+                    lte: 200,
+                    color: '#cc0033'
+                }, {
+                    gt: 200,
+                    lte: 300,
+                    color: '#660099'
+                }, {
+                    gt: 300,
+                    color: '#7e0023'
+                }],
+                outOfRange: {
+                    color: '#999'
+                }
+            },
+            series: {
+                name: titles,
+                type: 'line',
+                // data:[100,222,333,444,666],
+                data:this.props.datainfo,
+                // data: data.map(function (item) {
+                //     return item[1];
+                // }),
+                // markLine: {
+                //     silent: true,
+                //     // data: [{
+                //     //     yAxis: 30
+                //     // }, {
+                //     //     yAxis: 100
+                //     // }, {
+                //     //     yAxis: 150
+                //     // }, {
+                //     //     yAxis: 200
+                //     // }, {
+                //     //     yAxis: 300
+                //     // }]
+                // }
+            }
+        };
+        this.setState({option});
+    };
+    // 地裂缝监测网：rope01
+    rope01=()=>{
+        let titles="";
+        if(this.props.type=="rope01"){
+            titles="地裂缝监测网"
+        }
+
+        let option={
+            title: {
+                text: titles
+            },
+            tooltip: {
+                trigger: 'axis'
+            },
+            xAxis: {
+                name:"时间",
+                // data:['2014-01-01','2014-01-02','2014-01-03','2014-01-04','2014-01-05','2014-01-06','2014-01-07','2014-01-08']
+                data:this.props.createon
+                // data: data.map(function (item) {
+                //     return item[0];
+                // })
+            },
+            yAxis: {
+                name:"单位："+this.props.units,
+                splitLine: {
+                    show: false
+                }
+            },
+            toolbox: {
+                left: 'center',
+                feature: {
+                    dataZoom: {
+                        yAxisIndex: 'none'
+                    },
+                    restore: {},
+                    saveAsImage: {}
+                }
+            },
+            dataZoom: [{
+                startValue: '2014-06-01'
+            }, {
+                type: 'inside'
+            }],
+            visualMap: {
+                top: 10,
+                right: 10,
+                pieces: [{
+                    gt: 0,
+                    lte: 50,
+                    color: '#096'
+                }, {
+                    gt: 50,
+                    lte: 100,
+                    color: '#ffde33'
+                }, {
+                    gt: 100,
+                    lte: 150,
+                    color: '#ff9933'
+                }, {
+                    gt: 150,
+                    lte: 200,
+                    color: '#cc0033'
+                }, {
+                    gt: 200,
+                    lte: 300,
+                    color: '#660099'
+                }, {
+                    gt: 300,
+                    color: '#7e0023'
+                }],
+                outOfRange: {
+                    color: '#999'
+                }
+            },
+            series: {
+                name: titles,
+                type: 'line',
+                // data:[100,222,333,444,666],
+                data:this.props.datainfo,
+                // data: data.map(function (item) {
+                //     return item[1];
+                // }),
+                // markLine: {
+                //     silent: true,
+                //     // data: [{
+                //     //     yAxis: 30
+                //     // }, {
+                //     //     yAxis: 100
+                //     // }, {
+                //     //     yAxis: 150
+                //     // }, {
+                //     //     yAxis: 200
+                //     // }, {
+                //     //     yAxis: 300
+                //     // }]
+                // }
+            }
+        };
+        this.setState({option});
+    };
+
+
+
+
+
+
+
+
+
+    //地裂缝数据（占时没用）
     acceptance=()=>{
         let option={
             tooltip: {
@@ -81,58 +496,8 @@ class DataOverviewEcharts extends Component {
         this.setState({option});
     };
 
-    //水位数据
-    waterlevel=()=>{
-        let option={
-            tooltip: {
-                trigger: 'axis'
-            },
-            grid: {
-                left: '5%',
-                right: '8%',
-                bottom: '18%',
-                top:'3%',
-                containLabel: true
-            },
-            xAxis: {
-                name:'时',
-                type: 'category',
-                boundaryGap: false,
-                data: ['0','1','2','3','4','5','6','7','8','9','10','11','12','13','14','15','16','17','18','19','20','21','22','23'],
-            },
-            yAxis: {
-                type: 'value'
-            },
-            series: [
-                {
-                    name:'邮件营销',
-                    type:'line',
-                    stack: '总量',
-                    data: this.props.data,
-                    markLine: {
-                        symbol:'none',//去掉箭头
-                        silent: false,//图形是否不响应和触发鼠标事件，默认为 false，即响应和触发鼠标事件。
-                        lineStyle: {
-                            type: 'solid',
-                            color: '#07fecf'
-                        },
-                        data: [
-                            {yAxis: this.props.maxdata},
-                            {yAxis: this.props.mindata}
-                        ],
-                        // label: {
-                        //     normal: {
-                        //         formatter: '安全基线'           // 这儿设置安全基线
-                        //     }
-                        // },
-                    },
-                },
-            ]
-        };
-        this.setState({option});
-    };
-
-    // 详细数据
+    
+    // 详细数据（占时没用）
     detaildata=()=>{
         let option={
             title: {
@@ -224,7 +589,7 @@ class DataOverviewEcharts extends Component {
         this.setState({option});
     };
 
-    //含水层在线监测
+    //含水层在线监测（占时没用）
     qualityonline=()=>{
 
         let option = {
@@ -336,7 +701,7 @@ class DataOverviewEcharts extends Component {
         });
     };
 
-    //位移
+    //位移（占时没用）
     displacement=()=>{
         let option = {
             tooltip: {
@@ -386,7 +751,7 @@ class DataOverviewEcharts extends Component {
         });
     };
 
-    //点位设备曲线图
+    //点位设备曲线图（占时没用）
     dotdetails=()=>{
 
       let option = {
@@ -473,12 +838,12 @@ class DataOverviewEcharts extends Component {
                               yAxis: 'max'
                           }, {
                               symbol: 'circle',
-                              label: {
-                                  normal: {
-                                      position: 'start',
-                                      formatter: '最大值'
-                                  }
-                              },
+                            //   label: {
+                            //       normal: {
+                            //           position: 'start',
+                            //           formatter: '最大值'
+                            //       }
+                            //   },
                               type: 'max',
                               name: '最高点'
                           }]
@@ -492,7 +857,7 @@ class DataOverviewEcharts extends Component {
         });
     };
 
-    //点位设备曲线图2
+    //点位设备曲线图2（占时没用）
     dotdetailtwo=()=>{
         let option = {
             title: {

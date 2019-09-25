@@ -32,6 +32,7 @@ export default function (state = initialState, action) {
     case Camera_Type:
       return {
         ...state,
+        identify:"camera",
         camera: action.payload
       }
     // 首页系统总览,基础数据

@@ -9,8 +9,8 @@ import { AllroadGobai,Core,Cameras } from '../../actions/postActions';
 import homeSystemMonitoring from "../../axios/homeSystemMonitoring";
 import { isNull } from 'util';
 
-import { Modal } from 'antd';
-
+import { Modal , Select } from 'antd';
+const { Option } = Select;
 
 class ArcGISMap extends Component {
   constructor(props) {
@@ -19,6 +19,10 @@ class ArcGISMap extends Component {
     this.state={
       visible: false,
       bof:0,
+      player:"",
+      bf:"",
+      hd: "",
+      sd: "",
 
       view:null,
       map:null,
@@ -409,7 +413,7 @@ class ArcGISMap extends Component {
       this.state.map.add(this.state.bianjie);
       // 添加图层
       this.state.permitsLayer2 = new this.state.TileLayer({
-        url: "https://www.beidouhj.com/server/rest/services/Hosted/HAG_yingxiang_meihua1/MapServer",
+        url: "https://www.beidouhj.com/server/rest/services/Hosted/halagou_August/MapServer",
               title: "Touristic attractions",
               elevationInfo: {
                 mode: "relative-to-scene"
@@ -451,8 +455,7 @@ class ArcGISMap extends Component {
         "top-right"
       );
     
-
-      // var _this=this;
+      // 直播
       this.state.view.on("click", function(event) {
         var screenPoint = {
          x: event.x,
@@ -460,52 +463,58 @@ class ArcGISMap extends Component {
         };
         //  Search for graphics at the clicked location
          _this.state.view.hitTest(screenPoint).then(function(response) {
-           var result = response.results[0];
-           if (result) {
-             var lon = result.mapPoint.longitude;
-             var lat = result.mapPoint.latitude;
-       
-             console.log("Hit surface at (" + lon + ", " + lat + "), graphic:", result.graphic || "none");
-             _this.setState({
-              visible: true,
-            })
-            
-            let myPlayer=document.getElementById('myPlayer')
-            var player = new window.EZUIKit.EZUIPlayer("myPlayer");
 
-             
+           var result = response.results[0];
+           if (result && result.graphic.attributes.cameras && result.graphic.attributes.cameras=="cameras") {
+            //  var lon = result.mapPoint.longitude;
+            //  var lat = result.mapPoint.latitude;
+       
+            //  console.log("Hit surface at (" + lon + ", " + lat + "), graphic:", result.graphic || "none");
+            //  console.log(result.graphic.attributes);
+
+              _this.setState({
+                visible: true,
+                hd: result.graphic.attributes.hd,
+                sd: result.graphic.attributes.sd,
+                bf:result.graphic.attributes.sd,
+              });
+              _this.state.player = new window.EZUIKit.EZUIPlayer("myPlayer1");
            }
          });
        });
        
 
-  
-
-
-     
-
-      
       
     })
   }
-  // 模态框
-  handleOk = e => {
-    console.log(e);
-    this.setState({
-      visible: false,
-    });
-  };
+
  // 模态框
   handleCancel = e => {
-    console.log(e);
+    // console.log(e);
+    // this.state.player.stop();
     this.setState({
       visible: false,
     });
   };
+  // 直播模态框中的下拉
+  handleChange= val =>{
+    // console.log(val);
+    let _this=this;
+    let valu=val.key;
+    // console.log(this.state[valu]);
+    this.setState({
+      bf:this.state[valu]
+    },()=>{
+      _this.state.player = new window.EZUIKit.EZUIPlayer("myPlayer1");
+    })
+
+  }
   componentWillUpdate(nextProps) {
     var _this=this;
+    // console.log(nextProps.identify);
     // 返回上一层，清理地球图层
     if(nextProps.identify==0){
+      // console.log("打印清理地球图层");
       // this.state.map.removeAll();
       // 清理 矿区导航-路网,首页系统总览_空间分析
       if(this.state.taskLayer){
@@ -531,6 +540,11 @@ class ArcGISMap extends Component {
       if(this.state.kqdhLayer){
         this.state.map.remove(this.state.kqdhLayer);
       }
+      // 清理摄像头
+      if(this.state.camera){
+
+        this.state.map.remove(this.state.camera);
+      }
     }
 
     // 点击小地球回到中心点
@@ -545,79 +559,66 @@ class ArcGISMap extends Component {
     }
 
     // 摄像头
-    if(nextProps.camera=="camera"){
+    if(nextProps.identify=="camera"){
+      // console.log("摄像头被调用了");
       if(this.state.camera){
         this.state.map.remove(this.state.camera);
       }
-      // console.log(nextProps.Monitorings.layerurl);
        this.state.camera = new this.state.FeatureLayer({
           url: "https://www.beidouhj.com/server/rest/services/Hosted/%E6%91%84%E5%83%8F%E5%A4%B4%E7%9B%91%E6%8E%A7%E7%BD%91/FeatureServer",
-          popupTemplate: {
-            // autocasts as new PopupTemplate()
-            title: "{name}",
-            content: [
-              {
-                type: "fields", // FieldsContentElement
-                fieldInfos: [
-                  // { 
-                  //   fieldName: "wnagzhi",
-                  //   visible: true,
-                  //   label: "直播地址"
-                  // },
-                  {
-                    fieldName: "OBJECTID",
-                    visible: true,
-                    label: "OBJECTID",
-                    format: {
-                      places: 0,
-                      digitSeparator: true
-                    }
-                  },
-                  {
-                    fieldName: "Shape",
-                    visible: true,
-                    label: "Shape",
-                    format: {
-                      places: 0,
-                      digitSeparator: true
-                    },
-                    statisticType: "sum"
-                  },
-                  {
-                    fieldName: "shebei",
-                    visible: true,
-                    label: "设备"
-                  },
-                  {
-                    fieldName: "suozai_weizhi",
-                    visible: true,
-                    label: "所在位置"
-                  },
-                  {
-                    fieldName: "zuobiao_X",
-                    visible: true,
-                    label: "经度"
-                  },
-                  {
-                    fieldName: "zuobiao_Y",
-                    visible: true,
-                    label: "纬度"
-                  },
+          // popupTemplate: {
+          //   title: "{name}",
+          //   content: [
+          //     {
+          //       type: "fields", // FieldsContentElement
+          //       fieldInfos: [
+          //         {
+          //           fieldName: "OBJECTID",
+          //           visible: true,
+          //           label: "OBJECTID",
+          //           format: {
+          //             places: 0,
+          //             digitSeparator: true
+          //           }
+          //         },
+          //         {
+          //           fieldName: "Shape",
+          //           visible: true,
+          //           label: "Shape",
+          //           format: {
+          //             places: 0,
+          //             digitSeparator: true
+          //           },
+          //           statisticType: "sum"
+          //         },
+          //         {
+          //           fieldName: "shebei",
+          //           visible: true,
+          //           label: "设备"
+          //         },
+          //         {
+          //           fieldName: "suozai_weizhi",
+          //           visible: true,
+          //           label: "所在位置"
+          //         },
+          //         {
+          //           fieldName: "zuobiao_X",
+          //           visible: true,
+          //           label: "经度"
+          //         },
+          //         {
+          //           fieldName: "zuobiao_Y",
+          //           visible: true,
+          //           label: "纬度"
+          //         },
                   
-                ]
-              },
-              {
-                type: "attachments" // AttachmentsContentElement
-              },
-            ]
-          },
-
-        //   popupTemplate:{
-        //     title:"直播",
-        //     content:"<table class='esri-widget__table' summary='属性和值列表'><tbody>"
-        //     //   +"<tr><td class='esri-feature__field-data'>"
-        //       +"</td></tr></tbody></table>"
-        // },
+          //       ]
+          //     },
+          //     {
+          //       type: "attachments" // AttachmentsContentElement
+          //     },
+          //   ]
+          // },
           title: "Touristic attractions",
           elevationInfo: {
             mode: "relative-to-scene"
@@ -627,19 +628,7 @@ class ArcGISMap extends Component {
             type: "selection"
           },
       });
-      this.state.map.add(this.state.camera);
-
-      // this.state.camera.on("mouse-over",function(evt){
-      //   console.log(evt);
-      //   // var scrPt = map.toScreen(evt.graphic.geometry);
-      //   // var statName = evt.graphic.attributes.stationName;
-      //   //     map.setMapCursor("pointer");
-      // });
-      // this.state.camera.on("mouse-out",function(evt){
-      //   console.log(evt);
-      //       // $("#stopName").remove();
-      //       // map.setMapCursor("default");
-      // });   
+      this.state.map.add(this.state.camera);  
       
     }
 
@@ -1119,14 +1108,26 @@ class ArcGISMap extends Component {
       <div className="ArcGISMap">
         <div className="mapDiv" id="mapDiv"></div>
         <Modal
-              title="Basic Modal"
+              title="直播"
               visible={this.state.visible}
-              onOk={this.handleOk}
               onCancel={this.handleCancel}
+              width="60%"
+              footer={null}
             >
-              <video className="myPlayer" id="myPlayer" autoPlay src="http://hls01open.ys7.com/openlive/72b0e54e4e4047edb0e8d3827dc98db0.m3u8" controls playsInline webkit-playsinline={this.state.bof ? 1 : 0}></video>
-              {/* <video className="myPlayer" id="myPlayer" autoplay src="http://win.web.nf03.sycdn.kuwo.cn/daa86d4e2734736c33cdca2c004bd980/5d888495/resource/m2/11/53/2004502093.mp4" controls playsInline webkit-playsinline></video> */}
-
+            <div style={{textAlign:"right",paddingBottom:"10px"}}>
+              <Select
+                labelInValue
+                defaultValue={{ key: 'sd' }}
+                style={{ width: 120 }}
+                onChange={this.handleChange}
+              >
+                <Option value="hd">高清</Option>
+                <Option value="sd">流畅</Option>
+              </Select>
+            </div>
+              {/* <div id="playWind" style={{width: "100%", height: "100%"}}></div> */}
+              <video style={{width:"100%",height:"100%"}} className="myPlayer" id="myPlayer1" autoPlay src={this.state.bf} controls playsInline webkit-playsinline={this.state.bof ? 1 : 0}></video>
+              {/* <video style={{width:"100%",height:"100%"}} className="myPlayer" id="myPlayer2" autoPlay src="http://hls01open.ys7.com/openlive/72b0e54e4e4047edb0e8d3827dc98db0.m3u8" controls playsInline webkit-playsinline={this.state.bof ? 1 : 0}></video> */}
             </Modal>
       </div>
     )
