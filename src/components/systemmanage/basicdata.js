@@ -137,22 +137,25 @@ class Basicdata extends Component {
             title: '序号',
             dataIndex: 'index',
             render: (text, record,index) => (index+1),
-        },{
-            title: '地点',
-            dataIndex: 'img',
-            // render: (text,record,index) =>{
-            //     return(
-            //         <div className="tableoption">
-            //             {record.x+','+record.y+','+record.z}
-            //         </div>
-            //     )
-            // }
-        },{
+        },
+        // {
+        //     title: '地点',
+        //     dataIndex: 'img',
+        //     // render: (text,record,index) =>{
+        //     //     return(
+        //     //         <div className="tableoption">
+        //     //             {record.x+','+record.y+','+record.z}
+        //     //         </div>
+        //     //     )
+        //     // }
+        // },
+        {
             title: '设备名称',
-            dataIndex: 'name',
-        },{
+            dataIndex: 'devicename',
+        },
+        {
             title: '设备类型',
-            dataIndex: 'deviceTypeName',
+            dataIndex: 'dname',
         },{
             title: '数据',
             dataIndex: 'datainfo',

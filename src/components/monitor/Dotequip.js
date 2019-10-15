@@ -5,6 +5,12 @@ import moment from "moment";
 import Table from "../common/Etable";
 import Utils from "../../utils/utils";
 import PageBreadcrumb from "../common/PageBreadcrumb";
+
+// redux需要
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { Location } from '../../actions/postActions';
+
 import "../../style/jhy/css/dotequip.less";
 const confirm = Modal.confirm;
 const FormItem = Form.Item;
@@ -30,8 +36,8 @@ class Dotequip extends Component {
         {path: '', breadcrumbName: '监测数据'},
         {path: '/main/dotequip', breadcrumbName: '点位设备'},
       ],
-      defaultValue1:"",//监测规划下拉框默认值   北斗环境监测规划
-      defaultValue2:"",//监测网下拉框默认值   地表水监测网
+      defaultValue1:undefined,//监测规划下拉框默认值   北斗环境监测规划
+      defaultValue2:undefined,//监测网下拉框默认值   地表水监测网
     };
     this.params = {
       pageindex: 1,
@@ -157,9 +163,9 @@ class Dotequip extends Component {
             type="link"
             className="btn-look"
             disabled
-          >
-            查看
-          </Button>
+            >
+              查看
+            </Button>
           }
 
 
@@ -243,10 +249,15 @@ class Dotequip extends Component {
   componentWillMount() {
     // console.log(this);
     let pathname=this.props.location.pathname;
-    this.getProjectList();
+    // this.getProjectList();
   }
   componentDidMount() {
-    // this.getProjectList();
+    // redux知道全局location，菜单展开
+    // console.log(this);
+    let Mylocation=this.props.location.pathname;
+    this.props.Location(Mylocation);
+
+    this.getProjectList();
   }
   getProjectList = () => {
     axios
@@ -274,7 +285,9 @@ class Dotequip extends Component {
                 projdefsel: res.data[0].code,
                 filepath: res.data[0].filepath,
                 detcode: res.data[0].code,
-                defaultValue1:plist[0].label
+                defaultValue1:plist[0].value,
+                monintdefsel: "",
+                monintSelected: "",
               },() => {
                 this.getTypeList();
               }
@@ -311,7 +324,15 @@ class Dotequip extends Component {
               {
                 typeList: tlist,
                 monintdefsel: res.data[0].code,
-                defaultValue2:tlist[0].label
+                defaultValue2:tlist[0].value
+              },() => {
+                this.getDeviceList();
+              }
+            );
+          }else{
+            this.setState(
+              {
+                monintdefsel: "",
               },() => {
                 this.getDeviceList();
               }
@@ -320,7 +341,10 @@ class Dotequip extends Component {
         }
       });
   };
+
   getDeviceList = () => {
+    console.log(this.state.monintSelected);
+    console.log(this.state.monintdefsel);
       const quparams = {
           pagesize: 10,
           pageindex: this.params.pageindex,
@@ -340,6 +364,7 @@ class Dotequip extends Component {
         if (res.success) {
           
           this.setState({
+            requestCompleted:"requestCompleted",
             tableData: res.data,
             total: res.totalcount,
             pagination: Utils.pagination(res, current => {
@@ -348,15 +373,19 @@ class Dotequip extends Component {
             }),
             deviceCount: res.totalcount
           });
-          // console.log('tableData',res.data);
+          // console.log('tableData',res);
           // console.log('pagination',this.state.pagination);
         }
       });
   };
   handSelectP = val => {
+    // console.log(val);
     this.setState(
       {
         projSelected: val,
+        defaultValue1:val,
+        // defaultValue2:"",
+        monintSelected:"",
         typeList:[]
       },
       () => {
@@ -375,7 +404,8 @@ class Dotequip extends Component {
   handSelectM = val => {
     this.setState(
       {
-        monintSelected: val
+        monintSelected: val,
+        defaultValue2:val
       },
       () => {
         this.getDeviceList();
@@ -430,11 +460,11 @@ class Dotequip extends Component {
   //      message.warning('请输入要绑定的设备ID');
   //  }
 
-  // };
+  // }; 
   handDetail = record => {
     window.location.href = `/#/main/dotdetails?deviceId=${
       record.code
-    }&&companyCode=${record.companycode}&&deviceType=${record.devicetype}&&ifreport=${record.ifreport}`;
+    }&&companyCode=${record.companycode}&&deviceType=${record.devicetype}&&ifreport=${record.ifreport}&&title=${record.pointname}`;
   };
 
   handAbandon = id => {
@@ -490,8 +520,8 @@ class Dotequip extends Component {
   };
 
   selprorender = () => {
+    // console.log(this.state.projectList);
     if (this.state.projectList.length > 0) {
-      // console.log(this.state.projectList);
       const option = this.state.projectList.map((item, key) => (
         <Select.Option key={item.value} value={item.value} title={item.label}>
           {item.label}
@@ -499,9 +529,7 @@ class Dotequip extends Component {
       ));
       return (
         <Select
-          defaultValue={this.state.defaultValue1}
-          // placeholder = "请选择规划"
-          placeholder={this.state.projectList[0].label}
+          value={this.state.defaultValue1}
           dropdownClassName="dotselect"
           onChange={val => {
             this.handSelectP(val);
@@ -512,7 +540,7 @@ class Dotequip extends Component {
       );
     }else{
       return (
-        <Select>
+        <Select value={undefined}>
         </Select>
       );
     }
@@ -520,6 +548,8 @@ class Dotequip extends Component {
 
   seltyperender = () => {
     // console.log(this.state.typeList);
+    // console.log(this.state.defaultValue2);
+
     if (this.state.typeList.length > 0) {
       const option = this.state.typeList.map((item, key) => (
         <Select.Option key={item.value} value={item.value} title={item.label}>
@@ -528,8 +558,9 @@ class Dotequip extends Component {
       ));
       return (
         <Select
-          defaultValue={this.state.defaultValue2}
-          placeholder={this.state.typeList[0].label}
+          value={this.state.defaultValue2}
+          // allowClear={true}
+          // autoClearSearchValue={false}
           dropdownClassName="dotselect"
           onChange={val => {
             this.handSelectM(val);
@@ -540,25 +571,29 @@ class Dotequip extends Component {
       );
     }else{
       return (
-        <Select>
+        <Select value={undefined}>
         </Select>
       );
     }
   };
+  
   render() {
     let _this=this;
     return (
       <div className="dotequip">
         <PageBreadcrumb routes={this.state.routes} />
         <div className="optbox">
-          <Row type="flex" 
+          <Row type="flex"
           gutter={8} 
           align="bottom">
-
+          {/* requestCompleted */}
+          {/* {this.state.requestCompleted=="requestCompleted"? */}
             <Col span={7}>
                 <span style={{ marginRight:'10px' }} className="label block">监测规划</span> 
                 {this.selprorender()}
             </Col>
+          {/* //   :""
+          // } */}
             <Col span={5}>
               <span className="cont block">
                 <span className="tit block">
@@ -643,4 +678,9 @@ class Dotequip extends Component {
   }
 }
 
-export default Dotequip;
+Dotequip.propTypes = {
+  Location: PropTypes.func.isRequired
+}
+
+
+export default connect(null, { Location })(Dotequip); 

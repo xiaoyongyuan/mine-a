@@ -40,7 +40,7 @@ class Monitor extends Component {
     componentDidMount(){
         homeSystemMonitoring.monitoringdata({layertype:3})
         .then(res=>{
-            console.log(res);
+            // console.log(res);
             this.setState({
                 netlist:res.data
             })
@@ -95,17 +95,21 @@ class Monitor extends Component {
                 <dl className="columndl">
                     <dt className="columndt">
                         {this.state.showdata=="1"?<span style={{color:"white"}}>生态监测</span>:<span onClick={_this.showfun.bind(_this,1)}>生态监测</span>}
-                        <span className="columndtright"></span>
+                        <a href="#/main/dotequip" className='filledsty'>
+                            <span  className="columndtright"></span>
+                        </a>
                     </dt>
                     <dt className="columndt">
-                        {this.state.showdata=="2"?<span style={{color:"white"}}>地质监测网</span>:<span onClick={_this.showfun.bind(_this,2)}>地质监测网</span>}
+                        {this.state.showdata=="2"?<span style={{color:"white"}}>地质监测</span>:<span onClick={_this.showfun.bind(_this,2)}>地质监测</span>}
                         <a href="#/main/dotequip" className='filledsty'>
                             <span  className="columndtright"></span>
                         </a>
                     </dt>
                     <dt className="columndt">
                         {this.state.showdata=="3"?<span style={{color:"white"}}>环境监测</span>:<span onClick={_this.showfun.bind(_this,3)}>环境监测</span>}
-                        <span className="columndtright"></span>
+                        <a href="#/main/dotequip" className='filledsty'>
+                            <span  className="columndtright"></span>
+                        </a>
                     </dt>
                 </dl>
 

@@ -73,7 +73,7 @@ class Funds extends Component {
       this.requestList()
     }
     layerSubmit=(params)=>{ //提交
-        this.changeState('newShow',false);
+        
         axios.ajax({
             baseURL:window.g.fileURL,
             method: 'post',
@@ -89,7 +89,7 @@ class Funds extends Component {
                 });
                 this.requestList();
                 // console.log("新增清空",list);
-
+                this.changeState('newShow',false);
             }
         },()=>{});
     };

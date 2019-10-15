@@ -70,13 +70,20 @@ class companyinfoEdit extends Component {
             return;
         }
         if (info.file.status === 'done') {
-            this.getBase64(info.file.originFileObj, imageUrl =>
+            this.getBase64(info.file.originFileObj, imageUrl => {
+                if(info.file.response.success==0){
+                    message.error(info.file.response.msg);
+                    return;
+                }
+
                 this.setState({
                     imageUrl,
                     loading: false,
                     logo:info.file.response.data.url,
-                }),
-            );
+                })
+            
+            
+            });
         }
     };
 

@@ -35,6 +35,7 @@ class MyPlan extends Component {
       this.getPlanByPlantype();
   }
   selectopt=(selecttype)=>{ //选择类别
+    console.log("选择类别",selecttype);
     this.setState({selecttype,page:1},()=>this.getPlanByPlantype())
   };
   requersPlantType = () =>{
@@ -54,8 +55,8 @@ class MyPlan extends Component {
       });
   };
   getPlanByPlantype=()=>{
-      this.params.code=this.state.selecttype || 0;
-      
+      this.params.recommendtype=0;
+      this.params.plantype=this.state.selecttype;
       axios.ajax({
           baseURL:window.g.bizserviceURL,
           method: 'get',
@@ -127,8 +128,7 @@ class MyPlan extends Component {
                                   </div>
                                   <div className="detname">
                                       <div className="plan-title">{v.plantitle}</div>
-                                    {/*<div><span className="greencolor">{v.cname}</span> {v.khdate}</div>*/}
-                                      <div><span className="greencolor">企业名称</span> <span className="time-plan">{moment(v.createon).format('YYYY-MM-DD')}</span></div>
+                                      <div><span className="greencolor">更新时间</span> {v.updateon} </div>
                                       <div className="intro">{v.summary}</div>
                                       <div className="planMore">更多&gt;&gt;&gt;</div>
                                   </div>

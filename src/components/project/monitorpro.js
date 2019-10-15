@@ -221,17 +221,21 @@ class monitorpro extends Component {
             dataIndex: 'states',
             render: (text,record,index) =>{
                 if(text==='0') return(
-                    <div className='tableoption'>
-                        <span className='yellowcolor' onClick={()=>this.changeState('newShow',true,record,'type',1)}><Button className='distance' type="primary">编辑</Button></span>
-                        <Button className='distance' type="primary" onClick={()=>this.showModaldelete(record,index)}>删除</Button>
-                        {
-                            record.filepath && record.filepath.lastIndexOf(".pdf") === -1?
-                                <a className="greencolor" target="_blank" rel="noopener noreferrer" href={"https://view.officeapps.live.com/op/view.aspx?src="+window.g.filesURL+record.filepath}><Button className='distance' type="primary">预览</Button></a>:
-                                <a className="greencolor" target="_blank" rel="noopener noreferrer" href={window.g.filesURL+record.filepath}><Button className='distance' type="primary">预览</Button></a>
-                        }
-                        <Button className='distance' type="primary" onClick={()=>this.download(record)}>文档下载</Button>
-                        <a className='bluecolor' href={window.g.fileURL+"/api/pdf/download?fileName=" + record.filepathcad + "&delete=" + false + "&access_token=" +localStorage.getItem("token") + "&oldFileName=" +record.oldcadfilename } download><Button className='distance' type="primary">CAD下载</Button></a>
-                        <span className='greencolor'  onClick={()=>this.changestatus(record.code)}><Button className='distance' type="primary">执行</Button></span>
+                    <div className='tableoption1'>
+                        <div>
+                            <span className='yellowcolor' onClick={()=>this.changeState('newShow',true,record,'type',1)}><Button className='distance' type="primary">编辑</Button></span>
+                            <Button className='distance' type="primary" onClick={()=>this.showModaldelete(record,index)}>删除</Button>
+                            {
+                                record.filepath && record.filepath.lastIndexOf(".pdf") === -1?
+                                    <a className="greencolor" target="_blank" rel="noopener noreferrer" href={"https://view.officeapps.live.com/op/view.aspx?src="+window.g.filesURL+record.filepath}><Button className='distance' type="primary">预览</Button></a>:
+                                    <a className="greencolor" target="_blank" rel="noopener noreferrer" href={window.g.filesURL+record.filepath}><Button className='distance' type="primary">预览</Button></a>
+                            }
+                        </div>
+                        <div>
+                            <Button className='distance' type="primary" onClick={()=>this.download(record)}>文档下载</Button>
+                            <a className='bluecolor' href={window.g.fileURL+"/api/pdf/download?fileName=" + record.filepathcad + "&delete=" + false + "&access_token=" +localStorage.getItem("token") + "&oldFileName=" +record.oldcadfilename } download><Button className='distance' type="primary">CAD下载</Button></a>
+                            <span className='greencolor'  onClick={()=>this.changestatus(record.code)}><Button className='distance' type="primary">执行</Button></span>
+                        </div>
                     </div>);
                 else if(text==='1') return(
                     <div className='tableoption'>

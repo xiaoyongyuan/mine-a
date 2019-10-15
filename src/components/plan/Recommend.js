@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import {Row, Col, Select, Pagination, Modal, Radio,Empty } from "antd";
-import axios from '../../axios'
+import {Row, Col, Select, Pagination, Modal, Radio,Empty,message } from "antd";
+import axios from '../../axios';
 import Utils from "../../utils/utils";
 import PageBreadcrumb from "../common/PageBreadcrumb";
 
@@ -81,18 +81,20 @@ class Recommend extends Component {
         },()=>{});
     };
   add(code) {
+    // console.log(code);
     const _this=this;
       confirm({
           title: '添加',
           content: '确认添加至我的预案？',
           onOk() {
               axios.ajax({
-                baseURL:window.g.easyURL,
-                method: 'get',
-                url: '/plan',
-                data: {ids:code}
+                baseURL:window.g.bizserviceURL,
+                method: 'post',
+                url: '/api/saveToWePlan',
+                data: {code:code}
               }).then((res)=>{
                 if(res.success){
+                    message.success(res.msg);
                   _this.requestList()
                 }
               });
@@ -106,6 +108,7 @@ class Recommend extends Component {
     render() {
         const recommendtype = this.state.recommendtype;
         const isempty = this.state.isempty;
+        let _this=this;
       return (
         <div className="MyPlan">
         <PageBreadcrumb routes={this.state.routes} />
@@ -143,7 +146,7 @@ class Recommend extends Component {
                             <div className="detname">
                                 <div className="plan-title">{v.plantitle}</div>
                               {/*<div><span className="greencolor">{v.cname}</span> {v.khdate}</div>*/}
-                                <div><span className="greencolor">测试写死</span> 2019-10-12</div>
+                                <div><span className="greencolor">更新时间</span> {v.updateon} </div>
                                 <div className="intro">
                                     {v.summary}
                                 </div>
@@ -156,7 +159,7 @@ class Recommend extends Component {
                               //if
                             v.states?
                                 <div className="editbtn addmy">
-                            <span onClick={(v)=>this.add(v.code)}  style={{color:'#fff',cursor:"pointer"}}>添加</span>
+                            <span onClick={_this.add.bind(_this,v.code)}  style={{color:'#fff',cursor:"pointer"}}>添加</span>
                             </div>
                             :null
                           }

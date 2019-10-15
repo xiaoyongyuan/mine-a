@@ -41,14 +41,14 @@ class Pandect extends Component {
             
             <div className="Pandect">
             <ReactCSSTransitionGroup
-          transitionEnter={true}
-          transitionLeave={true}
-          transitionEnterTimeout={500}
-          transitionLeaveTimeout={500}
-          transitionName="left"
-  >
+            transitionEnter={true}
+            transitionLeave={true}
+            transitionEnterTimeout={500}
+            transitionLeaveTimeout={500}
+            transitionName="left"
+            >
               <div key="amache" className="animated fadeInLeftBig" >
-                <div className="pandectitem">
+                <div className="c">
                     <List className='listitem' style={{marginLeft:'30px',marginRight:'30px'}}>
                         <List.Item key='ItemBaseData' onClick={()=>this.leftShowitem('basedata')}><i className="actionfont action-shujuzonglan" /> 基础数据</List.Item>
                         <List.Item key='ItemEquip' onClick={()=>this.leftShowitem('monitorequip')}><i className="actionfont action-101" /> 监测设备</List.Item>

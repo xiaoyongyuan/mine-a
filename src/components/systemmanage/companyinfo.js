@@ -4,6 +4,11 @@ import "../../style/yal/css/compantinfo.less";
 import axios from "../../axios";
 import PageBreadcrumb from "../common/PageBreadcrumb";
 
+// redux需要
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { Location } from '../../actions/postActions';
+
 class Companyinfo extends Component {
   constructor(props){
     super(props);
@@ -28,11 +33,17 @@ class Companyinfo extends Component {
           display:!prevState.isToggle?'none':'block'
       }))
   }
+  
+  componentDidMount() {
+    // redux知道全局location，菜单展开
+    console.log(this);
+    let Mylocation=this.props.location.pathname;
+    this.props.Location(Mylocation);
 
-    componentDidMount(){
-        this.requestList();
-        this.requestListproject();
-    };
+    this.requestList();
+    this.requestListproject();
+  }
+
     requestList = ()=>{
 
         axios.ajax({
@@ -173,4 +184,7 @@ class Companyinfo extends Component {
   }
 }
 
-export default Companyinfo;
+Companyinfo.propTypes = {
+    Location: PropTypes.func.isRequired
+  }
+  export default connect(null, { Location })(Companyinfo); 

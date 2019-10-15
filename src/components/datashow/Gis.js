@@ -19,11 +19,85 @@ class Gis extends Component {
         super(props);
         this.state={  
             ifshow:-1, 
+            ifshow2:false,
             remoteSensing:[
-                {name:"地形地貌",children:["基础信息","时序监测","破坏区监测"]},
-                {name:"形变监测",children:["形变监测","累计形变","时序监测","数字高程模型","数字线化模型"]},
-                {name:"生态环境",children:["植被监测","农作物监测","地表水监测","土壤监测"]},
-                {name:"损毁复垦",children:["基础信息","损毁监测","复垦监测"]},
+                {name:"地形地貌",children:[
+                    {name:"基础信息",ifmany:false,map:[{
+                        title:"2009-2",
+                        FeatureLayer:["https://www.beidouhj.com/server/rest/services/Hosted/100000_10000000_101042_20191008170730/FeatureServer"],
+                        TileLayer:[
+                            "https://www.beidouhj.com/server/rest/services/Hosted/610821_10001001_111011_20091008170730/MapServer",
+                            "https://www.beidouhj.com/server/rest/services/Hosted/610821_10001001_111010_20091008170730/MapServer"
+                        ]
+                    }]}, 
+                    {name:"时序监测",ifmany:true,map:[
+                        {
+                            title:"2009-2",
+                            FeatureLayer:["https://www.beidouhj.com/server/rest/services/Hosted/100000_10000000_101042_20191008170730/FeatureServer"],
+                            TileLayer:[
+                                "https://www.beidouhj.com/server/rest/services/Hosted/610821_10001001_111011_20091008170730/MapServer",
+                                "https://www.beidouhj.com/server/rest/services/Hosted/610821_10001001_111010_20091008170730/MapServer"
+                            ]
+                        },
+                        {
+                            title:"2019-2",
+                            FeatureLayer:["https://www.beidouhj.com/server/rest/services/Hosted/100000_10000000_101042_20191007170730/FeatureServer"],
+                            TileLayer:[
+                                "https://www.beidouhj.com/server/rest/services/Hosted/610821_10001001_111011_20191008105330/MapServer",
+                                "https://www.beidouhj.com/server/rest/services/Hosted/610821_10001001_111010_20191008105330/MapServer"
+                            ]
+                        }
+                    ]}, 
+                    {name:"破坏区监测",ifmany:false,map:[{
+                        title:"2019-2",
+                        FeatureLayer:[],
+                        TileLayer:["https://www.beidouhj.com/server/rest/services/Hosted/610821_10001001_111012_20191008105330/MapServer"],
+                    }]}
+                ]},
+
+                {name:"形变监测",children:[
+                    {name:"形变监测",ifmany:false,map:[{
+                        title:"2019-2",
+                        FeatureLayer:[],
+                        TileLayer:["https://www.beidouhj.com/server/rest/services/Hosted/610821_10001001_111110_20190228144030/MapServer"],
+                    }]},
+                    {name:"时序监测",ifmany:true,map:[
+                        {
+                            title:"2019-2",
+                            FeatureLayer:[],
+                            TileLayer:["https://www.beidouhj.com/server/rest/services/Hosted/610821_10001001_111110_20190228144030/MapServer"],
+                        },
+                        {
+                            title:"2016-4",
+                            FeatureLayer:[],
+                            TileLayer:["https://www.beidouhj.com/server/rest/services/Hosted/610821_10001001_111110_20160428144030/MapServer"],
+                        },
+                    ]},
+
+                    {name:"累计形变",ifmany:false,map:[{
+                        title:"累计形变",
+                            FeatureLayer:[],
+                            TileLayer:["https://www.beidouhj.com/server/rest/services/Hosted/610821_10001001_111111_20160428144030/MapServer"],
+                    }]},
+                    {name:"数字高程模型",ifmany:false,map:[{
+                        title:"数字高程模型",
+                        FeatureLayer:[],
+                        TileLayer:["https://www.beidouhj.com/server/rest/services/Hosted/610821_10001001_111112_20090428144030/MapServer"],
+                }]},
+                    {name:"数字线化模型",ifmany:false,map:[]}
+                ]},
+
+                {name:"生态环境",children:[{name:"植被监测",ifmany:false,map:[]},{name:"农作物监测",ifmany:false,map:[]},{name:"地表水监测",ifmany:false,map:[]},{name:"土壤监测",ifmany:false,map:[]}]},
+                
+                {name:"损毁复垦",children:[
+                    {name:"基础信息",ifmany:false,map:[{
+                        title:"基础信息",
+                        FeatureLayer:["https://www.beidouhj.com/server/rest/services/Hosted/610821_10001001_111310_20181005105330/FeatureServer"],
+                        TileLayer:[],
+                    }]},
+                    {name:"损毁监测",ifmany:false,map:[]},
+                    {name:"复垦监测",ifmany:false,map:[]}
+                ]},
             ]
         };
     }
@@ -32,16 +106,16 @@ class Gis extends Component {
         this.props.CleanLayers(0);
     }
     // 点击各个监测网,触发redux
-    insar(val){
-        this.props.RemoteSensing(val);
-    }
+    // insar(val){
+    //     this.props.RemoteSensing(val);
+    // }
     // componentWillReceiveProps(nextProps){
     //     console.log(nextProps);
     //     // this.setState({
     //     //     animationName:"animated fadeOutRight"
     //     // })
     // }
-    shrink(val,tal){
+    shrink(val){
         
         // 所以受点击的li
         var doc = document.querySelectorAll("li.sub-menu");
@@ -59,19 +133,23 @@ class Gis extends Component {
         // 获取受点击的li下面的ul
         var thisul = doc[val].children[1];
         // 控制是否是第二次点击
-        if(val==this.state.ifshow){
+        if(val==this.state.ifshow && this.state.ifshow2){
             thisdirection.setAttribute('src',triangleR);
             thisul.setAttribute('style','display: none');
+            this.setState({
+                ifshow:-1,
+                ifshow2:false
+            })
         }else{
             thisdirection.setAttribute('src',triangleL);
             thisul.setAttribute('style','display: block');
+            this.setState({
+                ifshow:val,
+                ifshow2:true
+            })
         }
-
-        
-        this.setState({
-            ifshow:val
-        })
     }
+    // 点击各个遥感下拉
     menucont(val,inde){
         // 获取第几个大li被点击了
         let ifshow = this.state.ifshow;
@@ -83,6 +161,8 @@ class Gis extends Component {
         // 改变受点击的li的背景颜色
         var doc = document.querySelectorAll("li.sub-menu")[ifshow].children[1].children[inde].setAttribute('style','background-color: rgba(12,62,94,1);')
 
+
+        this.props.RemoteSensing(val);
 
 
     }
@@ -117,7 +197,7 @@ class Gis extends Component {
                                             return ( 
                                                 <li key={key2} className="twoli">
                                                     <div onClick={_this.menucont.bind(_this,item2,key2)}>
-                                                    { item2 }
+                                                    { item2.name }
                                                     </div>
                                                 </li>
                                             )
@@ -156,7 +236,7 @@ class Gis extends Component {
 
 Gis.propTypes = {
     RemoteSensing: PropTypes.func.isRequired,
-    CleanLayers: PropTypes.func.isRequired
+    CleanLayers: PropTypes.func.isRequired,
 }
 
 export default connect(null, { RemoteSensing,CleanLayers })(Gis); 

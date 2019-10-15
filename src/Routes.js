@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
-import { HashRouter, Route, Switch, Redirect} from 'react-router-dom'
-import App from './App'
-import Login from './components/login'
-import Main from './components/main'
-import Pandect from './components/pandect'
-import Notfound from './components/pages/notfound'
+import { HashRouter, Route, Switch, Redirect} from 'react-router-dom';
+import App from './App';
+import Login from './components/login';
+import Main from './components/main';
+import Pandect from './components/pandect';
+import Notfound from './components/pages/notfound';
 import { Provider } from 'react-redux';
 import store from './store';
 

@@ -1,6 +1,6 @@
 import { Core_Type,Earth,Monit_Type,Remote_Type,Network_Type,CleanLayers_Type,
   Monitoring_Type,Spatia_Type,Allroad_Type,AllroadGobai_Type,Changelayers_Type,
-  Camera_Type
+  Camera_Type,Location_Type,HistoricalLayer_Type,HistoryEveryone_Type
  } from './types';
 // 分发操作
 // 点击小地球回到中心点
@@ -10,13 +10,21 @@ export const Core = postData => dispatch => {
     payload: postData
   })
 }
-// 点击小地球回到中心点
+// 直播摄像头
 export const Cameras = postData => dispatch => {
   dispatch({
     type: Camera_Type,
     payload: postData
   })
 }
+// 菜单栏
+export const Location = postData => dispatch => {
+  dispatch({
+    type: Location_Type,
+    payload: postData
+  })
+}
+
 // 一,系统总览——1基础数据
 export const ChangeEarth = postData => dispatch => {
   dispatch({
@@ -67,7 +75,7 @@ export const Spatia = Spatias => dispatch => {
   })
 }
 
-// 二,首页遥感监测
+// 二,1,首页遥感监测
 export const RemoteSensing = postData => dispatch => {
   dispatch({
     type: Remote_Type,
@@ -75,6 +83,21 @@ export const RemoteSensing = postData => dispatch => {
   })
 }
 
+// 二,2,首页遥感监测——历史图层
+export const HistoricalLayer = postData => dispatch => {
+  dispatch({
+    type: HistoricalLayer_Type,
+    payload: postData
+  })
+}
+
+// 二,3,首页遥感监测——历史图层_点击各个年限图层
+export const HistoryEveryone = postData => dispatch => {
+  dispatch({
+    type: HistoryEveryone_Type,
+    payload: postData
+  })
+}
 
 // 三,1,首页数据监测--监测网
 export const Monitoringdatas = datas => dispatch => {

@@ -16,84 +16,88 @@ export default class RemoteEchart extends Component {
         homeSystemMonitoring.remotesensing()
         .then(res => {
             // console.log(res);
-            var data = [];
-            res.data.forEach(function(al,index){
-                data.push({
-                    name:al.dname,
-                    value:parseInt(al.layerremotetypenum)
-                });
-            })
-            var colors=[['#f043ac', '#00addf'],['#8e49ff', '#00addf'],['#ffdb15', '#00addf'], ['#00df93', '#00addf']]
+            if(res.success){
 
-            var total = 0;
-            var titleArr= [], seriesArr=[];
-            data.map((sum,i) => {total+=sum.value});
             
+                var data = [];
+                res.data.forEach(function(al,index){
+                    data.push({
+                        name:al.dname,
+                        value:parseInt(al.layerremotetypenum)
+                    });
+                })
+                var colors=[['#f043ac', '#00addf'],['#8e49ff', '#00addf'],['#ffdb15', '#00addf'], ['#00df93', '#00addf']]
 
-            data.forEach(function(item, index){
-                seriesArr.push(
-                    {
-                        name: item.name,
-                        type: 'pie',
-                        clockWise: false,
-                        radius: [60, 70],
-                        itemStyle:  {
-                            normal: {
-                                color: colors[index][0],
-                                shadowColor: colors[index][0],
-                                shadowBlur: 0,
-                                label: {
-                                    show: false
-                                },
-                                labelLine: {
-                                    show: false
-                                },
-                            }
-                        },
-                        hoverAnimation: false,
-                        center: [ '50%',index * 22 + 10 +'%'],
-                        data: [{
-                            value: item.value,
-                            label: {
+                var total = 0;
+                var titleArr= [], seriesArr=[];
+                data.map((sum,i) => {total+=sum.value});
+                
+
+                data.forEach(function(item, index){
+                    seriesArr.push(
+                        {
+                            name: item.name,
+                            type: 'pie',
+                            clockWise: false,
+                            radius: [60, 70],
+                            itemStyle:  {
                                 normal: {
-                                    formatter: function(params){
-                                        return params.seriesName+'\n'+params.value +'个'+'\n'+params.percent+'%';
+                                    color: colors[index][0],
+                                    shadowColor: colors[index][0],
+                                    shadowBlur: 0,
+                                    label: {
+                                        show: false
                                     },
-                                    position: 'center',
-                                    show: true,
-                                    "textStyle": {
-                                        "color": "white",
-                                        "fontSize": 15,
-                                        "height": 40
-                                        
+                                    labelLine: {
+                                        show: false
                                     },
                                 }
                             },
-                        }, {
-                            value: total-item.value,
-                            name: 'invisible',
-                            itemStyle: {
-                                normal: {
-                                    color: colors[index][1]
+                            hoverAnimation: false,
+                            center: [ '50%',index * 22 + 10 +'%'],
+                            data: [{
+                                value: item.value,
+                                label: {
+                                    normal: {
+                                        formatter: function(params){
+                                            return params.seriesName+'\n'+params.value +'个'+'\n'+params.percent+'%';
+                                        },
+                                        position: 'center',
+                                        show: true,
+                                        "textStyle": {
+                                            "color": "white",
+                                            "fontSize": 15,
+                                            "height": 40
+                                            
+                                        },
+                                    }
                                 },
-                                emphasis: {
-                                    color: colors[index][1]
+                            }, {
+                                value: total-item.value,
+                                name: 'invisible',
+                                itemStyle: {
+                                    normal: {
+                                        color: colors[index][1]
+                                    },
+                                    emphasis: {
+                                        color: colors[index][1]
+                                    }
                                 }
-                            }
-                        }]
-                    }    
-                )
-            });
-           
+                            }]
+                        }    
+                    )
+                });
             
-            let option = {
-                backgroundColor: "rgba(0,0,0,0)",
-                title:titleArr,
-                series: seriesArr
+                
+                let option = {
+                    backgroundColor: "rgba(0,0,0,0)",
+                    title:titleArr,
+                    series: seriesArr
+                }
+                this.setState({  
+                    option:option
+                });
             }
-            this.setState({  
-                option:option
-            });
         })
             
     }

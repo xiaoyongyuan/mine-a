@@ -48,6 +48,7 @@ import Dotdetails from './monitor/Dotdetails'
 //系统管理
 import Companyinfo from './systemmanage/companyinfo'
 import Userinfo from './systemmanage/userinfo'
+import ChangePassword from './systemmanage/ChangePassword'
 import Equipmanage from './systemmanage/equipmanage'
 import Basicdata from './systemmanage/basicdata'
 import companyinfoEdit from "./systemmanage/companyinfoEdit";
@@ -60,6 +61,6 @@ export default {
   MyPlan,Recommend,Edit,Detailplan,Lookplan,MyLookplan,
   Scheme,Funds,Monitorpro,AssessRepro,SurveyRepro,ProspectRepro,Supervisor,MonitorRepro,Monitorprolook,Treatment,CheckAccept,YearAccept,
   Dotequip,Threshold,ThresholdDot,Warning,Dotdetails,
-  Companyinfo,Userinfo,DesignRepro,Construction,Equipmanage,Basicdata,companyinfoEdit,ProjectinfoEdit,
+  Companyinfo,Userinfo,DesignRepro,Construction,Equipmanage,Basicdata,companyinfoEdit,ProjectinfoEdit,ChangePassword,
     // Test
 };

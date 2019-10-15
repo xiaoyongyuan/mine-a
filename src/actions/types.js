@@ -10,3 +10,6 @@ export const Allroad_Type = "Allroad_Type";
 export const AllroadGobai_Type = "AllroadGobai_Type";
 export const Changelayers_Type = "Changelayers_Type";
 export const Camera_Type = "Camera_Type";
+export const Location_Type = "Location_Type";
+export const HistoricalLayer_Type = "HistoricalLayer_Type";
+export const HistoryEveryone_Type = "HistoryEveryone_Type";

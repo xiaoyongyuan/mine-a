@@ -22,10 +22,12 @@ class Spatialanalyze extends Component {
         this.state={
             spatialanalysis:[],
             ifshow:-1,
+            ifshow2:false,
             show:true,
             total:0
         };
     }
+    
     componentDidMount(){
         homeSystemMonitoring.spatialan()
         .then(res => {
@@ -57,18 +59,21 @@ class Spatialanalyze extends Component {
         // 获取受点击的li下面的ul
         var thisul = doc[val].children[1];
         // 控制是否是第二次点击
-        if(val==this.state.ifshow){
+        if(val==this.state.ifshow && this.state.ifshow2){
             thisdirection.setAttribute('src',triangleR);
             thisul.setAttribute('style','display: none');
+            this.setState({
+                ifshow:-1,
+                ifshow2:false
+            })
         }else{
             thisdirection.setAttribute('src',triangleL);
             thisul.setAttribute('style','display: block');
+            this.setState({
+                ifshow:val,
+                ifshow2:true
+            })
         }
-
-        
-        this.setState({
-            ifshow:val
-        })
     }
     menucont(val,inde){
         // 获取第几个大li被点击了

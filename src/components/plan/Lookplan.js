@@ -49,11 +49,11 @@ class Lookplan extends Component {
             onOk() {
                 axios.ajax({
                   baseURL:window.g.bizserviceURL,
-                  method: 'get',
-                  url: '/api/setMyPlan',
+                  method: 'post',
+                  url: '/api/saveToWePlan',
                   data: {
                         code:_this.state.code,
-                      companycode:'122'
+                      // companycode:'122'
                     }
                 }).then((res)=>{
                   if(res.success){

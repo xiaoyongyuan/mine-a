@@ -1,6 +1,6 @@
 import { Core_Type,Earth,Monit_Type,Remote_Type,Network_Type,CleanLayers_Type,
   Monitoring_Type,Spatia_Type,Allroad_Type,AllroadGobai_Type,Changelayers_Type,
-  Camera_Type
+  Camera_Type,Location_Type,HistoricalLayer_Type,HistoryEveryone_Type
  } from '../actions/types';
 // reducer的作用: 返回新的状态
 
@@ -9,7 +9,7 @@ const initialState = {
   item: {},
   monitdata:{},
   identify:'',
-  remotedata:'',
+  remotedata:{},
   network:{},
   Monitorings:{},
   Spatiadata:{},
@@ -17,11 +17,21 @@ const initialState = {
   AllroadGobai:{},
   mountain:"",
   core:"",
-  camera:""
+  camera:1,
+  location:"",
+  historicalLayer:{},
+  historyEveryone:{}
 }
 
 export default function (state = initialState, action) {
   switch (action.type) {
+    // 菜单栏展开
+    case Location_Type:
+      return {
+        ...state,
+        identify:"location",
+        location: action.payload
+      }
     // 点击小地球回到中心点
     case Core_Type:
       return {
@@ -55,6 +65,20 @@ export default function (state = initialState, action) {
         ...state,
         identify:"remote",
         remotedata: action.payload
+      }
+    // 首页遥感监测_历史图层
+    case HistoricalLayer_Type:
+      return {
+        ...state,
+        identify:"historicalLayer",
+        historicalLayer: action.payload
+      }
+    // 首页遥感监测_历史图层_各个年限图层
+    case HistoryEveryone_Type:
+      return {
+        ...state,
+        identify:"historyEveryone",
+        historyEveryone: action.payload
       }
     // 矿区导航-各个路网
     case Network_Type:

@@ -18,6 +18,8 @@ export default class Axios {
         })
     }
 
+    
+
     static ajax(options){
         let loading;
         if (options.isShowLoading !== false){
@@ -127,6 +129,7 @@ export default class Axios {
                 })
         })
     }
+
     static logout(options){
         let loading;
         if (options.isShowLoading !== false){

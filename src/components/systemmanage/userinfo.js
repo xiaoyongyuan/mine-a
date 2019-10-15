@@ -6,6 +6,12 @@ import Etable from "../common/Etable";
 import axios from "../../axios";
 import Utils from "../../utils/utils";
 import PageBreadcrumb from "../common/PageBreadcrumb";
+import { Link } from 'react-router-dom';
+
+// redux需要
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { Location } from '../../actions/postActions';
 
 class Userinfo extends Component {
   constructor(props){
@@ -56,11 +62,14 @@ class Userinfo extends Component {
         });
     };
     showModelEdit = (code,record,index) =>{//编辑用户
+
         this.setState({
             modeltitle:'编辑',
             visible: true,
             codetype:code,
-            indexi:index
+            indexi:index,
+            type:1,
+            // me,
         });
     };
     handleCreate = (e) => {//modal提交
@@ -74,6 +83,7 @@ class Userinfo extends Component {
                     realanme:values.realanme,
                     power:values.power
                 };
+                console.log(this.state.type);
                 if(this.state.type === 0){ //新增
                     axios.ajax({
                         baseURL:window.g.fileURL,
@@ -81,14 +91,9 @@ class Userinfo extends Component {
                         url: '/api/companyUser',
                         data: data
                     }).then((res)=>{
-                        const list=this.state.list;
-                        list.unshift(data);
                         if(res.success){
                             message.success('新增成功！', 3);
                             this.requestList();
-                            this.setState({
-                               list:list
-                            });
                         }
                     },(res)=>{});
                 }else{//编辑
@@ -121,9 +126,14 @@ class Userinfo extends Component {
         });
         forms.resetFields();
     };
-    componentDidMount(){
+    componentDidMount() {
+        // redux知道全局location，菜单展开
+        console.log(this);
+        let Mylocation=this.props.location.pathname;
+        this.props.Location(Mylocation);
+        
         this.requestList();
-    };
+      }
     changePage = (page) => {
         this.setState({
             page: page,
@@ -196,7 +206,7 @@ class Userinfo extends Component {
                 this.setState({
                     resetshow:false,
                 });
-                message.success('密码重置成功！', 3);
+                message.success(res.msg);
             }
         },(res)=>{});
     };
@@ -230,6 +240,7 @@ class Userinfo extends Component {
     render() {
         const userRole = localStorage.getItem("userRole");
         var userStr = localStorage.getItem("username");
+        
         console.log(userRole);
         const _this=this;
         const columns=[{
@@ -268,42 +279,60 @@ class Userinfo extends Component {
                                 record.account !== userStr?
                                     <span className="greencolor" onClick={() => _this.showModelEdit(text,record,index)}>
                                       <Button type="primary">编辑</Button>
-                                    </span>:
-                                    ''
+                                    </span>
+                                    :
+                                    <span className="greencolor" onClick={() => _this.showModelEdit(text,record,index)}>
+                                        <Button type="primary">编辑</Button>
+                                  </span>
                             }
                             {
                                 record.account !== userStr?
                                     <span className="redcolor" onClick={()=>_this.showModaldelete(text,index)}>
                                       <Button type="primary">删除</Button>
                                     </span>:
-                                    ''
+                                    <Link className="" to={'/main/ChangePassword'}>
+                                        <span className="greencolor">
+                                            <Button type="primary">修改密码</Button>
+                                        </span>
+                                    </Link>
                             }
                             {
                                 record.account !== userStr?
                                     <span className="redcolor" onClick={()=>_this.showModalreset(text,index)}>
                                       <Button type="primary">密码重置</Button>
-                                    </span>:
-                                    ''
+                                    </span>
+                                    :
+                                    <span className="redcolor" onClick={()=>_this.showModalreset(text,index)}>
+                                    <Button type="primary">密码重置</Button>
+                                  </span>
                             }
                         </div>
                     )
                 }
+
               if(userRole!=='1'&& record.account === userStr){
                 return(
                   <div className="tableoption">
                       {
                           record.account !== userStr?
                               <span className="greencolor" onClick={() => _this.showModelEdit(text,record,index)}>
-                                      <Button type="primary">编辑</Button>
-                                    </span>:
-                              ''
+                                <Button type="primary">编辑</Button>
+                            </span>
+                            :
+                            <span className="greencolor" onClick={() => _this.showModelEdit(text,record,index)}>
+                                <Button type="primary">编辑</Button>
+                            </span>
                       }
                       {
                           record.account !== userStr?
                               <span className="redcolor" onClick={()=>_this.showModaldelete(text,index)}>
                                       <Button type="primary">删除</Button>
                                     </span>:
-                              ''
+                              <Link className="" to={'/main/ChangePassword'}>
+                                <span className="greencolor">
+                                    <Button type="primary">修改密码</Button>
+                                </span>
+                            </Link>
                       }
                       {
                           record.account !== userStr?
@@ -350,9 +379,11 @@ class Userinfo extends Component {
                   <ModalForm visible={this.state.visible}
                              code={this.state.codetype}
                              index={this.state.index}
+                            //  me={this.state.me}
                              wrappedComponentRef={(form) => this.formRef = form}
                   />
               </Modal>
+
               <Modal title="提示信息" visible={this.state.deleteshow} onOk={this.deleteOk}
                      width={370}
                      onCancel={this.deleteCancel} okText="确认" cancelText="取消"
@@ -371,4 +402,7 @@ class Userinfo extends Component {
   }
 }
 
-export default Userinfo;
+Userinfo.propTypes = {
+    Location: PropTypes.func.isRequired
+}
+export default connect(null, { Location })(Userinfo); 

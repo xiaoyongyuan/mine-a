@@ -21,23 +21,34 @@ class Miningnavigation extends Component {
             responsedata:[],
         };
     }
-    componentDidMount(){
-        // homeSystemMonitoring.miniNavigationlist({layertype:2,pageindex:this.state.pagenum,pagesize:this.state.everypage})
-        // .then(res=>{
-        //     // 总路网信息resux
-        //     this.props.Allroad(res.data[0].layerurl);
-        // })
-    }
-    componentWillUpdate(nextProps) {
+    // componentDidUpdate(nextProps){
+    //     this.state.responsedata = nextProps.AllroadGobai.features;
+    //     var pagetotal=nextProps.AllroadGobai.features.length/this.state.everypage;
+    //     this.state.pagetotal=Math.ceil(pagetotal);
+        
+
+    //     console.log(this.state.pagenum);
+    //     console.log(this.state.pagetotal);
+    //     // homeSystemMonitoring.miniNavigationlist({layertype:2,pageindex:this.state.pagenum,pagesize:this.state.everypage})
+    //     // .then(res=>{
+    //     //     // 总路网信息resux
+    //     //     this.props.Allroad(res.data[0].layerurl);
+    //     // })
+    // }
+    componentWillUpdate(nextProps,nextState) {
         this.state.responsedata = nextProps.AllroadGobai.features;
         var pagetotal=nextProps.AllroadGobai.features.length/this.state.everypage;
-        this.state.pagetotal=pagetotal;
-        if(this.state.pagenum==1||this.state.responsedata==[]){
-            let div1=document.getElementById('pageone'); 
+        this.state.pagetotal=Math.ceil(pagetotal);
+        
+        let div1=document.getElementById('pageone'); 
+        div1.style.color='white'; 
+        let div2=document.getElementById('pagetwo'); 
+        div2.style.color='white'; 
+
+        if(nextState.pagenum<=1||this.state.responsedata==[]){
             div1.style.color='gray'; 
         }
-        if(this.state.pagenum==pagetotal ||this.state.responsedata==[]){
-            let div2=document.getElementById('pagetwo');  
+        if(nextState.pagenum>=nextState.pagetotal || this.state.responsedata==[]){
             div2.style.color='gray'; 
         }
         
@@ -46,47 +57,25 @@ class Miningnavigation extends Component {
     // 上一页
     prev(){
         var pagenum=this.state.pagenum-1;
-        let div1=document.getElementById('pageone'); 
-        div1.style.color='white'; 
-        let div2=document.getElementById('pagetwo'); 
-        div2.style.color='white'; 
         if(pagenum<=1){
             pagenum=1;
-            div1.style.color='gray'; 
-        }
-        if(this.state.responsedata==[]){
-            div1.style.color='gray'; 
-            div2.style.color='gray'; 
         }
         this.setState({
             pagenum:pagenum
         })
-
-        
+        console.log("上一页",this.state.pagenum);
     }
 
     // 下一页
     next(){
         var pagenum=this.state.pagenum+1;
-        var pageindex=this.state.pageindex;
-        let div1=document.getElementById('pageone'); 
-        div1.style.color='white'; 
-        let div2=document.getElementById('pagetwo'); 
-        div2.style.color='white'; 
-
         if(pagenum>=this.state.pagetotal){
             pagenum=this.state.pagetotal;
-            div2.style.color='gray'; 
-        }
-        if(this.state.responsedata==[]){
-            div1.style.color='gray'; 
-            div2.style.color='gray'; 
         }
         this.setState({
             pagenum:pagenum
         })
-
-        
+        console.log("下一页",this.state.pagenum);
     }
     // 上一页,下一页
     itemRender(current, type, originalElement) {

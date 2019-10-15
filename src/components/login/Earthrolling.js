@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import earthmap1k from '../../style/imgs/earthmap1k.jpg';
-import './Earthrolling.less'
+import './Earthrolling.less';
 import { Row, Col } from "antd";
 class Earthrolling extends Component {
     render() {

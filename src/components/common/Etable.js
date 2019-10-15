@@ -35,7 +35,9 @@ class Etable extends Component {
   };
 
   render() {
-    return <div className="Etable">{this.getOptions()}</div>;
+    return <div className="Etable">
+    {this.getOptions()}
+    </div>;
   }
 }
 

@@ -7,6 +7,11 @@ import Etable from "../common/Etable";
 import UploadModel from "../common/UploadModel";
 import PageBreadcrumb from "../common/PageBreadcrumb";
 
+// redux需要
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { Location } from '../../actions/postActions';
+
 const confirm = Modal.confirm;
 class Scheme extends Component {
     state  ={
@@ -45,6 +50,11 @@ class Scheme extends Component {
     };
     
     componentDidMount(){
+      // redux知道全局location，菜单展开
+      console.log(this);
+      let Mylocation=this.props.location.pathname;
+      this.props.Location(Mylocation);
+      
       this.requestList()
     }
     handleFilterSubmit=(params)=>{ //查询
@@ -167,13 +177,14 @@ class Scheme extends Component {
         });
     };
     deleteOk = () =>{//确认删除
+      let _this=this;
         const data={
             ids:this.state.code,
         };
         console.log(this.state.code);
-        const list=this.state.list;
-        console.log(this.state.list);
-        list.splice(this.state.index,1);
+        // const list=this.state.list;
+        // console.log(this.state.list);
+        // list.splice(this.state.index,1);
         axios.ajax({
             baseURL:window.g.bizserviceURL,
             method: 'delete',
@@ -183,9 +194,11 @@ class Scheme extends Component {
             if(res.success){
                 message.success('删除成功！');
                 this.setState({
-                    list:list,
+                    // list:list,
                     deleteshow: false,
                 })
+                _this.requestList();
+
             }
         },(res)=>{});
     };
@@ -279,4 +292,13 @@ class Scheme extends Component {
     );
   }
 }
-export default Scheme;
+
+
+
+
+Scheme.propTypes = {
+  Location: PropTypes.func.isRequired
+}
+
+
+export default connect(null, { Location })(Scheme); 

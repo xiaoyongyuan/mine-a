@@ -44,9 +44,11 @@ class ModalForm extends Component{
         //         }
         //     }
         // },(res)=>{});
+        var userStr = localStorage.getItem("username");
         //编辑  数据回填
         this.setState({
             code:this.props.code,
+            userStr:userStr
         },()=>{
             this.requestdata()
         });
@@ -58,8 +60,13 @@ class ModalForm extends Component{
         if( nextProps.visible !== vis){
             vis=nextProps.visible;
             if(nextProps.visible){
+                let me=0;
+                if(this.state.userStr==this.state.account){
+                    me=1
+                }
                 this.setState({
-                    code:nextProps.code
+                    code:nextProps.code,
+                    me:me
                 }, () => {
                     this.requestdata();
                 });
@@ -78,6 +85,11 @@ class ModalForm extends Component{
                 data: data
             }).then((res)=>{
                 if(res.success){
+                    if(this.state.userStr==res.data.account){
+                        this.setState({
+                            me:1
+                        })
+                    }
                     this.props.form.setFieldsValue({
                         linktel:res.data.linktel,//电话
                         realanme:res.data.realanme,//姓名
@@ -127,6 +139,7 @@ class ModalForm extends Component{
                             <Input className="ModelFormInput" />
                         )}
                     </FormItem>
+                    {this.state.me!==1?
                     <FormItem label='用户角色：' key='power'>
                         {
                             getFieldDecorator('power', {
@@ -148,6 +161,9 @@ class ModalForm extends Component{
                             )
                         }
                     </FormItem>
+                    :
+                    null
+                    }
 
 
 
@@ -169,8 +185,6 @@ class ModalForm extends Component{
                 </Form>
             </div>
         )
-
-
     }
 
 

@@ -199,7 +199,7 @@ class Threshold extends Component {
                                 <span className="redcolor" onClick={()=>this.isstart(1,record.code,record.netid,record.devicetype)}><Button type="danger" className="btn-abandoning">禁用</Button></span>:
                                 <span className="greencolor" onClick={()=>this.isstart(0,record.code,record.netid,record.devicetype)}><Button type="primary">应用</Button></span>
                         }
-                        <Link className="detmain" to={'/main/thresholddot?id='+record.netid}>
+                        <Link className="detmain" to={'/main/thresholddot?id='+record.code}>
                             <span><Button type="primary">查看点位阈值</Button></span>
                         </Link>
                     </div>
@@ -208,7 +208,7 @@ class Threshold extends Component {
         }];
     return (
       <div className="Threshold">
-      <PageBreadcrumb routes={this.state.routes} />
+        <PageBreadcrumb routes={this.state.routes} />
           <div className="selectForm">
               <div className="leftForm">
                   {/*<BaseForm formList={this.formList} filterSubmit={this.handleFilterSubmit}/>*/}

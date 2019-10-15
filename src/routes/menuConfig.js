@@ -199,11 +199,11 @@ export default {
       key: "/main/lookplan",
       component: "Lookplan"
     },
-      {
-          title: "查看我的预案详情",
-          key: "/main/mylookplan",
-          component: "MyLookplan"
-      },
+    {
+        title: "查看我的预案详情",
+        key: "/main/mylookplan",
+        component: "MyLookplan"
+    },
     {
       title: "点位详情",
       key: "/main/dotdetails*",
@@ -224,10 +224,15 @@ export default {
         key: "/main/companyinfoEdit",
         component: "companyinfoEdit"
     },
-      {
-          title: "项目信息编辑",
-          key: "/main/projectinfoEdit",
-          component: "ProjectinfoEdit"
-      },
+    {
+        title: "项目信息编辑",
+        key: "/main/projectinfoEdit",
+        component: "ProjectinfoEdit"
+    },
+    {
+      title: "修改密码",
+      key: "/main/ChangePassword",
+      component: "ChangePassword"
+  },
   ]
 };

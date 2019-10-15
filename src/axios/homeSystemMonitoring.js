@@ -2,6 +2,34 @@ import axios from './index'
 
 
 export default class homeSystemMonitoring {
+    // 修改密码
+    static changepwd(netid) {
+        return new Promise((resolve, reject) => {
+            axios.ajax({
+                method:'put',
+                baseURL: window.g.sysURL,
+                url: '/sys/api/companyUserUpdatePassword',
+                data:netid
+            }).then((res)=>{
+                resolve(res) 
+            },(res)=>reject(res))  
+        })
+    }
+    
+    // 修改密码——验证旧密码
+    static change(netid) {
+        return new Promise((resolve, reject) => {
+            axios.ajax({
+                method:'post',
+                baseURL: window.g.sysURL,
+                url: '/sys/api/verifyOldPassword',
+                data:netid
+            }).then((res)=>{
+                resolve(res) 
+            },(res)=>reject(res))  
+        })
+    }
+
     // 获取首页 系统总览——基础数据-----监测网列表
     static basedatalist() {
         return new Promise((resolve, reject) => {
