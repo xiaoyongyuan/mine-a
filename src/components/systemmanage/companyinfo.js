@@ -110,7 +110,7 @@ class Companyinfo extends Component {
                       <Row>
                           <Col span={6} className="com-enterprise">企业LOGO</Col>
                           <Col span={18} className="enterprise-context">
-                          {this.state.logo!=null?<img className="img-logo" alt="logo" src={window.g.filesURL+"/"+this.state.logo}/>:<img className="img-logo" alt="logo" src={window.g.filesURL+"/uploadFile/Img/logo.png"}/>}
+                          {this.state.logo!=null?<img className="img-logo" alt="logo" src={window.g.filesURL+this.state.logo}/>:<img className="img-logo" alt="logo" src={window.g.filesURL+"Img/logo.png"}/>}
                               
                           </Col>
                       </Row>

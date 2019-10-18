@@ -4,7 +4,7 @@ window.g = {
     bizserviceURL:'http://39.97.238.216:8001/bizservice', //bizservice
     deviceURL:'http://39.97.238.216:8001/device', //设备
     fileURL:'http://39.97.238.216:8001/sys', //系统
-    filesURL:'http://info.beidouenv.com', //文件服务
+    filesURL:'http://info.beidouenv.com/UploadFile/', //文件服务
     loginURL:'http://39.97.238.216:8001', //登录
     exitURL:'http://39.97.238.216:8006', //退出
     sysURL:'http://39.97.238.216:8001',//企業用戶

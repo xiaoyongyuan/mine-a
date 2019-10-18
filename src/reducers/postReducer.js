@@ -29,7 +29,7 @@ export default function (state = initialState, action) {
     case Location_Type:
       return {
         ...state,
-        identify:"location",
+        identify:"location", 
         location: action.payload
       }
     // 点击小地球回到中心点

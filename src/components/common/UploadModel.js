@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
-import {Modal, Form, message, Input, Upload, Button, Icon,DatePicker } from 'antd'
+import {Modal, Form, message, Input, Upload, Button, Icon,DatePicker,Select } from 'antd'
 import axios from "../../axios";
+import ofterajax from "../../axios/ofter";
 import moment from 'moment';
 const FormItem = Form.Item;
 const { RangePicker, } = DatePicker;
+const { Option } = Select;
 let vis=false;
 class UploadModel extends Component {
   constructor(props){
@@ -12,14 +14,30 @@ class UploadModel extends Component {
     };
       this.fileList={
           filepath:[],
+          moreSelects:[],
       };
   }
   changeState=(key,val)=>{
       this.setState({[key]:val})
   };
-  componentDidMount(){
-
-  }
+  moreSelects = () => {
+    //下拉搜索
+    console.log("下拉搜索");
+    let _this=this;
+    // var opt;
+    ofterajax.projectlist().then(res=>{ //项目列表
+      if(res.success){
+          var project=[];
+          res.data.map(item=>project.push({code:item.code,name:item.projectname}) );
+          _this.setState({ moreSelects: project },()=>{
+            console.log("下拉搜索",this.state.moreSelects);
+          });
+      }
+    })
+  };
+//   componentWillMount(){
+//     this.moreSelects();
+//   }
     componentWillReceiveProps(nextProps){
         if( nextProps.newShow !== vis){
             vis=nextProps.newShow;
@@ -27,6 +45,7 @@ class UploadModel extends Component {
                 this.setState({
                     code:nextProps.code
                 }, () => {
+                    this.moreSelects();
                     this.requestdata();
                 });
             }
@@ -110,8 +129,8 @@ class UploadModel extends Component {
 
     uploadchange=(info,fileurl)=>{ //上传文件
         let switchUp=true;
-        console.log("info",info);
-        console.log("fileurl",fileurl);
+        // console.log("info",info);
+        // console.log("fileurl",fileurl);
         let fileList = [...info.fileList];
         fileList = fileList.slice(-1);
         if( info.file.size / 1024 / 1024 > 100){ //只能上传100M以内的文件
@@ -151,6 +170,7 @@ class UploadModel extends Component {
     };
 
   render() {
+      let _this=this;
       const property={
           showUploadList:true,
           multiple:false,
@@ -169,6 +189,8 @@ class UploadModel extends Component {
               sm: { span: 10 },
           },
       };
+    //   console.log(_this.state.moreSelects);
+    //   if (this.state.moreSelects.length==0) this.moreSelects();
     return (
       <div className="UploadModel">
         <Modal
@@ -179,6 +201,34 @@ class UploadModel extends Component {
         >
             <Form className='baseform' {...formItemLayout} >
                 <FormItem label='项目名称' key='pname'>
+                {getFieldDecorator("projectname", {
+                    required: true,
+                    message: '请输入标题',
+                })(
+                    <div>
+                    {this.state.moreSelects?
+                        <Select
+                    showSearch
+                    style={{ width: 200 }}
+                    placeholder="项目名称"
+                    optionFilterProp="children"
+                    filterOption={(input, option) =>option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0}
+                    >
+                        {this.state.moreSelects.map(city => (
+                        <Option
+                        key={city.code}
+                        value={city.name}
+                        >
+                        {city.name}
+                        </Option>
+                    ))}</Select>
+                    :""
+                    }
+                    </div>
+                   
+                )}
+                </FormItem>
+                {/* <FormItem label='项目名称' key='pname'>
                     {
                         getFieldDecorator('projectname',{
                             rules:[{
@@ -189,7 +239,7 @@ class UploadModel extends Component {
                             <Input key='montInputtitle' />
                         )
                     }
-                </FormItem>
+                </FormItem> */}
                 <FormItem label='年份' key='year'>
                     {
                         getFieldDecorator('doubledata',{

@@ -28,7 +28,7 @@ class Scheme extends Component {
       type:'inline',
       item:[   
         {
-          type: 'INPUT',
+          type: 'moreSelect',
           label: '项目名称',
           field:'projectname',
           placeholder:'',
@@ -48,6 +48,30 @@ class Scheme extends Component {
         }
       ]
     };
+    // formList={
+    //   type:'inline',
+    //   item:[   
+    //     {
+    //       type: 'INPUT',
+    //       label: '项目名称',
+    //       field:'projectname',
+    //       placeholder:'',
+    //     },{
+    //       type:'button',
+    //       button:[
+    //         {
+    //           label:'查询',
+    //           type:"primary",
+    //           click:'handleFilterSubmit',
+    //         },
+    //         {
+    //           label:'重置',
+    //           click:'reset',
+    //         },
+    //       ]
+    //     }
+    //   ]
+    // };
     
     componentDidMount(){
       // redux知道全局location，菜单展开
@@ -258,7 +282,6 @@ class Scheme extends Component {
                   record.filepath&&record.filepath.lastIndexOf(".pdf") === -1?
                       <a className="greencolor" target="_blank" rel="noopener noreferrer" href={"https://view.officeapps.live.com/op/view.aspx?src="+window.g.filesURL+record.filepath}><Button type="primary">预览</Button></a>:
                       <a className="greencolor" target="_blank" rel="noopener noreferrer" href={window.g.filesURL+record.filepath}><Button type="primary">预览</Button></a>
-
               }
           </div>)
         }

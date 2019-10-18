@@ -23,7 +23,8 @@ const { RangePicker } = DatePicker;
 class FilterForm extends React.Component {
   state = {
     monitoring: [],
-    equipment: []
+    equipment: [],
+    moreSelects:[],
   };
   handleFilterSubmit = () => {
     //查询提交
@@ -60,6 +61,20 @@ class FilterForm extends React.Component {
         this.setState({ equipment: res });
       });
     }
+  };
+  moreSelects = () => {
+    //下拉搜索
+    // console.log("下拉搜索");
+    let _this=this;
+    ofterajax.projectlist().then(res=>{ //项目列表
+      if(res.success){
+        console.log(res);
+          var project=[];
+          res.data.map(item=>project.push({code:item.code,name:item.projectname}) );
+          _this.setState({ moreSelects: project });
+          
+      }
+    })
   };
   uploadchange = info => {
     //上传文件
@@ -297,7 +312,37 @@ class FilterForm extends React.Component {
             </Form.Item>
           );
           formItemList.push(uploade);
-        } else if (item.type === "button") {
+        } else if (item.type === "moreSelect") {
+          //moreSelect 下拉加搜索
+          if (this.state.moreSelects.length==0) this.moreSelects();
+          const moreSelect = (
+            <FormItem label={item.label} key={item.field || "eqipe"}>
+              {getFieldDecorator(`${item.field}` || "equipment", {
+                rules: item.rules,
+                initialValue: item.initialValue
+              })(
+                <Select
+                showSearch
+                style={{ width: 200 }}
+                placeholder="项目名称"
+                optionFilterProp="children"
+                filterOption={(input, option) =>option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0}
+              >
+                  {this.state.moreSelects.map(city => (
+                    <Option
+                      key={city.code}
+                      value={city.name}
+                    >
+                      {city.name}
+                    </Option>
+                  ))}
+                </Select>
+              )}
+            </FormItem>
+          );
+          formItemList.push(moreSelect);
+
+        }else if (item.type === "button") {
           //button
           const Buttons = (
             <FormItem key="buts" style={{display:'flex',justifyContent:'flex-end'}}>

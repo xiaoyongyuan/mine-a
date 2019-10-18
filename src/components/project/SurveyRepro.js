@@ -18,7 +18,7 @@ class SurveyRepro extends Component {
     ]
     };
     formList={
-      type:'inline',
+        type:'inline',
         item:[   
           {
             type: 'SELECT',
