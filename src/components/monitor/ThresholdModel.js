@@ -214,6 +214,7 @@ class ThresholdModel extends Component {
           footer={null}
         >
           <Form className='baseform' {...formItemLayout} >
+              {/* todo：规划方案，没有改成可输入下拉，因为后面还要改需求 */}
               <FormItem label='规划方案' key='projectid'>
                   {
                       getFieldDecorator('projectid', {

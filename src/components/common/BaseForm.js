@@ -181,7 +181,34 @@ class FilterForm extends React.Component {
             </FormItem>
           );
           formItemList.push(SELECT);
-        } else if (item.type === "CHECKBOX") {
+        } 
+        else if (item.type === "SELECTmore") {
+          const SELECT = (
+            <FormItem label={item.label} key={item.field}>
+              {getFieldDecorator(`${item.field}`, {
+                rules: item.rules,
+                initialValue: item.initialValue
+              })(
+                <Select
+                  showSearch
+                  style={{ width: 200 }}
+                  // placeholder="项目名称"
+                  optionFilterProp="children"
+                  style={{ width: item.width }}
+                  placeholder={item.placeholder}
+                  filterOption={(input, option) =>option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0}
+                >
+                  {item.list.map(city => (
+                    <Option key={city.code} value={city.code}>
+                      {city.name}
+                    </Option>
+                  ))}
+                </Select>
+              )}
+            </FormItem>
+          );
+          formItemList.push(SELECT);
+        }else if (item.type === "CHECKBOX") {
           const CHECKBOX = (
             <FormItem label={item.label} key={item.field}>
               {getFieldDecorator(`${item.field}`, {
@@ -319,7 +346,7 @@ class FilterForm extends React.Component {
             <FormItem label={item.label} key={item.field || "eqipe"}>
               {getFieldDecorator(`${item.field}` || "equipment", {
                 rules: item.rules,
-                initialValue: item.initialValue
+                // initialValue: item.initialValue
               })(
                 <Select
                 showSearch
@@ -332,6 +359,36 @@ class FilterForm extends React.Component {
                     <Option
                       key={city.code}
                       value={city.name}
+                    >
+                      {city.name}
+                    </Option>
+                  ))}
+                </Select>
+              )}
+            </FormItem>
+          );
+          formItemList.push(moreSelect);
+
+        }else if (item.type === "moreSelectnum") {
+          //moreSelect 下拉加搜索
+          if (this.state.moreSelects.length==0) this.moreSelects();
+          const moreSelect = (
+            <FormItem label={item.label} key={item.field || "eqipe"}>
+              {getFieldDecorator(`${item.field}` || "equipment", {
+                rules: item.rules,
+                // initialValue: item.initialValue
+              })(
+                <Select
+                showSearch
+                style={{ width: 200 }}
+                placeholder="项目名称"
+                optionFilterProp="children"
+                filterOption={(input, option) =>option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0}
+              >
+                  {this.state.moreSelects.map(city => (
+                    <Option
+                      key={city.code}
+                      value={city.code}
                     >
                       {city.name}
                     </Option>

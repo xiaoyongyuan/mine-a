@@ -15,6 +15,8 @@ class UploadModel extends Component {
       this.fileList={
           filepath:[],
           moreSelects:[],
+        //   selectp:""
+            projectname:""
       };
   }
   changeState=(key,val)=>{
@@ -22,22 +24,19 @@ class UploadModel extends Component {
   };
   moreSelects = () => {
     //下拉搜索
-    console.log("下拉搜索");
+    // console.log("下拉搜索");
     let _this=this;
-    // var opt;
     ofterajax.projectlist().then(res=>{ //项目列表
       if(res.success){
           var project=[];
           res.data.map(item=>project.push({code:item.code,name:item.projectname}) );
           _this.setState({ moreSelects: project },()=>{
-            console.log("下拉搜索",this.state.moreSelects);
+            // console.log("下拉搜索",this.state.moreSelects);
           });
       }
     })
   };
-//   componentWillMount(){
-//     this.moreSelects();
-//   }
+
     componentWillReceiveProps(nextProps){
         if( nextProps.newShow !== vis){
             vis=nextProps.newShow;
@@ -45,8 +44,8 @@ class UploadModel extends Component {
                 this.setState({
                     code:nextProps.code
                 }, () => {
-                    this.moreSelects();
                     this.requestdata();
+                    this.moreSelects();
                 });
             }
         }
@@ -62,6 +61,7 @@ class UploadModel extends Component {
                 url: '/api/getProjectById',
                 data: data
             }).then((res)=>{
+                console.log(res);
                 if(res.success){
                     var fileList = [
                         {
@@ -82,12 +82,14 @@ class UploadModel extends Component {
                             },
                         ],
                     };
+
                     this.props.form.setFieldsValue({
                         projectname:res.data.projectname,//项目名称
                         memo:res.data.memo,//备注
                         doubledata:[moment(res.data.begindate),moment(res.data.enddate)],
                         uploader:obj
                     });
+
                 }
             },(res)=>{});
         }
@@ -103,10 +105,9 @@ class UploadModel extends Component {
     handleFilterSubmit = ()=>{//表单提交
         const _this=this;
         this.props.form.validateFields((err, values) => {
-            
-            
+            console.log(values);
             if (!err) {
-                console.log(values);
+                
                 // if(values.uploader.fileList.length == 0){
                 //     message.error('请重新上传文件');
                 //     return;
@@ -168,6 +169,19 @@ class UploadModel extends Component {
             }
         },(res)=>{});
     };
+    
+    mapOption(){
+        const option = this.state.moreSelects.map((city) => (
+            <Option
+            key={city.code}
+            value={city.name}
+            >
+            {city.name}
+            </Option>
+        ));
+        return option
+
+    }
 
   render() {
       let _this=this;
@@ -189,8 +203,6 @@ class UploadModel extends Component {
               sm: { span: 10 },
           },
       };
-    //   console.log(_this.state.moreSelects);
-    //   if (this.state.moreSelects.length==0) this.moreSelects();
     return (
       <div className="UploadModel">
         <Modal
@@ -205,27 +217,15 @@ class UploadModel extends Component {
                     required: true,
                     message: '请输入标题',
                 })(
-                    <div>
-                    {this.state.moreSelects?
-                        <Select
+                    <Select
                     showSearch
                     style={{ width: 200 }}
                     placeholder="项目名称"
                     optionFilterProp="children"
                     filterOption={(input, option) =>option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0}
                     >
-                        {this.state.moreSelects.map(city => (
-                        <Option
-                        key={city.code}
-                        value={city.name}
-                        >
-                        {city.name}
-                        </Option>
-                    ))}</Select>
-                    :""
-                    }
-                    </div>
-                   
+                        {this.state.moreSelects?this.mapOption():""}
+                    </Select>
                 )}
                 </FormItem>
                 {/* <FormItem label='项目名称' key='pname'>

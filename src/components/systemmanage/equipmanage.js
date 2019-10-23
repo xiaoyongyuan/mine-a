@@ -31,7 +31,7 @@ class Equipmanage extends Component {
                     placeholder:'请输入设备编码/名称/厂家',
                 },
                 {
-                    type: 'SELECT',
+                    type: 'SELECTmore',
                     label: '设备类型',
                     field: 'devicetype',
                     placeholder: '全部',

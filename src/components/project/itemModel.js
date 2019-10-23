@@ -11,11 +11,38 @@ class ItemModel extends Component {
     this.state={
       project:[], //项目方案列表
       selectp:'', //选择的项目方案
+      moreSelects:[],
     };
       this.fileList={
           filepath:[],
       };
   }
+  moreSelects = () => {
+    //下拉搜索
+    // console.log("下拉搜索");
+    let _this=this;
+    ofteraxios.projectlist().then(res=>{ //项目列表
+      if(res.success){
+          var project=[];
+          res.data.map(item=>project.push({code:item.code,name:item.projectname}) );
+          _this.setState({ moreSelects: project },()=>{
+            // console.log("下拉搜索",this.state.moreSelects);
+          });
+      }
+    })
+  };
+  mapOption(){
+    const option = this.state.moreSelects.map((city) => (
+        <Option
+        key={city.code}
+        value={city.code}
+        >
+        {city.name}
+        </Option>
+    ));
+    return option
+
+}
   changeState=(key,val)=>{
       this.setState({[key]:val})
   };
@@ -34,6 +61,7 @@ class ItemModel extends Component {
                   code:nextProps.code
               },()=>{
                   this.requestdata();
+                  this.moreSelects();
               })
           }
       }
@@ -199,6 +227,26 @@ class ItemModel extends Component {
                           required: true,
                           message: '请选择项目',
                         }],
+                    })(
+                        <Select
+                        showSearch
+                        style={{ width: 200 }}
+                        placeholder="项目名称"
+                        optionFilterProp="children"
+                        filterOption={(input, option) =>option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0}
+                        >
+                            {this.state.moreSelects?this.mapOption():""}
+                        </Select>
+                      )
+                  }
+              </FormItem>
+              {/* <FormItem label='项目' key='projectid'>
+                {
+                    getFieldDecorator('projectid', {
+                        rules:[{
+                          required: true,
+                          message: '请选择项目',
+                        }],
                         initialValue: this.state.selectp
                     })(
                         <Select
@@ -209,7 +257,7 @@ class ItemModel extends Component {
                         </Select>
                       )
                   }
-              </FormItem>
+              </FormItem> */}
               <FormItem label='文件' key='modoc'>
                   {getFieldDecorator('filepath', {
                       rules: [{

@@ -23,7 +23,8 @@ class Basicdata extends Component {
             type:'inline',
             item:[
                 {
-                    type: 'SELECT',
+                    // type: 'SELECT',
+                    type: 'SELECTmore',
                     label: '设备类型',
                     field: 'equiptype',
                     placeholder: '全部',

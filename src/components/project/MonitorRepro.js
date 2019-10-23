@@ -23,7 +23,7 @@ class Monitorpro extends Component {
         type:'inline',
         item:[
             {
-                type: 'SELECT',
+                type: 'moreSelectnum',
                 label: '所属项目',
                 field: 'projectid',
                 placeholder: '全部',

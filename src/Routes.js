@@ -8,6 +8,7 @@ import Notfound from './components/pages/notfound';
 import { Provider } from 'react-redux';
 import store from './store';
 
+
 //页面样式：登录，总览（大数据），main
 class Routes extends Component {
   render() {

@@ -529,11 +529,13 @@ class Dotequip extends Component {
       ));
       return (
         <Select
+          showSearch
           value={this.state.defaultValue1}
           dropdownClassName="dotselect"
           onChange={val => {
             this.handSelectP(val);
           }}
+          filterOption={(input, option) =>option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0}
         >
           {option}
         </Select>
@@ -559,12 +561,14 @@ class Dotequip extends Component {
       return (
         <Select
           value={this.state.defaultValue2}
+          showSearch
           // allowClear={true}
           // autoClearSearchValue={false}
           dropdownClassName="dotselect"
           onChange={val => {
             this.handSelectM(val);
           }}
+          filterOption={(input, option) =>option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0}
         >
           {option}
         </Select>

@@ -17,11 +17,13 @@ class SurveyRepro extends Component {
         {path: '/main/surveyrepro', breadcrumbName: '项目调查'},
     ]
     };
+    
     formList={
         type:'inline',
         item:[   
           {
-            type: 'SELECT',
+            // type: 'SELECT',
+            type: 'moreSelectnum',
             label: '所属项目',
             field: 'projectid',
             placeholder: '全部',
